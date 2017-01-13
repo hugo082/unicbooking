@@ -1,0 +1,63 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{parent()}}Booking{% endblock %}
+
+{% block stylesheets %}
+{{parent()}}
+<link rel="stylesheet" href="{{ asset('bundles/booking/css/datepicker.min.css') }}">
+<link rel="stylesheet" href="{{ asset('bundles/booking/css/shared.css') }}">
+{% endblock %}
+
+
+{% block headscripts %}
+{{parent()}}
+<script src="{{ asset('bundles/booking/js/datepicker.min.js') }}"></script>
+{% endblock %}
+
+{% block body %}
+
+<header class="navbar" role="navigation" id="head">
+    <a href="{{ path('homepage') }}" class="navbar-brand sec" id="logo">
+        <style media="screen">
+            .logo {
+                background-image: url({{ asset('bundles/booking/img/logo.svg') }});
+            }
+        </style>
+        <span class="logo"></span>
+        <span class="text">UNIC WEB BOOKING</span>
+    </a>
+    <span class="navbar-brand sec hidden-xs" id="info">
+        <style media="screen">
+            .logo {
+                background-image: url({{ asset('bundles/booking/img/logo.svg') }});
+            }
+        </style>
+        <span class="text">{{ 'header.title'|trans }}</span>
+    </span>
+</header>
+
+<main id="content">
+    <div class="container">
+        {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+        <div class="col-lg-12" id="head">
+            <h5>
+                {{ app.user.username }} • {{ app.user.email }}
+                <a href="{{ path('fos_user_security_logout') }}">
+                    {{ 'layout.logout'|trans({}, 'FOSUserBundle') }}
+                </a>
+                <a class="pad" href="{{ path('admin') }}">
+                    Admin
+                </a>
+            </h5>
+        </div>
+        {% endif %}
+        {% block content %}{% endblock %}
+    </div>
+</main>
+
+{# {% include 'default/footer.html.twig' %} #}
+{% endblock %}
+
+{% block javascripts %}
+{{parent()}}
+{% endblock %}

@@ -1,0 +1,124 @@
+
+{##}
+{% block textarea_row %}
+<div class="mdl-textfield mdl-js-textfield">
+	<textarea
+	{{ required ? 'required' : '' }}
+	class="mdl-textfield__input"
+	type="text"
+	rows= "3"
+	name="{{full_name}}"
+	id="{{id}}" ></textarea>
+	<label
+	class="mdl-textfield__label"
+	for="{{id}}">{{ label }}</label>
+</div>
+{% endblock %}
+
+{% block text_row %}
+<div class="mdl-textfield mdl-js-textfield">
+	<input
+	{{ required ? 'required' : '' }}
+	class="mdl-textfield__input"
+	type="text"
+	name="{{full_name}}"
+	id="{{id}}">
+	<label
+	class="mdl-textfield__label"
+	for="{{id}}">{{ label }}</label>
+	<span
+	class="mdl-textfield__error">{{ errors }}</span>
+</div>
+{% endblock %}
+
+{% block integer_row %}
+<div class="mdl-textfield mdl-js-textfield">
+	<input
+	{{ required ? 'required' : '' }}
+	class="mdl-textfield__input"
+	pattern="-?[0-9]*(\.[0-9]+)?"
+	type="text"
+	name="{{full_name}}"
+	id="{{id}}">
+	<label
+	class="mdl-textfield__label"
+	for="{{id}}">{{ label }}</label>
+	<span
+	class="mdl-textfield__error">{{ errors }}</span>
+</div>
+{% endblock %}
+{% block number_row %}
+<div class="mdl-textfield mdl-js-textfield">
+	<input
+	{{ required ? 'required' : '' }}
+	class="mdl-textfield__input"
+	pattern="-?[0-9]*(\.[0-9]+)?"
+	type="text"
+	name="{{full_name}}"
+	id="{{id}}">
+	<label
+	class="mdl-textfield__label"
+	for="{{id}}">{{ label }}</label>
+	{% if attr['condition'] is defined %}
+	<span
+	class="mdl-textfield__error">{{ attr['condition'] }}</span>
+	{% endif %}
+</div>
+{% endblock %}
+
+<button type="button" id="deck_Enregistrer" name="deck[Enregistrer]" value="Enregistrer">Enregistrer</button>
+
+
+{% block button_row %}
+<div>
+	<input
+	value="{{ name }}"
+	class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored mdl-color-text--white"
+	data-upgraded=",MaterialButton,MaterialRipple"
+	name="{{full_name}}"
+	id="{{id}}"
+	type="submit">
+</div>
+{% endblock %}
+
+
+{% block choice_row -%}
+<div>
+    bijour
+{{label}}
+{{ form_widget(form)}}
+</div>
+{%- endblock choice_row %}
+
+{% block choice_widget_expanded -%}
+
+{%- for child in form %}
+<label class="mdl-switch " for="{{child.vars.id}}">
+	<input type="checkbox" id="{{child.vars.id}}" class="" name="{{child.vars.full_name}}" value="{{child.vars.value}}">
+	<span class="mdl-switch__label">{{child.vars.label}}</span>
+</label>
+{% endfor -%}
+
+{%- endblock choice_widget_expanded %}
+{#
+
+{% block checkbox_label -%}
+checkbox_label
+{%- endblock %}
+
+{% block choice_widget -%}
+  choice_widget
+{%- endblock choice_widget %}
+
+
+
+
+{% block choice_row -%}
+  choice_row
+{%- endblock choice_row %}
+
+{% block checkbox_widget -%}
+checkbox_widget
+{%- endblock %}
+
+#}

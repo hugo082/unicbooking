@@ -1,0 +1,178 @@
+{% extends 'booking/layout.html.twig' %}
+
+{% block title %}{{parent()}} • New{% endblock %}
+
+{% block stylesheets %}
+{{parent()}}
+<link rel="stylesheet" href="{{ asset('bundles/booking/css/book.css') }}">
+<link rel="stylesheet" href="{{ asset('bundles/booking/css/manage.css') }}">
+<style media="screen">
+#content {
+    background: url("{{ asset('bundles/booking/img/24725242_l.jpg') }}") no-repeat 75% top;
+    background-size: cover;
+}
+</style>
+{% endblock %}
+
+
+{% block headscripts %}
+{{parent()}}
+{% endblock %}
+
+{% block content %}
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
+
+    {% if is_granted('ROLE_ADMIN') %}
+    <div class="card">
+        <h3 class="card-header">{{ 'show.admin.title'|trans }}</h3>
+        <div class="card-block">
+            {% if book.state == 'WAITING' %}
+            <h5>{{ 'book.state.wait.admin.log'|trans }}</h5>
+            <a href="{{ path('admin.answer', {'id':book.id, 'state':'ACC'})}}" type="button" class="btn btn-success">{{ 'book.state.wait.admin.acc'|trans }}</a>
+            <a href="{{ path('admin.answer', {'id':book.id, 'state':'REJ'})}}" type="button" class="btn btn-danger">{{ 'book.state.wait.admin.ref'|trans }}</a>
+            {% elseif book.state == 'ACCEPTED' %}
+            <span class="label label-success">{{ 'book.state.acc.title'|trans }}</span>
+            {% elseif book.state == 'REFUSED' %}
+            <span class="label label-danger">{{ 'book.state.ref.title'|trans }}</span>
+            {% endif %}
+        </div>
+    </div>
+    {% else %}
+    {% if book.state == 'WAITING' %}
+    <div class="alert alert-info"><strong>{{ 'book.state.wait.title'|trans }}</strong> {{ 'book.state.wait.content'|trans }}</div>
+    {% elseif book.state == 'ACCEPTED' %}
+    <div class="alert alert-success"><strong>{{ 'book.state.acc.title'|trans }}</strong> {{ 'book.state.acc.content'|trans }}</div>
+    {% elseif book.state == 'REFUSED' %}
+    <div class="alert alert-danger"><strong>{{ 'book.state.ref.title'|trans }}</strong> {{ 'book.state.ref.content'|trans }}</div>
+    {% endif %}
+    {% endif %}
+
+    <div class="card">
+        <h3 class="card-header">Service</h3>
+        <div class="card-block">
+            <table class="table">
+                <tbody>
+                    <tr>
+                        <td class="col-md-6">{{ 'manage.find.form.number'|trans }}</td>
+                        <td class="value">{{book.id}}</td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-6">Type</td>
+                        <td class="value">{% if book.service == 'DEP' %}{{ 'book.form.dep'|trans }}{% else %}{{ 'book.form.arr'|trans }}{% endif %}</td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-6">{{ 'book.form.date'|trans }}</td>
+                        <td class="value"><span id="fdate">{{book.date}}</span></td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-6">{{ 'book.form.prod'|trans }}</td>
+                        <td class="value"><span id="products">{{book.product.name}}</span> {{book.product.price}}€</td>
+                    </tr>
+                    {% if not book.nameboard is empty %}
+                    <tr>
+                        <td class="col-md-6">{{ 'book.form.nameboard'|trans }}</td>
+                        <td class="value">{{book.nameboard}}</td>
+                    </tr>
+                    {% endif %}
+                    <tr>
+                        <td class="col-md-6">{{ 'price'|trans }}</td>
+                        <td class="value">{{book.price}} €</td>
+                    </tr>
+                    {% if book.product.code == "FAM" %}
+                    <tr>
+                        <td class="col-md-6">{{ 'book.form.addpu'|trans }}</td>
+                        <td class="value">{{book.addresspu}}</td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-6">{{ 'book.form.adddo'|trans }}</td>
+                        <td class="value">{{book.addressdo}}</td>
+                    </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="card">
+        <h3 class="card-header">{{ 'book.form.cust'|trans }}</h3>
+        <div class="card-block">
+            <table class="table">
+                <tbody>
+                    <tr>
+                        <td class="col-md-6">{{ 'total'|trans }}</td>
+                        <td class="value">{{book.adultcus + book.childcus}}</td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-6">{{ 'book.form.adult'|trans }}</td>
+                        <td class="value">{{book.adultcus}}</td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-6">{{ 'book.form.chilu2y'|trans }}</td>
+                        <td class="value">{{book.childcus}}</td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-6">{{ 'book.form.bags'|trans }}</td>
+                        <td class="value">{{book.bags}}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <h5>{{ 'cust.inf'|trans }} ({{ book.customers|length}})</h5>
+            <style media="screen">
+            .table {
+                margin: 0
+            }
+            .customer_row {
+                padding: 15px;
+            }
+            .customer_row > * {
+                margin: 0 10px
+            }
+            .customer_row .customer_fname {
+                text-transform: uppercase;
+                font-weight: 700
+            }
+            </style>
+            {% for customer in book.customers %}
+
+            <div class="customer_row">
+                <span class="customer_title">{{customer.title}}</span>
+                <span class="customer_fname">{{customer.firstname}}</span>
+                <span class="customer_lname">{{customer.lastname}}</span>
+                <span class="customer_phone">{{customer.phone}}</span>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="card">
+        <h3 class="card-header">{{ 'book.form.flight'|trans }}</h3>
+        <div class="card-block">
+            <table class="table">
+                <tbody>
+                    <tr>
+                        <td class="col-md-6">{{ 'book.flight.number'|trans }}</td>
+                        <td class="value">{{book.flight.number}}</td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-6">{{ 'book.flight.deptime'|trans }}</td>
+                        <td class="value">{{book.flight.deptime|date('H:i')}}</td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-6">{{ 'book.flight.arrtime'|trans }}</td>
+                        <td class="value">{{book.flight.arrtime|date('H:i')}}</td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-6">{{ 'book.flight.dest'|trans }}</td>
+                        <td class="value">
+                            {% if book.flight.type == 'ARR' %}DOH → CDG{% else %}CDG → COH{% endif %}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block javascripts %}
+{{parent()}}
+{% endblock %}

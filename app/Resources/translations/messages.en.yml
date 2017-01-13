@@ -1,0 +1,85 @@
+# messages.en.yml
+na: N/A
+add: Add
+remove: Remove
+price: Price
+total: Total
+
+header:
+    title: Airport Paris Charles de Gaulles
+
+manage:
+    now:
+        title: Book any of our CDG Meet and Assist
+        go: Book Now
+    find:
+        title: Manage your Booking
+        form:
+            number: Booking number
+            go: Find
+    last:
+        title: Last Books
+        fdate: Flight date
+        show: Show
+
+book:
+    state:
+        title: State
+        wait:
+            title: Waiting
+            content: Your reservation is pending
+            admin:
+                log: Pending request
+                acc: Accept
+                ref: Refuse
+        acc:
+            title: Accepted
+            content: Your reservation has been accepted
+        ref:
+            title: Refused
+            content: Your reservation has been rejected
+    flight:
+        number: Number
+        deptime: Departure Time
+        arrtime: Arrival Time
+        dest: Destination
+    recap:
+        title: Recap activity
+        order: Order
+    title:
+        service: Select Service and Trip Details
+        cust: Total Customers
+        final: Finally
+    form:
+        cdg: CDG
+        air: Airport
+        date: Date
+        rqserv: Required Service
+        prod: Product
+        dep: Departure
+        arr: Arrival
+        flight: Flight
+        addpu: Address PU
+        adddo: Address DO
+        adult: Adult
+        chilu2y: Children (under 2 years)
+        cust: Customers
+        nameboard: Name Board
+        bags: Bags
+        select:
+            placeholder: - Select -
+
+cust:
+    inf: Customers Informations
+    form:
+        fname: First Name
+        lname: Last Name
+        phone: Phone
+        title:
+            mr: Mr
+            mrs: Mrs
+            ms: MS
+            mstr: Mstr
+        sexe:
+            male: Male
+            femelle: Femelle

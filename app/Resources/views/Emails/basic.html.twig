@@ -1,0 +1,146 @@
+{# app/Resources/views/Emails/basic.html.twig #}
+<h3>You did it! You registered!</h3>
+
+Hi {{ name }}! You're successfully registered.
+
+{# example, assuming you have a route named "login" #}
+To login, go to: <a href="#{#{{ url('login') }}#}">...</a>.
+
+Thanks!
+
+{# Makes an absolute URL to the /images/logo.png file
+<img src="{{ absolute_url(asset('images/logo.png')) }}">
+#}
+
+
+<html>
+<head>
+    <meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dutf-8">
+    <style
+    tyle> body {  font-family: "Calibri","Slate Pro",sans-serif,"sans-serif"; color:#262626 }</style>
+</head>
+<body lang=3D"fr-FR">
+    <div>
+        <table cellpadding=3D"0" width=3D"680" border=3D"0" style=3D"font-family: 'Slate Pro'; width:18cm;">
+            <tbody>
+                <tr style=3D"height: 48.2pt;"><td style=3D"padding: 0cm; height: 48.2pt;">
+                    <table class=3D"MsoNormalTable" cellspacing=3D"0" cellpadding=3D"0" border=3D"0" style=3D"border-collapse: collapse;">
+                        <tbody>
+                            <tr>
+                                <td valign=3D"bottom" style=3D"padding: 0cm;">
+                                    <p class=3D"MsoNormal" style=3D"margin: 0cm 0cm 0.0001pt; font-size: 12pt; font-family: 'Times New Roman', serif;">
+                                        <b>
+                                            <i>
+                                                <span style=3D"font-size: 14pt; font-family: Arial, sans-serif; color: rgb(22, 75, 145);">UNIC Webooking</span>
+                                            </i>
+                                        </b>
+                                        <b>
+                                            <span style=3D"font-size: 14pt; font-family: Arial, sans-serif; color: rgb(22, 75, 145);"></span>
+                                        </b>
+                                    </p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td valign=3D"top" style=3D"padding: 0cm;">
+                                    <p align=3D"right" style=3D"margin: 0cm 0cm 0.0001pt; font-size: 12pt; font-family: 'Times New Roman', serif; text-align: right;">
+                                        <b style=3D"font-size: 12pt;">
+                                            <span style=3D"font-size: 9pt; font-family: Arial, sans-serif; color: rgb(22, 75, 145);"><br>
+                                            </span>
+                                        </b>
+                                    </p>
+                                    <p align=3D"right" style=3D"margin: 0cm 0cm 0.0001pt; font-size: 12pt; font-family: 'Times New Roman', serif; text-align: right;">
+                                        <b style=3D"font-size: 12pt;">
+                                            <span style=3D"font-size: 9pt; font-family: Arial, sans-serif; color: rgb(22, 75, 145);">24/7. &#43;33 184 194 847</span>
+                                        </b>
+                                    </p>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </td>
+                <td rowspan=3D"3" valign=3D"top" style=3D"padding: 0cm; height: 48.2pt;">
+                    <p class=3D"MsoNormal" align=3D"right" style=3D"margin: 0cm 0cm 0.0001pt; font-size: 12pt; font-family: 'Times New Roman', serif; text-align: right;">
+                        <a href=3D"http://www.interline-berlin.de/" target=3D"_BLANK" style=3D"color: purple;">
+                            <span style=3D"border: 1pt none windowtext; padding: 0cm; text-decoration:none;">
+                                <img id=3D"_x0000_i1034" src=3D"cid:image001.jpg@01D23B3B.167C7490"alt=3D"interline logo" height=3D"195" width=3D"145" border=3D"0">
+                            </span>
+                        </a>
+                    </p>
+                </td>
+            </tr>
+            <tr>
+                <td style=3D"padding: 0cm;">
+                    <p class=3D"MsoNormal" style=3D"margin: 0cm 0cm 0.0001pt; font-size: 12pt; font-family: 'Times New Roman', serif;">
+                        <span style=3D"font-size: 9pt; font-family: Arial, sans-serif;">AL MAHA SERVICES&nbsp;</span>
+                    </p>
+                    <p style=3D"margin: 0cm 0cm 0.0001pt; font-size: 12pt; font-family: 'Times New Roman', serif;">
+                        <span style=3D"font-size: 9pt; font-family: Arial, sans-serif;">Qatar Airlines<br>Address<br>Doha - Qatar</span>
+                    </p>
+                    <p style=3D"margin: 0cm 0cm 0.0001pt; font-size: 12pt;font-family: 'Times New Roman', serif;">
+                        <span style=3D"font-size: 9pt; font-family: Arial, sans-serif;"><br></span>
+                    </p>
+                    <p style=3D"margin: 0cm 0cm 0.0001pt; font-size: 12pt; font-family: 'Times New Roman', serif;">
+                        <span style=3D"font-size: 9pt; font-family: Arial, sans-serif;">Booking agent : email&#43; nom</span>
+                    </p>
+                    <p style=3D"margin: 0cm 0cm 0.0001pt; font-size: 12pt;font-family: 'Times New Roman', serif;">
+                        <span style=3D"font-size: 9pt; font-family: Arial, sans-serif;"><br></span>
+                    </p>
+                </td>
+            </tr>
+            <tr style=3D"height:22.5pt;"><td valign=3D"bottom" style=3D"padding: 0cm; height: 22.5pt;"><p style=3D"margin-right: 0cm; margin-left: 0cm; font-size: 12pt; font-family:'Times New Roman', serif; margin-bottom: 0.0001pt;"><b><i><span style=3D"font-size: 14pt; font-family: Arial, sans-serif; color: rgb(22, 75, 145);">Confirmation Pack Family</span></i></b><span style=3D"font-size: 7pt; color:rgb(22, 75, 145);"></span></p></td></tr>
+        </tbody>
+    </table><p style=3D"margin: 0cm 0cm 12pt; font-family: 'Times New Roman', serif; color: rgb(0, 0, 0);"><span lang=3D"EN" style=3D"font-size: 9pt; font-family: Arial, sans-serif;">&nbsp;</span></p><p style=3D"margin: 0cm 0cm 0.0001pt; font-family: 'Times New Roman', serif; color: rgb(0, 0, 0);"><span lang=3D"EN" style=3D"font-size: 9pt; font-family: Arial, sans-serif;">Dear All,</span></p><p style=3D"margin: 0cm 0cm 0.0001pt; font-family: 'Times New Roman', serif; color:rgb(0, 0, 0);"><span lang=3D"EN" style=3D"font-size: 9pt; font-family: Arial, sans-serif;">&nbsp;</span></p><p style=3D"margin: 0cm 0cm 0.0001pt; font-family: 'Times New Roman', serif; color: rgb(0, 0, 0);"><span lang=3D"EN"style=3D"font-size: 9pt; font-family: Arial, sans-serif;">we here with confirm your reservation with greeter and driver details:</span></p><p style=3D"margin: 0cm 0cm 0.0001pt; font-family: 'Times New Roman', serif; color:rgb(0, 0, 0);"><span lang=3D"EN" style=3D"font-size: 9pt; font-family: Arial, sans-serif;">&nbsp;</span></p><table cellspacing=3D"0" cellpadding=3D"0" width=3D"673" border=3D"0" style=3D"font-family: 'Slate Pro';">
+        <tbody>
+            <tr>
+                <td width=3D"151" valign=3D"top" style=3D"width: 4cm; border: 1.5pt solid white; padding: 0.75pt 0.75pt 0.75pt 2.85pt;"><p class=3D"MsoNormal" style=3D"margin: 0cm 0cm 0.0001pt; font-size: 12pt; font-family: 'Times New Roman', serif;"><span style=3D"font-size: 9pt; font-family: Arial, sans-serif;">Our Reference</span></p></td>
+                <td valign=3D"top" style=3D"border-style: solid solid solid none; border-top-color: white; border-right-color: white; border-bottom-color: white; border-top-width: 1.5pt; border-right-width: 1.5pt; border-bottom-width: 1.5pt; padding: 0.75pt 0.75pt 0.75pt 2.85pt;"><p class=3D"MsoNormal" style=3D"margin: 0cm 0cm 0.0001pt; font-size: 12pt; font-family: 'Times New Roman', serif;"><span style=3D"font-size: 9pt; font-family: Arial, sans-serif;">1060-64411.0</span></p></td>
+            </tr>
+            <tr>
+                <td width=3D"151" valign=3D"top" style=3D"width: 4cm; border-style: none solid solid; border-right-color: white; border-bottom-color: white; border-left-color: white; border-right-width: 1.5pt; border-bottom-width: 1.5pt; border-left-width: 1.5pt; padding: 0.75pt 0.75pt 0.75pt 2.85pt;"><p class=3D"MsoNormal" style=3D"margin: 0cm 0cm 0.0001pt; font-size: 12pt; font-family: 'Times New Roman', serif;"><span style=3D"font-size: 9pt; font-family: Arial, sans-serif;">Date / Time</span></p></td>
+                <td valign=3D"top" style=3D"border-style: nonesolid solid none; border-bottom-color: white; border-bottom-width: 1.5pt; border-right-color: white; border-right-width: 1.5pt; padding: 0.75pt 0.75pt 0.75pt 2.85pt;"><p class=3D"MsoNormal" style=3D"margin: 0cm 0cm 0.0001pt;font-size: 12pt; font-family: 'Times New Roman', serif;"><b><span style=3D"font-size: 9pt; font-family: Arial, sans-serif;">Fr, 11. Nov 2016, 12:40</span></b></p></td>
+            </tr>
+            <tr>
+                <td width=3D"151" valign=3D"top" style=3D"width:4cm; border-style: none solid solid; border-right-color: white; border-bottom-color: white; border-left-color: white; border-right-width: 1.5pt; border-bottom-width: 1.5pt; border-left-width: 1.5pt; padding: 0.75pt 0.75pt 0.75pt 2.85pt;"><p class=3D"MsoNormal" style=3D"margin: 0cm 0cm 0.0001pt; font-size: 12pt; font-family: 'Times New Roman', serif;"><span style=3D"font-size: 9pt; font-family: Arial, sans-serif;">Passenger</span></p><p style=3D"margin: 0cm 0cm 0.0001pt; font-size: 12pt; font-family: 'Times New Roman', serif;"><span style=3D"font-size: 9pt; font-family: Arial, sans-serif;"><br></span></p><p style=3D"margin: 0cm 0cm 0.0001pt; font-size: 12pt; font-family: 'Times New Roman', serif;"><span style=3D"font-size: 9pt; font-family:Arial, sans-serif;">Airline</span></p><p style=3D"margin: 0cm 0cm 0.0001pt; font-size: 12pt; font-family: 'Times New Roman', serif;"><span style=3D"font-size: 9pt; font-family: Arial, sans-serif;">Flight</span></p><p style=3D"margin: 0cm 0cm 0.0001pt; font-size: 12pt; font-family: 'Times New Roman', serif;"><span style=3D"font-size: 9pt; font-family: Arial, sans-serif;">Arival</span></p><p style=3D"margin: 0cm 0cm 0.0001pt; font-size: 12pt; font-family: 'Times New Roman', serif;"><span style=3D"font-size: 9pt; font-family: Arial, sans-serif;">Departure</span></p><p style=3D"margin: 0cm 0cm 0.0001pt; font-size: 12pt; font-family: 'Times New Roman', serif;"><span style=3D"font-size: 9pt; font-family: Arial, sans-serif;">Origin</span></p><pstyle=3D"margin: 0cm 0cm 0.0001pt; font-size: 12pt; font-family: 'Times New Roman', serif;"><span style=3D"font-size: 9pt; font-family: Arial, sans-serif;">Destination</span></p><p style=3D"margin: 0cm 0cm 0.0001pt; font-size: 12pt; font-family: 'Times New Roman', serif;"><span style=3D"font-size: 9pt; font-family: Arial, sans-serif;">Equipment</span></p><p style=3D"margin: 0cm 0cm 0.0001pt; font-size: 12pt; font-family: 'Times New Roman', serif;"><span style=3D"font-size: 9pt; font-family: Arial, sans-serif;"><br></span></p></td>
+                <td valign=3D"top" style=3D"border-style: none solid solid none; border-bottom-color: white; border-bottom-width: 1.5pt; border-right-color: white; border-right-width: 1.5pt; padding: 0.75pt 0.75pt 0.75pt 2.85pt;"><p class=3D"MsoNormal" style=3D"margin: 0cm 0cm 0.0001pt; font-size: 12pt;font-family: 'Times New Roman', serif;"><span style=3D"font-size: 9pt; font-family: Arial, sans-serif;">IZZY</span></p><p style=3D"margin: 0cm 0cm 0.0001pt; font-size: 12pt; font-family: 'Times New Roman', serif;"><span style=3D"font-size: 9pt; font-family: Arial, sans-serif;"><br></span></p></td>
+            </tr>
+            <tr>
+                <td width=3D"151" valign=3D"top" style=3D"width: 4cm; border-style:none solid solid; border-right-color: white; border-bottom-color: white; border-left-color: white; border-right-width: 1.5pt; border-bottom-width: 1.5pt; border-left-width: 1.5pt; padding: 0.75pt 0.75pt 0.75pt 2.85pt;"><p class=3D"MsoNormal" style=3D"margin: 0cm 0cm 0.0001pt; font-size: 12pt; font-family: 'Times New Roman', serif;"><span style=3D"font-size: 9pt; font-family: Arial, sans-serif;">Vehicle Type</span></p></td>
+                <td valign=3D"top" style=3D"border-style: none solid solid none; border-bottom-color: white; border-bottom-width: 1.5pt; border-right-color: white; border-right-width: 1.5pt; padding: 0.75pt 0.75pt 0.75pt 2.85pt;"><p class=3D"MsoNormal" style=3D"margin: 0cm 0cm 0.0001pt; font-size: 12pt; font-family: 'Times New Roman', serif;"><span style=3D"font-size: 9pt; font-family: Arial, sans-serif;">Luxury Sedan</span></p></td>
+            </tr>
+            <tr>
+                <td width=3D"151" valign=3D"top" style=3D"width: 4cm; border-style: none solid solid; border-right-color: white; border-bottom-color: white; border-left-color: white; border-right-width: 1.5pt;border-bottom-width: 1.5pt; border-left-width: 1.5pt; background-color: white; padding: 0.75pt 0.75pt 0.75pt 2.85pt; background-position: initial initial; background-repeat: initial initial;"><p class=3D"MsoNormal" style=3D"margin: 0cm 0cm 0.0001pt; font-size: 12pt; font-family: 'Times New Roman', serif;"><span style=3D"font-size: 9pt; font-family: Arial, sans-serif;">&nbsp;</span></p></td>
+                <td valign=3D"top" style=3D"border-style: none solid solid none; border-bottom-color: white; border-bottom-width: 1.5pt; border-right-color: white; border-right-width: 1.5pt; background-color: white; padding: 0.75pt 0.75pt 0.75pt 2.85pt; background-position: initial initial; background-repeat: initial initial;"><p class=3D"MsoNormal" style=3D"margin: 0cm0cm 0.0001pt; font-size: 12pt; font-family: 'Times New Roman', serif;"><span style=3D"font-size: 9pt; font-family: Arial, sans-serif;">&nbsp;</span></p></td>
+            </tr>
+            <tr>
+                <td width=3D"151" valign=3D"top" style=3D"width: 4cm; border-style: none solid solid; border-right-color: white; border-bottom-color:white; border-left-color: white; border-right-width: 1.5pt; border-bottom-width: 1.5pt; border-left-width: 1.5pt; padding: 0.75pt 0.75pt 0.75pt 2.85pt;"><p class=3D"MsoNormal" style=3D"margin: 0cm 0cm 0.0001pt; font-size: 12pt; font-family: 'Times New Roman', serif;"><span style=3D"font-size: 9pt; font-family: Arial, sans-serif;">&nbsp;&nbsp;&nbsp;Pick Up</span></p></td>
+                <td valign=3D"top" style=3D"border-style: none solid solid none; border-bottom-color: white; border-bottom-width: 1.5pt; border-right-color: white; border-right-width: 1.5pt; padding: 0.75pt 0.75pt 0.75pt 2.85pt;"><p class=3D"MsoNormal" style=3D"margin: 0cm 0cm 0.0001pt; font-size: 12pt; font-family:'Times New Roman', serif;"><b><span style=3D"font-size: 9pt; font-family: Arial, sans-serif;">12:40 Airport Berlin Tegel =E2=80=A2 13405 Berlin =E2=80=A2 12:40 BA 982 x LHR</span></b></p></td>
+            </tr>
+            <tr>
+                <td width=3D"151" valign=3D"top" style=3D"width: 4cm; border-style: none solid solid; border-right-color: white; border-bottom-color: white; border-left-color: white; border-right-width: 1.5pt; border-bottom-width: 1.5pt; border-left-width: 1.5pt; padding: 0.75pt 0.75pt 0.75pt 2.85pt;"><p class=3D"MsoNormal" style=3D"margin: 0cm 0cm 0.0001pt; font-size: 12pt; font-family: 'Times New Roman', serif;"><span style=3D"font-size: 9pt; font-family: Arial, sans-serif;">&nbsp;&nbsp;&nbsp;Via</span></p></td>
+                <td valign=3D"top" style=3D"border-style: none solid solid none; border-bottom-color: white; border-bottom-width: 1.5pt; border-right-color: white; border-right-width: 1.5pt; padding: 0.75pt 0.75pt 0.75pt 2.85pt;"><p class=3D"MsoNormal" style=3D"margin: 0cm 0cm 0.0001pt; font-size: 12pt; font-family: 'Times New Roman', serif;"><span style=3D"font-size: 9pt; font-family: Arial, sans-serif;">at disposal in Berlin =E2=80=A2 10117 Berlin</span></p></td>
+            </tr>
+            <tr>
+                <td width=3D"151" valign=3D"top" style=3D"width: 4cm; border-style: none solid solid; border-right-color: white; border-bottom-color: white; border-left-color: white; border-right-width: 1.5pt; border-bottom-width: 1.5pt; border-left-width: 1.5pt; padding:0.75pt 0.75pt 0.75pt 2.85pt;"><p class=3D"MsoNormal" style=3D"margin: 0cm 0cm 0.0001pt; font-size: 12pt; font-family: 'Times New Roman', serif;"><span style=3D"font-size: 9pt; font-family: Arial, sans-serif;">&nbsp;&nbsp;&nbsp;Drop Off</span></p></td>
+                <td valign=3D"top" style=3D"border-style: none solid solid none; border-bottom-color: white; border-bottom-width: 1.5pt; border-right-color: white; border-right-width: 1.5pt; padding: 0.75pt 0.75pt 0.75pt 2.85pt;"><p class=3D"MsoNormal" style=3D"margin: 0cm 0cm 0.0001pt; font-size: 12pt; font-family: 'Times New Roman', serif;"><b><span style=3D"font-size: 9pt; font-family: Arial, sans-serif;">Hotel Soho House =E2=80=A2 Torstra=C3=9Fe 1, 10119 Berlin</span></b></p></td>
+            </tr>
+            <tr><td width=3D"151" valign=3D"top" style=3D"width: 4cm; border-style: none solid solid; border-right-color: white; border-bottom-color: white; border-left-color: white;border-right-width: 1.5pt; border-bottom-width: 1.5pt; border-left-width: 1.5pt; background-color: white; padding: 0.75pt 0.75pt 0.75pt 2.85pt; background-position: initial initial; background-repeat: initial initial;"><p class=3D"MsoNormal" style=3D"margin: 0cm 0cm 0.0001pt; font-size: 12pt; font-family: 'Times New Roman', serif;"><span style=3D"font-size: 9pt; font-family: Arial, sans-serif;">&nbsp;</span></p></td>
+                <td valign=3D"top" style=3D"border-style: none solid solid none; border-bottom-color: white; border-bottom-width: 1.5pt; border-right-color: white; border-right-width: 1.5pt; background-color: white; padding: 0.75pt 0.75pt 0.75pt 2.85pt; background-position: initial initial; background-repeat: initial initial;"><p class=3D"MsoNormal" style=3D"margin: 0cm 0cm 0.0001pt; font-size: 12pt; font-family: 'Times New Roman', serif;"><span style=3D"font-size: 9pt; font-family: Arial, sans-serif;">&nbsp;</span></p></td>
+            </tr>
+            <tr><td width=3D"151" valign=3D"top" style=3D"width: 4cm; border-style: none solid solid; border-right-color: white; border-bottom-color: white; border-left-color: white; border-right-width: 1.5pt; border-bottom-width: 1.5pt; border-left-width: 1.5pt; padding:0.75pt 0.75pt 0.75pt 2.85pt;"><p style=3D"margin: 0cm 0cm 0.0001pt; font-size: 12pt; font-family: 'Times New Roman', serif;"><span style=3D"font-size: 9pt; font-family: Arial, sans-serif;"><font color=3D"#0095eb">Greeter</font></span></p><p style=3D"margin: 0cm 0cm 0.0001pt; font-size: 12pt; font-family: 'Times New Roman', serif;"><span style=3D"font-size: 9pt; font-family: Arial, sans-serif;"><font color=3D"#0095eb">=E2=80=8EGreeter Mobile</font></span></p><p style=3D"margin: 0cm 0cm 0.0001pt; font-size: 12pt; font-family: 'Times New Roman', serif;"><span style=3D"font-size: 9pt; font-family: Arial, sans-serif; color: red;"><br></span></p><p class=3D"MsoNormal" style=3D"margin: 0cm 0cm 0.0001pt; font-size: 12pt; font-family: 'Times New Roman', serif;"><span style=3D"font-size: 9pt; font-family: Arial, sans-serif; color: red;">Chauffeur</span></p></td>
+                <td valign=3D"top" style=3D"border-style: none solid solid none; border-bottom-color: white; border-bottom-width: 1.5pt; border-right-color: white; border-right-width: 1.5pt; padding: 0.75pt 0.75pt 0.75pt 2.85pt;"><p style=3D"margin: 0cm 0cm 0.0001pt; font-size: 12pt; font-family: 'Times New Roman', serif;"><span style=3D"font-size: 9pt; font-family: Arial, sans-serif; color: red;"><br></span></p><p style=3D"margin: 0cm 0cm 0.0001pt; font-size: 12pt; font-family: 'Times New Roman', serif;"><span style=3D"font-size: 9pt; font-family: Arial, sans-serif; color: red;"><br></span></p><p style=3D"margin: 0cm 0cm 0.0001pt; font-size: 12pt; font-family: 'Times New Roman', serif;"><span style=3D"font-size: 9pt; font-family: Arial, sans-serif; color: red;"><br></span></p><p class=3D"MsoNormal" style=3D"margin: 0cm 0cm 0.0001pt; font-size: 12pt; font-family: 'Times New Roman', serif;"><span style=3D"font-size: 9pt; font-family: Arial, sans-serif; color: red;">Michael Keller</span></p></td>
+            </tr>
+            <tr><td width=3D"151" valign=3D"top" style=3D"width: 4cm; border-style: none solid solid; border-right-color: white; border-bottom-color: white; border-left-color: white; border-right-width: 1.5pt; border-bottom-width: 1.5pt; border-left-width: 1.5pt; padding: 0.75pt 0.75pt 0.75pt 2.85pt;"><p class=3D"MsoNormal" style=3D"margin: 0cm 0cm 0.0001pt; font-size: 12pt; font-family: 'TimesNew Roman', serif;"><span style=3D"font-size: 9pt; font-family: Arial, sans-serif; color: red;">Chauffeur Mobile</span></p></td>
+                <td valign=3D"top" style=3D"border-style: none solid solid none; border-bottom-color: white; border-bottom-width: 1.5pt; border-right-color: white; border-right-width: 1.5pt; padding: 0.75pt 0.75pt 0.75pt 2.85pt;"><p class=3D"MsoNormal" style=3D"margin: 0cm 0cm 0.0001pt; font-size: 12pt; font-family: 'Times New Roman', serif;"><span style=3D"font-size: 9pt; font-family: Arial, sans-serif; color: red;">&#43;49 (172) 3042700</span></p></td>
+            </tr>
+            <tr><td width=3D"151" valign=3D"top" style=3D"width: 4cm; border-style: none solid solid; border-right-color: white; border-bottom-color: white; border-left-color: white; border-right-width: 1.5pt; border-bottom-width: 1.5pt; border-left-width: 1.5pt; padding: 0.75pt 0.75pt 0.75pt 2.85pt;"><p class=3D"MsoNormal" style=3D"margin: 0cm 0cm 0.0001pt; font-size: 12pt; font-family: 'Times New Roman', serif;"><span style=3D"font-size: 9pt; font-family: Arial, sans-serif; color: red;">Registration No.</span></p></td>
+                <td valign=3D"top" style=3D"border-style: none solid solid none; border-bottom-color: white; border-bottom-width: 1.5pt; border-right-color: white; border-right-width: 1.5pt; padding: 0.75pt 0.75pt 0.75pt 2.85pt;"><p class=3D"MsoNormal" style=3D"margin: 0cm 0cm 0.0001pt; font-size: 12pt; font-family: 'Times New Roman', serif;"><span style=3D"font-size: 9pt; font-family: Arial, sans-serif; color: red;">B-IL 418</span></p></td>
+            </tr>
+            <tr><td width=3D"151" valign=3D"top" style=3D"width: 4cm; border-style: none solid solid; border-right-color: white; border-bottom-color: white; border-left-color: white; border-right-width: 1.5pt; border-bottom-width: 1.5pt; border-left-width: 1.5pt; padding: 0.75pt 0.75pt 0.75pt 2.85pt;"><p style=3D"margin: 0cm 0cm 0.0001pt; font-size: 12pt; font-family: 'Times New Roman', serif;"><span style=3D"font-size: 9pt; font-family: Arial, sans-serif;"><br></span></p><p class=3D"MsoNormal" style=3D"margin: 0cm 0cm 0.0001pt; font-size: 12pt; font-family: 'Times New Roman', serif;"><span style=3D"font-size: 9pt; font-family: Arial, sans-serif;">Remarks:</span></p></td>
+                <td valign=3D"top" style=3D"border-style: none solid solidnone; border-bottom-color: white; border-bottom-width: 1.5pt; border-right-color: white; border-right-width: 1.5pt; padding: 0.75pt 0.75pt 0.75pt 2.85pt;"><p class=3D"MsoNormal" style=3D"margin: 0cm 0cm 0.0001pt; font-size: 12pt; font-family: 'Times New Roman', serif;"><span style=3D"font-size: 9pt; font-family: Arial, sans-serif;">-</span></p></td>
+            </tr>
+        </tbody>
+    </table><pstyle=3D"margin: 0cm 0cm 0.0001pt; font-family: 'Times New Roman', serif; color: rgb(0, 0, 0);"><span lang=3D"EN" style=3D"font-size: 9pt; font-family: Arial, sans-serif;">&nbsp;</span></p><p style=3D"margin: 0cm 0cm 0.0001pt; font-family: 'Times New Roman', serif; color: rgb(0, 0, 0);"><span lang=3D"EN" style=3D"font-size: 9pt; font-family: Arial, sans-serif;">We are pleased to arrange this journey for you.<br>Please feel free to contact us incase of any questions.</span></p>
+</div>
+<div><br></div>
+</body>
+</html>

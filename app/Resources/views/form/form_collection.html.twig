@@ -1,0 +1,59 @@
+{% block collection_widget %}
+{% spaceless %}
+
+{% if prototype is defined %}
+{% set attr = attr|merge({'data-prototype': block('collection_item_widget') }) %}
+{% endif %}
+<div {{ block('widget_container_attributes') }}></div>
+<a href="#" id="add_category" class="btn btn-default">{{ 'add'|trans }}</a>
+
+
+<script type="text/javascript">
+$(document).ready(function() {
+    var $container = $('div#appbundle_book_customers');
+    var index = $container.find('#collection_row').length;
+    $('#add_category').click(function(e) {
+        addCategory($container, false);
+        e.preventDefault(); // évite qu'un # apparaisse dans l'URL
+        return false;
+    });
+    if (index == 0) {
+        addCategory($container, true);
+    } else {
+        $container.children('div').each(function() {
+            addDeleteLink($(this));
+        });
+    }
+    function addCategory($container, $first) {
+        var template = $container.attr('data-prototype').replace(/__name__label__/g, 'Catégorie n°' + (index+1)).replace(/__name__/g,index);
+        var $prototype = $(template);
+        if (!$first) addDeleteLink($prototype);
+        $container.append($prototype);
+        index++;
+    }
+    function addDeleteLink($prototype) {
+        var $deleteLink = $('<a href="#" class="btn btn-danger">{{ 'remove'|trans }}</a>');
+        $prototype.append($deleteLink);
+        $deleteLink.click(function(e) {
+            $prototype.remove();
+            e.preventDefault(); // évite qu'un # apparaisse dans l'URL
+            return false;
+        });
+    }
+});
+</script>
+
+{% endspaceless %}
+{% endblock collection_widget %}
+
+{% block collection_item_widget %}
+{% spaceless %}
+<div id="collection_row" class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
+    {% for row in prototype %}
+    <div class="col-md-2 col-sm-2 col-lg-2 col-xs-2">
+        {{ form_widget(row) }}
+    </div>
+    {% endfor %}
+</div>
+{% endspaceless %}
+{% endblock collection_item_widget %}

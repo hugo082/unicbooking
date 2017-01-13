@@ -1,0 +1,153 @@
+{% extends 'booking/layout.html.twig' %}
+
+{% block title %}{{parent()}} • New{% endblock %}
+
+{% block stylesheets %}
+{{parent()}}
+<link rel="stylesheet" href="{{ asset('bundles/booking/css/book.css') }}">
+<style media="screen">
+#content {
+    background: url("{{ asset('bundles/booking/img/login.jpg') }}") no-repeat 75% top;
+    background-size: cover;
+}
+</style>
+{% endblock %}
+
+
+{% block headscripts %}
+{{parent()}}
+{% endblock %}
+
+{% block content %}
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+{% form_theme form 'bootstrap_3_layout.html.twig' %}
+{% form_theme form.customers 'form/form_collection.html.twig' %}
+
+<!-- <form action="index.html" method="post"> -->
+{{ form_start(form) }}
+<div class="form-group">
+    <h2 class="title padd contentAnim" title="Select Service type for your booking">
+        <strong>01.</strong>
+        <span> {{ 'book.title.service'|trans }}</span>
+    </h2>
+    <div class="input-group row col-md-12 col-sm-12 col-xs-12 col-lg-12">
+        <div class="col-md-4 col-sm-6 col-lg-4">
+            {{ form_label(form.airport) }}
+            {{ form_errors(form.airport) }}
+            {{ form_widget(form.airport) }}
+        </div>
+        <div class="col-md-4 col-sm-6 col-lg-4">
+            {{ form_label(form.date) }}
+            {{ form_errors(form.date) }}
+            <div class="input-group date">
+                {{ form_widget(form.date) }}<span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+            </div>
+        </div>
+    </div>
+    <div class="input-group row col-md-12 col-sm-12 col-xs-12 col-lg-12" id="service">
+        <div class="col-lg-3 col-md-3 col-sm-4">
+            {{ form_label(form.service) }}
+            {{ form_errors(form.service) }}
+            {{ form_widget(form.service) }}
+        </div>
+        <div class="col-lg-3 col-md-3 col-sm-4">
+            {{ form_label(form.product) }}
+            {{ form_errors(form.product) }}
+            {{ form_widget(form.product) }}
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-4">
+            {{ form_label(form.flight) }}
+            {{ form_errors(form.flight) }}
+            {{ form_widget(form.flight) }}
+        </div>
+    </div>
+    <div class="input-group row hidden col-md-12 col-sm-12 col-xs-12 col-lg-12" id="address">
+        <div class="col-lg-3 col-md-4 col-sm-6">
+            {{ form_label(form.addresspu) }}
+            {{ form_errors(form.addresspu) }}
+            {{ form_widget(form.addresspu) }}
+        </div>
+        <div class="col-lg-3 col-md-4 col-sm-6">
+            {{ form_label(form.addressdo) }}
+            {{ form_errors(form.addressdo) }}
+            {{ form_widget(form.addressdo) }}
+        </div>
+    </div>
+</div>
+<div class="form-group">
+    <h2 class="title padd contentAnim" title="Select Service type for your booking">
+        <strong>02.</strong>
+        <span> {{ 'book.title.cust'|trans }}</span>
+    </h2>
+    <div class="input-group row col-md-12 col-sm-12 col-xs-12 col-lg-12" id="customer">
+        <div class="col-lg-3 col-md-3">
+            {{ form_label(form.adultcus) }}
+            {{ form_errors(form.adultcus) }}
+            {{ form_widget(form.adultcus) }}
+        </div>
+        <div class="col-lg-3 col-md-3">
+            {{ form_label(form.childcus) }}
+            {{ form_errors(form.childcus) }}
+            {{ form_widget(form.childcus) }}
+        </div>
+    </div>
+    <div class="input-group row col-md-12 col-sm-12 col-xs-12 col-lg-12" id="address">
+        {{ form_row(form.customers) }}
+    </div>
+    <div class="input-group row col-md-12 col-sm-12 col-xs-12 col-lg-12" style="color:#ddd" id="service">
+        <div class="col-md-3 col-sm-6 col-lg-3">
+            {{ form_label(form.nameboard) }}
+            {{ form_errors(form.nameboard) }}
+            {{ form_widget(form.nameboard) }}
+        </div>
+        <div class="col-md-3 col-sm-6 col-lg-3">
+            {{ form_label(form.bags) }}
+            {{ form_errors(form.bags) }}
+            {{ form_widget(form.bags) }}
+        </div>
+    </div>
+</div>
+<div class="form-group">
+    <h2 class="title padd contentAnim" title="Select Service type for your booking">
+        <strong>03.</strong>
+        <span> {{ 'book.title.final'|trans }}</span>
+    </h2>
+    <div class="card col-md-7 col-sm-12 col-lg-6">
+        <div class="card-header">
+            {{ 'book.recap.title'|trans }}
+        </div>
+        <div class="card-block">
+            <table class="table">
+                <tbody>
+                    <tr>
+                        <td>{{ 'book.form.prod'|trans }}</td>
+                        <td class="value"><span id="products"></span></td>
+                    </tr>
+                    <tr>
+                        <td>{{ 'book.form.cust'|trans }}</td>
+                        <td class="value"><span id="passname"></span> (+<span id="nbpass"></span>)</td>
+                    </tr>
+                    <tr>
+                        <td>{{ 'book.form.flight'|trans }}</td>
+                        <td class="value"><span id="fnb"></span></td>
+                    </tr>
+                    <tr>
+                        <td>{{ 'book.form.date'|trans }}</td>
+                        <td class="value"><span id="fdate"></span></td>
+                    </tr>
+                </tbody>
+            </table>
+            <button type="submit" class="btn btn-primary">{{ 'book.recap.order'|trans }} <span id="price">0</span> €</button>
+            <span class="conversion"><span id="priceQAR">0</span> QAR</span>
+        </div>
+    </div>
+</div>
+{{ form_rest(form) }}
+{{ form_end(form) }}
+</div>
+{% endblock %}
+
+{% block javascripts %}
+{{parent()}}
+<script src="{{ asset('bundles/booking/js/book.js') }}"></script>
+{% endblock %}

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>{% block title %}Unic{% endblock %}</title>
+
+  <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+
+  <link rel="stylesheet" href="{{ asset('bundles/booking/css/bootstrap.min.css') }}">
+  {% block stylesheets %}{% endblock %}
+
+  <script src="{{ asset('bundles/booking/js/jquery.min.js') }}"></script>
+  <script src="{{ asset('bundles/booking/js/moment.js') }}"></script>
+  <script src="{{ asset('bundles/booking/js/bootstrap.min.js') }}"></script>
+  {% block headscripts %}{% endblock %}
+</head>
+<body>
+  {% block body %}{% endblock %}
+
+  {% block javascripts %}{% endblock %}
+</body>
+</html>

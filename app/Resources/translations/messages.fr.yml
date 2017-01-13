@@ -1,0 +1,90 @@
+# messages.fr.yml
+na: N/A
+add: Ajouter
+remove: Supprimer
+price: Prix
+total: Total
+
+header:
+    title: Aéroport Paris Charles de Gaulles
+
+show:
+    admin:
+        title: Gérer la réservation
+
+
+manage:
+    now:
+        title: Réservez un de nos services
+        go: Réservez Maintenant
+    find:
+        title: Gérez votre réservation
+        form:
+            number: Numéro de réservation
+            go: Chercher
+    last:
+        title: Dernières réservations
+        fdate: Date du vol
+        show: Voir
+
+book:
+    state:
+        title: Status
+        wait:
+            title: En attente
+            content: Votre réservation est en cours de traitement
+            admin:
+                log: Demande en attente
+                acc: Accepter
+                ref: Refuser
+        acc:
+            title: Accepté
+            content: Votre réservation à été acceptéé
+        ref:
+            title: Rejeté
+            content: Votre réservation à été rejetée
+    flight:
+        number: Numéro
+        deptime: Heure de départ
+        arrtime: Heure d'arrivée
+        dest: Destination
+    recap:
+        title: Récapitulatif
+        order: Commander
+    title:
+        service: Sélectionnez le service et les détails du voyage
+        cust: Total des clients
+        final: Enfin
+    form:
+        cdg: CDG
+        air: Aéroport
+        date: Date
+        rqserv: Service requis
+        prod: Produit
+        dep: Départ
+        arr: Arrivé
+        flight: Vol
+        addpu: Adresse de récupération
+        adddo: Adresse de dépot
+        adult: Adulte
+        chilu2y: Enfant (moins de 2 ans)
+        cust: Clients
+        nameboard: Nom de la carte
+        bags: Bagages
+        select:
+            placeholder: - Sélectionner -
+
+cust:
+    inf: Informations sur les clients
+    form:
+        fname: Nom
+        lname: Prénom
+        phone: Téléphone
+        title:
+            mr: Mr
+            mrs: Mme
+            ms: Ms
+            mstr: Mstr
+        sexe:
+            male: Homme
+            femelle: Femme
