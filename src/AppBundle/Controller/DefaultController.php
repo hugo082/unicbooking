@@ -106,7 +106,7 @@ class DefaultController extends Controller
     public function emailAction($bool)
     {
         $user = $this->getUser();
-        $book = $this->getDoctrine()->getRepository('AppBundle:Book')->find(18);
+        $book = $this->getDoctrine()->getRepository('AppBundle:Book')->getOneLast();
         if ($bool) {
             echo 'Send Action<br>';
             $message = \Swift_Message::newInstance()
