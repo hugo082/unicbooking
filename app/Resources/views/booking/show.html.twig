@@ -1,6 +1,6 @@
 {% extends 'booking/layout.html.twig' %}
 
-{% block title %}{{parent()}} • New{% endblock %}
+{% block title %}{{parent()}} • Show{% endblock %}
 
 {% block stylesheets %}
 {{parent()}}
@@ -63,7 +63,7 @@
                     </tr>
                     <tr>
                         <td class="col-md-6">{{ 'book.form.date'|trans }}</td>
-                        <td class="value"><span id="fdate">{{book.date}}</span></td>
+                        <td class="value"><span id="fdate">{{book.date|date("d M Y")}}</span></td>
                     </tr>
                     <tr>
                         <td class="col-md-6">{{ 'book.form.prod'|trans }}</td>

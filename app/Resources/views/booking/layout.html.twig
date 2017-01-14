@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{parent()}}Booking{% endblock %}
+{% block title %}{{parent()}}Expert Webooking{% endblock %}
 
 {% block stylesheets %}
 {{parent()}}
@@ -24,7 +24,7 @@
             }
         </style>
         <span class="logo"></span>
-        <span class="text">UNIC WEB BOOKING</span>
+        <span class="text">EXPERT WEBOOKING</span>
     </a>
     <span class="navbar-brand sec hidden-xs" id="info">
         <style media="screen">
@@ -45,9 +45,9 @@
                 <a href="{{ path('fos_user_security_logout') }}">
                     {{ 'layout.logout'|trans({}, 'FOSUserBundle') }}
                 </a>
-                <a class="pad" href="{{ path('admin') }}">
+                <span class="marg label label-info" href="{{ path('admin') }}">
                     Admin
-                </a>
+                </span>
             </h5>
         </div>
         {% endif %}

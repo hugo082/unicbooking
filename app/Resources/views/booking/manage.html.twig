@@ -1,6 +1,6 @@
 {% extends 'booking/layout.html.twig' %}
 
-{% block title %}{{parent()}} • New{% endblock %}
+{% block title %}{{parent()}}{% endblock %}
 
 {% block stylesheets %}
 {{parent()}}
@@ -57,7 +57,7 @@
                     <tr>
                         <td class="hidden-xs">{{book.id}}</td>
                         <td>{{book.customers[0].firstname}}</td>
-                        <td>{{book.date}}</td><td>{% if book.state == 'WAITING' %}
+                        <td>{{book.date|date("d M Y")}}</td><td>{% if book.state == 'WAITING' %}
                             <span class="label label-default">{{ 'book.state.wait.title'|trans }}</span>
                             {% elseif book.state == 'ACCEPTED' %}
                             <span class="label label-success">{{ 'book.state.acc.title'|trans }}</span>

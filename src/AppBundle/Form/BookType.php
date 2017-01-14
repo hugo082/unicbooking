@@ -8,6 +8,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use AppBundle\Form\CustomerType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -28,8 +29,11 @@ class BookType extends AbstractType
             ),
             'label' => 'book.form.air'
         ))
-        ->add('date', TextType::class, array(
-            'label' => 'book.form.date'
+        ->add('date', DateType::class, array(
+            'label' => 'book.form.date',
+            'html5' => false,
+            'attr' => ['class' => 'js-datepicker'],
+            'widget' => 'single_text'
         ))
         ->add('service', ChoiceType::class, array(
             'choices'  => array(

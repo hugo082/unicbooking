@@ -1,0 +1,4 @@
+date:
+    min:
+        val: La date doit être supérieur à {{ limit }}.
+        now: La date ne peut pas être passé.

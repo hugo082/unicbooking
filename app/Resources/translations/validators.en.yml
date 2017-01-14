@@ -1,0 +1,4 @@
+date:
+    min:
+        val: The date must be greater than {{ limit }}.
+        now: The date can't be passed.

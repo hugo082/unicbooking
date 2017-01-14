@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
 * Book
@@ -31,7 +32,11 @@ class Book
     /**
     * @var \DateTime
     *
-    * @ORM\Column(name="date", type="string")
+    * @ORM\Column(name="date", type="date")
+    * @Assert\Range(
+    *      min = "now",
+    *      minMessage = "date.min.now"
+    * )
     */
     private $date;
 
@@ -60,6 +65,9 @@ class Book
     * @var array
     * Adult Customer
     * @ORM\Column(name="adultcus", type="integer")
+    * @Assert\Range(
+    *      min = 0
+    * )
     */
     private $adultcus;
 
@@ -67,12 +75,15 @@ class Book
     * @var array
     * Child Customer
     * @ORM\Column(name="childcus", type="integer")
+    * @Assert\Range(
+    *      min = 0
+    * )
     */
     private $childcus;
 
     /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Customer", mappedBy="book", cascade={"persist"})
-     */
+    * @ORM\OneToMany(targetEntity="AppBundle\Entity\Customer", mappedBy="book", cascade={"persist"})
+    */
     protected $customers;
 
     /**
@@ -86,6 +97,9 @@ class Book
     * @var int
     *
     * @ORM\Column(name="bags", type="integer")
+    * @Assert\Range(
+    *      min = 0
+    * )
     */
     private $bags;
 
@@ -100,6 +114,9 @@ class Book
     * @var int
     *
     * @ORM\Column(name="price", type="integer")
+    * @Assert\Range(
+    *      min = 0
+    * )
     */
     private $price;
 
@@ -375,20 +392,20 @@ class Book
         return $this->childcus;
     }
     /**
-     * Constructor
-     */
+    * Constructor
+    */
     public function __construct()
     {
         $this->customers = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
-     * Add customer
-     *
-     * @param \AppBundle\Entity\Customer $customer
-     *
-     * @return Book
-     */
+    * Add customer
+    *
+    * @param \AppBundle\Entity\Customer $customer
+    *
+    * @return Book
+    */
     public function addCustomer(\AppBundle\Entity\Customer $customer)
     {
         $this->customers[] = $customer;
@@ -397,22 +414,22 @@ class Book
     }
 
     /**
-     * Remove customer
-     *
-     * @param \AppBundle\Entity\Customer $customer
-     */
+    * Remove customer
+    *
+    * @param \AppBundle\Entity\Customer $customer
+    */
     public function removeCustomer(\AppBundle\Entity\Customer $customer)
     {
         $this->customers->removeElement($customer);
     }
 
     /**
-     * Set user
-     *
-     * @param \AppBundle\Entity\User $user
-     *
-     * @return Book
-     */
+    * Set user
+    *
+    * @param \AppBundle\Entity\User $user
+    *
+    * @return Book
+    */
     public function setUser(\AppBundle\Entity\User $user)
     {
         $this->user = $user;
@@ -421,22 +438,22 @@ class Book
     }
 
     /**
-     * Get user
-     *
-     * @return \AppBundle\Entity\User
-     */
+    * Get user
+    *
+    * @return \AppBundle\Entity\User
+    */
     public function getUser()
     {
         return $this->user;
     }
 
     /**
-     * Set price
-     *
-     * @param integer $price
-     *
-     * @return Book
-     */
+    * Set price
+    *
+    * @param integer $price
+    *
+    * @return Book
+    */
     public function setPrice($price)
     {
         $this->price = $price;
@@ -445,22 +462,22 @@ class Book
     }
 
     /**
-     * Get price
-     *
-     * @return integer
-     */
+    * Get price
+    *
+    * @return integer
+    */
     public function getPrice()
     {
         return $this->price;
     }
 
     /**
-     * Set addresspu
-     *
-     * @param string $addresspu
-     *
-     * @return Book
-     */
+    * Set addresspu
+    *
+    * @param string $addresspu
+    *
+    * @return Book
+    */
     public function setAddresspu($addresspu)
     {
         $this->addresspu = $addresspu;
@@ -469,22 +486,22 @@ class Book
     }
 
     /**
-     * Get addresspu
-     *
-     * @return string
-     */
+    * Get addresspu
+    *
+    * @return string
+    */
     public function getAddresspu()
     {
         return $this->addresspu;
     }
 
     /**
-     * Set addressdo
-     *
-     * @param string $addressdo
-     *
-     * @return Book
-     */
+    * Set addressdo
+    *
+    * @param string $addressdo
+    *
+    * @return Book
+    */
     public function setAddressdo($addressdo)
     {
         $this->addressdo = $addressdo;
@@ -493,22 +510,22 @@ class Book
     }
 
     /**
-     * Get addressdo
-     *
-     * @return string
-     */
+    * Get addressdo
+    *
+    * @return string
+    */
     public function getAddressdo()
     {
         return $this->addressdo;
     }
 
     /**
-     * Set state
-     *
-     * @param string $state
-     *
-     * @return Book
-     */
+    * Set state
+    *
+    * @param string $state
+    *
+    * @return Book
+    */
     public function setState($state)
     {
         $this->state = $state;
@@ -517,10 +534,10 @@ class Book
     }
 
     /**
-     * Get state
-     *
-     * @return string
-     */
+    * Get state
+    *
+    * @return string
+    */
     public function getState()
     {
         return $this->state;
