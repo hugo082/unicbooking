@@ -141,6 +141,13 @@ class Book
     */
     private $state;
 
+    /**
+    * @var User
+    * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Driver")
+    * @ORM\JoinColumn(nullable=true)
+    */
+    private $driver;
+
 
     /**
     * Get id
@@ -541,5 +548,29 @@ class Book
     public function getState()
     {
         return $this->state;
+    }
+
+    /**
+     * Set driver
+     *
+     * @param \AppBundle\Entity\Driver $driver
+     *
+     * @return Book
+     */
+    public function setDriver(\AppBundle\Entity\Driver $driver = null)
+    {
+        $this->driver = $driver;
+
+        return $this;
+    }
+
+    /**
+     * Get driver
+     *
+     * @return \AppBundle\Entity\Driver
+     */
+    public function getDriver()
+    {
+        return $this->driver;
     }
 }

@@ -8,10 +8,25 @@ total: Total
 header:
     title: Aéroport Paris Charles de Gaulles
 
+admin:
+    driver_add:
+        title: Créer un nouveau chauffeur
+        form:
+            fname: Nom
+            lname: Prénom
+            phone: Téléphone
+            go: Créer
+
 show:
     admin:
         title: Gérer la réservation
-
+    notfound:
+        title: Introuvable
+        desc: Le book %id% est introuvable
+        content: Le book %id% n'est pas présent sur notre base de donnée. %ls%Essayer à nouveau%le%.
+    form:
+        driver: Chauffeur
+        go: Sélectionner
 
 manage:
     now:

@@ -8,6 +8,26 @@ total: Total
 header:
     title: Airport Paris Charles de Gaulles
 
+admin:
+    driver_add:
+        title: Create new driver
+        form:
+            fname: Firstname
+            lname: Lastname
+            phone: Phone
+            go: Create
+
+show:
+    admin:
+        title: Manage booking
+    notfound:
+        title: Not found
+        desc: Book %id% can not be found
+        content: Book %id% is not present on our database. %ls%Try again%le%.
+    form:
+        driver: Driver
+        go: Select
+
 manage:
     now:
         title: Book any of our CDG Meet and Assist

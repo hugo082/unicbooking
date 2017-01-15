@@ -7,9 +7,11 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
 use AppBundle\Entity\Book;
 use AppBundle\Form\BookType;
+use AppBundle\Form\BookDriverType;
 
 class DefaultController extends Controller
 {
@@ -76,6 +78,7 @@ class DefaultController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->persist($book);
             $em->flush();
+            $this->sendEmail($book);
             return $this->redirectToRoute('show', array('id' => $book->getId()));
         }
 
@@ -87,16 +90,27 @@ class DefaultController extends Controller
     /**
     * @Route("/show/{id}", requirements={"id" = "\d+"}, name="show")
     */
-    public function showAction($id)
+    public function showAction(Request $request, $id)
     {
         $book = $this->getDoctrine()->getRepository('AppBundle:Book')->find($id);
         if (!$book) {
-            throw $this->createNotFoundException(
-                'No product found for id '.$id
-            );
+            return $this->render('booking/show.html.twig', array(
+                'book_id_finded' => $id
+            ));
         }
+
+        $form = $this->createForm(BookDriverType::class, $book);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($book);
+            $em->flush();
+        }
+
         return $this->render('booking/show.html.twig', array(
-            'book' => $book
+            'book' => $book,
+            'form' => $form->createView()
         ));
     }
 
@@ -126,5 +140,18 @@ class DefaultController extends Controller
             'book' => $book,
             'user' => $user
         ));
+    }
+
+    private function sendEmail($book)
+    {
+        $message = \Swift_Message::newInstance()
+        ->setSubject('Expert Webooking • Acknowledgment of receipt')
+        ->setFrom(array('booking@experttravel.fr' => 'Expert Webooking'))
+        ->setTo($book->getUser()->getEmail())
+        ->setBody($this->renderView('Emails/waiting.html.twig', array(
+            'book' => $book,
+            'user' => $book->getUser()
+        )),'text/html');
+        $this->get('mailer')->send($message);
     }
 }

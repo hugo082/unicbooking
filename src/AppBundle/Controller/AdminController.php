@@ -8,8 +8,8 @@ use Symfony\Component\HttpFoundation\Request;
 
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 
-use AppBundle\Entity\Book;
-use AppBundle\Form\BookType;
+use AppBundle\Entity\Driver;
+use AppBundle\Form\DriverType;
 
 class AdminController extends Controller
 {
@@ -18,15 +18,28 @@ class AdminController extends Controller
     */
     public function indexAction(Request $request)
     {
-        return $this->render('booking/layout.html.twig');
+        $user = $this->getUser();
+        $book = new Driver();
+        $form = $this->createForm(DriverType::class, $book);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($book);
+            $em->flush();
+        }
+
+        return $this->render('booking/admin.html.twig', array(
+            'form' => $form->createView(),
+        ));
     }
 
     /**
     * @Route("/admin/answer/{id}/{state}", name="admin.answer",
-     *     requirements={
-     *         "id": "\d+",
-     *         "state": "REJ|ACC"
-     *     })
+    *     requirements={
+    *         "id": "\d+",
+    *         "state": "REJ|ACC"
+    *     })
     */
     public function answerAction(Request $request, $id, $state)
     {
@@ -37,10 +50,31 @@ class AdminController extends Controller
             );
         }
         $fullstate = ($state == "ACC") ? "ACCEPTED" : "REFUSED";
+        $this->sendEmail($state, $book);
         $book->setState($fullstate);
         $em = $this->getDoctrine()->getManager();
         $em->persist($book);
         $em->flush();
         return $this->redirectToRoute('show', array('id' => $book->getId()));
+    }
+
+    private function sendEmail($state, $book)
+    {
+        if ($state == "ACC") {
+            $template = 'Emails/confirmation.html.twig';
+            $subject = 'Expert Webooking • Confirmation';
+        } else {
+            $template = 'Emails/rejected.html.twig';
+            $subject = 'Expert Webooking • Rejection';
+        }
+        $message = \Swift_Message::newInstance()
+        ->setSubject($subject)
+        ->setFrom(array('booking@experttravel.fr' => 'Expert Webooking'))
+        ->setTo($book->getUser()->getEmail())
+        ->setBody($this->renderView($template, array(
+            'book' => $book,
+            'user' => $book->getUser()
+        )),'text/html');
+        $this->get('mailer')->send($message);
     }
 }
