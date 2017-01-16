@@ -10,7 +10,7 @@ header:
 
 admin:
     driver_add:
-        title: Create new driver
+        title: Create new greeter
         form:
             fname: Firstname
             lname: Lastname
