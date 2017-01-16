@@ -54,7 +54,13 @@ class Product
      */
     public function getFullName()
     {
-        return $this->name . " " . $this->price . "€ (" . $this->passengers . " Persons)";
+        $res = $this->name . " " . $this->price . "€ (" . $this->passengers;
+        if ($this->passengers > 1) {
+            $res .=  " Persons)";
+        } else {
+            $res .=  " Person)";
+        }
+        return $res;
     }
 
     /**

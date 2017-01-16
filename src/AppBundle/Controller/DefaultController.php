@@ -75,8 +75,7 @@ class DefaultController extends Controller
                 $price += ($nbP - $nbPPass) * $supPrice;
             }
 
-            $major = $book->getBags() - (2 * $nbP);
-            $price += ($major > 0) ? $major * 8 : 0;
+            $price += $book->getBags() * 10;
             $book->setPrice($price);
 
             $em = $this->getDoctrine()->getManager();
@@ -149,8 +148,8 @@ class DefaultController extends Controller
     private function sendEmail($book)
     {
         $message = \Swift_Message::newInstance()
-        ->setSubject('Expert Webooking • Acknowledgment of receipt')
-        ->setFrom(array('booking@experttravel.fr' => 'Expert Webooking'))
+        ->setSubject('Unic Webooking • Acknowledgment of receipt')
+        ->setFrom(array('booking@unicairport.com' => 'Unic Webooking'))
         ->setTo($book->getUser()->getEmail())
         ->setBody($this->renderView('Emails/waiting.html.twig', array(
             'book' => $book,

@@ -123,6 +123,13 @@ class Book
     /**
     * @var string
     *
+    * @ORM\Column(name="timepu", type="time", nullable=true)
+    */
+    private $timepu;
+
+    /**
+    * @var string
+    *
     * @ORM\Column(name="addresspu", type="string", length=255, nullable=true)
     */
     private $addresspu;
@@ -602,5 +609,29 @@ class Book
     public function getNote()
     {
         return $this->note;
+    }
+
+    /**
+     * Set timepu
+     *
+     * @param \DateTime $timepu
+     *
+     * @return Book
+     */
+    public function setTimepu($timepu)
+    {
+        $this->timepu = $timepu;
+
+        return $this;
+    }
+
+    /**
+     * Get timepu
+     *
+     * @return \DateTime
+     */
+    public function getTimepu()
+    {
+        return $this->timepu;
     }
 }

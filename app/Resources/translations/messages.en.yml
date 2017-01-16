@@ -6,7 +6,7 @@ price: Price
 total: Total
 
 header:
-    title: Airport Paris Charles de Gaulles
+    title: Airport Paris Charles de Gaulle
 
 admin:
     driver_add:
@@ -32,7 +32,7 @@ show:
 
 manage:
     now:
-        title: Book any of our CDG Meet and Assist
+        title: Book our CDG Meet and Assist
         go: Book Now
     find:
         title: Manage your Booking
@@ -81,9 +81,10 @@ book:
         dep: Departure
         arr: Arrival
         flight: Flight
+        timepu: Time PU
         addpu: Address PU
         adddo: Address DO
-        adult: Adult
+        adult: Adult (12+ years)
         chilu2y: Children (under 2 years)
         cust: Customers
         nameboard: Name Board

@@ -123,6 +123,13 @@ class Book
     /**
     * @var string
     *
+    * @ORM\Column(name="timepu", type="time", nullable=true)
+    */
+    private $timepu;
+
+    /**
+    * @var string
+    *
     * @ORM\Column(name="addresspu", type="string", length=255, nullable=true)
     */
     private $addresspu;
@@ -578,5 +585,29 @@ class Book
     public function getDriver()
     {
         return $this->driver;
+    }
+
+    /**
+     * Set note
+     *
+     * @param string $note
+     *
+     * @return Book
+     */
+    public function setNote($note)
+    {
+        $this->note = $note;
+
+        return $this;
+    }
+
+    /**
+     * Get note
+     *
+     * @return string
+     */
+    public function getNote()
+    {
+        return $this->note;
     }
 }

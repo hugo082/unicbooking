@@ -9,6 +9,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use AppBundle\Form\CustomerType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\TimeType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -55,8 +56,37 @@ class BookType extends AbstractType
         'placeholder' => 'book.form.select.placeholder',
         'choice_attr' => function($f) {return ['is' => $f->getType()];}
         ))
-        ->add('bags', IntegerType::class, array(
-            'label' => 'book.form.bags'
+        ->add('bags', ChoiceType::class, array(
+            'label' => 'book.form.bags',
+            'placeholder' => 'book.form.select.placeholder',
+            'choices'  => array(
+                '0 bag 0€' => 0,
+                '1 bag 10€' => 1,
+                '2 bag 20€' => 2,
+                '3 bag 30€' => 3,
+                '4 bag 40€' => 4,
+                '5 bag 50€' => 5,
+                '6 bag 60€' => 6,
+                '7 bag 70€' => 7,
+                '8 bag 80€' => 8,
+                '9 bag 90€' => 9,
+                '10 bag 100€' => 10,
+                '11 bag 110€' => 11,
+                '12 bag 120€' => 12,
+                '13 bag 130€' => 13,
+                '14 bag 140€' => 14,
+                '15 bag 150€' => 15,
+                '16 bag 160€' => 16,
+                '17 bag 170€' => 17,
+                '18 bag 180€' => 18,
+                '19 bag 190€' => 19,
+                '20 bag 200€' => 20,
+            )
+        ))
+        ->add('timepu', TimeType::class, array(
+            'label' => "book.form.timepu",
+            'required' => false,
+            'widget' => 'single_text'
         ))
         ->add('addresspu', TextType::class, array(
             'label' => "book.form.addpu",

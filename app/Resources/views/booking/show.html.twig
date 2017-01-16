@@ -124,6 +124,10 @@
                     </tr>
                     {% if book.product.code == "FAM" %}
                     <tr>
+                        <td class="col-md-6">{{ 'book.form.timepu'|trans }}</td>
+                        <td class="value">{{book.timepu|date("H:m")}}</td>
+                    </tr>
+                    <tr>
                         <td class="col-md-6">{{ 'book.form.addpu'|trans }}</td>
                         <td class="value">{{book.addresspu}}</td>
                     </tr>
@@ -155,7 +159,7 @@
                     </tr>
                     <tr>
                         <td class="col-md-6">{{ 'book.form.bags'|trans }}</td>
-                        <td class="value">{{book.bags}}</td>
+                        <td class="value">{{book.bags}} ( {{book.bags * 10}} € )</td>
                     </tr>
                 </tbody>
             </table>

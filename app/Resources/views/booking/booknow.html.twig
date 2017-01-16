@@ -91,8 +91,8 @@ table {
                     </div>
                     <div class="modal-body">
                         <p>Gold : One Person and 2 bagages included</p>
-                        <p>Platinium : One Person and 2 bagages included</p>
-                        <p>Pack Family : 4 Person + 6 bagages + Transportation (Mercedes Van or equivalent)</p>
+                        <p>Platinium : 1 Person and 2 bagages included</p>
+                        <p>Pack Family : 4 Persons + 6 bagages + Transportation (Mercedes Van or equivalent)</p>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -110,6 +110,11 @@ table {
         </div>
     </div>
     <div class="input-group row hidden col-md-12 col-sm-12 col-xs-12 col-lg-12" id="address">
+        <div class="col-lg-3 col-md-4 col-sm-6">
+            {{ form_label(form.timepu) }}
+            {{ form_errors(form.timepu) }}
+            {{ form_widget(form.timepu) }}
+        </div>
         <div class="col-lg-3 col-md-4 col-sm-6">
             {{ form_label(form.addresspu) }}
             {{ form_errors(form.addresspu) }}
@@ -170,6 +175,10 @@ table {
                     <tr>
                         <td>{{ 'book.form.prod'|trans }}</td>
                         <td class="value"><span id="products"></span></td>
+                    </tr>
+                    <tr>
+                        <td>{{ 'book.form.bags'|trans }}</td>
+                        <td class="value"><span id="bags"></span></td>
                     </tr>
                     <tr>
                         <td>{{ 'book.form.cust'|trans }}</td>

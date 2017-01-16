@@ -87,14 +87,14 @@ class AdminController extends Controller
     {
         if ($state == "ACC") {
             $template = 'Emails/confirmation.html.twig';
-            $subject = 'Expert Webooking • Confirmation';
+            $subject = 'Unic Webooking • Confirmation';
         } else {
             $template = 'Emails/rejected.html.twig';
-            $subject = 'Expert Webooking • Rejection';
+            $subject = 'Unic Webooking • Rejection';
         }
         $message = \Swift_Message::newInstance()
         ->setSubject($subject)
-        ->setFrom(array('booking@experttravel.fr' => 'Expert Webooking'))
+        ->setFrom(array('booking@unicairport.com' => 'Unic Webooking'))
         ->setTo($book->getUser()->getEmail())
         ->setBody($this->renderView($template, array(
             'book' => $book,
