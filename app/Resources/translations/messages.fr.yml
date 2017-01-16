@@ -25,7 +25,7 @@ show:
         desc: Le book %id% est introuvable
         content: Le book %id% n'est pas présent sur notre base de donnée. %ls%Essayer à nouveau%le%.
     form:
-        driver: Chauffeur
+        driver: Greeter
         go: Sélectionner
 
 manage:
@@ -86,6 +86,7 @@ book:
         cust: Clients
         nameboard: Nom de la carte
         bags: Bagages
+        note: Note / Special requirement
         select:
             placeholder: - Sélectionner -
 
@@ -103,3 +104,9 @@ cust:
         sexe:
             male: Homme
             femelle: Femme
+
+agent:
+    username: Username
+    fname: Nom
+    lname: Prénom
+    email: Email

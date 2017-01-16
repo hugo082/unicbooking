@@ -5,10 +5,11 @@
 {% block stylesheets %}
 {{parent()}}
 <style media="screen">
-#content {
+#content::before {
   background: url("{{ asset('bundles/booking/img/login.jpg') }}") no-repeat 75% top;
   background-size: cover;
 }
+
 #content .login.card {
   margin: 15px auto;
   float: none;

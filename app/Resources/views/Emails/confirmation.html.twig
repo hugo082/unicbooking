@@ -151,7 +151,9 @@
                 </td>
                 <td valign="top" style="border-style: none solid solid none; border-bottom-color: white; border-bottom-width: 1.5pt; border-right-color: white; border-right-width: 1.5pt; padding: 0.75pt 0.75pt 0.75pt 2.85pt;">
                     <p class="MsoNormal" style="margin: 0cm 0cm 0.0001pt; font-size: 12pt;font-family: 'Times New Roman', serif;">
-                        <span style="font-size: 9pt; font-family: Arial, sans-serif;"><b>{{book.customers[0].firstname}}</b> {{book.customers[0].lastname}}</span>
+                        <span style="font-size: 9pt; font-family: Arial, sans-serif;">
+                            <b>{{book.customers[0].firstname}}</b> {{book.customers[0].lastname}} ({{book.customers[0].phone}})
+                        </span>
                     </p>
                     <p style="margin: 0cm 0cm 0.0001pt; font-size: 12pt; font-family: 'Times New Roman', serif;">
                         <span style="font-size: 9pt; font-family: Arial, sans-serif;"><br></span>
@@ -196,7 +198,7 @@
             </tr>
             <tr>
                 <td width="151" valign="top" style="width: 4cm; border-style: none solid solid; border-right-color: white; border-bottom-color:white; border-left-color: white; border-right-width: 1.5pt; border-bottom-width: 1.5pt; border-left-width: 1.5pt; padding: 0.75pt 0.75pt 0.75pt 2.85pt;"><p class="MsoNormal" style="margin: 0cm 0cm 0.0001pt; font-size: 12pt; font-family: 'Times New Roman', serif;">
-                    <span style="font-size: 9pt; font-family: Arial, sans-serif;">&nbsp;&nbsp;&nbsp;Pick Up</span></p>
+                    <span style="font-size: 9pt; font-family: Arial, sans-serif;">&nbsp;&nbsp;Pick Up</span></p>
                 </td>
                 <td valign="top" style="border-style: none solid solid none; border-bottom-color: white; border-bottom-width: 1.5pt; border-right-color: white; border-right-width: 1.5pt; padding: 0.75pt 0.75pt 0.75pt 2.85pt;">
                     <p class="MsoNormal" style="margin: 0cm 0cm 0.0001pt; font-size: 12pt; font-family:'Times New Roman', serif;">
@@ -207,7 +209,7 @@
             <tr>
                 <td width="151" valign="top" style="width: 4cm; border-style: none solid solid; border-right-color: white; border-bottom-color: white; border-left-color: white; border-right-width: 1.5pt; border-bottom-width: 1.5pt; border-left-width: 1.5pt; padding:0.75pt 0.75pt 0.75pt 2.85pt;">
                     <p class="MsoNormal" style="margin: 0cm 0cm 0.0001pt; font-size: 12pt; font-family: 'Times New Roman', serif;">
-                        <span style="font-size: 9pt; font-family: Arial, sans-serif;">&nbsp;&nbsp;&nbsp;Drop Off</span>
+                        <span style="font-size: 9pt; font-family: Arial, sans-serif;">&nbsp;&nbsp;Drop Off</span>
                     </p>
                 </td>
                 <td valign="top" style="border-style: none solid solid none; border-bottom-color: white; border-bottom-width: 1.5pt; border-right-color: white; border-right-width: 1.5pt; padding: 0.75pt 0.75pt 0.75pt 2.85pt;">
@@ -230,64 +232,38 @@
                     </p>
                 </td>
             </tr>
+            {% if not book.driver is empty %}
             <tr>
                 <td width="151" valign="top" style="width: 4cm; border-style: none solid solid; border-right-color: white; border-bottom-color: white; border-left-color: white; border-right-width: 1.5pt; border-bottom-width: 1.5pt; border-left-width: 1.5pt; padding:0.75pt 0.75pt 0.75pt 2.85pt;">
-                    <p style="margin: 0cm 0cm 0.0001pt; font-size: 12pt; font-family: 'Times New Roman', serif;">
-                        <span style="font-size: 9pt; font-family: Arial, sans-serif;">
-                            <font color="#0095eb">Greeter</font>
-                        </span>
-                    </p>
-                    <p style="margin: 0cm 0cm 0.0001pt; font-size: 12pt; font-family: 'Times New Roman', serif;">
-                        <span style="font-size: 9pt; font-family: Arial, sans-serif;">
-                            <font color="#0095eb">Greeter Mobile</font>
-                        </span>
-                    </p>
                     <p style="margin: 0cm 0cm 0.0001pt; font-size: 12pt; font-family: 'Times New Roman', serif;">
                         <span style="font-size: 9pt; font-family: Arial, sans-serif; color: red;"><br></span>
                     </p>
                     <p class="MsoNormal" style="margin: 0cm 0cm 0.0001pt; font-size: 12pt; font-family: 'Times New Roman', serif;">
-                        <span style="font-size: 9pt; font-family: Arial, sans-serif; color: red;">Chauffeur</span>
+                        <span style="font-size: 9pt; font-family: Arial, sans-serif; color: red;">Greeter</span>
                     </p>
                 </td>
                 <td valign="top" style="border-style: none solid solid none; border-bottom-color: white; border-bottom-width: 1.5pt; border-right-color: white; border-right-width: 1.5pt; padding: 0.75pt 0.75pt 0.75pt 2.85pt;">
                     <p style="margin: 0cm 0cm 0.0001pt; font-size: 12pt; font-family: 'Times New Roman', serif;">
-                        <span style="font-size: 9pt; font-family: Arial, sans-serif; color: #0095EB;">bla<br></span>
-                    </p>
-                    <p style="margin: 0cm 0cm 0.0001pt; font-size: 12pt; font-family: 'Times New Roman', serif;">
-                        <span style="font-size: 9pt; font-family: Arial, sans-serif; color: #0095EB;">bla<br></span>
-                    </p>
-                    <p style="margin: 0cm 0cm 0.0001pt; font-size: 12pt; font-family: 'Times New Roman', serif;">
                         <span style="font-size: 9pt; font-family: Arial, sans-serif; color: red;"><br></span>
                     </p>
                     <p class="MsoNormal" style="margin: 0cm 0cm 0.0001pt; font-size: 12pt; font-family: 'Times New Roman', serif;">
-                        <span style="font-size: 9pt; font-family: Arial, sans-serif; color: red;">Michael Keller</span>
+                        <span style="font-size: 9pt; font-family: Arial, sans-serif; color: red;"><b>{{book.driver.firstname}}</b> {{book.driver.lastname}}</span>
                     </p>
                 </td>
             </tr>
             <tr>
                 <td width="151" valign="top" style="width: 4cm; border-style: none solid solid; border-right-color: white; border-bottom-color: white; border-left-color: white; border-right-width: 1.5pt; border-bottom-width: 1.5pt; border-left-width: 1.5pt; padding: 0.75pt 0.75pt 0.75pt 2.85pt;">
                     <p class="MsoNormal" style="margin: 0cm 0cm 0.0001pt; font-size: 12pt; font-family: 'TimesNew Roman', serif;">
-                        <span style="font-size: 9pt; font-family: Arial, sans-serif; color: red;">Chauffeur Mobile</span>
+                        <span style="font-size: 9pt; font-family: Arial, sans-serif; color: red;">Greeter Mobile</span>
                     </p>
                 </td>
                 <td valign="top" style="border-style: none solid solid none; border-bottom-color: white; border-bottom-width: 1.5pt; border-right-color: white; border-right-width: 1.5pt; padding: 0.75pt 0.75pt 0.75pt 2.85pt;">
                     <p class="MsoNormal" style="margin: 0cm 0cm 0.0001pt; font-size: 12pt; font-family: 'Times New Roman', serif;">
-                        <span style="font-size: 9pt; font-family: Arial, sans-serif; color: red;">&#43;49 (172) 3042700</span>
+                        <span style="font-size: 9pt; font-family: Arial, sans-serif; color: red;">{{book.driver.phone}}</span>
                     </p>
                 </td>
             </tr>
-            <tr>
-                <td width="151" valign="top" style="width: 4cm; border-style: none solid solid; border-right-color: white; border-bottom-color: white; border-left-color: white; border-right-width: 1.5pt; border-bottom-width: 1.5pt; border-left-width: 1.5pt; padding: 0.75pt 0.75pt 0.75pt 2.85pt;">
-                    <p class="MsoNormal" style="margin: 0cm 0cm 0.0001pt; font-size: 12pt; font-family: 'Times New Roman', serif;">
-                        <span style="font-size: 9pt; font-family: Arial, sans-serif; color: red;">Registration No.</span>
-                    </p>
-                </td>
-                <td valign="top" style="border-style: none solid solid none; border-bottom-color: white; border-bottom-width: 1.5pt; border-right-color: white; border-right-width: 1.5pt; padding: 0.75pt 0.75pt 0.75pt 2.85pt;">
-                    <p class="MsoNormal" style="margin: 0cm 0cm 0.0001pt; font-size: 12pt; font-family: 'Times New Roman', serif;">
-                        <span style="font-size: 9pt; font-family: Arial, sans-serif; color: red;">B-IL 418</span>
-                    </p>
-                </td>
-            </tr>
+            {% endif %}
             <tr>
                 <td width="151" valign="top" style="width: 4cm; border-style: none solid solid; border-right-color: white; border-bottom-color: white; border-left-color: white; border-right-width: 1.5pt; border-bottom-width: 1.5pt; border-left-width: 1.5pt; padding: 0.75pt 0.75pt 0.75pt 2.85pt;">
                     <p style="margin: 0cm 0cm 0.0001pt; font-size: 12pt; font-family: 'Times New Roman', serif;">
@@ -302,7 +278,7 @@
                         <span style="font-size: 9pt; font-family: Arial, sans-serif;"><br></span>
                     </p>
                     <p class="MsoNormal" style="margin: 0cm 0cm 0.0001pt; font-size: 12pt; font-family: 'Times New Roman', serif;">
-                        <span style="font-size: 9pt; font-family: Arial, sans-serif;">-</span>
+                        <span style="font-size: 9pt; font-family: Arial, sans-serif;">{{book.note}}</span>
                     </p>
                 </td>
             </tr>
@@ -311,6 +287,7 @@
     <p style="margin: 0cm 0cm 0.0001pt; font-family: 'Times New Roman', serif; color: rgb(0, 0, 0);">
         <span lang="EN" style="font-size: 9pt; font-family: Arial, sans-serif;">&nbsp;</span>
     </p>
+    <p>You can follow your book <a href="{{ path('show', {'id': book.id}) }}" class="btn btn-default">here</a></p>
     <p style="margin: 0cm 0cm 0.0001pt; font-family: 'Times New Roman', serif; color: rgb(0, 0, 0);">
         <span lang="EN" style="font-size: 9pt; font-family: Arial, sans-serif;">We are pleased to arrange this journey for you.<br>Please feel free to contact us incase of any questions.</span>
     </p>

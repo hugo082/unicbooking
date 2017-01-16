@@ -16,6 +16,8 @@ admin:
             lname: Lastname
             phone: Phone
             go: Create
+    user:
+        title: User registration
 
 show:
     admin:
@@ -25,7 +27,7 @@ show:
         desc: Book %id% can not be found
         content: Book %id% is not present on our database. %ls%Try again%le%.
     form:
-        driver: Driver
+        driver: Greeter
         go: Select
 
 manage:
@@ -85,7 +87,8 @@ book:
         chilu2y: Children (under 2 years)
         cust: Customers
         nameboard: Name Board
-        bags: Bags
+        bags: Porterage
+        note: Note / Special requirement
         select:
             placeholder: - Select -
 
@@ -103,3 +106,9 @@ cust:
         sexe:
             male: Male
             femelle: Femelle
+
+agent:
+    username: Username
+    fname: Firstname
+    lname: Lastname
+    email: Email

@@ -21,7 +21,11 @@ class DefaultController extends Controller
     public function indexAction(Request $request)
     {
         $user = $this->getUser();
-        $books = $this->getDoctrine()->getRepository('AppBundle:Book')->getLast($user);
+        if ($this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
+            $books = $this->getDoctrine()->getRepository('AppBundle:Book')->getLast();
+        } else {
+            $books = $this->getDoctrine()->getRepository('AppBundle:Book')->getUserLast($user);
+        }
         //$books = $user->getBooks(); FOR ALL
 
         $data = array();

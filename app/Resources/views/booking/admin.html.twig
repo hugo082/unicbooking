@@ -5,7 +5,7 @@
 {% block stylesheets %}
 {{parent()}}
 <style media="screen">
-#content {
+#content::before {
     background: url("{{ asset('bundles/booking/img/24725242_l.jpg') }}") no-repeat 75% top;
     background-size: cover;
 }
@@ -47,6 +47,40 @@
             </div>
             <button type="submit" name="button" class="btn btn-primary">{{ 'admin.driver_add.form.go'|trans }}</button>
             {{ form_end(form) }}
+        </div>
+    </div>
+
+    <div class="card">
+        <h3 class="card-header">{{ 'admin.user.title'|trans }}</h3>
+        <div class="card-block">
+            {% if w_users is empty %}
+            No pending registration
+            {% else %}
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th class="hidden-xs">{{ 'agent.username'|trans }}</th>
+                        <th>{{ 'agent.fname'|trans }}</th>
+                        <th>{{ 'agent.laname'|trans }}</th>
+                        <th>{{ 'agent.email'|trans }}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for user in w_users %}
+                    <tr>
+                        <td class="hidden-xs">{{user.username}}</td>
+                        <td>{{user.firstname}}</td>
+                        <td>{{user.lastname}}</td>
+                        <td>{{user.email}}</td>
+                        <td>
+                            <a href="{{ path('admin.answer.user', {'id':user.id, 'state':'ACC'})}}" type="button" class="btn btn-success">{{ 'book.state.wait.admin.acc'|trans }}</a>
+                            <a href="{{ path('admin.answer.user', {'id':user.id, 'state':'REJ'})}}" type="button" class="btn btn-danger">{{ 'book.state.wait.admin.ref'|trans }}</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% endif %}
         </div>
     </div>
 </div>

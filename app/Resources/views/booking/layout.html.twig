@@ -18,13 +18,7 @@
 
 <header class="navbar" role="navigation" id="head">
     <a href="{{ path('homepage') }}" class="navbar-brand sec" id="logo">
-        <style media="screen">
-            .logo {
-                background-image: url({{ asset('bundles/booking/img/logo.svg') }});
-            }
-        </style>
-        <span class="logo"></span>
-        <span class="text">EXPERT WEBOOKING</span>
+        <span class="text">UNIC WEBOOKING</span>
     </a>
     <span class="navbar-brand sec hidden-xs" id="info">
         <style media="screen">
@@ -45,8 +39,13 @@
                 <a href="{{ path('fos_user_security_logout') }}">
                     {{ 'layout.logout'|trans({}, 'FOSUserBundle') }}
                 </a>
+                {% if is_granted("ROLE_ADMIN") %}
                 <a class="marg label label-info" href="{{ path('admin') }}">
                     Admin
+                </a>
+                {% endif %}
+                <a class="marg label label-info" href="{{ path('booknow') }}">
+                    Book Now
                 </a>
             </h5>
         </div>

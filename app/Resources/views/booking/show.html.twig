@@ -7,7 +7,7 @@
 <link rel="stylesheet" href="{{ asset('bundles/booking/css/book.css') }}">
 <link rel="stylesheet" href="{{ asset('bundles/booking/css/manage.css') }}">
 <style media="screen">
-#content {
+#content::before {
     background: url("{{ asset('bundles/booking/img/24725242_l.jpg') }}") no-repeat 75% top;
     background-size: cover;
 }
@@ -26,28 +26,35 @@
 
     {% if is_granted('ROLE_ADMIN') %}
     <div class="card">
-        <h3 class="card-header">{{ 'show.admin.title'|trans }}</h3>
-        <div class="card-block">
-            {% form_theme form 'bootstrap_3_layout.html.twig' %}
-            {{ form_start(form) }}
-                <div class="input-group row col-md-12 col-sm-12 col-xs-12 col-lg-12">
-                    <div class="col-md-4 col-sm-6 col-lg-4">
-                        {{ form_label(form.driver) }}
-                        {{ form_errors(form.driver) }}
-                        {{ form_widget(form.driver) }}
-                    </div>
-                </div>
-            <button type="submit" name="button" class="btn btn-primary">{{ 'show.form.go'|trans }}</button>
-            {{ form_end(form) }}
+        <h3 class="card-header">
+            {{ 'show.admin.title'|trans }}
             {% if book.state == 'WAITING' %}
-            <h5>{{ 'book.state.wait.admin.log'|trans }}</h5>
-            <a href="{{ path('admin.answer', {'id':book.id, 'state':'ACC'})}}" type="button" class="btn btn-success">{{ 'book.state.wait.admin.acc'|trans }}</a>
-            <a href="{{ path('admin.answer', {'id':book.id, 'state':'REJ'})}}" type="button" class="btn btn-danger">{{ 'book.state.wait.admin.ref'|trans }}</a>
+            <span class="label label-default">{{ 'book.state.wait.title'|trans }}</span>
             {% elseif book.state == 'ACCEPTED' %}
             <span class="label label-success">{{ 'book.state.acc.title'|trans }}</span>
             {% elseif book.state == 'REFUSED' %}
             <span class="label label-danger">{{ 'book.state.ref.title'|trans }}</span>
             {% endif %}
+        </h3>
+        <div class="card-block">
+            {% if book.state == 'WAITING' %}
+            <div class="action">
+                <h5>{{ 'book.state.wait.admin.log'|trans }}</h5>
+                <a href="{{ path('admin.answer.book', {'id':book.id, 'state':'ACC'})}}" type="button" class="btn btn-success">{{ 'book.state.wait.admin.acc'|trans }}</a>
+                <a href="{{ path('admin.answer.book', {'id':book.id, 'state':'REJ'})}}" type="button" class="btn btn-danger">{{ 'book.state.wait.admin.ref'|trans }}</a>
+            </div>
+            {% endif %}
+            {% form_theme form 'bootstrap_3_layout.html.twig' %}
+            {{ form_start(form) }}
+            <div class="input-group row col-md-12 col-sm-12 col-xs-12 col-lg-12">
+                <div class="col-md-4 col-sm-6 col-lg-4">
+                    {{ form_label(form.driver) }}
+                    {{ form_errors(form.driver) }}
+                    {{ form_widget(form.driver) }}
+                </div>
+            </div>
+            <button type="submit" name="button" class="btn btn-primary">{{ 'show.form.go'|trans }}</button>
+            {{ form_end(form) }}
         </div>
     </div>
     {% else %}
@@ -59,7 +66,31 @@
     <div class="alert alert-danger"><strong>{{ 'book.state.ref.title'|trans }}</strong> {{ 'book.state.ref.content'|trans }}</div>
     {% endif %}
     {% endif %}
-
+    <div class="card">
+        <h3 class="card-header">Agent</h3>
+        <div class="card-block">
+            <table class="table">
+                <tbody>
+                    <tr>
+                        <td class="col-md-6">{{ 'agent.username'|trans }}</td>
+                        <td class="value">{{book.user.username}}</td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-6">{{ 'agent.fname'|trans }}</td>
+                        <td class="value"><span id="fdate">{{book.user.firstname}}</span></td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-6">{{ 'agent.lname'|trans }}</td>
+                        <td class="value"><span id="fdate">{{book.user.lastname}}</span></td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-6">{{ 'agent.email'|trans }}</td>
+                        <td class="value"><span id="fdate">{{book.user.email}}</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
     <div class="card">
         <h3 class="card-header">Service</h3>
         <div class="card-block">

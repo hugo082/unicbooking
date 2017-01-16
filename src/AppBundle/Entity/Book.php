@@ -148,6 +148,12 @@ class Book
     */
     private $driver;
 
+    /**
+    * @var text
+    * @ORM\Column(name="note", type="text", nullable=true)
+    */
+    private $note;
+
 
     /**
     * Get id
@@ -572,5 +578,29 @@ class Book
     public function getDriver()
     {
         return $this->driver;
+    }
+
+    /**
+     * Set note
+     *
+     * @param string $note
+     *
+     * @return Book
+     */
+    public function setNote($note)
+    {
+        $this->note = $note;
+
+        return $this;
+    }
+
+    /**
+     * Get note
+     *
+     * @return string
+     */
+    public function getNote()
+    {
+        return $this->note;
     }
 }

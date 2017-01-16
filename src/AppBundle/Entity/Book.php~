@@ -148,6 +148,12 @@ class Book
     */
     private $driver;
 
+    /**
+    * @var text
+    * @ORM\Column(name="note", type="text", nullable=true)
+    */
+    private $note;
+
 
     /**
     * Get id
@@ -548,5 +554,29 @@ class Book
     public function getState()
     {
         return $this->state;
+    }
+
+    /**
+     * Set driver
+     *
+     * @param \AppBundle\Entity\Driver $driver
+     *
+     * @return Book
+     */
+    public function setDriver(\AppBundle\Entity\Driver $driver = null)
+    {
+        $this->driver = $driver;
+
+        return $this;
+    }
+
+    /**
+     * Get driver
+     *
+     * @return \AppBundle\Entity\Driver
+     */
+    public function getDriver()
+    {
+        return $this->driver;
     }
 }

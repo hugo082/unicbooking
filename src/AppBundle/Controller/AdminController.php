@@ -29,19 +29,44 @@ class AdminController extends Controller
             $em->flush();
         }
 
+        $waitingusers = $this->getDoctrine()->getRepository('AppBundle:User')->findByEnabled(false);
+
         return $this->render('booking/admin.html.twig', array(
             'form' => $form->createView(),
+            'w_users' => $waitingusers
         ));
     }
 
     /**
-    * @Route("/admin/answer/{id}/{state}", name="admin.answer",
+    * @Route("/admin/answer/user/{id}/{state}", name="admin.answer.user")
+    */
+    public function answerUserAction(Request $request, $id, $state)
+    {
+        $user = $this->getDoctrine()->getRepository('AppBundle:User')->find($id);
+        if (!$user) {
+            throw $this->createNotFoundException(
+                'No user found for id '.$id
+            );
+        }
+        $em = $this->getDoctrine()->getManager();
+        if ($state == "ACC") {
+            $user->setEnabled(true);
+            $em->persist($user);
+        } else {
+            $em->remove($user);
+        }
+        $em->flush();
+        return $this->redirectToRoute('admin');
+    }
+
+    /**
+    * @Route("/admin/answer/book/{id}/{state}", name="admin.answer.book",
     *     requirements={
     *         "id": "\d+",
     *         "state": "REJ|ACC"
     *     })
     */
-    public function answerAction(Request $request, $id, $state)
+    public function answerBookAction(Request $request, $id, $state)
     {
         $book = $this->getDoctrine()->getRepository('AppBundle:Book')->find($id);
         if (!$book) {

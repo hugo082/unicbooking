@@ -10,7 +10,17 @@ namespace AppBundle\Repository;
 */
 class BookRepository extends \Doctrine\ORM\EntityRepository
 {
-    public function getLast($user, $size = 10){
+    public function getLast($size = 20){
+        $qb = $this->createQueryBuilder('b');
+
+        return $qb
+        ->orderBy('b.id', 'DESC')
+        ->getQuery()
+        ->setMaxResults($size)
+        ->getResult();
+    }
+
+    public function getUserLast($user, $size = 10){
         $qb = $this->createQueryBuilder('b');
 
         $qb

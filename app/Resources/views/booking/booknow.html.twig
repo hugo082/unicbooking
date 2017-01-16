@@ -6,16 +6,32 @@
 {{parent()}}
 <link rel="stylesheet" href="{{ asset('bundles/booking/css/book.css') }}">
 <style media="screen">
-#content {
-    background: url("{{ asset('bundles/booking/img/login.jpg') }}") no-repeat 75% top;
+#content::before {
+    background: url("{{ asset('bundles/booking/img/24725242_l.jpg') }}") no-repeat 75% top;
     background-size: cover;
 }
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+table {
+    font-size: 1em;
+}
+
+.ui-draggable, .ui-droppable {
+    background-position: top;
+}
+
+
 </style>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 {% endblock %}
 
 
 {% block headscripts %}
 {{parent()}}
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 {% endblock %}
 
 {% block content %}
@@ -60,6 +76,38 @@
             {{ form_errors(form.flight) }}
             {{ form_widget(form.flight) }}
         </div>
+        <button type="button" class="info btn btn-primary" data-toggle="modal" data-target="#infoModal">
+            <span class="glyphicon glyphicon-info-sign"></span>
+        </button>
+        <!-- Modal -->
+        <div id="infoModal" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Include</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>Gold : One Person and 2 bagages included</p>
+                        <p>Platinium : One Person and 2 bagages included</p>
+                        <p>Pack Family : 4 Person + 6 bagages + Transportation (Mercedes Van or equivalent)</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="input-group row col-md-12 col-sm-12 col-xs-12 col-lg-12" id="bags">
+        <div class="col-md-3 col-sm-6 col-lg-3">
+            {{ form_label(form.bags) }}
+            {{ form_errors(form.bags) }}
+            {{ form_widget(form.bags) }}
+        </div>
     </div>
     <div class="input-group row hidden col-md-12 col-sm-12 col-xs-12 col-lg-12" id="address">
         <div class="col-lg-3 col-md-4 col-sm-6">
@@ -95,15 +143,15 @@
         {{ form_row(form.customers) }}
     </div>
     <div class="input-group row col-md-12 col-sm-12 col-xs-12 col-lg-12" style="/*color:#ddd*/" id="service">
-        <div class="col-md-3 col-sm-6 col-lg-3">
+        <div class="col-md-6 col-sm-6 col-lg-5">
             {{ form_label(form.nameboard) }}
             {{ form_errors(form.nameboard) }}
             {{ form_widget(form.nameboard) }}
         </div>
-        <div class="col-md-3 col-sm-6 col-lg-3">
-            {{ form_label(form.bags) }}
-            {{ form_errors(form.bags) }}
-            {{ form_widget(form.bags) }}
+        <div class="col-md-6 col-sm-6 col-lg-5">
+            {{ form_label(form.note) }}
+            {{ form_errors(form.note) }}
+            {{ form_widget(form.note) }}
         </div>
     </div>
 </div>

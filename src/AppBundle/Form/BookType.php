@@ -11,6 +11,7 @@ use AppBundle\Form\CustomerType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -40,10 +41,12 @@ class BookType extends AbstractType
                 'book.form.dep' => 'DEP',
                 'book.form.arr' => 'ARR'
             ),
+            'placeholder' => 'book.form.select.placeholder',
             'label' => 'book.form.rqserv'
         ))
         ->add('product', EntityType::class,
         array('class' => 'AppBundle:Product',
+        'placeholder' => 'book.form.select.placeholder',
         'choice_label' => function ($p) {return $p->getFullName();},
         'label' => 'book.form.prod'))
         ->add('flight', EntityType::class, array( 'class' => 'AppBundle:Flight',
@@ -51,6 +54,9 @@ class BookType extends AbstractType
         'label' => 'book.form.flight',
         'placeholder' => 'book.form.select.placeholder',
         'choice_attr' => function($f) {return ['is' => $f->getType()];}
+        ))
+        ->add('bags', IntegerType::class, array(
+            'label' => 'book.form.bags'
         ))
         ->add('addresspu', TextType::class, array(
             'label' => "book.form.addpu",
@@ -72,12 +78,13 @@ class BookType extends AbstractType
             'allow_delete' => true,
             'label' => 'book.form.cust'
         ))
-        ->add('nameboard', TextType::class, array(
+        ->add('nameboard', TextareaType::class, array(
             'label' => 'book.form.nameboard',
             'required' => false
         ))
-        ->add('bags', IntegerType::class, array(
-            'label' => 'book.form.bags'
+        ->add('note', TextareaType::class, array(
+            'label' => 'book.form.note',
+            'required' => false
         ));
     }
 

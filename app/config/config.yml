@@ -76,3 +76,6 @@ fos_user:
     db_driver: orm # 'mongodb' or 'couchdb'
     firewall_name: main
     user_class: AppBundle\Entity\User
+    registration:
+        form:
+            type: AppBundle\Form\RegistrationType
