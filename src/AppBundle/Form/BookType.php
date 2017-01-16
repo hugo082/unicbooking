@@ -86,7 +86,8 @@ class BookType extends AbstractType
         ->add('timepu', TimeType::class, array(
             'label' => "book.form.timepu",
             'required' => false,
-            'widget' => 'single_text'
+            'widget' => 'single_text',
+            'input' => 'string'
         ))
         ->add('addresspu', TextType::class, array(
             'label' => "book.form.addpu",

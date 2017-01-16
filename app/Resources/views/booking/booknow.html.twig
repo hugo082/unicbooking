@@ -26,18 +26,24 @@ table {
 
 </style>
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<link rel="stylesheet" href="{{ asset('bundles/booking/css/datetimepicker.min.css') }}">
+<link rel="stylesheet" href="{{ asset('bundles/booking/css/timepicker.min.css') }}">
 {% endblock %}
 
 
 {% block headscripts %}
 {{parent()}}
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="{{ asset('bundles/booking/js/datetimepicker.min.js') }}"></script>
+<script src="{{ asset('bundles/booking/js/timepicker.min.js') }}"></script>
 {% endblock %}
 
 {% block content %}
 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 {% form_theme form 'bootstrap_3_layout.html.twig' %}
 {% form_theme form.customers 'form/form_collection.html.twig' %}
+{% form_theme form.timepu 'form/form_div_layout.html.twig' %}
+{% form_theme form.date 'form/form_div_layout.html.twig' %}
 
 <!-- <form action="index.html" method="post"> -->
 {{ form_start(form) }}
@@ -55,9 +61,7 @@ table {
         <div class="col-md-4 col-sm-6 col-lg-4">
             {{ form_label(form.date) }}
             {{ form_errors(form.date) }}
-            <div class="input-group date">
-                {{ form_widget(form.date) }}<span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
-            </div>
+            {{ form_widget(form.date) }}
         </div>
     </div>
     <div class="input-group row col-md-12 col-sm-12 col-xs-12 col-lg-12" id="service">

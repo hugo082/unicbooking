@@ -123,7 +123,7 @@ class Book
     /**
     * @var string
     *
-    * @ORM\Column(name="timepu", type="time", nullable=true)
+    * @ORM\Column(name="timepu", type="string", length=255, nullable=true)
     */
     private $timepu;
 
