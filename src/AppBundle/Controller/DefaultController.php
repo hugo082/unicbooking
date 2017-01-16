@@ -149,7 +149,7 @@ class DefaultController extends Controller
     {
         $message = \Swift_Message::newInstance()
         ->setSubject('Unic Webooking • Acknowledgment of receipt')
-        ->setFrom(array('booking@unicairport.com' => 'Unic Webooking'))
+        ->setFrom(array('admin@unicairport.com' => 'Unic Webooking'))
         ->setTo($book->getUser()->getEmail())
         ->setBody($this->renderView('Emails/waiting.html.twig', array(
             'book' => $book,

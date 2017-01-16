@@ -94,7 +94,7 @@ class AdminController extends Controller
         }
         $message = \Swift_Message::newInstance()
         ->setSubject($subject)
-        ->setFrom(array('booking@unicairport.com' => 'Unic Webooking'))
+        ->setFrom(array('admin@unicairport.com' => 'Unic Webooking'))
         ->setTo($book->getUser()->getEmail())
         ->setBody($this->renderView($template, array(
             'book' => $book,
