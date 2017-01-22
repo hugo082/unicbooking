@@ -52,6 +52,11 @@
                     {{ form_errors(form.driver) }}
                     {{ form_widget(form.driver) }}
                 </div>
+                <div class="col-md-4 col-sm-6 col-lg-4">
+                    {{ form_label(form.greeter) }}
+                    {{ form_errors(form.greeter) }}
+                    {{ form_widget(form.greeter) }}
+                </div>
             </div>
             <button type="submit" name="button" class="btn btn-primary">{{ 'show.form.go'|trans }}</button>
             {{ form_end(form) }}
@@ -77,15 +82,15 @@
                     </tr>
                     <tr>
                         <td class="col-md-6">{{ 'agent.fname'|trans }}</td>
-                        <td class="value"><span id="fdate">{{book.user.firstname}}</span></td>
+                        <td class="value"><span id="fdate">{{book.agentfirstname}}</span></td>
                     </tr>
                     <tr>
                         <td class="col-md-6">{{ 'agent.lname'|trans }}</td>
-                        <td class="value"><span id="fdate">{{book.user.lastname}}</span></td>
+                        <td class="value"><span id="fdate">{{book.agentlastname}}</span></td>
                     </tr>
                     <tr>
                         <td class="col-md-6">{{ 'agent.email'|trans }}</td>
-                        <td class="value"><span id="fdate">{{book.user.email}}</span></td>
+                        <td class="value"><span id="fdate">{{book.agentemail}}</span></td>
                     </tr>
                 </tbody>
             </table>

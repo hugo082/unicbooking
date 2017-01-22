@@ -11,10 +11,6 @@
     background-size: cover;
 }
 
-body {
-    font-family: Arial, Helvetica, sans-serif;
-}
-
 table {
     font-size: 1em;
 }
@@ -48,6 +44,26 @@ table {
 <!-- <form action="index.html" method="post"> -->
 {{ form_start(form) }}
 <div class="form-group">
+    <h2 class="title padd contentAnim" title="Select Service type for your booking">
+        <span>Agent</span>
+    </h2>
+    <div class="input-group row col-md-12 col-sm-12 col-xs-12 col-lg-12">
+        <div class="col-md-4 col-sm-4 col-lg-4">
+            {{ form_label(form.agentemail) }}
+            {{ form_errors(form.agentemail) }}
+            {{ form_widget(form.agentemail) }}
+        </div>
+        <div class="col-md-4 col-sm-4 col-lg-4">
+            {{ form_label(form.agentfirstname) }}
+            {{ form_errors(form.agentfirstname) }}
+            {{ form_widget(form.agentfirstname) }}
+        </div>
+        <div class="col-md-4 col-sm-4 col-lg-4">
+            {{ form_label(form.agentlastname) }}
+            {{ form_errors(form.agentlastname) }}
+            {{ form_widget(form.agentlastname) }}
+        </div>
+    </div>
     <h2 class="title padd contentAnim" title="Select Service type for your booking">
         <strong>01.</strong>
         <span> {{ 'book.title.service'|trans }}</span>
@@ -94,7 +110,7 @@ table {
                         <h4 class="modal-title">Include</h4>
                     </div>
                     <div class="modal-body">
-                        <p>Gold : One Person and 2 bagages included</p>
+                        <p>Gold : 1 Person and 2 bagages included</p>
                         <p>Platinium : 1 Person and 2 bagages included</p>
                         <p>Pack Family : 4 Persons + 6 bagages + Transportation (Mercedes Van or equivalent)</p>
                     </div>
@@ -114,7 +130,7 @@ table {
         </div>
     </div>
     <div class="input-group row hidden col-md-12 col-sm-12 col-xs-12 col-lg-12" id="address">
-        <div class="col-lg-3 col-md-4 col-sm-6">
+        <div class="col-lg-3 col-md-4 col-sm-6 hidden" id="addresse_timepu">
             {{ form_label(form.timepu) }}
             {{ form_errors(form.timepu) }}
             {{ form_widget(form.timepu) }}
@@ -137,15 +153,19 @@ table {
         <span> {{ 'book.title.cust'|trans }}</span>
     </h2>
     <div class="input-group row col-md-12 col-sm-12 col-xs-12 col-lg-12" id="customer">
-        <div class="col-lg-3 col-md-3">
+        <div class="col-lg-4 col-md-4 col-sm-5 col-xs-6 little-field">
             {{ form_label(form.adultcus) }}
             {{ form_errors(form.adultcus) }}
-            {{ form_widget(form.adultcus) }}
+            <div class="col-lg-4 col-md-4 col-sm-5 col-xs-5">
+                {{ form_widget(form.adultcus) }}
+            </div>
         </div>
-        <div class="col-lg-3 col-md-3">
+        <div class="col-lg-4 col-md-4 col-sm-5 col-xs-6 little-field">
             {{ form_label(form.childcus) }}
             {{ form_errors(form.childcus) }}
-            {{ form_widget(form.childcus) }}
+            <div class="col-lg-4 col-md-4 col-sm-5 col-xs-5">
+                {{ form_widget(form.childcus) }}
+            </div>
         </div>
     </div>
     <div class="input-group row col-md-12 col-sm-12 col-xs-12 col-lg-12" id="address">

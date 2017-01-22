@@ -1,0 +1,110 @@
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+    {% set color_main = '#b29600' %}
+    {% set cmpn_name = 'Qatar Airlines' %}
+
+    <style media="screen">
+    a {
+        color: {{ color_main }};
+    }
+    body {
+        font-family: Arial, sans-serif;
+    }
+    body .important {
+        font-size: 14pt;
+        color: {{ color_main }};
+    }
+    body .info {
+        font-size: 9pt;
+    }
+    body .content p {
+        margin: 5px 0;
+    }
+
+    .book-info {
+        margin: 20px 10px;
+    }
+    .desc{
+        margin: 5px 10px;
+    }
+    </style>
+
+</head>
+<body lang="fr-FR">
+    <div>
+        <table cellpadding="0" width="680" border="0" style="width:18cm;">
+            <tbody>
+                <tr style="height: 48.2pt;">
+                    <td style="padding: 0cm; height: 48.2pt;">
+                        <table>
+                            <tbody>
+                                <tr class="important">
+                                    <td valign="bottom">
+                                        <p>
+                                            <b><i><span>UNIC Webooking</span></i></b>
+                                        </p>
+                                    </td>
+                                </tr>
+                                <tr class="content">
+                                    <td valign="top">
+                                        <p align="right">
+                                            <b>
+                                                <span class="info important">24/7. &#43;33 184 194 847</span>
+                                            </b>
+                                        </p>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                    <td rowspan="3" valign="top" style="padding: 0cm; height: 48.2pt;">
+                        <p class="MsoNormal" align="right" style="margin: 0cm 0cm 0.0001pt; text-align: right;">
+                            <a href="{{ absolute_url(path('homepage')) }}" target="_BLANK" style="color: purple;">
+                                <span style="border: 1pt none windowtext; padding: 0cm; text-decoration:none;">
+                                    <img id="_x0000_i1034" src="{{ absolute_url(asset('bundles/booking/img/logo.png')) }}" alt="interline logo" height="200" width="200" border="0">
+                                </span>
+                            </a>
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+
+                    <td style="padding: 0cm;">
+                        <p class="info">
+                            <span>Paris - France</span>
+                        </p>
+                        <div class="info book-info">
+                            {% if is_admin %}
+                            <span>Booking compagnie : {{cmpn_name}}</span><br>
+                            <span>Booking user :</span>
+                            <p class="desc">
+                                <span>Username : {{user.username}}</span><br>
+                                <span>Firstname : {{user.firstname}}</span><br>
+                                <span>Lastname : {{user.Lastname}}</span><br>
+                                <span>email : {{user.email}}</span><br>
+                            </p>
+                            {% endif %}
+                            <span>Booking agent :</span>
+                            <p class="desc">
+                                <span>Firstname : {{book.agentfirstname}}</span><br>
+                                <span>Lastname : {{book.agentLastname}}</span><br>
+                                <span>email : {{book.agentemail}}</span><br>
+                            </p>
+                        </div>
+                    </td>
+                </tr>
+                <tr style="height:22.5pt;">
+                    <td valign="bottom" style="padding: 0cm; height: 22.5pt;">
+                        {% block pack %}{% endblock %}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div id="content">
+        {% block content %}{% endblock %}
+        </div>
+    </div>
+</body>
+</html>

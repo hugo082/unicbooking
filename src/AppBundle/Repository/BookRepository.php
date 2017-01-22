@@ -20,17 +20,20 @@ class BookRepository extends \Doctrine\ORM\EntityRepository
         ->getResult();
     }
 
-    public function getUserLast($user, $size = 10){
+    public function getOneMonthLast($user){
         $qb = $this->createQueryBuilder('b');
 
-        $qb
-        ->orderBy('b.id', 'DESC')
-        ->where('b.user = :user')
+        $qb->select('b')
+        ->where('b.creationdate <= :limit_top')
+        ->setParameter('limit_top', new \DateTime())
+        ->andwhere('b.creationdate >= :limit_bottom')
+        ->setParameter('limit_bottom', new \DateTime("-1 month"))
+        ->andwhere('b.user = :user')
         ->setParameter('user', $user);
 
         return $qb
         ->getQuery()
-        ->setMaxResults($size)
+        // ->setMaxResults($size)
         ->getResult();
     }
 

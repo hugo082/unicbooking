@@ -1,0 +1,38 @@
+{% extends 'Emails/base.html.twig' %}
+
+{% block more_info %}
+<div class="info book-info">
+    <span>Booking compagnie : {{cmpn_name}}</span><br>
+    <span>Booking user :</span>
+    <p class="desc">
+        <span>Username : {{user.username}}</span><br>
+        <span>Firstname : {{user.firstname}}</span><br>
+        <span>Lastname : {{user.Lastname}}</span><br>
+        <span>email : {{user.email}}</span><br>
+    </p>
+    <span>Booking agent :</span>
+    <p class="desc">
+        <span>Firstname : {{book.agentfirstname}}</span><br>
+        <span>Lastname : {{book.agentLastname}}</span><br>
+        <span>email : {{book.agentemail}}</span><br>
+    </p>
+</div>
+{% endblock %}
+
+{% block pack %}
+<b><span class="important">Book Pack {{book.product.name}}</span></b>
+{% endblock %}
+
+{% block content %}
+<p>
+    <span class="info">Dear All,</span>
+</p>
+<p>
+    <span class="info">we herewith confirm your reservation with greeter and driver details:</span>
+</p>
+{% include 'Emails/content.html.twig' %}
+<p>You can follow your book <a href="{{ path('show', {'id': book.id}) }}">here</a></p>
+<p>
+    <span class="info">We are pleased to arrange this journey for you.<br>Please feel free to contact us incase of any questions.</span>
+</p>
+{% endblock %}

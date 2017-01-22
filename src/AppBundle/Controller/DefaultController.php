@@ -11,7 +11,7 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
 use AppBundle\Entity\Book;
 use AppBundle\Form\BookType;
-use AppBundle\Form\BookDriverType;
+use AppBundle\Form\BookEmployeeType;
 
 class DefaultController extends Controller
 {
@@ -24,7 +24,7 @@ class DefaultController extends Controller
         if ($this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
             $books = $this->getDoctrine()->getRepository('AppBundle:Book')->getLast();
         } else {
-            $books = $this->getDoctrine()->getRepository('AppBundle:Book')->getUserLast($user);
+            $books = $this->getDoctrine()->getRepository('AppBundle:Book')->getOneMonthLast($user);
         }
         //$books = $user->getBooks(); FOR ALL
 
@@ -60,6 +60,7 @@ class DefaultController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
             $cus = $book->getCustomers();
+            $book->setCreationdate(new \DateTime());
             $book->setUser($user);
             $book->setState("WAITING");
             foreach ($cus as $c) {
@@ -81,7 +82,8 @@ class DefaultController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->persist($book);
             $em->flush();
-            $this->sendEmail($book);
+            $this->sendEmail($book, true);
+            $this->sendEmail($book, false);
             return $this->redirectToRoute('show', array('id' => $book->getId()));
         }
 
@@ -102,7 +104,7 @@ class DefaultController extends Controller
             ));
         }
 
-        $form = $this->createForm(BookDriverType::class, $book);
+        $form = $this->createForm(BookEmployeeType::class, $book);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -141,19 +143,21 @@ class DefaultController extends Controller
 
         return $this->render('Emails/confirmation.html.twig', array(
             'book' => $book,
-            'user' => $user
+            'user' => $user,
+            'is_admin' => true
         ));
     }
 
-    private function sendEmail($book)
+    private function sendEmail($book, $admin)
     {
         $message = \Swift_Message::newInstance()
         ->setSubject('Unic Webooking • Acknowledgment of receipt')
         ->setFrom(array('admin@unicairport.com' => 'Unic Webooking'))
-        ->setTo($book->getUser()->getEmail())
+        ->setTo(($admin) ? 'booking@unicvip.com' : $book->getUser()->getEmail())
         ->setBody($this->renderView('Emails/waiting.html.twig', array(
             'book' => $book,
-            'user' => $book->getUser()
+            'user' => $book->getUser(),
+            'is_admin' => $admin
         )),'text/html');
         $this->get('mailer')->send($message);
     }

@@ -13,4 +13,5 @@ web_profiler:
     intercept_redirects: false
 
 swiftmailer:
+    delivery_addresses: ['hugo-boss12@hotmail.fr']
     disable_delivery: true

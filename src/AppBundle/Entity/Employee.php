@@ -5,12 +5,12 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Driver
+ * Employee
  *
- * @ORM\Table(name="driver")
- * @ORM\Entity(repositoryClass="AppBundle\Repository\DriverRepository")
+ * @ORM\Table(name="employee")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\EmployeeRepository")
  */
-class Driver
+class Employee
 {
     /**
      * @var int
@@ -66,7 +66,7 @@ class Driver
      *
      * @param string $firstname
      *
-     * @return Driver
+     * @return Employee
      */
     public function setFirstname($firstname)
     {
@@ -90,7 +90,7 @@ class Driver
      *
      * @param string $lastname
      *
-     * @return Driver
+     * @return Employee
      */
     public function setLastname($lastname)
     {
@@ -114,7 +114,7 @@ class Driver
      *
      * @param string $phone
      *
-     * @return Driver
+     * @return Employee
      */
     public function setPhone($phone)
     {

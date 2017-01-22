@@ -8,7 +8,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 
-class DriverType extends AbstractType
+class EmployeeType extends AbstractType
 {
     /**
      * {@inheritdoc}
@@ -33,7 +33,7 @@ class DriverType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\Driver'
+            'data_class' => 'AppBundle\Entity\Employee'
         ));
     }
 
@@ -42,7 +42,7 @@ class DriverType extends AbstractType
      */
     public function getBlockPrefix()
     {
-        return 'appbundle_driver';
+        return 'appbundle_employee';
     }
 
 

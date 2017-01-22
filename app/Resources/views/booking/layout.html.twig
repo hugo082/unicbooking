@@ -18,16 +18,17 @@
 
 <header class="navbar" role="navigation" id="head">
     <a href="{{ path('homepage') }}" class="navbar-brand sec" id="logo">
+        <span class="logo"></span>
         <span class="text">UNIC WEBOOKING</span>
     </a>
     <span class="navbar-brand sec hidden-xs" id="info">
-        <style media="screen">
-            .logo {
-                background-image: url({{ asset('bundles/booking/img/logo.svg') }});
-            }
-        </style>
-        <span class="text">{{ 'header.title'|trans }}</span>
-    </span>
+    <style media="screen">
+    .logo {
+        background-image: url({{ asset('bundles/booking/img/QatarAirwaysBrand.svg') }});
+    }
+    </style>
+    <span class="text">{{ 'header.title'|trans }}</span>
+</span>
 </header>
 
 <main id="content">
@@ -44,8 +45,8 @@
                     Admin
                 </a>
                 {% endif %}
-                <a class="marg label label-info" href="{{ path('booknow') }}">
-                    Book Now
+                <a class="marg label label-info" href="{{ path('homepage') }}">
+                    Main
                 </a>
             </h5>
         </div>

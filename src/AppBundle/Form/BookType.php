@@ -12,6 +12,7 @@ use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TimeType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
@@ -25,9 +26,18 @@ class BookType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+        ->add('agentemail', EmailType::class, array(
+            'label' => "agent.email"
+        ))
+        ->add('agentlastname', TextType::class, array(
+            'label' => "agent.lname"
+        ))
+        ->add('agentfirstname', TextType::class, array(
+            'label' => "agent.fname"
+        ))
         ->add('airport', ChoiceType::class, array(
             'choices'  => array(
-                'book.form.cdg' => 'CDG'
+                'book.form.cdg' => 'CDG 1'
             ),
             'label' => 'book.form.air'
         ))
@@ -98,10 +108,12 @@ class BookType extends AbstractType
             'required' => false
         ))
         ->add('adultcus', IntegerType::class, array(
-            'label' => 'book.form.adult'
+            'label' => 'book.form.adult',
+            'data' => '1'
         ))
         ->add('childcus', IntegerType::class, array(
-            'label' => 'book.form.chilu2y'
+            'label' => 'book.form.chilu2y',
+            'data' => '0'
         ))
         ->add('customers', CollectionType::class, array(
             'entry_type'   => CustomerType::class,

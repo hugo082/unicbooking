@@ -56,7 +56,7 @@ class Flight
     {
         $depAir = ($this->type == "DEP") ? "CDG" : "DOH";
         $arrAir = ($this->type == "ARR") ? "CDG" : "DOH";
-        return $this->deptime->format('H:i') . " (" . $depAir . ") → " . $this->arrtime->format('H:i') . " (" . $arrAir . ") " . $this->number;
+        return $this->deptime->format('H:i') . " (" . $depAir . ") → " . $this->arrtime->format('H:i') . " (" . $arrAir . ") QR " . $this->number;
     }
 
 

@@ -10,7 +10,7 @@ header:
 
 admin:
     driver_add:
-        title: Create new greeter
+        title: Create new driver / greeter
         form:
             fname: Firstname
             lname: Lastname
@@ -27,7 +27,8 @@ show:
         desc: Book %id% can not be found
         content: Book %id% is not present on our database. %ls%Try again%le%.
     form:
-        driver: Greeter
+        driver: Driver
+        greeter: Geeter
         go: Select
 
 manage:
@@ -41,7 +42,9 @@ manage:
             go: Find
     last:
         title: Last Books
-        fdate: Flight date
+        booknumber: Number
+        fdate: Date
+        customer: Passenger
         show: Show
 
 book:
@@ -73,7 +76,7 @@ book:
         cust: Total Customers
         final: Finally
     form:
-        cdg: CDG
+        cdg: CDG 1
         air: Airport
         date: Date
         rqserv: Required Service

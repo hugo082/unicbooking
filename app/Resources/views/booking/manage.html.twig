@@ -46,8 +46,10 @@
             <table class="table table-striped">
                 <thead>
                     <tr>
-                        <th class="hidden-xs">{{ 'manage.find.form.number'|trans }}</th>
-                        <th>{{ 'cust.form.fname'|trans }}</th>
+                        <th class="hidden-xs">{{ 'manage.last.booknumber'|trans }}</th>
+                        <th>{{ 'manage.last.customer'|trans }}</th>
+                        <th>{{ 'book.form.prod'|trans }}</th>
+                        <th>{{ 'book.form.flight'|trans }}</th>
                         <th>{{ 'manage.last.fdate'|trans }}</th>
                         <th>{{ 'book.state.title'|trans }}</th>
                     </tr>
@@ -56,7 +58,9 @@
                     {% for book in books %}
                     <tr>
                         <td class="hidden-xs">{{book.id}}</td>
-                        <td>{{book.customers[0].firstname}}</td>
+                        <td>{{book.customers[0].title}} {{book.customers[0].firstname}}</td>
+                        <td>{{book.product.name}}</td>
+                        <td>{{book.flight.fullname}}</td>
                         <td>{{book.date|date("d M Y")}}</td><td>{% if book.state == 'WAITING' %}
                             <span class="label label-default">{{ 'book.state.wait.title'|trans }}</span>
                             {% elseif book.state == 'ACCEPTED' %}

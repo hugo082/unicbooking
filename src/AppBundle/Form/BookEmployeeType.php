@@ -15,7 +15,7 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
-class BookDriverType extends AbstractType
+class BookEmployeeType extends AbstractType
 {
     /**
     * {@inheritdoc}
@@ -24,9 +24,17 @@ class BookDriverType extends AbstractType
     {
         $builder
         ->add('driver', EntityType::class, array(
-            'class' => 'AppBundle:Driver',
+            'class' => 'AppBundle:Employee',
             'choice_label' => function ($p) {return $p->getFullName();},
-            'label' => 'show.form.driver'
+            'label' => 'show.form.driver',
+            'required' => false,
+            'placeholder' => 'book.form.select.placeholder'
+        ))
+        ->add('greeter', EntityType::class, array(
+            'class' => 'AppBundle:Employee',
+            'choice_label' => function ($p) {return $p->getFullName();},
+            'label' => 'show.form.greeter',
+            'placeholder' => 'book.form.select.placeholder'
         ));
     }
 

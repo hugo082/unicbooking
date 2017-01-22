@@ -20,11 +20,31 @@ class CustomerType extends AbstractType
         $builder
         ->add('title', ChoiceType::class, array(
             'choices'  => array(
-                'cust.form.title.mr' => 'MR',
-                'cust.form.title.mrs' => 'MRS',
-                'cust.form.title.ms' => 'MS',
-                'cust.form.title.mstr' => 'MSTR',
-                'na' => 'NA'
+                'Amb' => 'Amb',
+                'Col.' => 'Col.',
+                'Cpt' => 'Cpt',
+                'Dr.' => 'Dr.',
+                'Duke' => 'Duke',
+                'Eng' => 'Eng',
+                'Gen' => 'Gen',
+                'HE' => 'HE',
+                'HRH Prince' => 'HRH Prince',
+                'HRH Princess' => 'HRH Princess',
+                'Hon' => 'Hon',
+                'Lady' => 'Lady',
+                'Lord' => 'Lord',
+                'Miss' => 'Miss',
+                'Mr' => 'Mr',
+                'Mrs' => 'Mrs',
+                'Ms' => 'Ms',
+                'Mstr' => 'Mstr',
+                'Prof' => 'Prof',
+                'Rabbi' => 'Rabbi',
+                'Rev' => 'Rev',
+                'SHK' => 'SHK',
+                'SHKA' => 'SHKA',
+                'Sir' => 'Sir',
+                'N/A' => 'N/A'
             ),
             'label' => false,
             'attr' => array(
@@ -83,5 +103,5 @@ class CustomerType extends AbstractType
     {
         return 'appbundle_customer';
     }
-    
+
 }

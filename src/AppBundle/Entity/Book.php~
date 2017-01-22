@@ -41,6 +41,13 @@ class Book
     private $date;
 
     /**
+    * @var \Date
+    *
+    * @ORM\Column(name="creation_date", type="date")
+    */
+    private $creationdate;
+
+    /**
     * @var string
     *
     * @ORM\Column(name="service", type="string", length=255)
@@ -111,6 +118,27 @@ class Book
     private $user;
 
     /**
+    * @var string
+    *
+    * @ORM\Column(name="agent_firstname", type="string", length=255)
+    */
+    private $agentfirstname;
+
+    /**
+    * @var string
+    *
+    * @ORM\Column(name="agent_lastname", type="string", length=255)
+    */
+    private $agentlastname;
+
+    /**
+    * @var string
+    *
+    * @ORM\Column(name="agent_email", type="string", length=255)
+    */
+    private $agentemail;
+
+    /**
     * @var int
     *
     * @ORM\Column(name="price", type="integer")
@@ -123,7 +151,7 @@ class Book
     /**
     * @var string
     *
-    * @ORM\Column(name="timepu", type="time", nullable=true)
+    * @ORM\Column(name="timepu", type="string", length=255, nullable=true)
     */
     private $timepu;
 
@@ -150,10 +178,17 @@ class Book
 
     /**
     * @var User
-    * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Driver")
+    * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Employee")
     * @ORM\JoinColumn(nullable=true)
     */
     private $driver;
+
+    /**
+    * @var User
+    * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Employee")
+    * @ORM\JoinColumn(nullable=true)
+    */
+    private $greeter;
 
     /**
     * @var text
@@ -566,11 +601,11 @@ class Book
     /**
      * Set driver
      *
-     * @param \AppBundle\Entity\Driver $driver
+     * @param \AppBundle\Entity\Employee $driver
      *
      * @return Book
      */
-    public function setDriver(\AppBundle\Entity\Driver $driver = null)
+    public function setDriver(\AppBundle\Entity\Employee $driver = null)
     {
         $this->driver = $driver;
 
@@ -580,7 +615,7 @@ class Book
     /**
      * Get driver
      *
-     * @return \AppBundle\Entity\Driver
+     * @return \AppBundle\Entity\Employee
      */
     public function getDriver()
     {
@@ -609,5 +644,77 @@ class Book
     public function getNote()
     {
         return $this->note;
+    }
+
+    /**
+     * Set timepu
+     *
+     * @param \DateTime $timepu
+     *
+     * @return Book
+     */
+    public function setTimepu($timepu)
+    {
+        $this->timepu = $timepu;
+
+        return $this;
+    }
+
+    /**
+     * Get timepu
+     *
+     * @return \DateTime
+     */
+    public function getTimepu()
+    {
+        return $this->timepu;
+    }
+
+    /**
+     * Set greeter
+     *
+     * @param \AppBundle\Entity\Employee $greeter
+     *
+     * @return Book
+     */
+    public function setGreeter(\AppBundle\Entity\Employee $greeter = null)
+    {
+        $this->greeter = $greeter;
+
+        return $this;
+    }
+
+    /**
+     * Get greeter
+     *
+     * @return \AppBundle\Entity\Employee
+     */
+    public function getGreeter()
+    {
+        return $this->greeter;
+    }
+
+    /**
+     * Set creationdate
+     *
+     * @param \DateTime $creationdate
+     *
+     * @return Book
+     */
+    public function setCreationdate($creationdate)
+    {
+        $this->creationdate = $creationdate;
+
+        return $this;
+    }
+
+    /**
+     * Get creationdate
+     *
+     * @return \DateTime
+     */
+    public function getCreationdate()
+    {
+        return $this->creationdate;
     }
 }

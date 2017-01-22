@@ -8,8 +8,8 @@ use Symfony\Component\HttpFoundation\Request;
 
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 
-use AppBundle\Entity\Driver;
-use AppBundle\Form\DriverType;
+use AppBundle\Entity\Employee;
+use AppBundle\Form\EmployeeType;
 
 class AdminController extends Controller
 {
@@ -19,8 +19,8 @@ class AdminController extends Controller
     public function indexAction(Request $request)
     {
         $user = $this->getUser();
-        $book = new Driver();
-        $form = $this->createForm(DriverType::class, $book);
+        $book = new Employee();
+        $form = $this->createForm(EmployeeType::class, $book);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
