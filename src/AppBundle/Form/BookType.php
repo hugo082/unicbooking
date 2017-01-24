@@ -6,6 +6,9 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
+
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use AppBundle\Form\CustomerType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
@@ -115,12 +118,6 @@ class BookType extends AbstractType
             'label' => 'book.form.chilu2y',
             'data' => '0'
         ))
-        ->add('customers', CollectionType::class, array(
-            'entry_type'   => CustomerType::class,
-            'allow_add'    => true,
-            'allow_delete' => true,
-            'label' => 'book.form.cust'
-        ))
         ->add('nameboard', TextareaType::class, array(
             'label' => 'book.form.nameboard',
             'required' => false
@@ -129,6 +126,24 @@ class BookType extends AbstractType
             'label' => 'book.form.note',
             'required' => false
         ));
+
+        $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
+            $product = $event->getData();
+            $form = $event->getForm();
+
+            // check if the Product object is "new"
+            // If no data is passed to the form, the data is "null".
+            // This should be considered a new "Product"
+            if (!$product || null === $product->getId()) {
+                $form
+                ->add('customers', CollectionType::class, array(
+                    'entry_type'   => CustomerType::class,
+                    'allow_add'    => true,
+                    'allow_delete' => true,
+                    'label' => 'book.form.cust'
+                ));
+            }
+        });
     }
 
     /**

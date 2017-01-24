@@ -83,6 +83,33 @@ class AdminController extends Controller
         return $this->redirectToRoute('show', array('id' => $book->getId()));
     }
 
+    /**
+    * @Route("/admin/answer/book/edit/{id}/{state}", name="admin.answer.book.edit",
+    *     requirements={
+    *         "id": "\d+",
+    *         "state": "REJ|ACC|ACP"
+    *     })
+    */
+    public function answerBookEditAction(Request $request, $id, $state)
+    {
+        $book = $this->getDoctrine()->getRepository('AppBundle:Book')->find($id);
+        if (!$book) {
+            throw $this->createNotFoundException(
+                'No product found for id '.$id
+            );
+        }
+
+        if ($state == "ACC" || $state == "ACP") {
+            $book->setState("ACCEPTED");
+            if ($state == "ACP") $book->addToPrice(25);
+        } else $book->setState("REFUSED");
+        
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($book);
+        $em->flush();
+        return $this->redirectToRoute('show', array('id' => $book->getId()));
+    }
+
     private function sendEmail($state, $book)
     {
         if ($state == "ACC") {

@@ -21,9 +21,9 @@
 
 {% block content %}
 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-
     {% if book is defined %}
-
+    {% form_theme form 'bootstrap_3_layout.html.twig' %}
+    {% if book.enabled %}
     {% if is_granted('ROLE_ADMIN') %}
     <div class="card">
         <h3 class="card-header">
@@ -44,7 +44,6 @@
                 <a href="{{ path('admin.answer.book', {'id':book.id, 'state':'REJ'})}}" type="button" class="btn btn-danger">{{ 'book.state.wait.admin.ref'|trans }}</a>
             </div>
             {% endif %}
-            {% form_theme form 'bootstrap_3_layout.html.twig' %}
             {{ form_start(form) }}
             <div class="input-group row col-md-12 col-sm-12 col-xs-12 col-lg-12">
                 <div class="col-md-4 col-sm-6 col-lg-4">
@@ -65,11 +64,16 @@
     {% else %}
     {% if book.state == 'WAITING' %}
     <div class="alert alert-info"><strong>{{ 'book.state.wait.title'|trans }}</strong> {{ 'book.state.wait.content'|trans }}</div>
+    {% elseif book.state == 'EDITED' %}
+    <div class="alert alert-info"><strong>Edited</strong> This book was modified. Waiting for acceptance.</div>
     {% elseif book.state == 'ACCEPTED' %}
     <div class="alert alert-success"><strong>{{ 'book.state.acc.title'|trans }}</strong> {{ 'book.state.acc.content'|trans }}</div>
     {% elseif book.state == 'REFUSED' %}
     <div class="alert alert-danger"><strong>{{ 'book.state.ref.title'|trans }}</strong> {{ 'book.state.ref.content'|trans }}</div>
     {% endif %}
+    {% endif %}
+    {% else %}
+    <div class="alert alert-info"><strong>Confirm</strong> You must confirm and agree condition for order.</div>
     {% endif %}
     <div class="card">
         <h3 class="card-header">Agent</h3>
@@ -242,6 +246,27 @@
                     </tr>
                 </tbody>
             </table>
+        </div>
+    </div>
+    {% endif %}
+
+    {% if not book.enabled %}
+    <div class="card">
+        <h3 class="card-header">
+            Confirm your book
+        </h3>
+        <div class="card-block">
+            {{ form_start(form) }}
+            <div class="input-group col-md-12 col-sm-12 col-xs-12 col-lg-12">
+                {{ form_label(form.enabled) }}
+                {{ form_errors(form.enabled) }}
+                {{ form_widget(form.enabled) }}
+            </div>
+            <div>
+                <button type="submit" name="button" class="btn btn-primary">Order {{book.price}}€</button>
+                <span class="conversion"><span id="priceQAR">{{book.price * 3.8164}}</span> QAR</span>
+            </div>
+            {{ form_end(form) }}
         </div>
     </div>
     {% endif %}

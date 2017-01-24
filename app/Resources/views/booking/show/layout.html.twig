@@ -1,0 +1,30 @@
+{% extends 'booking/layout.html.twig' %}
+
+{% block stylesheets %}
+{{parent()}}
+<link rel="stylesheet" href="{{ asset('bundles/booking/css/book.css') }}">
+<link rel="stylesheet" href="{{ asset('bundles/booking/css/manage.css') }}">
+<style media="screen">
+#content::before {
+    background: url("{{ asset('bundles/booking/img/24725242_l.jpg') }}") no-repeat 75% top;
+    background-size: cover;
+}
+</style>
+{% endblock %}
+
+
+{% block headscripts %}
+{{parent()}}
+{% endblock %}
+
+{% block content %}
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
+    {% block contentinterne %}{% endblock %}
+
+</div>
+{% endblock %}
+
+{% block javascripts %}
+{{parent()}}
+{% endblock %}

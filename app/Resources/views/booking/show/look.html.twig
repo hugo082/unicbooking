@@ -1,0 +1,79 @@
+{% extends 'booking/show/layout.html.twig' %}
+
+{% block title %}{{parent()}} • Show{% endblock %}
+
+{% block contentinterne %}
+
+{% if book is defined %}
+{% form_theme form 'bootstrap_3_layout.html.twig' %}
+
+{% if is_granted('ROLE_ADMIN') %}
+<div class="card">
+    <h3 class="card-header">
+        {{ 'show.admin.title'|trans }}
+        {% if book.state == 'WAITING' %}
+        <span class="label label-default">{{ 'book.state.wait.title'|trans }}</span>
+        {% elseif book.state == 'ACCEPTED' %}
+        <span class="label label-success">{{ 'book.state.acc.title'|trans }}</span>
+        {% elseif book.state == 'REFUSED' %}
+        <span class="label label-danger">{{ 'book.state.ref.title'|trans }}</span>
+        {% endif %}
+    </h3>
+    <div class="card-block">
+        {% if book.state == 'WAITING' %}
+        <div class="action">
+            <h5>{{ 'book.state.wait.admin.log'|trans }}</h5>
+            <a href="{{ path('admin.answer.book', {'id':book.id, 'state':'ACC'})}}" type="button" class="btn btn-success">{{ 'book.state.wait.admin.acc'|trans }}</a>
+            <a href="{{ path('admin.answer.book', {'id':book.id, 'state':'REJ'})}}" type="button" class="btn btn-danger">{{ 'book.state.wait.admin.ref'|trans }}</a>
+        </div>
+        {% elseif book.state == 'EDITED' %}
+        <div class="action">
+            <h5>Book edited</h5>
+            <a href="{{ path('admin.answer.book.edit', {'id':book.id, 'state':'ACP'})}}" type="button" class="btn btn-success">Accept (25€)</a>
+            <a href="{{ path('admin.answer.book.edit', {'id':book.id, 'state':'ACC'})}}" type="button" class="btn btn-success">Accept (Free)</a>
+            <a href="{{ path('admin.answer.book.edit', {'id':book.id, 'state':'REJ'})}}" type="button" class="btn btn-danger">{{ 'book.state.wait.admin.ref'|trans }}</a>
+        </div>
+        {% endif %}
+        {{ form_start(form) }}
+        <div class="input-group row col-md-12 col-sm-12 col-xs-12 col-lg-12">
+            <div class="col-md-4 col-sm-6 col-lg-4">
+                {{ form_label(form.driver) }}
+                {{ form_errors(form.driver) }}
+                {{ form_widget(form.driver) }}
+            </div>
+            <div class="col-md-4 col-sm-6 col-lg-4">
+                {{ form_label(form.greeter) }}
+                {{ form_errors(form.greeter) }}
+                {{ form_widget(form.greeter) }}
+            </div>
+        </div>
+        <button type="submit" name="button" class="btn btn-primary">{{ 'show.form.go'|trans }}</button>
+        {{ form_end(form) }}
+    </div>
+</div>
+{% else %}
+
+    {% if book.state == 'WAITING' %}
+    <div class="alert alert-info"><strong>{{ 'book.state.wait.title'|trans }}</strong> {{ 'book.state.wait.content'|trans }}</div>
+{% elseif book.state == 'EDITED' %}
+<div class="alert alert-info"><strong>Edited</strong> This book was modified. Waiting for acceptance.</div>
+{% elseif book.state == 'ACCEPTED' %}
+<div class="alert alert-success"><strong>{{ 'book.state.acc.title'|trans }}</strong> {{ 'book.state.acc.content'|trans }}</div>
+{% elseif book.state == 'REFUSED' %}
+<div class="alert alert-danger"><strong>{{ 'book.state.ref.title'|trans }}</strong> {{ 'book.state.ref.content'|trans }}</div>
+{% endif %}
+
+{% endif %}
+
+{% include 'booking/show/content.html.twig' %}
+{% else %}
+<div class="card">
+    <h3 class="card-header">{{ 'show.notfound.title'|trans }}</h3>
+    <div class="card-block">
+        <h5>{{ 'show.notfound.desc'|trans({'%id%': book_id_finded})}}</h5>
+        <p>{{ 'show.notfound.content'|trans({'%id%': book_id_finded, '%ls%': '<a href="' ~ path('homepage') ~ '">', '%le%':'</a>'}) |raw }}</p>
+    </div>
+</div>
+{% endif %}
+
+{% endblock %}

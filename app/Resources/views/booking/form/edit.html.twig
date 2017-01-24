@@ -1,0 +1,27 @@
+{% extends 'booking/form/layout.html.twig' %}
+
+{% block title %}{{parent()}} • Edit{% endblock %}
+
+{% block confirm %}
+<button type="submit" class="btn btn-primary">Edit</button>
+<p>Modifications will be charged 25 € according to <a data-toggle="modal" data-target="#editInfoModal">the conditions</a>.</p>
+
+<!-- Modal -->
+<div id="editInfoModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Conditions</h4>
+            </div>
+            <div class="modal-body">
+                <p>Conditions....</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+{% endblock %}

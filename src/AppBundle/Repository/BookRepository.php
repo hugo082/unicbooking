@@ -10,13 +10,18 @@ namespace AppBundle\Repository;
 */
 class BookRepository extends \Doctrine\ORM\EntityRepository
 {
-    public function getLast($size = 20){
+    public function getLast(){
         $qb = $this->createQueryBuilder('b');
 
+        $qb->select('b')
+        ->where('b.enabled = true')
+        ->andwhere('b.creationdate <= :limit_top')
+        ->setParameter('limit_top', new \DateTime())
+        ->andwhere('b.creationdate >= :limit_bottom')
+        ->setParameter('limit_bottom', new \DateTime("-1 month"));
+
         return $qb
-        ->orderBy('b.id', 'DESC')
         ->getQuery()
-        ->setMaxResults($size)
         ->getResult();
     }
 
@@ -24,7 +29,8 @@ class BookRepository extends \Doctrine\ORM\EntityRepository
         $qb = $this->createQueryBuilder('b');
 
         $qb->select('b')
-        ->where('b.creationdate <= :limit_top')
+        ->where('b.enabled = true')
+        ->andwhere('b.creationdate <= :limit_top')
         ->setParameter('limit_top', new \DateTime())
         ->andwhere('b.creationdate >= :limit_bottom')
         ->setParameter('limit_bottom', new \DateTime("-1 month"))
@@ -38,8 +44,8 @@ class BookRepository extends \Doctrine\ORM\EntityRepository
     }
 
     public function getOneLast(){
-        return $this->createQueryBuilder('e')
-        ->orderBy('e.id', 'DESC')
+        return $this->createQueryBuilder('b')
+        ->orderBy('b.id', 'DESC')
         ->setMaxResults(1)
         ->getQuery()
         ->getOneOrNullResult();

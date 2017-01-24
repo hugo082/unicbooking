@@ -49,77 +49,6 @@ class DefaultController extends Controller
     }
 
     /**
-    * @Route("/booknow", name="booknow")
-    */
-    public function booknowAction(Request $request)
-    {
-        $user = $this->getUser();
-        $book = new Book();
-        $form = $this->createForm(BookType::class, $book);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $cus = $book->getCustomers();
-            $book->setCreationdate(new \DateTime());
-            $book->setUser($user);
-            $book->setState("WAITING");
-            foreach ($cus as $c) {
-                $c->setBook($book);
-            }
-
-            $price = 0; $product = $book->getProduct();
-            $nbP = $book->getAdultcus() + $book->getChildcus();
-            $nbPPass = $product->getPassengers();
-            $price += $product->getPrice();
-            if ($nbP > $nbPPass){
-                $supPrice = ($product->getCode() == 'GOL') ? 58 : 72;
-                $price += ($nbP - $nbPPass) * $supPrice;
-            }
-
-            $price += $book->getBags() * 10;
-            $book->setPrice($price);
-
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($book);
-            $em->flush();
-            $this->sendEmail($book, true);
-            $this->sendEmail($book, false);
-            return $this->redirectToRoute('show', array('id' => $book->getId()));
-        }
-
-        return $this->render('booking/booknow.html.twig', array(
-            'form' => $form->createView(),
-        ));
-    }
-
-    /**
-    * @Route("/show/{id}", requirements={"id" = "\d+"}, name="show")
-    */
-    public function showAction(Request $request, $id)
-    {
-        $book = $this->getDoctrine()->getRepository('AppBundle:Book')->find($id);
-        if (!$book) {
-            return $this->render('booking/show.html.twig', array(
-                'book_id_finded' => $id
-            ));
-        }
-
-        $form = $this->createForm(BookEmployeeType::class, $book);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($book);
-            $em->flush();
-        }
-
-        return $this->render('booking/show.html.twig', array(
-            'book' => $book,
-            'form' => $form->createView()
-        ));
-    }
-
-    /**
     * @Route("/email/{bool}", name="email")
     */
     public function emailAction($bool)
@@ -146,19 +75,5 @@ class DefaultController extends Controller
             'user' => $user,
             'is_admin' => true
         ));
-    }
-
-    private function sendEmail($book, $admin)
-    {
-        $message = \Swift_Message::newInstance()
-        ->setSubject('Unic Webooking • Acknowledgment of receipt')
-        ->setFrom(array('admin@unicairport.com' => 'Unic Webooking'))
-        ->setTo(($admin) ? 'booking@unicvip.com' : $book->getUser()->getEmail())
-        ->setBody($this->renderView('Emails/waiting.html.twig', array(
-            'book' => $book,
-            'user' => $book->getUser(),
-            'is_admin' => $admin
-        )),'text/html');
-        $this->get('mailer')->send($message);
     }
 }

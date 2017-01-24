@@ -1,0 +1,33 @@
+{% extends 'booking/show/layout.html.twig' %}
+
+{% block title %}{{parent()}} • Enabled{% endblock %}
+
+{% block contentinterne %}
+{% form_theme form 'bootstrap_3_layout.html.twig' %}
+
+<div class="alert alert-info"><strong>Confirm</strong> You must confirm and agree condition for order.</div>
+
+
+{% include 'booking/show/content.html.twig' %}
+
+<div class="card">
+    <h3 class="card-header">
+        Confirm your book
+    </h3>
+    <div class="card-block">
+        {{ form_start(form) }}
+        <div class="input-group col-md-12 col-sm-12 col-xs-12 col-lg-12">
+            {{ form_label(form.enabled) }}
+            {{ form_errors(form.enabled) }}
+            {{ form_widget(form.enabled) }}
+        </div>
+        <div>
+            <button type="submit" name="button" class="btn btn-primary">Order {{book.price}}€</button>
+            <span class="conversion"><span id="priceQAR">{{book.price * 3.8164}}</span> QAR</span>
+        </div>
+        {{ form_end(form) }}
+    </div>
+</div>
+
+
+{% endblock %}
