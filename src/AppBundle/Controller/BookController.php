@@ -57,12 +57,16 @@ class BookController extends Controller
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $book->setPrice($this->getPrice($book));
-            $book->setState("EDITED"); // A Remove
-            // $subbook = new SubBook($book);
-            // $subbook->setParent($book);
+            $c = count($this->getDoctrine()->getRepository('AppBundle:SubBook')->getChargedCountEdit($book));
+            $book->addToPrice($c * 25);
 
             $em = $this->getDoctrine()->getManager();
-            //$em->persist($subbook);
+            $uow = $em->getUnitOfWork();
+            $uow->computeChangeSets(); // do not compute changes if inside a listener
+            $changeset = $uow->getEntityChangeSet($book);
+            $subbook = new SubBook($book, $changeset);
+
+            $em->persist($subbook);
             $em->persist($book);
             $em->flush();
             // $this->sendEmail($book, true);
@@ -86,6 +90,7 @@ class BookController extends Controller
                 'book_id_finded' => $id
             ));
         }
+        $subbook = $this->getDoctrine()->getRepository('AppBundle:SubBook')->getLastEdit($book);
 
         $form = $this->createForm(BookEmployeeType::class, $book);
         $form->handleRequest($request);
@@ -97,6 +102,7 @@ class BookController extends Controller
 
         return $this->render('booking/show/look.html.twig', array(
             'book' => $book,
+            'subbook' => $subbook,
             'form' => $form->createView()
         ));
     }

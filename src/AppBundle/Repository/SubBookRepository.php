@@ -10,16 +10,31 @@ namespace AppBundle\Repository;
 */
 class SubBookRepository extends \Doctrine\ORM\EntityRepository
 {
-    public function getLastEdit($parent){
+    public function getLastEdit($parent, $state = "WAITING"){
         $qb = $this->createQueryBuilder('sb');
 
         $qb->select('sb')
         ->where('sb.parent = :parent')
-        ->setParameter('parent', $parent);
+        ->setParameter('parent', $parent)
+        ->andwhere('sb.state = :state')
+        ->setParameter('state', $state);
 
         return $qb
-        ->orderBy('b.id', 'DESC')
+        ->orderBy('sb.id', 'DESC')
         ->getQuery()
         ->getOneOrNullResult();
+    }
+
+    public function getChargedCountEdit($parent){
+        $qb = $this->createQueryBuilder('sb');
+
+        $qb->select('sb')
+        ->where('sb.parent = :parent')
+        ->setParameter('parent', $parent)
+        ->andwhere('sb.charged = true');
+
+        return $qb
+        ->getQuery()
+        ->getScalarResult();
     }
 }

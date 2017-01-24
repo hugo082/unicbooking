@@ -1,3 +1,21 @@
+<style media="screen">
+#edited {
+    background-color: #5cb85c;
+
+    display: inline;
+    padding: .2em .6em .3em;
+    font-size: 75%;
+    font-weight: 700;
+    line-height: 1;
+    color: #fff;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: .25em;
+}
+</style>
+
+
 <div class="card">
     <h3 class="card-header">Agent</h3>
     <div class="card-block">
@@ -9,15 +27,15 @@
                 </tr>
                 <tr>
                     <td class="col-md-6">{{ 'agent.fname'|trans }}</td>
-                    <td class="value"><span id="fdate">{{book.agentfirstname}}</span></td>
+                    <td class="value"><span id="{{ edi and subbook.agentfirstname ? 'edited' : '' }}">{{book.agentfirstname}}</span></td>
                 </tr>
                 <tr>
                     <td class="col-md-6">{{ 'agent.lname'|trans }}</td>
-                    <td class="value"><span id="fdate">{{book.agentlastname}}</span></td>
+                    <td class="value"><span id="{{ edi and subbook.agentlastname ? 'edited' : '' }}">{{book.agentlastname}}</span></td>
                 </tr>
                 <tr>
                     <td class="col-md-6">{{ 'agent.email'|trans }}</td>
-                    <td class="value"><span id="fdate">{{book.agentemail}}</span></td>
+                    <td class="value"><span id="{{ edi and subbook.agentemail ? 'edited' : '' }}">{{book.agentemail}}</span></td>
                 </tr>
             </tbody>
         </table>
@@ -30,42 +48,42 @@
             <tbody>
                 <tr>
                     <td class="col-md-6">{{ 'manage.find.form.number'|trans }}</td>
-                    <td class="value">{{book.id}}</td>
+                    <td class="value"><span id="id">{{book.id}}</span></td>
                 </tr>
                 <tr>
                     <td class="col-md-6">Type</td>
-                    <td class="value">{% if book.service == 'DEP' %}{{ 'book.form.dep'|trans }}{% else %}{{ 'book.form.arr'|trans }}{% endif %}</td>
+                    <td class="value"><span id="{{ edi and subbook.service ? 'edited' : '' }}">{% if book.service == 'DEP' %}{{ 'book.form.dep'|trans }}{% else %}{{ 'book.form.arr'|trans }}{% endif %}</span></td>
                 </tr>
                 <tr>
                     <td class="col-md-6">{{ 'book.form.date'|trans }}</td>
-                    <td class="value"><span id="fdate">{{book.date|date("d M Y")}}</span></td>
+                    <td class="value"><span id="{{ edi and subbook.date ? 'edited' : '' }}">{{book.date|date("d M Y")}}</span></td>
                 </tr>
                 <tr>
                     <td class="col-md-6">{{ 'book.form.prod'|trans }}</td>
-                    <td class="value"><span id="products">{{book.product.name}}</span> {{book.product.price}}€</td>
+                    <td class="value"><span id="{{ edi and subbook.product ? 'edited' : '' }}">{{book.product.name}} {{book.product.price}}€</span></td>
                 </tr>
                 {% if not book.nameboard is empty %}
                 <tr>
                     <td class="col-md-6">{{ 'book.form.nameboard'|trans }}</td>
-                    <td class="value">{{book.nameboard}}</td>
+                    <td class="value"><span id="{{ edi and subbook.nameboard ? 'edited' : '' }}">{{book.nameboard}}</span></td>
                 </tr>
                 {% endif %}
                 <tr>
                     <td class="col-md-6">{{ 'price'|trans }}</td>
-                    <td class="value">{{book.price}} €</td>
+                    <td class="value"><span id="{{ edi and subbook.price ? 'edited' : '' }}">{{book.price}} €</span></td>
                 </tr>
                 {% if book.product.code == "FAM" %}
                 <tr>
                     <td class="col-md-6">{{ 'book.form.timepu'|trans }}</td>
-                    <td class="value">{{book.timepu|date("H:m")}}</td>
+                    <td class="value"><span id="{{ edi and subbook.timepu ? 'edited' : '' }}">{{book.timepu|date("H:m")}}</span></td>
                 </tr>
                 <tr>
                     <td class="col-md-6">{{ 'book.form.addpu'|trans }}</td>
-                    <td class="value">{{book.addresspu}}</td>
+                    <td class="value"><span id="{{ edi and subbook.addresspu ? 'edited' : '' }}">{{book.addresspu}}</span></td>
                 </tr>
                 <tr>
                     <td class="col-md-6">{{ 'book.form.adddo'|trans }}</td>
-                    <td class="value">{{book.addressdo}}</td>
+                    <td class="value"><span id="{{ edi and subbook.addressdo ? 'edited' : '' }}">{{book.addressdo}}</span></td>
                 </tr>
                 {% endif %}
             </tbody>
@@ -73,7 +91,11 @@
     </div>
 </div>
 <div class="card">
-    <h3 class="card-header">{{ 'book.form.cust'|trans }}</h3>
+    <h3 class="card-header">
+        <span id="{{ edi and (subbook.adultcus or subbook.childcus or subbook.bags)  ? 'edited' : '' }}">
+            {{ 'book.form.cust'|trans }}
+        </span>
+    </h3>
     <div class="card-block">
         <table class="table">
             <tbody>
@@ -123,7 +145,7 @@
     </div>
 </div>
 <div class="card">
-    <h3 class="card-header">{{ 'book.form.flight'|trans }}</h3>
+    <h3 class="card-header"><span id="{{ edi and subbook.flight ? 'edited' : '' }}">{{ 'book.form.flight'|trans }}</span></h3>
     <div class="card-block">
         <table class="table">
             <tbody>
@@ -142,7 +164,7 @@
                 <tr>
                     <td class="col-md-6">{{ 'book.flight.dest'|trans }}</td>
                     <td class="value">
-                        {% if book.flight.type == 'ARR' %}DOH → CDG{% else %}CDG → COH{% endif %}
+                        {% if book.flight.type == 'ARR' %}DOH → CDG{% else %}CDG → DOH{% endif %}
                     </td>
                 </tr>
             </tbody>

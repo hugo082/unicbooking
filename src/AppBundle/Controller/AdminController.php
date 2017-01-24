@@ -92,20 +92,29 @@ class AdminController extends Controller
     */
     public function answerBookEditAction(Request $request, $id, $state)
     {
+        $em = $this->getDoctrine()->getManager();
         $book = $this->getDoctrine()->getRepository('AppBundle:Book')->find($id);
         if (!$book) {
             throw $this->createNotFoundException(
                 'No product found for id '.$id
             );
         }
+        $subrepo = $this->getDoctrine()->getRepository('AppBundle:SubBook');
+        $subbook = $subrepo->getLastEdit($book);
 
         if ($state == "ACC" || $state == "ACP") {
-            $book->setState("ACCEPTED");
-            if ($state == "ACP") $book->addToPrice(25);
-        } else $book->setState("REFUSED");
-        
-        $em = $this->getDoctrine()->getManager();
-        $em->persist($book);
+            $subbook->setState("ACCEPTED");
+            if ($state == "ACP") {
+                $subbook->setCharged(true);
+                $book->addToPrice(25);
+            }
+        } else {
+            $subbook->setState("REFUSED");
+            $book = $subbook->backChange($book);
+            $em->persist($book);
+        }
+
+        $em->persist($subbook);
         $em->flush();
         return $this->redirectToRoute('show', array('id' => $book->getId()));
     }
@@ -125,7 +134,8 @@ class AdminController extends Controller
         ->setTo($book->getUser()->getEmail())
         ->setBody($this->renderView($template, array(
             'book' => $book,
-            'user' => $book->getUser()
+            'user' => $book->getUser(),
+            'is_admin' => false
         )),'text/html');
         $this->get('mailer')->send($message);
     }

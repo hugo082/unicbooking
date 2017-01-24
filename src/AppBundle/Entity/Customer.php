@@ -197,11 +197,11 @@ class Customer
     /**
     * Set book
     *
-    * @param \AppBundle\Model\Book $book
+    * @param \AppBundle\Entity\Book $book
     *
     * @return Customer
     */
-    public function setBook(\AppBundle\Model\Book $book)
+    public function setBook(\AppBundle\Entity\Book $book)
     {
         $this->book = $book;
 

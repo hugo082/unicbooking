@@ -26,9 +26,9 @@
             <a href="{{ path('admin.answer.book', {'id':book.id, 'state':'ACC'})}}" type="button" class="btn btn-success">{{ 'book.state.wait.admin.acc'|trans }}</a>
             <a href="{{ path('admin.answer.book', {'id':book.id, 'state':'REJ'})}}" type="button" class="btn btn-danger">{{ 'book.state.wait.admin.ref'|trans }}</a>
         </div>
-        {% elseif book.state == 'EDITED' %}
+        {% elseif edi %}
         <div class="action">
-            <h5>Book edited</h5>
+            <h5>The book has been edited</h5>
             <a href="{{ path('admin.answer.book.edit', {'id':book.id, 'state':'ACP'})}}" type="button" class="btn btn-success">Accept (25€)</a>
             <a href="{{ path('admin.answer.book.edit', {'id':book.id, 'state':'ACC'})}}" type="button" class="btn btn-success">Accept (Free)</a>
             <a href="{{ path('admin.answer.book.edit', {'id':book.id, 'state':'REJ'})}}" type="button" class="btn btn-danger">{{ 'book.state.wait.admin.ref'|trans }}</a>

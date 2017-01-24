@@ -20,6 +20,7 @@
 {% block content %}
 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 
+    {% set edi = subbook is defined and not subbook is empty and subbook.state == "WAITING" %}
     {% block contentinterne %}{% endblock %}
 
 </div>

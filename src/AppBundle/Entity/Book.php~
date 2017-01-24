@@ -12,7 +12,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 * @ORM\Table(name="book")
 * @ORM\Entity(repositoryClass="AppBundle\Repository\BookRepository")
 */
-class Book extends BaseBook
+class Book
 {
     /**
     * @var int
@@ -21,7 +21,155 @@ class Book extends BaseBook
     * @ORM\Id
     * @ORM\GeneratedValue(strategy="AUTO")
     */
-    protected $id;
+    private $id;
+
+    /**
+    * @var string
+    *
+    * @ORM\Column(name="airport", type="string", length=255)
+    */
+    protected $airport;
+
+    /**
+    * @var \DateTime
+    *
+    * @ORM\Column(name="date", type="date")
+    * @Assert\Range(
+    *      min = "now",
+    *      minMessage = "date.min.now"
+    * )
+    */
+    protected $date;
+
+    /**
+    * @var \Date
+    *
+    * @ORM\Column(name="creation_date", type="date")
+    */
+    protected $creationdate;
+
+    /**
+    * @var string
+    *
+    * @ORM\Column(name="service", type="string", length=255, nullable=false)
+    */
+    protected $service;
+
+    /**
+    * @var Product
+    * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Product")
+    * @ORM\JoinColumn(nullable=false)
+    */
+    protected $product;
+
+    /**
+    * @var Flight
+    * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Flight")
+    * @ORM\JoinColumn(nullable=false)
+    */
+    protected $flight;
+
+    /**
+    * @var array
+    * Adult Customer
+    * @ORM\Column(name="adultcus", type="integer")
+    * @Assert\Range(
+    *      min = 0
+    * )
+    */
+    protected $adultcus;
+
+    /**
+    * @var array
+    * Child Customer
+    * @ORM\Column(name="childcus", type="integer")
+    * @Assert\Range(
+    *      min = 0
+    * )
+    */
+    protected $childcus;
+
+    /**
+    * @var string
+    *
+    * @ORM\Column(name="nameboard", type="string", length=255, nullable=true)
+    */
+    protected $nameboard;
+
+    /**
+    * @var int
+    *
+    * @ORM\Column(name="bags", type="integer")
+    * @Assert\Range(
+    *      min = 0
+    * )
+    */
+    protected $bags;
+
+    /**
+    * @var string
+    *
+    * @ORM\Column(name="agent_firstname", type="string", length=255)
+    */
+    protected $agentfirstname;
+
+    /**
+    * @var string
+    *
+    * @ORM\Column(name="agent_lastname", type="string", length=255)
+    */
+    protected $agentlastname;
+
+    /**
+    * @var string
+    *
+    * @ORM\Column(name="agent_email", type="string", length=255)
+    */
+    protected $agentemail;
+
+    /**
+    * @var int
+    *
+    * @ORM\Column(name="price", type="integer")
+    * @Assert\Range(
+    *      min = 0
+    * )
+    */
+    protected $price;
+
+    /**
+    * @var string
+    *
+    * @ORM\Column(name="timepu", type="string", length=255, nullable=true)
+    */
+    protected $timepu;
+
+    /**
+    * @var string
+    *
+    * @ORM\Column(name="addresspu", type="string", length=255, nullable=true)
+    */
+    protected $addresspu;
+
+    /**
+    * @var string
+    *
+    * @ORM\Column(name="addressdo", type="string", length=255, nullable=true)
+    */
+    protected $addressdo;
+
+    /**
+    * @var text
+    * @ORM\Column(name="note", type="text", nullable=true)
+    */
+    protected $note;
+
+    /**
+    * @var string
+    *
+    * @ORM\Column(name="state", type="string", length=255, nullable=false)
+    */
+    protected $state;
 
     /**
     * @var User
@@ -61,80 +209,17 @@ class Book extends BaseBook
     */
     public function __construct()
     {
-        parent::__construct();
+        $this->creationdate = new \DateTime();
+        $this->state = "WAITING";
         $this->customers = new \Doctrine\Common\Collections\ArrayCollection();
         $this->enabled = false;
     }
 
     /**
-     * Set enabled
-     *
-     * @param boolean $enabled
-     *
-     * @return Book
-     */
-    public function setEnabled($enabled)
-    {
-        $this->enabled = $enabled;
-
+    * Add $value at book.price
+    */
+    public function addToPrice($value) {
+        $this->price += $value;
         return $this;
-    }
-
-    /**
-     * Get enabled
-     *
-     * @return boolean
-     */
-    public function getEnabled()
-    {
-        return $this->enabled;
-    }
-
-    /**
-     * Set driver
-     *
-     * @param \AppBundle\Entity\Employee $driver
-     *
-     * @return Book
-     */
-    public function setDriver(\AppBundle\Entity\Employee $driver = null)
-    {
-        $this->driver = $driver;
-
-        return $this;
-    }
-
-    /**
-     * Get driver
-     *
-     * @return \AppBundle\Entity\Employee
-     */
-    public function getDriver()
-    {
-        return $this->driver;
-    }
-
-    /**
-     * Set greeter
-     *
-     * @param \AppBundle\Entity\Employee $greeter
-     *
-     * @return Book
-     */
-    public function setGreeter(\AppBundle\Entity\Employee $greeter = null)
-    {
-        $this->greeter = $greeter;
-
-        return $this;
-    }
-
-    /**
-     * Get greeter
-     *
-     * @return \AppBundle\Entity\Employee
-     */
-    public function getGreeter()
-    {
-        return $this->greeter;
     }
 }
