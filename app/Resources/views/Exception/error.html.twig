@@ -1,0 +1,19 @@
+{% extends 'booking/show/layout.html.twig' %}
+
+{% block title %}{{parent()}} • Exception{% endblock %}
+
+{% block contentinterne %}
+
+<div class="card">
+    <h3 class="card-header">An error has occurred : {{ exception.statusCode }}</h3>
+    <div class="card-block">
+        <h5>{{ exception.title }}</h5>
+        <p>{{ exception.message }}</p>
+        {% if exception.statusCode == 329 %}
+            <p><a class="btn btn-default" href="{{path('book.enabled', {'uid': exception.headers.uid})}}">Confirm</a></p>
+        {% endif %}
+        <p><a href="{{path('homepage')}}">Back</a></p>
+    </div>
+</div>
+
+{% endblock %}

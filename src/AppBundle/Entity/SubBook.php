@@ -25,6 +25,13 @@ class SubBook
     private $id;
 
     /**
+    * @var int
+    *
+    * @ORM\Column(name="number", type="integer")
+    */
+    private $number;
+
+    /**
     * @var string
     *
     * @ORM\Column(name="airport", type="string", length=255, nullable=true)
@@ -174,7 +181,7 @@ class SubBook
 
     /**
     * @var Book
-    * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Book",cascade={"persist"})
+    * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Book", inversedBy="subbooks", cascade={"remove", "persist"})
     * @ORM\JoinColumn(nullable=false)
     */
     private $parent;
@@ -195,6 +202,7 @@ class SubBook
         $this->creationdate = new \DateTime();
         $this->state = "WAITING";
         $this->parent = $book;
+        $this->number = count($book->getSubbooks()) + 1;
         foreach ($changeset as $key => $values) {
             $this->$key = $values[0];
         }
@@ -724,5 +732,29 @@ class SubBook
     public function getCharged()
     {
         return $this->charged;
+    }
+
+    /**
+     * Set number
+     *
+     * @param integer $number
+     *
+     * @return SubBook
+     */
+    public function setNumber($number)
+    {
+        $this->number = $number;
+
+        return $this;
+    }
+
+    /**
+     * Get number
+     *
+     * @return integer
+     */
+    public function getNumber()
+    {
+        return $this->number;
     }
 }

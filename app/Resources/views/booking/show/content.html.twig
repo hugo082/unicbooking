@@ -14,8 +14,41 @@
     border-radius: .25em;
 }
 </style>
-
-
+{% if activeSubbooks is defined and not activeSubbooks is empty %}
+<div class="card">
+    <h3 class="card-header">History</h3>
+    <div class="card-block">
+        <table class="table">
+            <thead>
+                <th>ID</th>
+                <th>Number</th>
+                <th>Date</th>
+                <th>Charged</th>
+                <th>State</th>
+            </thead>
+            <tbody>
+                {% for sub in activeSubbooks %}
+                <tr id="{{ sub.number }}">
+                    <td>{{ sub.id }}</td>
+                    <td>{{ sub.number }}</td>
+                    <td>{{ sub.creationdate|date("d M Y") }}</td>
+                    <td>{{ sub.charged ? '25€' : '0€' }}</td>
+                    <td>
+                        {% if sub.state == 'WAITING' %}
+                        <span class="label label-default">{{ 'book.state.wait.title'|trans }}</span>
+                        {% elseif sub.state == 'ACCEPTED' %}
+                        <span class="label label-success">{{ 'book.state.acc.title'|trans }}</span>
+                        {% elseif sub.state == 'REFUSED' %}
+                        <span class="label label-danger">{{ 'book.state.ref.title'|trans }}</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endif %}
 <div class="card">
     <h3 class="card-header">Agent</h3>
     <div class="card-block">
@@ -48,7 +81,7 @@
             <tbody>
                 <tr>
                     <td class="col-md-6">{{ 'manage.find.form.number'|trans }}</td>
-                    <td class="value"><span id="id">{{book.id}}</span></td>
+                    <td class="value"><span id="id">{{book.fullid}}</span></td>
                 </tr>
                 <tr>
                     <td class="col-md-6">Type</td>
@@ -101,7 +134,7 @@
             <tbody>
                 <tr>
                     <td class="col-md-6">{{ 'total'|trans }}</td>
-                    <td class="value">{{book.adultcus + book.childcus}}</td>
+                    <td class="value">{{book.totalcus}}</td>
                 </tr>
                 <tr>
                     <td class="col-md-6">{{ 'book.form.adult'|trans }}</td>

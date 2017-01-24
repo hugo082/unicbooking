@@ -15,6 +15,8 @@ use AppBundle\Form\BookType;
 use AppBundle\Form\BookEmployeeType;
 use AppBundle\Form\BookValidationType;
 
+use AppBundle\Checker\BookManager as BookChecker;
+
 class BookController extends Controller
 {
     /**
@@ -29,14 +31,16 @@ class BookController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
             $book->setUser($user);
-            $book->setPrice($this->getPrice($book));
+            $book->updatePrice();
+            $book->setCustomersParent();
+            $cus = $book->getCustomers();
 
             $em = $this->getDoctrine()->getManager();
             $em->persist($book);
             $em->flush();
             $this->sendEmail($book, true);
             $this->sendEmail($book, false);
-            return $this->redirectToRoute('book.enabled', array('id' => $book->getId()));
+            return $this->redirectToRoute('book.enabled', array('uid' => $book->getUid()));
         }
 
         return $this->render('booking/form/create.html.twig', array(
@@ -45,24 +49,22 @@ class BookController extends Controller
     }
 
     /**
-    * @Route("/book/edit/{id}", requirements={"id" = "\d+"}, name="book.edit")
+    * @Route("/book/edit/{uid}", requirements={"uid" = "\d+"}, name="book.edit")
     */
-    public function editAction(Request $request, $id)
+    public function editAction(Request $request, $uid)
     {
-        $book = $this->getDoctrine()->getRepository('AppBundle:Book')->find($id);
-        if (!$book || !$book->getEnabled()) {
-            return $this->redirectToRoute('show', array('id' => $id));
-        }
+        $book = $this->getDoctrine()->getRepository('AppBundle:Book')->findOneByUid($uid);
+        $bc = $this->get('app.checker.book')->edit($book, $uid);
+
         $form = $this->createForm(BookType::class, $book);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $book->setPrice($this->getPrice($book));
-            $c = count($this->getDoctrine()->getRepository('AppBundle:SubBook')->getChargedCountEdit($book));
-            $book->addToPrice($c * 25);
+            $book->updatePrice($this->getDoctrine());
+            $book->setCustomersParent();
 
             $em = $this->getDoctrine()->getManager();
             $uow = $em->getUnitOfWork();
-            $uow->computeChangeSets(); // do not compute changes if inside a listener
+            $uow->computeChangeSets();
             $changeset = $uow->getEntityChangeSet($book);
             $subbook = new SubBook($book, $changeset);
 
@@ -71,7 +73,7 @@ class BookController extends Controller
             $em->flush();
             // $this->sendEmail($book, true);
             // $this->sendEmail($book, false);
-            return $this->redirectToRoute('book.enabled', array('id' => $book->getId()));
+            return $this->redirectToRoute('show', array('uid' => $book->getUid()));
         }
 
         return $this->render('booking/form/edit.html.twig', array(
@@ -80,17 +82,16 @@ class BookController extends Controller
     }
 
     /**
-    * @Route("/show/{id}", requirements={"id" = "\d+"}, name="show")
+    * @Route("/show/{uid}", name="show")
     */
-    public function showAction(Request $request, $id)
+    public function showAction(Request $request, $uid)
     {
-        $book = $this->getDoctrine()->getRepository('AppBundle:Book')->find($id);
-        if (!$book || !$book->getEnabled()) {
-            return $this->render('booking/show/look.html.twig', array(
-                'book_id_finded' => $id
-            ));
-        }
-        $subbook = $this->getDoctrine()->getRepository('AppBundle:SubBook')->getLastEdit($book);
+        $book = $this->getDoctrine()->getRepository('AppBundle:Book')->findOneByUid($uid);
+        $bc = $this->get('app.checker.book')->show($book, $uid);
+
+        $subrepo = $this->getDoctrine()->getRepository('AppBundle:SubBook');
+        $subbook = $subrepo->getLastEdit($book);
+        $activeSubbooks = $subrepo->getAll($book);
 
         $form = $this->createForm(BookEmployeeType::class, $book);
         $form->handleRequest($request);
@@ -103,19 +104,18 @@ class BookController extends Controller
         return $this->render('booking/show/look.html.twig', array(
             'book' => $book,
             'subbook' => $subbook,
+            'activeSubbooks' => $activeSubbooks,
             'form' => $form->createView()
         ));
     }
 
     /**
-    * @Route("/book/enabled/{id}", requirements={"id" = "\d+"}, name="book.enabled")
+    * @Route("/book/enabled/{uid}", requirements={"uid" = "\d+"}, name="book.enabled")
     */
-    public function enabledAction(Request $request, $id)
+    public function enabledAction(Request $request, $uid)
     {
-        $book = $this->getDoctrine()->getRepository('AppBundle:Book')->find($id);
-        if (!$book || $book->getEnabled()) {
-            return $this->redirectToRoute('show', array('id' => $id));
-        }
+        $book = $this->getDoctrine()->getRepository('AppBundle:Book')->findOneByUid($uid);
+        $bc = $this->get('app.checker.book')->enabled($book, $uid);
 
         $form = $this->createForm(BookValidationType::class, $book);
         $form->handleRequest($request);
@@ -124,7 +124,7 @@ class BookController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->persist($book);
             $em->flush();
-            return $this->redirectToRoute('show', array('id' => $id));
+            return $this->redirectToRoute('show', array('uid' => $uid));
         }
 
         return $this->render('booking/show/enabled.html.twig', array(
@@ -147,21 +147,15 @@ class BookController extends Controller
         $this->get('mailer')->send($message);
     }
 
-    private function getPrice($book)
-    {
-        $cus = $book->getCustomers();
-        foreach ($cus as $c) {
-            $c->setBook($book);
-        }
+    // private function bookErrorConvertor($error, $book, $id = 0) {
+    //     if ($bc == 'NOT_FOUND') {
+    //         throw $this->createNotFoundException('No user found for id '.$id);
+    //     } else
+    //
+    // }
 
-        $price = 0; $product = $book->getProduct();
-        $nbP = $book->getAdultcus() + $book->getChildcus();
-        $nbPPass = $product->getPassengers();
-        $price += $product->getPrice();
-        if ($nbP > $nbPPass){
-            $supPrice = ($product->getCode() == 'GOL') ? 58 : 72;
-            $price += ($nbP - $nbPPass) * $supPrice;
-        }
-        return $price + $book->getBags() * 10;
-    }
+    // return $this->render('booking/show/look.html.twig', array(
+    //     'book_id_finded' => $id
+    // ));
+
 }

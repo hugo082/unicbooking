@@ -38,14 +38,14 @@ class AdminController extends Controller
     }
 
     /**
-    * @Route("/admin/answer/user/{id}/{state}", name="admin.answer.user")
+    * @Route("/admin/answer/user/{uid}/{state}", name="admin.answer.user")
     */
-    public function answerUserAction(Request $request, $id, $state)
+    public function answerUserAction(Request $request, $uid, $state)
     {
-        $user = $this->getDoctrine()->getRepository('AppBundle:User')->find($id);
+        $user = $this->getDoctrine()->getRepository('AppBundle:User')->findOneByUid($uid);
         if (!$user) {
             throw $this->createNotFoundException(
-                'No user found for id '.$id
+                'No user found for uid '.$uid
             );
         }
         $em = $this->getDoctrine()->getManager();
@@ -60,18 +60,18 @@ class AdminController extends Controller
     }
 
     /**
-    * @Route("/admin/answer/book/{id}/{state}", name="admin.answer.book",
+    * @Route("/admin/answer/book/{uid}/{state}", name="admin.answer.book",
     *     requirements={
-    *         "id": "\d+",
+    *         "uid": "\d+",
     *         "state": "REJ|ACC"
     *     })
     */
-    public function answerBookAction(Request $request, $id, $state)
+    public function answerBookAction(Request $request, $uid, $state)
     {
-        $book = $this->getDoctrine()->getRepository('AppBundle:Book')->find($id);
+        $book = $this->getDoctrine()->getRepository('AppBundle:Book')->findOneByUid($uid);
         if (!$book) {
             throw $this->createNotFoundException(
-                'No product found for id '.$id
+                'No product found for uid '.$uid
             );
         }
         $fullstate = ($state == "ACC") ? "ACCEPTED" : "REFUSED";
@@ -80,23 +80,23 @@ class AdminController extends Controller
         $em = $this->getDoctrine()->getManager();
         $em->persist($book);
         $em->flush();
-        return $this->redirectToRoute('show', array('id' => $book->getId()));
+        return $this->redirectToRoute('show', array('uid' => $book->getUid()));
     }
 
     /**
-    * @Route("/admin/answer/book/edit/{id}/{state}", name="admin.answer.book.edit",
+    * @Route("/admin/answer/book/edit/{uid}/{state}", name="admin.answer.book.edit",
     *     requirements={
-    *         "id": "\d+",
+    *         "uid": "\d+",
     *         "state": "REJ|ACC|ACP"
     *     })
     */
-    public function answerBookEditAction(Request $request, $id, $state)
+    public function answerBookEditAction(Request $request, $uid, $state)
     {
         $em = $this->getDoctrine()->getManager();
-        $book = $this->getDoctrine()->getRepository('AppBundle:Book')->find($id);
+        $book = $this->getDoctrine()->getRepository('AppBundle:Book')->findOneByUid($uid);
         if (!$book) {
             throw $this->createNotFoundException(
-                'No product found for id '.$id
+                'No product found for uid '.$uid
             );
         }
         $subrepo = $this->getDoctrine()->getRepository('AppBundle:SubBook');
@@ -116,7 +116,7 @@ class AdminController extends Controller
 
         $em->persist($subbook);
         $em->flush();
-        return $this->redirectToRoute('show', array('id' => $book->getId()));
+        return $this->redirectToRoute('show', array('uid' => $book->getUid()));
     }
 
     private function sendEmail($state, $book)

@@ -25,6 +25,13 @@ class SubBook
     private $id;
 
     /**
+    * @var int
+    *
+    * @ORM\Column(name="number", type="integer")
+    */
+    private $number;
+
+    /**
     * @var string
     *
     * @ORM\Column(name="airport", type="string", length=255, nullable=true)
@@ -174,7 +181,7 @@ class SubBook
 
     /**
     * @var Book
-    * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Book",cascade={"persist"})
+    * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Book", inversedBy="subbooks", cascade={"remove", "persist"})
     * @ORM\JoinColumn(nullable=false)
     */
     private $parent;
@@ -198,6 +205,18 @@ class SubBook
         foreach ($changeset as $key => $values) {
             $this->$key = $values[0];
         }
+    }
+
+    public function backChange($book){
+        $rejected_var = array('parent', 'state', 'creationdate', 'id');
+        $vars = get_object_vars($this);
+        foreach ($vars as $key => $value) {
+            if ($value != NULL && !in_array($key, $rejected_var)) {
+                $method = "set" . ucfirst($key);
+                $book->$method($value);
+            }
+        }
+        return $book;
     }
 
     /**
@@ -688,5 +707,53 @@ class SubBook
     public function getFlight()
     {
         return $this->flight;
+    }
+
+    /**
+     * Set charged
+     *
+     * @param boolean $charged
+     *
+     * @return SubBook
+     */
+    public function setCharged($charged)
+    {
+        $this->charged = $charged;
+
+        return $this;
+    }
+
+    /**
+     * Get charged
+     *
+     * @return boolean
+     */
+    public function getCharged()
+    {
+        return $this->charged;
+    }
+
+    /**
+     * Set number
+     *
+     * @param integer $number
+     *
+     * @return SubBook
+     */
+    public function setNumber($number)
+    {
+        $this->number = $number;
+
+        return $this;
+    }
+
+    /**
+     * Get number
+     *
+     * @return integer
+     */
+    public function getNumber()
+    {
+        return $this->number;
     }
 }

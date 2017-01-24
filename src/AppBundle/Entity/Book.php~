@@ -15,13 +15,16 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Book
 {
     /**
-    * @var int
-    *
-    * @ORM\Column(name="id", type="integer")
     * @ORM\Id
     * @ORM\GeneratedValue(strategy="AUTO")
+    * @ORM\Column(name="id", type="integer")
     */
     private $id;
+
+    /**
+    * @ORM\Column(name="uid", type="integer")
+    */
+    private $uid;
 
     /**
     * @var string
@@ -205,14 +208,39 @@ class Book
     protected $customers;
 
     /**
+    * @ORM\OneToMany(targetEntity="AppBundle\Entity\SubBook", mappedBy="parent", cascade={"remove", "persist"})
+    */
+    protected $subbooks;
+
+    /**
     * Constructor
     */
     public function __construct()
     {
-        $this->creationdate = new \DateTime();
+        $date = new \DateTime();
+        $this->uid = $date->format('mdhis');
+        $this->creationdate = $date;
         $this->state = "WAITING";
         $this->customers = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->subbooks = new \Doctrine\Common\Collections\ArrayCollection();
         $this->enabled = false;
+    }
+
+    /**
+    * Compute price of this book. Without edit price.
+    */
+    public function updatePrice($doc = NULL) {
+        $price = 0;
+        $nbP = $this->adultcus + $this->childcus;
+        $nbPPass = $this->product->getPassengers();
+        $price += $this->product->getPrice();
+        if ($nbP > $nbPPass){
+            $supPrice = ($this->product->getCode() == 'GOL') ? 58 : 72;
+            $price += ($nbP - $nbPPass) * $supPrice;
+        }
+        $price += $this->bags * 10;
+        if ($doc != NULL) $price += 25 * count($doc->getRepository('AppBundle:SubBook')->getChargedCountEdit($this));
+        $this->price = $price;
     }
 
     /**
@@ -221,5 +249,646 @@ class Book
     public function addToPrice($value) {
         $this->price += $value;
         return $this;
+    }
+
+    /**
+    * Get id
+    *
+    * @return integer
+    */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+    * Set airport
+    *
+    * @param string $airport
+    *
+    * @return Book
+    */
+    public function setAirport($airport)
+    {
+        $this->airport = $airport;
+
+        return $this;
+    }
+
+    /**
+    * Get airport
+    *
+    * @return string
+    */
+    public function getAirport()
+    {
+        return $this->airport;
+    }
+
+    /**
+    * Set date
+    *
+    * @param \DateTime $date
+    *
+    * @return Book
+    */
+    public function setDate($date)
+    {
+        $this->date = $date;
+
+        return $this;
+    }
+
+    /**
+    * Get date
+    *
+    * @return \DateTime
+    */
+    public function getDate()
+    {
+        return $this->date;
+    }
+
+    /**
+    * Set creationdate
+    *
+    * @param \DateTime $creationdate
+    *
+    * @return Book
+    */
+    public function setCreationdate($creationdate)
+    {
+        $this->creationdate = $creationdate;
+
+        return $this;
+    }
+
+    /**
+    * Get creationdate
+    *
+    * @return \DateTime
+    */
+    public function getCreationdate()
+    {
+        return $this->creationdate;
+    }
+
+    /**
+    * Set service
+    *
+    * @param string $service
+    *
+    * @return Book
+    */
+    public function setService($service)
+    {
+        $this->service = $service;
+
+        return $this;
+    }
+
+    /**
+    * Get service
+    *
+    * @return string
+    */
+    public function getService()
+    {
+        return $this->service;
+    }
+
+    /**
+    * Set adultcus
+    *
+    * @param integer $adultcus
+    *
+    * @return Book
+    */
+    public function setAdultcus($adultcus)
+    {
+        $this->adultcus = $adultcus;
+
+        return $this;
+    }
+
+    /**
+    * Get adultcus
+    *
+    * @return integer
+    */
+    public function getAdultcus()
+    {
+        return $this->adultcus;
+    }
+
+    /**
+    * Set childcus
+    *
+    * @param integer $childcus
+    *
+    * @return Book
+    */
+    public function setChildcus($childcus)
+    {
+        $this->childcus = $childcus;
+
+        return $this;
+    }
+
+    /**
+    * Get childcus
+    *
+    * @return integer
+    */
+    public function getChildcus()
+    {
+        return $this->childcus;
+    }
+
+    /**
+    * Set nameboard
+    *
+    * @param string $nameboard
+    *
+    * @return Book
+    */
+    public function setNameboard($nameboard)
+    {
+        $this->nameboard = $nameboard;
+
+        return $this;
+    }
+
+    /**
+    * Get nameboard
+    *
+    * @return string
+    */
+    public function getNameboard()
+    {
+        return $this->nameboard;
+    }
+
+    /**
+    * Set bags
+    *
+    * @param integer $bags
+    *
+    * @return Book
+    */
+    public function setBags($bags)
+    {
+        $this->bags = $bags;
+
+        return $this;
+    }
+
+    /**
+    * Get bags
+    *
+    * @return integer
+    */
+    public function getBags()
+    {
+        return $this->bags;
+    }
+
+    /**
+    * Set agentfirstname
+    *
+    * @param string $agentfirstname
+    *
+    * @return Book
+    */
+    public function setAgentfirstname($agentfirstname)
+    {
+        $this->agentfirstname = $agentfirstname;
+
+        return $this;
+    }
+
+    /**
+    * Get agentfirstname
+    *
+    * @return string
+    */
+    public function getAgentfirstname()
+    {
+        return $this->agentfirstname;
+    }
+
+    /**
+    * Set agentlastname
+    *
+    * @param string $agentlastname
+    *
+    * @return Book
+    */
+    public function setAgentlastname($agentlastname)
+    {
+        $this->agentlastname = $agentlastname;
+
+        return $this;
+    }
+
+    /**
+    * Get agentlastname
+    *
+    * @return string
+    */
+    public function getAgentlastname()
+    {
+        return $this->agentlastname;
+    }
+
+    /**
+    * Set agentemail
+    *
+    * @param string $agentemail
+    *
+    * @return Book
+    */
+    public function setAgentemail($agentemail)
+    {
+        $this->agentemail = $agentemail;
+
+        return $this;
+    }
+
+    /**
+    * Get agentemail
+    *
+    * @return string
+    */
+    public function getAgentemail()
+    {
+        return $this->agentemail;
+    }
+
+    /**
+    * Set price
+    *
+    * @param integer $price
+    *
+    * @return Book
+    */
+    public function setPrice($price)
+    {
+        $this->price = $price;
+
+        return $this;
+    }
+
+    /**
+    * Get price
+    *
+    * @return integer
+    */
+    public function getPrice()
+    {
+        return $this->price;
+    }
+
+    /**
+    * Set timepu
+    *
+    * @param string $timepu
+    *
+    * @return Book
+    */
+    public function setTimepu($timepu)
+    {
+        $this->timepu = $timepu;
+
+        return $this;
+    }
+
+    /**
+    * Get timepu
+    *
+    * @return string
+    */
+    public function getTimepu()
+    {
+        return $this->timepu;
+    }
+
+    /**
+    * Set addresspu
+    *
+    * @param string $addresspu
+    *
+    * @return Book
+    */
+    public function setAddresspu($addresspu)
+    {
+        $this->addresspu = $addresspu;
+
+        return $this;
+    }
+
+    /**
+    * Get addresspu
+    *
+    * @return string
+    */
+    public function getAddresspu()
+    {
+        return $this->addresspu;
+    }
+
+    /**
+    * Set addressdo
+    *
+    * @param string $addressdo
+    *
+    * @return Book
+    */
+    public function setAddressdo($addressdo)
+    {
+        $this->addressdo = $addressdo;
+
+        return $this;
+    }
+
+    /**
+    * Get addressdo
+    *
+    * @return string
+    */
+    public function getAddressdo()
+    {
+        return $this->addressdo;
+    }
+
+    /**
+    * Set note
+    *
+    * @param string $note
+    *
+    * @return Book
+    */
+    public function setNote($note)
+    {
+        $this->note = $note;
+
+        return $this;
+    }
+
+    /**
+    * Get note
+    *
+    * @return string
+    */
+    public function getNote()
+    {
+        return $this->note;
+    }
+
+    /**
+    * Set state
+    *
+    * @param string $state
+    *
+    * @return Book
+    */
+    public function setState($state)
+    {
+        $this->state = $state;
+
+        return $this;
+    }
+
+    /**
+    * Get state
+    *
+    * @return string
+    */
+    public function getState()
+    {
+        return $this->state;
+    }
+
+    /**
+    * Set enabled
+    *
+    * @param boolean $enabled
+    *
+    * @return Book
+    */
+    public function setEnabled($enabled)
+    {
+        $this->enabled = $enabled;
+
+        return $this;
+    }
+
+    /**
+    * Get enabled
+    *
+    * @return boolean
+    */
+    public function getEnabled()
+    {
+        return $this->enabled;
+    }
+
+    /**
+    * Set product
+    *
+    * @param \AppBundle\Entity\Product $product
+    *
+    * @return Book
+    */
+    public function setProduct(\AppBundle\Entity\Product $product)
+    {
+        $this->product = $product;
+
+        return $this;
+    }
+
+    /**
+    * Get product
+    *
+    * @return \AppBundle\Entity\Product
+    */
+    public function getProduct()
+    {
+        return $this->product;
+    }
+
+    /**
+    * Set flight
+    *
+    * @param \AppBundle\Entity\Flight $flight
+    *
+    * @return Book
+    */
+    public function setFlight(\AppBundle\Entity\Flight $flight)
+    {
+        $this->flight = $flight;
+
+        return $this;
+    }
+
+    /**
+    * Get flight
+    *
+    * @return \AppBundle\Entity\Flight
+    */
+    public function getFlight()
+    {
+        return $this->flight;
+    }
+
+    /**
+    * Set user
+    *
+    * @param \AppBundle\Entity\User $user
+    *
+    * @return Book
+    */
+    public function setUser(\AppBundle\Entity\User $user)
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+    * Get user
+    *
+    * @return \AppBundle\Entity\User
+    */
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+    /**
+    * Set driver
+    *
+    * @param \AppBundle\Entity\Employee $driver
+    *
+    * @return Book
+    */
+    public function setDriver(\AppBundle\Entity\Employee $driver = null)
+    {
+        $this->driver = $driver;
+
+        return $this;
+    }
+
+    /**
+    * Get driver
+    *
+    * @return \AppBundle\Entity\Employee
+    */
+    public function getDriver()
+    {
+        return $this->driver;
+    }
+
+    /**
+    * Set greeter
+    *
+    * @param \AppBundle\Entity\Employee $greeter
+    *
+    * @return Book
+    */
+    public function setGreeter(\AppBundle\Entity\Employee $greeter = null)
+    {
+        $this->greeter = $greeter;
+
+        return $this;
+    }
+
+    /**
+    * Get greeter
+    *
+    * @return \AppBundle\Entity\Employee
+    */
+    public function getGreeter()
+    {
+        return $this->greeter;
+    }
+
+    /**
+    * Add customer
+    *
+    * @param \AppBundle\Entity\Customer $customer
+    *
+    * @return Book
+    */
+    public function addCustomer(\AppBundle\Entity\Customer $customer)
+    {
+        $this->customers[] = $customer;
+        return $this;
+    }
+
+    /**
+    * Remove customer
+    *
+    * @param \AppBundle\Entity\Customer $customer
+    */
+    public function removeCustomer(\AppBundle\Entity\Customer $customer)
+    {
+        $this->customers->removeElement($customer);
+    }
+
+    /**
+    * Get customers
+    *
+    * @return \Doctrine\Common\Collections\Collection
+    */
+    public function getCustomers()
+    {
+        return $this->customers;
+    }
+
+    /**
+    * Set parent customers to this
+    *
+    * @return Book
+    */
+    public function setCustomersParent()
+    {
+        foreach ($this->customers as $c)
+        $c->setBook($this);
+        return $this;
+    }
+
+    /**
+    * Add subbook
+    *
+    * @param \AppBundle\Entity\Customer $subbook
+    *
+    * @return Book
+    */
+    public function addSubbook(\AppBundle\Entity\Customer $subbook)
+    {
+        $this->subbooks[] = $subbook;
+
+        return $this;
+    }
+
+    /**
+    * Remove subbook
+    *
+    * @param \AppBundle\Entity\Customer $subbook
+    */
+    public function removeSubbook(\AppBundle\Entity\Customer $subbook)
+    {
+        $this->subbooks->removeElement($subbook);
+    }
+
+    /**
+    * Get subbooks
+    *
+    * @return \Doctrine\Common\Collections\Collection
+    */
+    public function getSubbooks()
+    {
+        return $this->subbooks;
     }
 }

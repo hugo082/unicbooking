@@ -31,7 +31,7 @@
     <span class="info">we herewith confirm your reservation with greeter and driver details:</span>
 </p>
 {% include 'Emails/content.html.twig' %}
-<p>You can follow your book <a href="{{ path('show', {'id': book.id}) }}">here</a></p>
+<p>You can follow your book <a href="{{ path('show', {'uid': book.uid}) }}">here</a></p>
 <p>
     <span class="info">We are pleased to arrange this journey for you.<br>Please feel free to contact us incase of any questions.</span>
 </p>

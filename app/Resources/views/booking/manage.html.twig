@@ -57,7 +57,7 @@
                 <tbody>
                     {% for book in books %}
                     <tr>
-                        <td class="hidden-xs">{{book.id}}</td>
+                        <td class="hidden-xs">{{book.uid}}</td>
                         <td>{{book.customers[0].title}} {{book.customers[0].firstname}}</td>
                         <td>{{book.product.name}}</td>
                         <td>{{book.flight.fullname}}</td>
@@ -69,7 +69,7 @@
                             <span class="label label-danger">{{ 'book.state.ref.title'|trans }}</span>
                             {% endif %}
                         </td>
-                        <td><a href="{{ path('show', {'id': book.id}) }}" class="btn btn-default">{{ 'manage.last.show'|trans }}</a></td>
+                        <td><a href="{{ path('show', {'uid': book.uid}) }}" class="btn btn-default">{{ 'manage.last.show'|trans }}</a></td>
                     </tr>
                     {% endfor %}
                 </tbody>

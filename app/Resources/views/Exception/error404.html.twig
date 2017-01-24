@@ -1,0 +1,15 @@
+{% extends 'booking/show/layout.html.twig' %}
+
+{% block title %}{{parent()}} • Show{% endblock %}
+
+{% block contentinterne %}
+
+<div class="card">
+    <h3 class="card-header">{{ status_text }} {{ 'show.notfound.title'|trans }}</h3>
+    <div class="card-block">
+        <h5>{{ 'show.notfound.desc'|trans({'%id%': 1})}}</h5>
+        <p>{{ 'show.notfound.content'|trans({'%id%': 1, '%ls%': '<a href="' ~ path('homepage') ~ '">', '%le%':'</a>'}) |raw }}</p>
+    </div>
+</div>
+
+{% endblock %}
