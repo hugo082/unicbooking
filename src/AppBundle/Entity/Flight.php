@@ -127,7 +127,7 @@ class Flight
      */
     public function setDeptime($deptime)
     {
-        $this->deptime = $deptime;
+        $this->deptime = $this->convertToDateTime($deptime);
 
         return $this;
     }
@@ -151,8 +151,7 @@ class Flight
      */
     public function setArrtime($arrtime)
     {
-        $this->arrtime = $arrtime;
-
+        $this->arrtime = $this->convertToDateTime($arrtime);
         return $this;
     }
 
@@ -164,5 +163,12 @@ class Flight
     public function getArrtime()
     {
         return $this->arrtime;
+    }
+
+    private function convertToDateTime($value) {
+        if (is_string($value)) {
+            return date_create_from_format('H:i:s', $value);
+        }
+        return $value;
     }
 }

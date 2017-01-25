@@ -1,0 +1,101 @@
+{% extends 'booking/manage/layout.html.twig' %}
+
+{% block title %}{{parent()}} • Flights{% endblock %}
+
+{% block stylesheets %}
+{{parent()}}
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<link rel="stylesheet" href="{{ asset('bundles/booking/css/timepicker.min.css') }}">
+{% endblock %}
+
+{% block headscripts %}
+{{parent()}}
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="{{ asset('bundles/booking/js/timepicker.min.js') }}"></script>
+
+<script>
+$( function() {
+    $( "#appbundle_flight_deptime" ).timepicker({
+        defaultTime: false,
+        minuteStep: 5,
+        showMeridian: false,
+        format: "H:i"
+    });
+    $( "#appbundle_flight_arrtime" ).timepicker({
+        defaultTime: false,
+        minuteStep: 5,
+        showMeridian: false,
+    });
+});
+</script>
+
+{% endblock %}
+
+{% block contenthead %}
+<h3 class="card-header">Create new flight</h3>
+<div class="card-block">
+    {% form_theme form 'bootstrap_3_layout.html.twig' %}
+    {{ form_start(form) }}
+    {% form_theme form.deptime 'form/form_div_layout.html.twig' %}
+    {% form_theme form.arrtime 'form/form_div_layout.html.twig' %}
+
+    <div class="input-group row col-md-12 col-sm-12 col-xs-12 col-lg-12">
+        <div class="col-md-4 col-sm-6 col-lg-4">
+            {{ form_label(form.number) }}
+            {{ form_errors(form.number) }}
+            {{ form_widget(form.number) }}
+        </div>
+    </div>
+    <div class="input-group row col-md-12 col-sm-12 col-xs-12 col-lg-12">
+        <div class="col-md-4 col-sm-6 col-lg-4">
+            {{ form_label(form.type) }}
+            {{ form_errors(form.type) }}
+            {{ form_widget(form.type) }}
+        </div>
+    </div>
+    <div class="input-group row col-md-12 col-sm-12 col-xs-12 col-lg-12">
+        <div class="col-md-4 col-sm-6 col-lg-4">
+            {{ form_label(form.arrtime) }}
+            {{ form_errors(form.arrtime) }}
+            {{ form_widget(form.arrtime) }}
+        </div>
+    </div>
+    <div class="input-group row col-md-12 col-sm-12 col-xs-12 col-lg-12">
+        <div class="col-md-4 col-sm-6 col-lg-4">
+            {{ form_label(form.deptime) }}
+            {{ form_errors(form.deptime) }}
+            {{ form_widget(form.deptime) }}
+        </div>
+    </div>
+
+    <button type="submit" name="button" class="btn btn-primary">{{ 'admin.driver_add.form.go'|trans }}</button>
+    {{ form_end(form) }}
+{% endblock %}
+
+{% block contentinterne %}
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th class="hidden-xs">Number</th>
+            <th>{{ 'book.flight.deptime'|trans }}</th>
+            <th>{{ 'book.flight.arrtime'|trans }}</th>
+            <th>{{ 'book.flight.dest'|trans }}</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for flight in entities %}
+        <tr>
+            <td>{{flight.number}}</td>
+            <td>{{flight.deptime|date('H:i')}}</td>
+            <td>{{flight.arrtime|date('H:i')}}</td>
+            <td>
+                {% if flight.type == 'ARR' %}DOH → CDG{% else %}CDG → DOH{% endif %}
+            </td>
+            <td>
+                <a href="{{ path('admin.manage.flights.remove', {'id':flight.id})}}" type="button" class="btn btn-danger">Remove</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

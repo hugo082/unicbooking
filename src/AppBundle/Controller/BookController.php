@@ -82,7 +82,7 @@ class BookController extends Controller
     }
 
     /**
-    * @Route("/show/{uid}", name="show")
+    * @Route("/show/{uid}", requirements={"uid" = "\d+"}, name="show")
     */
     public function showAction(Request $request, $uid)
     {

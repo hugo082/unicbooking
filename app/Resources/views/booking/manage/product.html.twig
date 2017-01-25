@@ -1,0 +1,69 @@
+{% extends 'booking/manage/layout.html.twig' %}
+
+{% block title %}{{parent()}} • Products{% endblock %}
+
+
+{% block contenthead %}
+<h3 class="card-header">Create new product</h3>
+<div class="card-block">
+    {% form_theme form 'bootstrap_3_layout.html.twig' %}
+    {{ form_start(form) }}
+
+    <div class="input-group row col-md-12 col-sm-12 col-xs-12 col-lg-12">
+        <div class="col-md-4 col-sm-6 col-lg-4">
+            {{ form_label(form.name) }}
+            {{ form_errors(form.name) }}
+            {{ form_widget(form.name) }}
+        </div>
+    </div>
+    <div class="input-group row col-md-12 col-sm-12 col-xs-12 col-lg-12">
+        <div class="col-md-4 col-sm-6 col-lg-4">
+            {{ form_label(form.price) }}
+            {{ form_errors(form.price) }}
+            {{ form_widget(form.price) }}
+        </div>
+    </div>
+    <div class="input-group row col-md-12 col-sm-12 col-xs-12 col-lg-12">
+        <div class="col-md-4 col-sm-6 col-lg-4">
+            {{ form_label(form.passengers) }}
+            {{ form_errors(form.passengers) }}
+            {{ form_widget(form.passengers) }}
+        </div>
+    </div>
+    <div class="input-group row col-md-12 col-sm-12 col-xs-12 col-lg-12">
+        <div class="col-md-4 col-sm-6 col-lg-4">
+            {{ form_label(form.code) }}
+            {{ form_errors(form.code) }}
+            {{ form_widget(form.code) }}
+        </div>
+    </div>
+
+    <button type="submit" name="button" class="btn btn-primary">{{ 'admin.driver_add.form.go'|trans }}</button>
+    {{ form_end(form) }}
+{% endblock %}
+
+{% block contentinterne %}
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th class="hidden-xs">Name</th>
+            <th>Price</th>
+            <th>Passengers</th>
+            <th>Code</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for prod in entities %}
+        <tr>
+            <td>{{prod.name}}</td>
+            <td>{{prod.price}}</td>
+            <td>{{prod.passengers}}</td>
+            <td>{{prod.code}}</td>
+            <td>
+                <a href="{{ path('admin.manage.prod.remove', {'id':prod.id})}}" type="button" class="btn btn-danger">Remove</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

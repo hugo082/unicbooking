@@ -1,0 +1,47 @@
+{% extends 'booking/layout.html.twig' %}
+
+{% block title %}{{parent()}} • Manage{% endblock %}
+
+{% block stylesheets %}
+{{parent()}}
+<style media="screen">
+#content::before {
+    background: url("{{ asset('bundles/booking/img/24725242_l.jpg') }}") no-repeat 75% top;
+    background-size: cover;
+}
+</style>
+{% endblock %}
+
+
+{% block headscripts %}
+{{parent()}}
+{% endblock %}
+
+{% block content %}
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+    {% if edited is defined and edited %}
+    <div class="alert alert-info"><strong>Updated</strong> Changes have been saved</div>
+    {% endif %}
+    <div class="card">
+        {% block contenthead %}{% endblock %}
+    </div>
+</div>
+
+<div class="card">
+    <h3 class="card-header">Manage</h3>
+    <div class="card-block">
+        {% if entities is empty %}
+        No pending registration
+        {% else %}
+        <table class="table table-striped">
+            {% block contentinterne %}{% endblock %}
+        </table>
+        {% endif %}
+    </div>
+</div>
+</div>
+{% endblock %}
+
+{% block javascripts %}
+{{parent()}}
+{% endblock %}
