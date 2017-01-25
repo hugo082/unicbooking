@@ -39,7 +39,7 @@ class DefaultController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
-            return $this->redirectToRoute('show', array('id' => $data['booknb']));
+            return $this->redirectToRoute('show', array('uid' => $data['booknb']));
         }
 
         return $this->render('booking/manage.html.twig', [
