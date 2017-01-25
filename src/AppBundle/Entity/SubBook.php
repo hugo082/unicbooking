@@ -209,7 +209,7 @@ class SubBook
     }
 
     public function backChange($book){
-        $rejected_var = array('parent', 'state', 'creationdate', 'id');
+        $rejected_var = array('parent', 'state', 'creationdate', 'id', 'number');
         $vars = get_object_vars($this);
         foreach ($vars as $key => $value) {
             if ($value != NULL && !in_array($key, $rejected_var)) {

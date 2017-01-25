@@ -70,6 +70,7 @@
                             {% endif %}
                         </td>
                         <td><a href="{{ path('show', {'uid': book.uid}) }}" class="btn btn-default">{{ 'manage.last.show'|trans }}</a></td>
+                        <td><a href="{{ path('book.edit', {'uid': book.uid}) }}" class="btn btn-default">{{ 'manage.last.edit'|trans }}</a></td>
                     </tr>
                     {% endfor %}
                 </tbody>

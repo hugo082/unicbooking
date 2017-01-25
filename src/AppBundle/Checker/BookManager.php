@@ -10,6 +10,7 @@ use AppBundle\Exception\AlreadyEditedException;
 use AppBundle\Exception\NotFoundException;
 use AppBundle\Exception\NotEnabledException;
 use AppBundle\Exception\AccessDeniedException;
+use AppBundle\Exception\NotAcceptedException;
 
 class BookManager
 {
@@ -28,6 +29,9 @@ class BookManager
 
     public function edit($book, $uid) {
         $this->base($book, $uid);
+        if ($book->getState() != 'ACCEPTED') {
+            throw new NotAcceptedException($book);
+        }
         if ($this->subrepo->getLastEdit($book) != NULL) {
             throw new AlreadyEditedException($book);
         }

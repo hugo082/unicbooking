@@ -3,8 +3,6 @@
 {% block title %}{{parent()}} • Show{% endblock %}
 
 {% block contentinterne %}
-
-{% if book is defined %}
 {% form_theme form 'bootstrap_3_layout.html.twig' %}
 
 {% if is_granted('ROLE_ADMIN') %}
@@ -53,8 +51,8 @@
 </div>
 {% else %}
 
-    {% if book.state == 'WAITING' %}
-    <div class="alert alert-info"><strong>{{ 'book.state.wait.title'|trans }}</strong> {{ 'book.state.wait.content'|trans }}</div>
+{% if book.state == 'WAITING' %}
+<div class="alert alert-info"><strong>{{ 'book.state.wait.title'|trans }}</strong> {{ 'book.state.wait.content'|trans }}</div>
 {% elseif book.state == 'EDITED' %}
 <div class="alert alert-info"><strong>Edited</strong> This book was modified. Waiting for acceptance.</div>
 {% elseif book.state == 'ACCEPTED' %}
@@ -66,14 +64,5 @@
 {% endif %}
 
 {% include 'booking/show/content.html.twig' %}
-{% else %}
-<div class="card">
-    <h3 class="card-header">{{ 'show.notfound.title'|trans }}</h3>
-    <div class="card-block">
-        <h5>{{ 'show.notfound.desc'|trans({'%id%': book_id_finded})}}</h5>
-        <p>{{ 'show.notfound.content'|trans({'%id%': book_id_finded, '%ls%': '<a href="' ~ path('homepage') ~ '">', '%le%':'</a>'}) |raw }}</p>
-    </div>
-</div>
-{% endif %}
 
 {% endblock %}

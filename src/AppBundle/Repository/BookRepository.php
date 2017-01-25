@@ -18,7 +18,8 @@ class BookRepository extends \Doctrine\ORM\EntityRepository
         ->andwhere('b.creationdate <= :limit_top')
         ->setParameter('limit_top', new \DateTime())
         ->andwhere('b.creationdate >= :limit_bottom')
-        ->setParameter('limit_bottom', new \DateTime("-1 month"));
+        ->setParameter('limit_bottom', new \DateTime("-1 month"))
+        ->orderBy('b.id', 'DESC');
 
         return $qb
         ->getQuery()

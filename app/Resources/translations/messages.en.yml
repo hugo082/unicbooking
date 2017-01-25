@@ -46,6 +46,7 @@ manage:
         fdate: Date
         customer: Passenger
         show: Show
+        edit: Edit
 
 book:
     state:
