@@ -28,11 +28,7 @@ class ProdController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->persist($prod);
             $em->flush();
-            return $this->render('booking/manage/product.html.twig', array(
-                'form' => $form->createView(),
-                'entities' => $prods,
-                'edited' => true
-            ));
+            return $this->redirectToRoute('admin.manage.prod');
         }
 
         return $this->render('booking/manage/product.html.twig', array(

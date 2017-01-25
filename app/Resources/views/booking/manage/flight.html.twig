@@ -85,7 +85,7 @@ $( function() {
     <tbody>
         {% for flight in entities %}
         <tr>
-            <td>{{flight.number}}</td>
+            <td>{{flight.fullnumber}}</td>
             <td>{{flight.deptime|date('H:i')}}</td>
             <td>{{flight.arrtime|date('H:i')}}</td>
             <td>

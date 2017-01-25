@@ -31,7 +31,7 @@ class AdminController extends Controller
 
         $waitingusers = $this->getDoctrine()->getRepository('AppBundle:User')->findByEnabled(false);
 
-        return $this->render('booking/admin.html.twig', array(
+        return $this->render('booking/manage/index.html.twig', array(
             'form' => $form->createView(),
             'w_users' => $waitingusers
         ));

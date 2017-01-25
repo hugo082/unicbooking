@@ -29,11 +29,7 @@ class FlightController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->persist($flight);
             $em->flush();
-            return $this->render('booking/manage/flight.html.twig', array(
-                'form' => $form->createView(),
-                'entities' => $flights,
-                'edited' => true
-            ));
+            return $this->redirectToRoute('admin.manage.flights');
         }
 
         return $this->render('booking/manage/flight.html.twig', array(

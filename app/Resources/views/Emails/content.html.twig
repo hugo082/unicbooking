@@ -38,10 +38,10 @@
 <table>
     <tr>
         <td><span class="info">Flight</span></td>
-        <td><span class="info">{{book.flight.number}}</span></td>
+        <td><span class="info">{{book.flight.fullnumber}}</span></td>
     </tr>
     <tr>
-        <td><span class="info">Arival</span></td>
+        <td><span class="info">Arrival</span></td>
         <td><span class="info">{{book.flight.arrtime|date("H:m")}}</span></td>
     </tr>
     <tr>
@@ -50,7 +50,7 @@
     </tr>
     <tr>
         <td><span class="info">Destination</span></td>
-        <td><span class="info">{% if book.flight.type == 'ARR' %}DOH → CDG{% else %}CDG → COH{% endif %}</span></td>
+        <td><span class="info">{% if book.flight.type == 'ARR' %}DOH → CDG{% else %}CDG → DOH{% endif %}</span></td>
     </tr>
 </table>
 

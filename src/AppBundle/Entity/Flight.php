@@ -85,6 +85,16 @@ class Flight
     }
 
     /**
+     * Get number with compagny id
+     *
+     * @return string
+     */
+    public function getFullNumber()
+    {
+        return "QR" . $this->number;
+    }
+
+    /**
      * Get number
      *
      * @return int
