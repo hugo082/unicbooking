@@ -15,7 +15,7 @@ class UserController extends Controller
     */
     public function indexAction(Request $request)
     {
-        $users = $this->getDoctrine()->getRepository('AppBundle:User')->findAll();
+        $users = $this->getDoctrine()->getRepository('AppBundle:User')->getAllVisible();
         return $this->render('booking/manage/user.html.twig', array(
             'entities' => $users
         ));
