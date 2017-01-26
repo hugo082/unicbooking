@@ -188,28 +188,4 @@ class Flight
         }
         return $value;
     }
-
-    /**
-     * Set compagny
-     *
-     * @param \AppBundle\Entity\Compagny $compagny
-     *
-     * @return Flight
-     */
-    public function setCompagny(\AppBundle\Entity\Compagny $compagny = null)
-    {
-        $this->compagny = $compagny;
-
-        return $this;
-    }
-
-    /**
-     * Get compagny
-     *
-     * @return \AppBundle\Entity\Compagny
-     */
-    public function getCompagny()
-    {
-        return $this->compagny;
-    }
 }

@@ -16,3 +16,7 @@ services:
         arguments: [ "@twig" ]
         tags:
             - { name: kernel.event_listener, event: kernel.exception, method: onKernelException }
+    app.book.form:
+        class: AppBundle\Form\BookType
+        arguments: [ "@security.token_storage" ]
+        tags: [{ name: form.type }]

@@ -39,6 +39,14 @@ class User extends BaseUser
     */
     protected $books;
 
+    /**
+    * @var Compagny
+    * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Compagny")
+    * @ORM\JoinColumn(nullable=true)
+    */
+    private $compagny;
+    
+
     public function __construct()
     {
         parent::__construct();
@@ -125,5 +133,29 @@ class User extends BaseUser
     public function getLastname()
     {
         return $this->lastname;
+    }
+
+    /**
+     * Set compagny
+     *
+     * @param \AppBundle\Entity\Compagny $compagny
+     *
+     * @return User
+     */
+    public function setCompagny(\AppBundle\Entity\Compagny $compagny = null)
+    {
+        $this->compagny = $compagny;
+
+        return $this;
+    }
+
+    /**
+     * Get compagny
+     *
+     * @return \AppBundle\Entity\Compagny
+     */
+    public function getCompagny()
+    {
+        return $this->compagny;
     }
 }

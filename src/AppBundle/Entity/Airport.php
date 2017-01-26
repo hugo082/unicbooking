@@ -5,12 +5,12 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Service
+ * Airport
  *
- * @ORM\Table(name="product")
- * @ORM\Entity(repositoryClass="AppBundle\Repository\ProductRepository")
+ * @ORM\Table(name="airport")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\AirportRepository")
  */
-class Product
+class Airport
 {
     /**
      * @var int
@@ -29,23 +29,9 @@ class Product
     private $name;
 
     /**
-     * @var int
-     *
-     * @ORM\Column(name="price", type="integer")
-     */
-    private $price;
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="passengers", type="integer")
-     */
-    private $passengers;
-
-    /**
      * @var string
      *
-     * @ORM\Column(name="code", type="string", length=255)
+     * @ORM\Column(name="code", type="string", length=255, unique=true)
      */
     private $code;
 
@@ -56,19 +42,6 @@ class Product
     */
     private $compagny;
 
-    /**
-     * Get Full Name
-     */
-    public function getFullName()
-    {
-        $res = $this->name . " " . $this->price . "€ (" . $this->passengers;
-        if ($this->passengers > 1) {
-            $res .=  " Persons)";
-        } else {
-            $res .=  " Person)";
-        }
-        return $res;
-    }
 
     /**
      * Get id
@@ -85,7 +58,7 @@ class Product
      *
      * @param string $name
      *
-     * @return Service
+     * @return Airport
      */
     public function setName($name)
     {
@@ -105,51 +78,13 @@ class Product
     }
 
     /**
-     * Set price
+     * Get name
      *
-     * @param integer $price
-     *
-     * @return Service
+     * @return string
      */
-    public function setPrice($price)
+    public function getFullName()
     {
-        $this->price = $price;
-
-        return $this;
-    }
-
-    /**
-     * Get price
-     *
-     * @return int
-     */
-    public function getPrice()
-    {
-        return $this->price;
-    }
-
-    /**
-     * Set passengers
-     *
-     * @param integer $passengers
-     *
-     * @return Service
-     */
-    public function setPassengers($passengers)
-    {
-        $this->passengers = $passengers;
-
-        return $this;
-    }
-
-    /**
-     * Get passengers
-     *
-     * @return int
-     */
-    public function getPassengers()
-    {
-        return $this->passengers;
+        return $this->code . " - " . $this->name;
     }
 
     /**
@@ -157,7 +92,7 @@ class Product
      *
      * @param string $code
      *
-     * @return Service
+     * @return Airport
      */
     public function setCode($code)
     {
@@ -181,7 +116,7 @@ class Product
      *
      * @param \AppBundle\Entity\Compagny $compagny
      *
-     * @return Product
+     * @return Airport
      */
     public function setCompagny(\AppBundle\Entity\Compagny $compagny = null)
     {

@@ -27,11 +27,11 @@ class Book
     private $uid;
 
     /**
-    * @var string
-    *
-    * @ORM\Column(name="airport", type="string", length=255)
+    * @var Airport
+    * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Airport")
+    * @ORM\JoinColumn(nullable=true)
     */
-    protected $airport;
+    private $airport;
 
     /**
     * @var \DateTime
@@ -262,30 +262,6 @@ class Book
     }
 
     /**
-    * Set airport
-    *
-    * @param string $airport
-    *
-    * @return Book
-    */
-    public function setAirport($airport)
-    {
-        $this->airport = $airport;
-
-        return $this;
-    }
-
-    /**
-    * Get airport
-    *
-    * @return string
-    */
-    public function getAirport()
-    {
-        return $this->airport;
-    }
-
-    /**
     * Set date
     *
     * @param \DateTime $date
@@ -403,6 +379,16 @@ class Book
     public function getChildcus()
     {
         return $this->childcus;
+    }
+
+    /**
+    * Get total customers
+    *
+    * @return integer
+    */
+    public function getTotalcus()
+    {
+        return count($this->customers);
     }
 
     /**
@@ -890,5 +876,39 @@ class Book
     public function getSubbooks()
     {
         return $this->subbooks;
+    }
+
+    /**
+     * Set uid
+     *
+     * @param integer $uid
+     *
+     * @return Book
+     */
+    public function setUid($uid)
+    {
+        $this->uid = $uid;
+
+        return $this;
+    }
+
+    /**
+     * Get uid
+     *
+     * @return integer
+     */
+    public function getUid()
+    {
+        return $this->uid;
+    }
+
+    /**
+     * Get fullid
+     *
+     * @return integer
+     */
+    public function getFullid()
+    {
+        return $this->uid . "#" . count($this->subbooks);
     }
 }

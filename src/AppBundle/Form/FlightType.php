@@ -6,6 +6,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\TimeType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -38,6 +39,13 @@ class FlightType extends AbstractType
             'label' => "book.form.timepu",
             'widget' => 'single_text',
             'input' => 'string'
+        ))
+        ->add('compagny', EntityType::class, array(
+            'class' => 'AppBundle:Compagny',
+            'placeholder' => 'book.form.select.placeholder',
+            'choice_label' => function ($p) {return $p->getFullName();},
+            'label' => 'Compagny',
+            'required' => false
         ));
     }
 

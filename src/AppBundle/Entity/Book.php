@@ -27,20 +27,17 @@ class Book
     private $uid;
 
     /**
-    * @var string
-    *
-    * @ORM\Column(name="airport", type="string", length=255)
+    * @var Airport
+    * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Airport")
+    * @ORM\JoinColumn(nullable=false)
     */
-    protected $airport;
+    private $airport;
 
     /**
     * @var \DateTime
     *
     * @ORM\Column(name="date", type="date")
-    * @Assert\Range(
-    *      min = "now",
-    *      minMessage = "date.min.now"
-    * )
+    * @Assert\GreaterThanOrEqual("yesterday")
     */
     protected $date;
 
@@ -259,30 +256,6 @@ class Book
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-    * Set airport
-    *
-    * @param string $airport
-    *
-    * @return Book
-    */
-    public function setAirport($airport)
-    {
-        $this->airport = $airport;
-
-        return $this;
-    }
-
-    /**
-    * Get airport
-    *
-    * @return string
-    */
-    public function getAirport()
-    {
-        return $this->airport;
     }
 
     /**
@@ -934,5 +907,29 @@ class Book
     public function getFullid()
     {
         return $this->uid . "#" . count($this->subbooks);
+    }
+
+    /**
+     * Set airport
+     *
+     * @param \AppBundle\Entity\Airport $airport
+     *
+     * @return Book
+     */
+    public function setAirport(\AppBundle\Entity\Airport $airport = null)
+    {
+        $this->airport = $airport;
+
+        return $this;
+    }
+
+    /**
+     * Get airport
+     *
+     * @return \AppBundle\Entity\Airport
+     */
+    public function getAirport()
+    {
+        return $this->airport;
     }
 }

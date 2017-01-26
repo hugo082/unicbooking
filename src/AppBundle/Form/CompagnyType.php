@@ -6,11 +6,9 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 
-class ProductType extends AbstractType
+class CompagnyType extends AbstractType
 {
     /**
      * {@inheritdoc}
@@ -21,21 +19,14 @@ class ProductType extends AbstractType
         ->add('name', TextType::class, array(
             'label' => 'Name'
         ))
-        ->add('price', IntegerType::class, array(
-            'label' => 'Price'
-        ))
-        ->add('passengers', IntegerType::class, array(
-            'label' => 'Passengers'
-        ))
         ->add('code', TextType::class, array(
             'label' => 'Code'
         ))
-        ->add('compagny', EntityType::class, array(
-            'class' => 'AppBundle:Compagny',
-            'placeholder' => 'book.form.select.placeholder',
-            'choice_label' => function ($p) {return $p->getFullName();},
-            'label' => 'Compagny',
-            'required' => false
+        ->add('maincolor', TextType::class, array(
+            'label' => 'Main color'
+        ))
+        ->add('secondcolor', TextType::class, array(
+            'label' => 'Second color'
         ));
     }
 
@@ -45,7 +36,7 @@ class ProductType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\Product'
+            'data_class' => 'AppBundle\Entity\Compagny'
         ));
     }
 
@@ -54,7 +45,7 @@ class ProductType extends AbstractType
      */
     public function getBlockPrefix()
     {
-        return 'appbundle_product';
+        return 'appbundle_compagny';
     }
 
 

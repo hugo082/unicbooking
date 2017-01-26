@@ -38,14 +38,14 @@ class AdminController extends Controller
     }
 
     /**
-    * @Route("/admin/answer/user/{uid}/{state}", name="admin.answer.user")
+    * @Route("/admin/answer/user/{id}/{state}", name="admin.answer.user")
     */
-    public function answerUserAction(Request $request, $uid, $state)
+    public function answerUserAction(Request $request, $id, $state)
     {
-        $user = $this->getDoctrine()->getRepository('AppBundle:User')->findOneByUid($uid);
+        $user = $this->getDoctrine()->getRepository('AppBundle:User')->find($id);
         if (!$user) {
             throw $this->createNotFoundException(
-                'No user found for uid '.$uid
+                'No user found for id '.$id
             );
         }
         $em = $this->getDoctrine()->getManager();

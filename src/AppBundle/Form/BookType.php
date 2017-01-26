@@ -21,13 +21,30 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
+use Doctrine\ORM\EntityRepository;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
+
 class BookType extends AbstractType
 {
+
+    private $user = NULL;
+    protected $token;
+
+    public function __construct(TokenStorage $token)
+    {
+        $this->token = $token;
+    }
+
     /**
     * {@inheritdoc}
     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+
+        // 'query_builder' => function (EntityRepository $er) {
+        //         return $er->createQueryBuilder('u')
+        //             ->orderBy('u.username', 'ASC');
+        //     }
         $builder
         ->add('agentemail', EmailType::class, array(
             'label' => "agent.email"
@@ -38,11 +55,16 @@ class BookType extends AbstractType
         ->add('agentfirstname', TextType::class, array(
             'label' => "agent.fname"
         ))
-        ->add('airport', ChoiceType::class, array(
-            'choices'  => array(
-                'book.form.cdg' => 'CDG 1'
-            ),
-            'label' => 'book.form.air'
+        ->add('airport', EntityType::class, array('class' => 'AppBundle:Airport',
+        'placeholder' => 'book.form.select.placeholder',
+        'choice_label' => function ($p) {return $p->getFullName();},
+        'label' => 'book.form.air',
+        'query_builder' => function (EntityRepository $er) {
+            return $er->createQueryBuilder('a')
+            ->where('a.compagny = :cmp')
+            ->setParameter('cmp', $this->getUser()->getCompagny())
+            ->orwhere('a.compagny is NULL');
+        }
         ))
         ->add('date', DateType::class, array(
             'label' => 'book.form.date',
@@ -58,16 +80,27 @@ class BookType extends AbstractType
             'placeholder' => 'book.form.select.placeholder',
             'label' => 'book.form.rqserv'
         ))
-        ->add('product', EntityType::class,
-        array('class' => 'AppBundle:Product',
+        ->add('product', EntityType::class, array('class' => 'AppBundle:Product',
         'placeholder' => 'book.form.select.placeholder',
         'choice_label' => function ($p) {return $p->getFullName();},
-        'label' => 'book.form.prod'))
+        'label' => 'book.form.prod',
+        'query_builder' => function (EntityRepository $er) {
+            return $er->createQueryBuilder('p')
+            ->where('p.compagny = :cmp')
+            ->setParameter('cmp', $this->getUser()->getCompagny())
+            ->orwhere('p.compagny is NULL');
+        }))
         ->add('flight', EntityType::class, array( 'class' => 'AppBundle:Flight',
         'choice_label' => function ($f) {return $f->getFullName();},
         'label' => 'book.form.flight',
         'placeholder' => 'book.form.select.placeholder',
-        'choice_attr' => function($f) {return ['is' => $f->getType()];}
+        'choice_attr' => function($f) {return ['is' => $f->getType()];},
+        'query_builder' => function (EntityRepository $er) {
+            return $er->createQueryBuilder('f')
+            ->where('f.compagny = :cmp')
+            ->setParameter('cmp', $this->getUser()->getCompagny())
+            ->orwhere('f.compagny is NULL');
+        }
         ))
         ->add('bags', ChoiceType::class, array(
             'label' => 'book.form.bags',
@@ -164,5 +197,12 @@ class BookType extends AbstractType
         return 'appbundle_book';
     }
 
+    private function getUser()
+    {
+        if ($this->user == NULL) {
+            $this->user = $this->token->getToken()->getUser();
+        }
+        return $this->user;
+    }
 
 }

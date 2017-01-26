@@ -39,6 +39,14 @@ class User extends BaseUser
     */
     protected $books;
 
+    /**
+    * @var Compagny
+    * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Compagny")
+    * @ORM\JoinColumn(nullable=true)
+    */
+    private $compagny;
+    
+
     public function __construct()
     {
         parent::__construct();
