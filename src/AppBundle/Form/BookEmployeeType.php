@@ -15,6 +15,8 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
+use Doctrine\ORM\EntityRepository;
+
 class BookEmployeeType extends AbstractType
 {
     /**
@@ -26,6 +28,11 @@ class BookEmployeeType extends AbstractType
         ->add('driver', EntityType::class, array(
             'class' => 'AppBundle:Employee',
             'choice_label' => function ($p) {return $p->getFullName();},
+            'query_builder' => function (EntityRepository $er) {
+                return $er->createQueryBuilder('e')
+                ->where('e.type = :typ')
+                ->setParameter('typ', 'Driver');
+            },
             'label' => 'show.form.driver',
             'required' => false,
             'placeholder' => 'book.form.select.placeholder'
@@ -33,6 +40,11 @@ class BookEmployeeType extends AbstractType
         ->add('greeter', EntityType::class, array(
             'class' => 'AppBundle:Employee',
             'choice_label' => function ($p) {return $p->getFullName();},
+            'query_builder' => function (EntityRepository $er) {
+                return $er->createQueryBuilder('e')
+                ->where('e.type = :typ')
+                ->setParameter('typ', 'Greeter');
+            },
             'label' => 'show.form.greeter',
             'placeholder' => 'book.form.select.placeholder'
         ));

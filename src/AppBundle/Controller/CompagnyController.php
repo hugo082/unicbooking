@@ -15,13 +15,13 @@ use AppBundle\Form\CompagnyType;
 class CompagnyController extends Controller
 {
     /**
-    * @Route("/admin/manage/compagnys", name="admin.manage.compagnys")
+    * @Route("/admin/manage/airlines", name="admin.manage.compagnys")
     */
     public function indexAction(Request $request)
     {
         $compagny = new Compagny();
 
-        $compagnys = $this->getDoctrine()->getRepository('AppBundle:Compagny')->findAll();
+        $compagnys = $this->getDoctrine()->getRepository('AppBundle:Compagny')->getAllVisible();
 
         $form = $this->createForm(CompagnyType::class, $compagny);
         $form->handleRequest($request);
@@ -39,17 +39,40 @@ class CompagnyController extends Controller
     }
 
     /**
-    * @Route("/admin/manage/compagnys/remove/{id}", requirements={"id" = "\d+"}, name="admin.manage.compagnys.remove")
+    * @Route("/admin/manage/airlines/remove/{id}", requirements={"id" = "\d+"}, name="admin.manage.compagnys.remove")
     */
     public function removeAction(Request $request, $id)
     {
         $compagny = $this->getDoctrine()->getRepository('AppBundle:Compagny')->find($id);
         if ($compagny) {
+            $compagny->setRemoved(true);
             $em = $this->getDoctrine()->getManager();
-            $em->remove($compagny);
+            $em->persist($compagny);
             $em->flush();
         }
         return $this->redirectToRoute('admin.manage.compagnys');
+    }
+
+    /**
+    * @Route("/admin/manage/compagnys/edit/{id}", requirements={"id" = "\d+"}, name="admin.manage.compagnys.edit")
+    */
+    public function editAction(Request $request, $id)
+    {
+        $compagny = $this->getDoctrine()->getRepository('AppBundle:Compagny')->find($id);
+        if (!$compagny) {
+            return $this->redirectToRoute('admin.manage.compagnys');
+        }
+        $form = $this->createForm(CompagnyType::class, $compagny);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($compagny);
+            $em->flush();
+            return $this->redirectToRoute('admin.manage.compagnys');
+        }
+        return $this->render('booking/manage/compagny.html.twig', array(
+            'form' => $form->createView()
+        ));
     }
 
 }

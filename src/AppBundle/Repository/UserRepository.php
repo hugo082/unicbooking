@@ -16,8 +16,24 @@ class UserRepository extends \Doctrine\ORM\EntityRepository
         $qb
         ->select('u')
         ->where('NOT u.roles LIKE :role')
-        ->setParameter('role', '%"ROLE_SUPER_ADMIN"%' );
-        
+        ->setParameter('role', '%"ROLE_SUPER_ADMIN"%' )
+        ->andwhere('u.removed = :rm')
+        ->setParameter('rm', false );
+
+        return $qb
+        ->getQuery()
+        ->getResult();
+    }
+
+    public function getWaiting() {
+        $qb = $this->createQueryBuilder('u');
+
+        $qb
+        ->select('u')
+        ->where('u.enabled = :arg')
+        ->andwhere('u.removed = :arg')
+        ->setParameter('arg', false );
+
         return $qb
         ->getQuery()
         ->getResult();

@@ -146,7 +146,7 @@
                 </tr>
                 <tr>
                     <td class="col-md-6">{{ 'book.form.bags'|trans }}</td>
-                    <td class="value">{{book.bags}} ( {{book.bags * 10}} € )</td>
+                    <td class="value">{{book.bags}} bag(s) ( {{book.bags * 10}} € )</td>
                 </tr>
             </tbody>
         </table>
@@ -172,6 +172,7 @@
             <span class="customer_title">{{customer.title}}</span>
             <span class="customer_fname">{{customer.firstname}}</span>
             <span class="customer_lname">{{customer.lastname}}</span>
+            <span class="customer_lname">{{customer.cabin}}</span>
             <span class="customer_phone">{{customer.phone}}</span>
         </div>
         {% endfor %}
@@ -183,8 +184,8 @@
         <table class="table">
             <tbody>
                 <tr>
-                    <td class="col-md-6">{{ 'book.flight.fullnumber'|trans }}</td>
-                    <td class="value">{{book.flight.fullnumber}}</td>
+                    <td class="col-md-6">{{ 'book.flight.number'|trans }}</td>
+                    <td class="value">{{book.flight.number}}</td>
                 </tr>
                 <tr>
                     <td class="col-md-6">{{ 'book.flight.deptime'|trans }}</td>
@@ -196,9 +197,7 @@
                 </tr>
                 <tr>
                     <td class="col-md-6">{{ 'book.flight.dest'|trans }}</td>
-                    <td class="value">
-                        {% if book.flight.type == 'ARR' %}DOH → CDG{% else %}CDG → DOH{% endif %}
-                    </td>
+                    <td class="value">{{book.flight.destination}}</td>
                 </tr>
             </tbody>
         </table>

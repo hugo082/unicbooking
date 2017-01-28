@@ -20,6 +20,12 @@
 {{parent()}}
 {% endblock %}
 
+{% if entities is defined %}
+{% set key = 'admin.driver_add.form.go'|trans %}
+{% else %}
+{% set key = 'Edit' %}
+{% endif %}
+
 {% block content %}
 <div class="no-pad col-lg-12 col-md-12 col-sm-12 col-xs-12">
     <div class="card">
@@ -27,12 +33,13 @@
     </div>
 </div>
 
+{% if entities is defined %}
 <div class="no-pad col-lg-12 col-md-12 col-sm-12 col-xs-12">
     <div class="card">
         <h3 class="card-header">Manage</h3>
         <div class="card-block">
             {% if entities is empty %}
-            No pending registration
+            Empty
             {% else %}
             <table class="table table-striped">
                 {% block contentinterne %}{% endblock %}
@@ -41,6 +48,7 @@
         </div>
     </div>
 </div>
+{% endif %}
 {% endblock %}
 
 {% block javascripts %}

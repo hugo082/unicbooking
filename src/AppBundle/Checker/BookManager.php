@@ -52,7 +52,7 @@ class BookManager
         if ($book->getEnabled() == $bool) {
             throw new NotEnabledException($book);
         }
-        if ($this->getUser() != $book->getUser()) { //&& !$this->context->isGranted('ROLE_ADMIN')) {
+        if ($this->getUser() != $book->getUser() && !$this->context->isGranted('ROLE_ADMIN')) {
             throw new AccessDeniedException($book);
         }
     }

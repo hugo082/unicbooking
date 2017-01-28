@@ -42,7 +42,7 @@ table {
 {{ form_start(form) }}
 <div class="form-group">
     <h2 class="title padd contentAnim" title="Select Service type for your booking">
-        <span>Agent</span>
+        <span>Booking Agent</span>
     </h2>
     <div class="input-group row col-md-12 col-sm-12 col-xs-12 col-lg-12">
         <div class="col-md-4 col-sm-4 col-lg-4">
@@ -88,14 +88,14 @@ table {
             {{ form_errors(form.product) }}
             {{ form_widget(form.product) }}
         </div>
+        <button type="button" class="info btn btn-primary" data-toggle="modal" data-target="#infoModal">
+            <span class="glyphicon glyphicon-info-sign"></span>
+        </button>
         <div class="col-lg-4 col-md-4 col-sm-4">
             {{ form_label(form.flight) }}
             {{ form_errors(form.flight) }}
             {{ form_widget(form.flight) }}
         </div>
-        <button type="button" class="info btn btn-primary" data-toggle="modal" data-target="#infoModal">
-            <span class="glyphicon glyphicon-info-sign"></span>
-        </button>
         <!-- Modal -->
         <div id="infoModal" class="modal fade" role="dialog">
             <div class="modal-dialog">

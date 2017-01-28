@@ -10,6 +10,8 @@ use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 
+use Doctrine\ORM\EntityRepository;
+
 class CustomerType extends AbstractType
 {
     /**
@@ -63,6 +65,19 @@ class CustomerType extends AbstractType
             'attr' => array(
                 'class' => 'col-md-2 col-sm-3 col-lg-3 col-xs-4',
                 'placeholder' => 'cust.form.lname'
+            )
+        ))
+
+        ->add('cabin', ChoiceType::class, array(
+            'label' => false,
+            'choices'  => array(
+                'Economy  ' => 'Economy',
+                'First' => 'First',
+                'Business' => 'Business'
+            ),
+            'attr' => array(
+                'class' => 'col-md-2 col-sm-3 col-lg-3 col-xs-3',
+                'placeholder' => 'Cabin'
             )
         ))
         ->add('sexe', ChoiceType::class, array(

@@ -26,7 +26,7 @@ class Compagny
      *
      * @ORM\Column(name="removed", type="boolean")
      */
-    private $removed = false;
+    private $removed;
 
     /**
      * @var string
@@ -45,14 +45,14 @@ class Compagny
     /**
      * @var string
      *
-     * @ORM\Column(name="maincolor", type="string", length=7, nullable=true)
+     * @ORM\Column(name="maincolor", type="string", length=7)
      */
     private $maincolor;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="secondcolor", type="string", length=7, nullable=true)
+     * @ORM\Column(name="secondcolor", type="string", length=7)
      */
     private $secondcolor;
 
@@ -171,29 +171,5 @@ class Compagny
     public function getSecondcolor()
     {
         return $this->secondcolor;
-    }
-
-    /**
-     * Set removed
-     *
-     * @param boolean $removed
-     *
-     * @return Compagny
-     */
-    public function setRemoved($removed)
-    {
-        $this->removed = $removed;
-
-        return $this;
-    }
-
-    /**
-     * Get removed
-     *
-     * @return boolean
-     */
-    public function getRemoved()
-    {
-        return $this->removed;
     }
 }

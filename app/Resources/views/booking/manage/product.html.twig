@@ -4,7 +4,7 @@
 
 
 {% block contenthead %}
-<h3 class="card-header">Create new product</h3>
+<h3 class="card-header">{{key}} product</h3>
 <div class="card-block">
     {% form_theme form 'bootstrap_3_layout.html.twig' %}
     {{ form_start(form) }}
@@ -32,6 +32,13 @@
     </div>
     <div class="input-group row col-md-12 col-sm-12 col-xs-12 col-lg-12">
         <div class="col-md-4 col-sm-6 col-lg-4">
+            {{ form_label(form.transport) }}
+            {{ form_errors(form.transport) }}
+            {{ form_widget(form.transport) }}
+        </div>
+    </div>
+    <div class="input-group row col-md-12 col-sm-12 col-xs-12 col-lg-12">
+        <div class="col-md-4 col-sm-6 col-lg-4">
             {{ form_label(form.code) }}
             {{ form_errors(form.code) }}
             {{ form_widget(form.code) }}
@@ -45,7 +52,7 @@
         </div>
     </div>
 
-    <button type="submit" name="button" class="btn btn-primary">{{ 'admin.driver_add.form.go'|trans }}</button>
+    <button type="submit" name="button" class="btn btn-primary">{{key}}</button>
     {{ form_end(form) }}
 {% endblock %}
 
@@ -56,7 +63,9 @@
             <th class="hidden-xs">Name</th>
             <th>Price</th>
             <th>Passengers</th>
+            <th>Transport</th>
             <th>Code</th>
+            <th>Airline</th>
         </tr>
     </thead>
     <tbody>
@@ -65,9 +74,12 @@
             <td>{{prod.name}}</td>
             <td>{{prod.price}}</td>
             <td>{{prod.passengers}}</td>
+            <td>{{prod.transport ? 'YES' : 'NO'}}</td>
             <td>{{prod.code}}</td>
+            <td>{{prod.compagny ? prod.compagny.name : 'All'}}</td>
             <td>
                 <a href="{{ path('admin.manage.prod.remove', {'id':prod.id})}}" type="button" class="btn btn-danger">Remove</a>
+                <a href="{{ path('admin.manage.prod.edit', {'id':prod.id})}}" type="button" class="btn btn-default">Edit</a>
             </td>
         </tr>
         {% endfor %}

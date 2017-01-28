@@ -10,4 +10,16 @@ namespace AppBundle\Repository;
  */
 class EmployeeRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function getAllVisible() {
+        $qb = $this->createQueryBuilder('e');
+
+        $qb
+        ->select('e')
+        ->where('e.removed = :rm')
+        ->setParameter('rm', false );
+
+        return $qb
+        ->getQuery()
+        ->getResult();
+    }
 }

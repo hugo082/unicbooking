@@ -38,8 +38,6 @@ class BookController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->persist($book);
             $em->flush();
-            $this->sendEmail($book, true);
-            $this->sendEmail($book, false);
             return $this->redirectToRoute('book.enabled', array('uid' => $book->getUid()));
         }
 
@@ -124,6 +122,8 @@ class BookController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->persist($book);
             $em->flush();
+            $this->sendEmail($book, true);
+            $this->sendEmail($book, false);
             return $this->redirectToRoute('show', array('uid' => $uid));
         }
 
@@ -138,7 +138,7 @@ class BookController extends Controller
         $message = \Swift_Message::newInstance()
         ->setSubject('Unic Webooking • Acknowledgment of receipt')
         ->setFrom(array('admin@unicairport.com' => 'Unic Webooking'))
-        ->setTo(($admin) ? 'booking@unicvip.com' : $book->getUser()->getEmail())
+        ->setTo(($admin) ? 'booking@unicvip.com' : $book->getAgentemail())
         ->setBody($this->renderView('Emails/waiting.html.twig', array(
             'book' => $book,
             'user' => $book->getUser(),

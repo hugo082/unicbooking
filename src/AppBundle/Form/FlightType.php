@@ -8,8 +8,10 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\TimeType;
-use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+
+use Doctrine\ORM\EntityRepository;
 
 class FlightType extends AbstractType
 {
@@ -19,7 +21,7 @@ class FlightType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-        ->add('number', IntegerType::class, array(
+        ->add('number', TextType::class, array(
             'label' => 'book.flight.number'
         ))
         ->add('type', ChoiceType::class, array(
@@ -31,21 +33,38 @@ class FlightType extends AbstractType
             'label' => 'book.form.rqserv'
         ))
         ->add('deptime', TimeType::class, array(
-            'label' => "book.form.timepu",
+            'label' => "Departure time",
             'widget' => 'single_text',
-            'input' => 'string'
+            //'input' => 'string'
         ))
         ->add('arrtime', TimeType::class, array(
-            'label' => "book.form.timepu",
+            'label' => "Arrival time",
             'widget' => 'single_text',
-            'input' => 'string'
+            //'input' => 'string'
+        ))
+        ->add('depair', EntityType::class, array(
+            'class' => 'AppBundle:Airport',
+            'placeholder' => 'book.form.select.placeholder',
+            'choice_label' => function ($p) {return $p->getFullName();},
+            'label' => 'Departure airport'
+        ))
+        ->add('arrair', EntityType::class, array(
+            'class' => 'AppBundle:Airport',
+            'placeholder' => 'book.form.select.placeholder',
+            'choice_label' => function ($p) {return $p->getFullName();},
+            'label' => 'Arrival airport'
         ))
         ->add('compagny', EntityType::class, array(
             'class' => 'AppBundle:Compagny',
             'placeholder' => 'book.form.select.placeholder',
             'choice_label' => function ($p) {return $p->getFullName();},
-            'label' => 'Compagny',
-            'required' => false
+            'label' => 'Airline',
+            'required' => false,
+            'query_builder' => function (EntityRepository $er) {
+                return $er->createQueryBuilder('e')
+                ->where('e.removed = :rm')
+                ->setParameter('rm', false );
+            }
         ));
     }
 

@@ -14,18 +14,16 @@
     <thead>
         <tr>
             <th>Username</th>
-            <th>Firstname</th>
-            <th>Lastname</th>
-            <th>Email</th>
+            <th>Last login</th>
+            <th>Airline</th>
         </tr>
     </thead>
     <tbody>
         {% for user in entities %}
         <tr>
             <td>{{user.username}}</td>
-            <td>{{user.firstname}}</td>
-            <td>{{user.lastname}}</td>
-            <td>{{user.email}}</td>
+            <td>{{user.lastlogin|date('d-M-Y H:i')}}</td>
+            <td>{{user.compagny ? user.compagny.name : 'All'}}</td>
             <td>
                 <a href="{{ path('admin.manage.users.remove', {'id':user.id})}}" type="button" class="btn btn-danger">Remove</a>
             </td>

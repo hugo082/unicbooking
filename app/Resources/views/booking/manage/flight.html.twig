@@ -32,7 +32,7 @@ $( function() {
 {% endblock %}
 
 {% block contenthead %}
-<h3 class="card-header">Create new flight</h3>
+<h3 class="card-header">{{key}} flight</h3>
 <div class="card-block">
     {% form_theme form 'bootstrap_3_layout.html.twig' %}
     {{ form_start(form) }}
@@ -55,6 +55,13 @@ $( function() {
     </div>
     <div class="input-group row col-md-12 col-sm-12 col-xs-12 col-lg-12">
         <div class="col-md-4 col-sm-6 col-lg-4">
+            {{ form_label(form.deptime) }}
+            {{ form_errors(form.deptime) }}
+            {{ form_widget(form.deptime) }}
+        </div>
+    </div>
+    <div class="input-group row col-md-12 col-sm-12 col-xs-12 col-lg-12">
+        <div class="col-md-4 col-sm-6 col-lg-4">
             {{ form_label(form.arrtime) }}
             {{ form_errors(form.arrtime) }}
             {{ form_widget(form.arrtime) }}
@@ -62,9 +69,16 @@ $( function() {
     </div>
     <div class="input-group row col-md-12 col-sm-12 col-xs-12 col-lg-12">
         <div class="col-md-4 col-sm-6 col-lg-4">
-            {{ form_label(form.deptime) }}
-            {{ form_errors(form.deptime) }}
-            {{ form_widget(form.deptime) }}
+            {{ form_label(form.depair) }}
+            {{ form_errors(form.depair) }}
+            {{ form_widget(form.depair) }}
+        </div>
+    </div>
+    <div class="input-group row col-md-12 col-sm-12 col-xs-12 col-lg-12">
+        <div class="col-md-4 col-sm-6 col-lg-4">
+            {{ form_label(form.arrair) }}
+            {{ form_errors(form.arrair) }}
+            {{ form_widget(form.arrair) }}
         </div>
     </div>
     <div class="input-group row col-md-12 col-sm-12 col-xs-12 col-lg-12">
@@ -75,7 +89,7 @@ $( function() {
         </div>
     </div>
 
-    <button type="submit" name="button" class="btn btn-primary">{{ 'admin.driver_add.form.go'|trans }}</button>
+    <button type="submit" name="button" class="btn btn-primary">{{key}}</button>
     {{ form_end(form) }}
 {% endblock %}
 
@@ -87,19 +101,20 @@ $( function() {
             <th>{{ 'book.flight.deptime'|trans }}</th>
             <th>{{ 'book.flight.arrtime'|trans }}</th>
             <th>{{ 'book.flight.dest'|trans }}</th>
+            <th>Airline</th>
         </tr>
     </thead>
     <tbody>
         {% for flight in entities %}
         <tr>
-            <td>{{flight.fullnumber}}</td>
+            <td>{{flight.number}}</td>
             <td>{{flight.deptime|date('H:i')}}</td>
             <td>{{flight.arrtime|date('H:i')}}</td>
-            <td>
-                {% if flight.type == 'ARR' %}DOH → CDG{% else %}CDG → DOH{% endif %}
-            </td>
+            <td>{{flight.destination}}</td>
+            <td>{{flight.compagny ? flight.compagny.name : 'All'}}</td>
             <td>
                 <a href="{{ path('admin.manage.flights.remove', {'id':flight.id})}}" type="button" class="btn btn-danger">Remove</a>
+                <a href="{{ path('admin.manage.flights.edit', {'id':flight.id})}}" type="button" class="btn btn-default">Edit</a>
             </td>
         </tr>
         {% endfor %}

@@ -26,7 +26,7 @@ class Employee
      *
      * @ORM\Column(name="removed", type="boolean")
      */
-    private $removed = false;
+    private $removed;
 
     /**
      * @var string
@@ -168,29 +168,5 @@ class Employee
     public function getType()
     {
         return $this->type;
-    }
-
-    /**
-     * Set removed
-     *
-     * @param boolean $removed
-     *
-     * @return Employee
-     */
-    public function setRemoved($removed)
-    {
-        $this->removed = $removed;
-
-        return $this;
-    }
-
-    /**
-     * Get removed
-     *
-     * @return boolean
-     */
-    public function getRemoved()
-    {
-        return $this->removed;
     }
 }

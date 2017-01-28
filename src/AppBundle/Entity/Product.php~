@@ -22,6 +22,13 @@ class Product
     private $id;
 
     /**
+     * @var boolean
+     *
+     * @ORM\Column(name="removed", type="boolean")
+     */
+    private $removed;
+
+    /**
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=255)
@@ -41,6 +48,13 @@ class Product
      * @ORM\Column(name="passengers", type="integer")
      */
     private $passengers;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="transport", type="boolean")
+     */
+    private $transport;
 
     /**
      * @var string
@@ -198,5 +212,29 @@ class Product
     public function getCompagny()
     {
         return $this->compagny;
+    }
+
+    /**
+     * Set transport
+     *
+     * @param boolean $transport
+     *
+     * @return Product
+     */
+    public function setTransport($transport)
+    {
+        $this->transport = $transport;
+
+        return $this;
+    }
+
+    /**
+     * Get transport
+     *
+     * @return boolean
+     */
+    public function getTransport()
+    {
+        return $this->transport;
     }
 }

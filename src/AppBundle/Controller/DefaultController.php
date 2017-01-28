@@ -42,7 +42,7 @@ class DefaultController extends Controller
             return $this->redirectToRoute('show', array('uid' => $data['booknb']));
         }
 
-        return $this->render('booking/manage.html.twig', [
+        return $this->render('booking/index.html.twig', [
             'books' => $books,
             'form' => $form->createView()
         ]);

@@ -22,6 +22,13 @@ class Airport
     private $id;
 
     /**
+     * @var boolean
+     *
+     * @ORM\Column(name="removed", type="boolean")
+     */
+    private $removed;
+
+    /**
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=255)
@@ -133,5 +140,29 @@ class Airport
     public function getCompagny()
     {
         return $this->compagny;
+    }
+
+    /**
+     * Set removed
+     *
+     * @param boolean $removed
+     *
+     * @return Airport
+     */
+    public function setRemoved($removed)
+    {
+        $this->removed = $removed;
+
+        return $this;
+    }
+
+    /**
+     * Get removed
+     *
+     * @return boolean
+     */
+    public function getRemoved()
+    {
+        return $this->removed;
     }
 }

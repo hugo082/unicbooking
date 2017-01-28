@@ -9,6 +9,8 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 
+use Doctrine\ORM\EntityRepository;
+
 class AirportType extends AbstractType
 {
     /**
@@ -27,8 +29,13 @@ class AirportType extends AbstractType
             'class' => 'AppBundle:Compagny',
             'placeholder' => 'book.form.select.placeholder',
             'choice_label' => function ($p) {return $p->getFullName();},
-            'label' => 'Compagny',
-            'required' => false
+            'label' => 'Airline',
+            'required' => false,
+            'query_builder' => function (EntityRepository $er) {
+                return $er->createQueryBuilder('e')
+                ->where('e.removed = :rm')
+                ->setParameter('rm', false );
+            }
         ));
     }
 

@@ -2,8 +2,11 @@
 
 {% block title %}{{parent()}} • Employee{% endblock %}
 
+
+
+
 {% block contenthead %}
-<h3 class="card-header">Create new employee</h3>
+<h3 class="card-header">{{key}} employee</h3>
 <div class="card-block">
     {% form_theme form 'bootstrap_3_layout.html.twig' %}
     {{ form_start(form) }}
@@ -29,7 +32,14 @@
             {{ form_widget(form.phone) }}
         </div>
     </div>
-    <button type="submit" name="button" class="btn btn-primary">{{ 'admin.driver_add.form.go'|trans }}</button>
+    <div class="input-group row col-md-12 col-sm-12 col-xs-12 col-lg-12">
+        <div class="col-md-4 col-sm-6 col-lg-4">
+            {{ form_label(form.type) }}
+            {{ form_errors(form.type) }}
+            {{ form_widget(form.type) }}
+        </div>
+    </div>
+    <button type="submit" name="button" class="btn btn-primary">{{key}}</button>
     {{ form_end(form) }}
 {% endblock %}
 
@@ -40,6 +50,7 @@
             <th>{{ 'admin.driver_add.form.fname'|trans }}</th>
             <th>{{ 'admin.driver_add.form.lname'|trans }}</th>
             <th>{{ 'admin.driver_add.form.phone'|trans }}</th>
+            <th>Type</th>
         </tr>
     </thead>
     <tbody>
@@ -48,8 +59,10 @@
             <td>{{emp.firstname}}</td>
             <td>{{emp.lastname}}</td>
             <td>{{emp.phone}}</td>
+            <td>{{emp.type}}</td>
             <td>
                 <a href="{{ path('admin.manage.employees.remove', {'id':emp.id})}}" type="button" class="btn btn-danger">Remove</a>
+                <a href="{{ path('admin.manage.employees.edit', {'id':emp.id})}}" type="button" class="btn btn-default">Edit</a>
             </td>
         </tr>
         {% endfor %}

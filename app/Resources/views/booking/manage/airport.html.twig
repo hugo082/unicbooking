@@ -3,7 +3,7 @@
 {% block title %}{{parent()}} • Employee{% endblock %}
 
 {% block contenthead %}
-<h3 class="card-header">Create new airport</h3>
+<h3 class="card-header">{{key}} airport</h3>
 <div class="card-block">
     {% form_theme form 'bootstrap_3_layout.html.twig' %}
     {{ form_start(form) }}
@@ -29,7 +29,7 @@
             {{ form_widget(form.compagny) }}
         </div>
     </div>
-    <button type="submit" name="button" class="btn btn-primary">{{ 'admin.driver_add.form.go'|trans }}</button>
+    <button type="submit" name="button" class="btn btn-primary">{{key}}</button>
     {{ form_end(form) }}
 {% endblock %}
 
@@ -39,7 +39,7 @@
         <tr>
             <th>Name</th>
             <th>Code</th>
-            <th>Compagny</th>
+            <th>Airline</th>
         </tr>
     </thead>
     <tbody>
@@ -50,6 +50,7 @@
             <td>{{aip.compagny ? aip.compagny.name : 'All'}}</td>
             <td>
                 <a href="{{ path('admin.manage.airports.remove', {'id':aip.id})}}" type="button" class="btn btn-danger">Remove</a>
+                <a href="{{ path('admin.manage.airports.edit', {'id':aip.id})}}" type="button" class="btn btn-default">Edit</a>
             </td>
         </tr>
         {% endfor %}

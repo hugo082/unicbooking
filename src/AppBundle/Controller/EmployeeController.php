@@ -21,7 +21,7 @@ class EmployeeController extends Controller
     {
         $employee = new Employee();
 
-        $employees = $this->getDoctrine()->getRepository('AppBundle:Employee')->findAll();
+        $employees = $this->getDoctrine()->getRepository('AppBundle:Employee')->getAllVisible();
 
         $form = $this->createForm(EmployeeType::class, $employee);
         $form->handleRequest($request);
@@ -45,11 +45,34 @@ class EmployeeController extends Controller
     {
         $employee = $this->getDoctrine()->getRepository('AppBundle:Employee')->find($id);
         if ($employee) {
+            $employee->setRemoved(true);
             $em = $this->getDoctrine()->getManager();
-            $em->remove($employee);
+            $em->persist($employee);
             $em->flush();
         }
         return $this->redirectToRoute('admin.manage.employees');
+    }
+
+    /**
+    * @Route("/admin/manage/employees/edit/{id}", requirements={"id" = "\d+"}, name="admin.manage.employees.edit")
+    */
+    public function editAction(Request $request, $id)
+    {
+        $employee = $this->getDoctrine()->getRepository('AppBundle:Employee')->find($id);
+        if (!$employee) {
+            return $this->redirectToRoute('admin.manage.employees');
+        }
+        $form = $this->createForm(EmployeeType::class, $employee);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($employee);
+            $em->flush();
+            return $this->redirectToRoute('admin.manage.employees');
+        }
+        return $this->render('booking/manage/employee.html.twig', array(
+            'form' => $form->createView()
+        ));
     }
 
 }

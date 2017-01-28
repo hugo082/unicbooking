@@ -10,11 +10,11 @@
         <div class="card-block">
 
             <a class="btn btn-primary" href="{{path('admin.manage.users')}}">Users</a>
-            <a class="btn btn-primary" href="{{path('admin.manage.prod')}}">Products</a>
-            <a class="btn btn-primary" href="{{path('admin.manage.flights')}}">Flights</a>
             <a class="btn btn-primary" href="{{path('admin.manage.airports')}}">Airports</a>
-            <a class="btn btn-primary" href="{{path('admin.manage.employees')}}">Employees</a>
-            <a class="btn btn-primary" href="{{path('admin.manage.compagnys')}}">Compagnies</a>
+            <a class="btn btn-primary" href="{{path('admin.manage.compagnys')}}">Airlines</a>
+            <a class="btn btn-primary" href="{{path('admin.manage.flights')}}">Flights</a>
+            <a class="btn btn-primary" href="{{path('admin.manage.prod')}}">Products</a>
+            <a class="btn btn-default" href="{{path('admin.manage.employees')}}">Employees</a>
 
         </div>
     </div>
@@ -30,19 +30,17 @@
             <table class="table table-striped">
                 <thead>
                     <tr>
-                        <th class="hidden-xs">{{ 'agent.username'|trans }}</th>
-                        <th>{{ 'agent.fname'|trans }}</th>
-                        <th>{{ 'agent.laname'|trans }}</th>
-                        <th>{{ 'agent.email'|trans }}</th>
+                        <th>{{ 'agent.username'|trans }}</th>
+                        <th>Last login</th>
+                        <th>Airline</th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for user in w_users %}
                     <tr>
                         <td class="hidden-xs">{{user.username}}</td>
-                        <td>{{user.firstname}}</td>
-                        <td>{{user.lastname}}</td>
-                        <td>{{user.email}}</td>
+                        <td>{{user.lastlogin|date('d-M-Y H:i')}}</td>
+                        <td>{{user.compagny ? user.compagny.name : 'All'}}</td>
                         <td>
                             <a href="{{ path('admin.answer.user', {'id':user.id, 'state':'ACC'})}}" type="button" class="btn btn-success">{{ 'book.state.wait.admin.acc'|trans }}</a>
                             <a href="{{ path('admin.answer.user', {'id':user.id, 'state':'REJ'})}}" type="button" class="btn btn-danger">{{ 'book.state.wait.admin.ref'|trans }}</a>

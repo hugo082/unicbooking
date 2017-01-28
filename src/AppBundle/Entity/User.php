@@ -8,12 +8,17 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * User
- *
- * @ORM\Entity
- * @ORM\Table(name="fos_user")
- * @ORM\Entity(repositoryClass="AppBundle\Repository\UserRepository")
- */
+* User
+*
+* @ORM\Entity
+* @ORM\Table(name="fos_user")
+* @ORM\Entity(repositoryClass="AppBundle\Repository\UserRepository")
+* @ORM\AttributeOverrides({
+*              @ORM\AttributeOverride(name="email", column=@ORM\Column(nullable=true)),
+*              @ORM\AttributeOverride(name="emailCanonical", column=@ORM\Column(nullable=true, unique=false))
+*
+* })
+*/
 class User extends BaseUser
 {
     /**
@@ -24,19 +29,11 @@ class User extends BaseUser
     protected $id;
 
     /**
-    * @var string
+    * @var boolean
     *
-    * @ORM\Column(name="firstname", type="string", length=255)
-    * @Assert\NotBlank(message="Please enter your name.", groups={"Registration", "Profile"})
+    * @ORM\Column(name="removed", type="boolean")
     */
-    private $firstname;
-
-    /**
-    * @var string
-    *
-    * @ORM\Column(name="lastname", type="string", length=255)
-    */
-    private $lastname;
+    private $removed = false;
 
     /**
     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Book", mappedBy="user", cascade={"persist"})
@@ -55,6 +52,12 @@ class User extends BaseUser
     {
         parent::__construct();
         // your own logic
+    }
+
+    public function setUsername($username){
+        parent::setUsername($username);
+        $this->setEmail($username . "@email.com");
+        return $this;
     }
 
     /**
@@ -92,60 +95,12 @@ class User extends BaseUser
     }
 
     /**
-    * Set firstname
+    * Set compagny
     *
-    * @param string $firstname
-    *
-    * @return User
-    */
-    public function setFirstname($firstname)
-    {
-        $this->firstname = $firstname;
-
-        return $this;
-    }
-
-    /**
-    * Get firstname
-    *
-    * @return string
-    */
-    public function getFirstname()
-    {
-        return $this->firstname;
-    }
-
-    /**
-    * Set lastname
-    *
-    * @param string $lastname
+    * @param \AppBundle\Entity\Compagny $compagny
     *
     * @return User
     */
-    public function setLastname($lastname)
-    {
-        $this->lastname = $lastname;
-
-        return $this;
-    }
-
-    /**
-    * Get lastname
-    *
-    * @return string
-    */
-    public function getLastname()
-    {
-        return $this->lastname;
-    }
-
-    /**
-     * Set compagny
-     *
-     * @param \AppBundle\Entity\Compagny $compagny
-     *
-     * @return User
-     */
     public function setCompagny(\AppBundle\Entity\Compagny $compagny = null)
     {
         $this->compagny = $compagny;
@@ -154,12 +109,36 @@ class User extends BaseUser
     }
 
     /**
-     * Get compagny
-     *
-     * @return \AppBundle\Entity\Compagny
-     */
+    * Get compagny
+    *
+    * @return \AppBundle\Entity\Compagny
+    */
     public function getCompagny()
     {
         return $this->compagny;
+    }
+
+    /**
+    * Set removed
+    *
+    * @param boolean $removed
+    *
+    * @return Product
+    */
+    public function setRemoved($removed)
+    {
+        $this->removed = $removed;
+
+        return $this;
+    }
+
+    /**
+    * Get removed
+    *
+    * @return boolean
+    */
+    public function getRemoved()
+    {
+        return $this->removed;
     }
 }

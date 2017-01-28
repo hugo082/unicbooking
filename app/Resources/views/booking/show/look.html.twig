@@ -6,6 +6,10 @@
 {% form_theme form 'bootstrap_3_layout.html.twig' %}
 
 {% if is_granted('ROLE_ADMIN') %}
+
+{% if book.user.removed %}
+<div class="alert alert-danger"><strong>Warning</strong> The account that ordered this book has been deleted</div>
+{% endif %}
 <div class="card">
     <h3 class="card-header">
         {{ 'show.admin.title'|trans }}

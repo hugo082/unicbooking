@@ -40,11 +40,6 @@ class BookType extends AbstractType
     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-
-        // 'query_builder' => function (EntityRepository $er) {
-        //         return $er->createQueryBuilder('u')
-        //             ->orderBy('u.username', 'ASC');
-        //     }
         $builder
         ->add('agentemail', EmailType::class, array(
             'label' => "agent.email"
@@ -63,7 +58,9 @@ class BookType extends AbstractType
             return $er->createQueryBuilder('a')
             ->where('a.compagny = :cmp')
             ->setParameter('cmp', $this->getUser()->getCompagny())
-            ->orwhere('a.compagny is NULL');
+            ->orwhere('a.compagny is NULL')
+            ->andwhere('a.removed = :rm')
+            ->setParameter('rm', false );
         }
         ))
         ->add('date', DateType::class, array(
@@ -83,23 +80,31 @@ class BookType extends AbstractType
         ->add('product', EntityType::class, array('class' => 'AppBundle:Product',
         'placeholder' => 'book.form.select.placeholder',
         'choice_label' => function ($p) {return $p->getFullName();},
+        'choice_attr' => function($p) {return ['trspt' => $p->getTransport()];},
         'label' => 'book.form.prod',
         'query_builder' => function (EntityRepository $er) {
             return $er->createQueryBuilder('p')
             ->where('p.compagny = :cmp')
             ->setParameter('cmp', $this->getUser()->getCompagny())
-            ->orwhere('p.compagny is NULL');
+            ->orwhere('p.compagny is NULL')
+            ->andwhere('p.removed = :rm')
+            ->setParameter('rm', false );
         }))
         ->add('flight', EntityType::class, array( 'class' => 'AppBundle:Flight',
         'choice_label' => function ($f) {return $f->getFullName();},
         'label' => 'book.form.flight',
         'placeholder' => 'book.form.select.placeholder',
-        'choice_attr' => function($f) {return ['is' => $f->getType()];},
+        'choice_attr' => function($f) {return ['is' => $f->getType(), 'airp' => $f->getMainAirport()->getId()];},
         'query_builder' => function (EntityRepository $er) {
+            $cmp = $this->getUser()->getCompagny();
             return $er->createQueryBuilder('f')
             ->where('f.compagny = :cmp')
-            ->setParameter('cmp', $this->getUser()->getCompagny())
-            ->orwhere('f.compagny is NULL');
+            ->setParameter('cmp', $cmp)
+            ->orwhere('f.compagny is NULL')
+            ->orwhere(':ucmp is NULL')
+            ->setParameter('ucmp', $cmp)
+            ->andwhere('f.removed = :rm')
+            ->setParameter('rm', false );
         }
         ))
         ->add('bags', ChoiceType::class, array(
@@ -108,25 +113,25 @@ class BookType extends AbstractType
             'choices'  => array(
                 '0 bag 0€' => 0,
                 '1 bag 10€' => 1,
-                '2 bag 20€' => 2,
-                '3 bag 30€' => 3,
-                '4 bag 40€' => 4,
-                '5 bag 50€' => 5,
-                '6 bag 60€' => 6,
-                '7 bag 70€' => 7,
-                '8 bag 80€' => 8,
-                '9 bag 90€' => 9,
-                '10 bag 100€' => 10,
-                '11 bag 110€' => 11,
-                '12 bag 120€' => 12,
-                '13 bag 130€' => 13,
-                '14 bag 140€' => 14,
-                '15 bag 150€' => 15,
-                '16 bag 160€' => 16,
-                '17 bag 170€' => 17,
-                '18 bag 180€' => 18,
-                '19 bag 190€' => 19,
-                '20 bag 200€' => 20,
+                '2 bags 20€' => 2,
+                '3 bags 30€' => 3,
+                '4 bags 40€' => 4,
+                '5 bags 50€' => 5,
+                '6 bags 60€' => 6,
+                '7 bags 70€' => 7,
+                '8 bags 80€' => 8,
+                '9 bags 90€' => 9,
+                '10 bags 100€' => 10,
+                '11 bags 110€' => 11,
+                '12 bags 120€' => 12,
+                '13 bags 130€' => 13,
+                '14 bags 140€' => 14,
+                '15 bags 150€' => 15,
+                '16 bags 160€' => 16,
+                '17 bags 170€' => 17,
+                '18 bags 180€' => 18,
+                '19 bags 190€' => 19,
+                '20 bags 200€' => 20,
             )
         ))
         ->add('timepu', TimeType::class, array(

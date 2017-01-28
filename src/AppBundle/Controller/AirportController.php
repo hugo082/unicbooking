@@ -21,7 +21,7 @@ class AirportController extends Controller
     {
         $airport = new Airport();
 
-        $airports = $this->getDoctrine()->getRepository('AppBundle:Airport')->findAll();
+        $airports = $this->getDoctrine()->getRepository('AppBundle:Airport')->getAllVisible();
 
         $form = $this->createForm(AirportType::class, $airport);
         $form->handleRequest($request);
@@ -45,11 +45,34 @@ class AirportController extends Controller
     {
         $airport = $this->getDoctrine()->getRepository('AppBundle:Airport')->find($id);
         if ($airport) {
+            $airport->setRemoved(true);
             $em = $this->getDoctrine()->getManager();
-            $em->remove($airport);
+            $em->persist($airport);
             $em->flush();
         }
         return $this->redirectToRoute('admin.manage.airports');
+    }
+
+    /**
+    * @Route("/admin/manage/airports/edit/{id}", requirements={"id" = "\d+"}, name="admin.manage.airports.edit")
+    */
+    public function editAction(Request $request, $id)
+    {
+        $airport = $this->getDoctrine()->getRepository('AppBundle:Airport')->find($id);
+        if (!$airport) {
+            return $this->redirectToRoute('admin.manage.airport');
+        }
+        $form = $this->createForm(AirportType::class, $airport);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($airport);
+            $em->flush();
+            return $this->redirectToRoute('admin.manage.airports');
+        }
+        return $this->render('booking/manage/airport.html.twig', array(
+            'form' => $form->createView()
+        ));
     }
 
 }

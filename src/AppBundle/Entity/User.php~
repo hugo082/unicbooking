@@ -6,9 +6,14 @@ namespace AppBundle\Entity;
 use FOS\UserBundle\Model\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+
 /**
+* User
+*
 * @ORM\Entity
 * @ORM\Table(name="fos_user")
+* @ORM\Entity(repositoryClass="AppBundle\Repository\UserRepository")
+
 */
 class User extends BaseUser
 {
@@ -20,19 +25,11 @@ class User extends BaseUser
     protected $id;
 
     /**
-    * @var string
-    *
-    * @ORM\Column(name="firstname", type="string", length=255)
-    * @Assert\NotBlank(message="Please enter your name.", groups={"Registration", "Profile"})
-    */
-    private $firstname;
-
-    /**
-    * @var string
-    *
-    * @ORM\Column(name="lastname", type="string", length=255)
-    */
-    private $lastname;
+     * @var boolean
+     *
+     * @ORM\Column(name="removed", type="boolean")
+     */
+    private $removed;
 
     /**
     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Book", mappedBy="user", cascade={"persist"})
@@ -45,7 +42,7 @@ class User extends BaseUser
     * @ORM\JoinColumn(nullable=true)
     */
     private $compagny;
-    
+
 
     public function __construct()
     {
@@ -88,50 +85,26 @@ class User extends BaseUser
     }
 
     /**
-    * Set firstname
+    * Set compagny
     *
-    * @param string $firstname
+    * @param \AppBundle\Entity\Compagny $compagny
     *
     * @return User
     */
-    public function setFirstname($firstname)
+    public function setCompagny(\AppBundle\Entity\Compagny $compagny = null)
     {
-        $this->firstname = $firstname;
+        $this->compagny = $compagny;
 
         return $this;
     }
 
     /**
-    * Get firstname
+    * Get compagny
     *
-    * @return string
+    * @return \AppBundle\Entity\Compagny
     */
-    public function getFirstname()
+    public function getCompagny()
     {
-        return $this->firstname;
-    }
-
-    /**
-    * Set lastname
-    *
-    * @param string $lastname
-    *
-    * @return User
-    */
-    public function setLastname($lastname)
-    {
-        $this->lastname = $lastname;
-
-        return $this;
-    }
-
-    /**
-    * Get lastname
-    *
-    * @return string
-    */
-    public function getLastname()
-    {
-        return $this->lastname;
+        return $this->compagny;
     }
 }

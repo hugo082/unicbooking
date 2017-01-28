@@ -22,6 +22,13 @@ class Airport
     private $id;
 
     /**
+     * @var boolean
+     *
+     * @ORM\Column(name="removed", type="boolean")
+     */
+    private $removed;
+
+    /**
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=255)
@@ -75,6 +82,16 @@ class Airport
     public function getName()
     {
         return $this->name;
+    }
+
+    /**
+     * Get name
+     *
+     * @return string
+     */
+    public function getFullName()
+    {
+        return $this->code . " - " . $this->name;
     }
 
     /**

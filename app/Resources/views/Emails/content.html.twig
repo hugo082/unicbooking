@@ -38,7 +38,7 @@
 <table>
     <tr>
         <td><span class="info">Flight</span></td>
-        <td><span class="info">{{book.flight.fullnumber}}</span></td>
+        <td><span class="info">{{book.flight.number}}</span></td>
     </tr>
     <tr>
         <td><span class="info">Arrival</span></td>
@@ -50,7 +50,7 @@
     </tr>
     <tr>
         <td><span class="info">Destination</span></td>
-        <td><span class="info">{% if book.flight.type == 'ARR' %}DOH → CDG{% else %}CDG → DOH{% endif %}</span></td>
+        <td><span class="info">{{book.flight.destination}}</span></td>
     </tr>
 </table>
 

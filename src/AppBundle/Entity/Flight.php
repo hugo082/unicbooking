@@ -22,9 +22,16 @@ class Flight
     private $id;
 
     /**
-    * @var int
+     * @var boolean
+     *
+     * @ORM\Column(name="removed", type="boolean")
+     */
+    private $removed = false;
+
+    /**
+    * @var string
     *
-    * @ORM\Column(name="number", type="integer")
+    * @ORM\Column(name="number", type="string", length=255)
     */
     private $number;
 
@@ -51,21 +58,24 @@ class Flight
 
     /**
     * @var Compagny
+    * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Airport")
+    * @ORM\JoinColumn(nullable=false)
+    */
+    private $depair;
+
+    /**
+    * @var Compagny
+    * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Airport")
+    * @ORM\JoinColumn(nullable=false)
+    */
+    private $arrair;
+
+    /**
+    * @var Compagny
     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Compagny")
     * @ORM\JoinColumn(nullable=true)
     */
     private $compagny;
-
-    /**
-    * Get Full Name
-    */
-    public function getFullName()
-    {
-        $depAir = ($this->type == "DEP") ? "CDG" : "DOH";
-        $arrAir = ($this->type == "ARR") ? "CDG" : "DOH";
-        return $this->deptime->format('H:i') . " (" . $depAir . ") → " . $this->arrtime->format('H:i') . " (" . $arrAir . ") QR " . $this->number;
-    }
-
 
     /**
     * Get id
@@ -75,40 +85,6 @@ class Flight
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-    * Set number
-    *
-    * @param integer $number
-    *
-    * @return Flight
-    */
-    public function setNumber($number)
-    {
-        $this->number = $number;
-
-        return $this;
-    }
-
-    /**
-    * Get number with compagny id
-    *
-    * @return string
-    */
-    public function getFullNumber()
-    {
-        return "QR" . $this->number;
-    }
-
-    /**
-    * Get number
-    *
-    * @return int
-    */
-    public function getNumber()
-    {
-        return $this->number;
     }
 
     /**
@@ -190,12 +166,12 @@ class Flight
     }
 
     /**
-     * Set compagny
-     *
-     * @param \AppBundle\Entity\Compagny $compagny
-     *
-     * @return Flight
-     */
+    * Set compagny
+    *
+    * @param \AppBundle\Entity\Compagny $compagny
+    *
+    * @return Flight
+    */
     public function setCompagny(\AppBundle\Entity\Compagny $compagny = null)
     {
         $this->compagny = $compagny;
@@ -204,12 +180,150 @@ class Flight
     }
 
     /**
-     * Get compagny
-     *
-     * @return \AppBundle\Entity\Compagny
-     */
+    * Get compagny
+    *
+    * @return \AppBundle\Entity\Compagny
+    */
     public function getCompagny()
     {
         return $this->compagny;
+    }
+
+    /**
+    * Set depair
+    *
+    * @param \AppBundle\Entity\Airport $depair
+    *
+    * @return Flight
+    */
+    public function setDepair(\AppBundle\Entity\Airport $depair)
+    {
+        $this->depair = $depair;
+
+        return $this;
+    }
+
+    /**
+    * Get depair
+    *
+    * @return \AppBundle\Entity\Airport
+    */
+    public function getDepair()
+    {
+        return $this->depair;
+    }
+
+    /**
+    * Set arrair
+    *
+    * @param \AppBundle\Entity\Airport $arrair
+    *
+    * @return Flight
+    */
+    public function setArrair(\AppBundle\Entity\Airport $arrair)
+    {
+        $this->arrair = $arrair;
+
+        return $this;
+    }
+
+    /**
+    * Get arrair
+    *
+    * @return \AppBundle\Entity\Airport
+    */
+    public function getArrair()
+    {
+        return $this->arrair;
+    }
+
+    /**
+    * Set number
+    *
+    * @param string $number
+    *
+    * @return Flight
+    */
+    public function setNumber($number)
+    {
+        $this->number = $number;
+
+        return $this;
+    }
+
+    /**
+    * Get number
+    *
+    * @return string
+    */
+    public function getNumber()
+    {
+        return $this->number;
+    }
+
+    /**
+    * Get destination
+    *
+    * @return string
+    */
+    public function getDestination()
+    {
+        return $this->depair->getCode() . " → " . $this->arrair->getCode();
+    }
+
+    /**
+    * Get destination with time
+    *
+    * @return string
+    */
+    public function getDestinationWithTime()
+    {
+        if ($this->type == "ARR") {
+            return $this->number. " " . $this->depair->getCode() . " → " . $this->arrair->getCode() . " (" . $this->arrtime->format('H:i') . ")";
+        }
+        return $this->number. " " . $this->depair->getCode() ." (" . $this->deptime->format('H:i') . ") → " . $this->arrair->getCode();
+    }
+
+    /**
+    * Get Full Name
+    */
+    public function getFullName()
+    {
+        return $this->number. " " . $this->depair->getCode() ." (" . $this->deptime->format('H:i') . ") → " . $this->arrair->getCode() . " (" . $this->arrtime->format('H:i') . ")";
+    }
+
+    /**
+    * Get the main airport where the service takes place
+    */
+    public function getMainAirport()
+    {
+        if ($this->type == "ARR") {
+            return $this->arrair;
+        }
+        return $this->depair;
+    }
+
+    /**
+     * Set removed
+     *
+     * @param boolean $removed
+     *
+     * @return Flight
+     */
+    public function setRemoved($removed)
+    {
+        $this->removed = $removed;
+
+        return $this;
+    }
+
+    /**
+     * Get removed
+     *
+     * @return boolean
+     */
+    public function getRemoved()
+    {
+        return $this->removed;
     }
 }

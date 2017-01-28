@@ -22,13 +22,6 @@ class Customer
     private $id;
 
     /**
-     * @var boolean
-     *
-     * @ORM\Column(name="removed", type="boolean")
-     */
-    private $removed = false;
-
-    /**
     * @var string
     *
     * @ORM\Column(name="title", type="string", length=255)
@@ -230,29 +223,5 @@ class Customer
     public function getBook()
     {
         return $this->book;
-    }
-
-    /**
-     * Set cabin
-     *
-     * @param string $cabin
-     *
-     * @return Customer
-     */
-    public function setCabin($cabin)
-    {
-        $this->cabin = $cabin;
-
-        return $this;
-    }
-
-    /**
-     * Get cabin
-     *
-     * @return string
-     */
-    public function getCabin()
-    {
-        return $this->cabin;
     }
 }

@@ -20,7 +20,7 @@ class ProdController extends Controller
     public function indexAction(Request $request)
     {
         $prod = new Product();
-        $prods = $this->getDoctrine()->getRepository('AppBundle:Product')->findAll();
+        $prods = $this->getDoctrine()->getRepository('AppBundle:Product')->getAllVisible();
 
         $form = $this->createForm(ProductType::class, $prod);
         $form->handleRequest($request);
@@ -44,11 +44,34 @@ class ProdController extends Controller
     {
         $prod = $this->getDoctrine()->getRepository('AppBundle:Product')->find($id);
         if ($prod) {
+            $prod->setRemoved(true);
             $em = $this->getDoctrine()->getManager();
-            $em->remove($prod);
+            $em->persist($prod);
             $em->flush();
         }
         return $this->redirectToRoute('admin.manage.prod');
+    }
+
+    /**
+    * @Route("/admin/manage/products/edit/{id}", requirements={"id" = "\d+"}, name="admin.manage.prod.edit")
+    */
+    public function editAction(Request $request, $id)
+    {
+        $product = $this->getDoctrine()->getRepository('AppBundle:Product')->find($id);
+        if (!$product) {
+            return $this->redirectToRoute('admin.manage.products');
+        }
+        $form = $this->createForm(ProductType::class, $product);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($product);
+            $em->flush();
+            return $this->redirectToRoute('admin.manage.prod');
+        }
+        return $this->render('booking/manage/product.html.twig', array(
+            'form' => $form->createView()
+        ));
     }
 
 }

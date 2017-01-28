@@ -29,7 +29,7 @@ class AdminController extends Controller
             $em->flush();
         }
 
-        $waitingusers = $this->getDoctrine()->getRepository('AppBundle:User')->findByEnabled(false);
+        $waitingusers = $this->getDoctrine()->getRepository('AppBundle:User')->getWaiting();
 
         return $this->render('booking/manage/index.html.twig', array(
             'form' => $form->createView(),

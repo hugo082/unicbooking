@@ -7,6 +7,9 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+
+use Doctrine\ORM\EntityRepository;
 
 class EmployeeType extends AbstractType
 {
@@ -24,6 +27,14 @@ class EmployeeType extends AbstractType
         ))
         ->add('phone', TextType::class, array(
             'label' => 'admin.driver_add.form.phone'
+        ))
+        ->add('type', ChoiceType::class, array(
+            'choices'  => array(
+                'Driver' => 'Driver',
+                'Greeter' => 'Greeter'
+            ),
+            'placeholder' => 'book.form.select.placeholder',
+            'label' => 'Type'
         ));
     }
 

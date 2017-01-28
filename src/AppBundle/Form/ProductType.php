@@ -9,12 +9,15 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+
+use Doctrine\ORM\EntityRepository;
 
 class ProductType extends AbstractType
 {
     /**
-     * {@inheritdoc}
-     */
+    * {@inheritdoc}
+    */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -27,6 +30,14 @@ class ProductType extends AbstractType
         ->add('passengers', IntegerType::class, array(
             'label' => 'Passengers'
         ))
+        ->add('transport', ChoiceType::class, array(
+            'choices'  => array(
+                'YES' => true,
+                'NO' => false
+            ),
+            'placeholder' => 'book.form.select.placeholder',
+            'label' => 'Transport'
+        ))
         ->add('code', TextType::class, array(
             'label' => 'Code'
         ))
@@ -34,14 +45,19 @@ class ProductType extends AbstractType
             'class' => 'AppBundle:Compagny',
             'placeholder' => 'book.form.select.placeholder',
             'choice_label' => function ($p) {return $p->getFullName();},
-            'label' => 'Compagny',
-            'required' => false
+            'label' => 'Airline',
+            'required' => false,
+            'query_builder' => function (EntityRepository $er) {
+                return $er->createQueryBuilder('e')
+                ->where('e.removed = :rm')
+                ->setParameter('rm', false );
+            }
         ));
     }
 
     /**
-     * {@inheritdoc}
-     */
+    * {@inheritdoc}
+    */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
@@ -50,8 +66,8 @@ class ProductType extends AbstractType
     }
 
     /**
-     * {@inheritdoc}
-     */
+    * {@inheritdoc}
+    */
     public function getBlockPrefix()
     {
         return 'appbundle_product';

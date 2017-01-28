@@ -21,13 +21,13 @@ class CompagnyType extends AbstractType
         ))
         ->add('code', TextType::class, array(
             'label' => 'Code'
-        ))
-        ->add('maincolor', TextType::class, array(
-            'label' => 'Main color'
-        ))
-        ->add('secondcolor', TextType::class, array(
-            'label' => 'Second color'
         ));
+        // ->add('maincolor', TextType::class, array(
+        //     'label' => 'Main color'
+        // ))
+        // ->add('secondcolor', TextType::class, array(
+        //     'label' => 'Second color'
+        // ));
     }
 
     /**

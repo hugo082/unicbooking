@@ -205,8 +205,8 @@
             <table class="table">
                 <tbody>
                     <tr>
-                        <td class="col-md-6">{{ 'book.flight.fullnumber'|trans }}</td>
-                        <td class="value">{{book.flight.fullnumber}}</td>
+                        <td class="col-md-6">{{ 'book.flight.number'|trans }}</td>
+                        <td class="value">{{book.flight.number}}</td>
                     </tr>
                     <tr>
                         <td class="col-md-6">{{ 'book.flight.deptime'|trans }}</td>
@@ -218,9 +218,7 @@
                     </tr>
                     <tr>
                         <td class="col-md-6">{{ 'book.flight.dest'|trans }}</td>
-                        <td class="value">
-                            {% if book.flight.type == 'ARR' %}DOH → CDG{% else %}CDG → DOH{% endif %}
-                        </td>
+                        <td class="value">{{book.flight.destination}}</td>
                     </tr>
                 </tbody>
             </table>
