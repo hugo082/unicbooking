@@ -27,6 +27,7 @@ class CompagnyController extends Controller
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
+            $compagny = $this->uploadFile($compagny, $em);
             $em->persist($compagny);
             $em->flush();
             return $this->redirectToRoute('admin.manage.compagnys');
@@ -66,13 +67,27 @@ class CompagnyController extends Controller
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
+            $compagny = $this->uploadFile($compagny, $em);
+            echo "<br>". $compagny->getLogo() . " - " . $compagny->getName();
             $em->persist($compagny);
-            $em->flush();
+            $em->flush($compagny);
             return $this->redirectToRoute('admin.manage.compagnys');
         }
         return $this->render('booking/manage/compagny.html.twig', array(
             'form' => $form->createView()
         ));
+    }
+
+    private function uploadFile($cmp, $em) {
+        $file = $cmp->getLogo();
+        $fileName = md5(uniqid()).'.'.$file->guessExtension();
+        $file->move(
+            $this->getParameter('logos_directory'),
+            $fileName
+        );
+        echo "PATH : " . $this->getParameter('logos_directory') . $fileName;
+        $cmp->setLogo($fileName);
+        return $cmp;
     }
 
 }

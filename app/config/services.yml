@@ -20,3 +20,6 @@ services:
         class: AppBundle\Form\BookType
         arguments: [ "@security.token_storage" ]
         tags: [{ name: form.type }]
+    app.mailer:
+        class: AppBundle\Mailer\SenderManager
+        arguments: [ "@mailer", "@templating" ]

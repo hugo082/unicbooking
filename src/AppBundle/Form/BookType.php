@@ -148,14 +148,6 @@ class BookType extends AbstractType
             'label' => "book.form.adddo",
             'required' => false
         ))
-        ->add('adultcus', IntegerType::class, array(
-            'label' => 'book.form.adult',
-            'data' => '1'
-        ))
-        ->add('childcus', IntegerType::class, array(
-            'label' => 'book.form.chilu2y',
-            'data' => '0'
-        ))
         ->add('nameboard', TextareaType::class, array(
             'label' => 'book.form.nameboard',
             'required' => false
@@ -169,9 +161,6 @@ class BookType extends AbstractType
             $product = $event->getData();
             $form = $event->getForm();
 
-            // check if the Product object is "new"
-            // If no data is passed to the form, the data is "null".
-            // This should be considered a new "Product"
             if (!$product || null === $product->getId()) {
                 $form
                 ->add('customers', CollectionType::class, array(
@@ -179,6 +168,22 @@ class BookType extends AbstractType
                     'allow_add'    => true,
                     'allow_delete' => true,
                     'label' => 'book.form.cust'
+                ))
+                ->add('adultcus', IntegerType::class, array(
+                    'label' => 'book.form.adult',
+                    'data' => '1'
+                ))
+                ->add('childcus', IntegerType::class, array(
+                    'label' => 'book.form.chilu2y',
+                    'data' => '0'
+                ));
+            } else {
+                $form
+                ->add('adultcus', IntegerType::class, array(
+                    'label' => 'book.form.adult'
+                ))
+                ->add('childcus', IntegerType::class, array(
+                    'label' => 'book.form.chilu2y'
                 ));
             }
         });

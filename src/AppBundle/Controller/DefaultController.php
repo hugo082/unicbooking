@@ -61,19 +61,20 @@ class DefaultController extends Controller
             ->setSubject('Hello Email')
             ->setFrom('hugo.fouquet@outlook.com')
             ->setTo('hugo-boss12@hotmail.fr')
-            ->setBody($this->renderView('Emails/confirmation.html.twig', array(
+            ->setBody($this->renderView('Emails/test.html.twig', array(
                 'book' => $book,
-                'user' => $user
+                'user' => $user,
+                'state' => array('code' => 'conf', 'key'=>'Confirmed')
             )),'text/html');
             echo $this->get('mailer')->send($message);
         } else {
             echo 'Ignore Action';
         }
 
-        return $this->render('Emails/confirmation.html.twig', array(
+        return $this->render('Emails/test.html.twig', array(
             'book' => $book,
             'user' => $user,
-            'is_admin' => true
+            'state' => array('code' => 'conf', 'key'=>'Confirmed')
         ));
     }
 }

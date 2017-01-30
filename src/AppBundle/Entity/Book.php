@@ -437,6 +437,18 @@ class Book
     }
 
     /**
+    * Get bags informations
+    *
+    * @return string
+    */
+    public function getFullBags()
+    {
+        $res = $this->bags . " bag";
+        if ($this->bags > 1) $res .= "s";
+        return $res . " (" . $this->bags * 10 . "€)";
+    }
+
+    /**
     * Set agentfirstname
     *
     * @param string $agentfirstname
@@ -701,6 +713,17 @@ class Book
     }
 
     /**
+    * Get product quantity
+    *
+    * @return integer
+    */
+    public function getProductQuantity()
+    {
+        $prodPass = $this->product->getPassengers();
+        return ceil($this->getTotalcus() / $prodPass);
+    }
+
+    /**
     * Set flight
     *
     * @param \AppBundle\Entity\Flight $flight
@@ -873,6 +896,20 @@ class Book
     public function getSubbooks()
     {
         return $this->subbooks;
+    }
+
+    /**
+    * Get subbooks
+    *
+    * @return \Doctrine\Common\Collections\Collection
+    */
+    public function getChargedSubbooks()
+    {
+        $subs = array();
+        foreach ($this->subbooks as $sub) {
+            if ($sub->getCharged()) $subs[] = $sub;
+        }
+        return $subs;
     }
 
     /**

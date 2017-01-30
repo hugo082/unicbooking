@@ -76,11 +76,8 @@ class Product
     public function getFullName()
     {
         $res = $this->name . " " . $this->price . "€ (" . $this->passengers;
-        if ($this->passengers > 1) {
-            $res .=  " Persons)";
-        } else {
-            $res .=  " Person)";
-        }
+        if ($this->passengers > 1) $res .=  " Persons)";
+        else $res .=  " Person)";
         return $res;
     }
 

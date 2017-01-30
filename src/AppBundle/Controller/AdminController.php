@@ -75,7 +75,8 @@ class AdminController extends Controller
             );
         }
         $fullstate = ($state == "ACC") ? "ACCEPTED" : "REFUSED";
-        $this->sendEmail($state, $book);
+        $this->get('app.mailer')->sendBookAnswer($book, $state);
+
         $book->setState($fullstate);
         $em = $this->getDoctrine()->getManager();
         $em->persist($book);
@@ -116,27 +117,7 @@ class AdminController extends Controller
 
         $em->persist($subbook);
         $em->flush();
+        $this->get('app.mailer')->sendEditionAnswer($book, $state);
         return $this->redirectToRoute('show', array('uid' => $book->getUid()));
-    }
-
-    private function sendEmail($state, $book)
-    {
-        if ($state == "ACC") {
-            $template = 'Emails/confirmation.html.twig';
-            $subject = 'Unic Webooking • Confirmation';
-        } else {
-            $template = 'Emails/rejected.html.twig';
-            $subject = 'Unic Webooking • Rejection';
-        }
-        $message = \Swift_Message::newInstance()
-        ->setSubject($subject)
-        ->setFrom(array('admin@unicairport.com' => 'Unic Webooking'))
-        ->setTo($book->getUser()->getEmail())
-        ->setBody($this->renderView($template, array(
-            'book' => $book,
-            'user' => $book->getUser(),
-            'is_admin' => false
-        )),'text/html');
-        $this->get('mailer')->send($message);
     }
 }

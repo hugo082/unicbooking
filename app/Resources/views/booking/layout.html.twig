@@ -2,6 +2,9 @@
 
 {% block title %}{{parent()}}Expert Webooking{% endblock %}
 
+{% set cmp = (app.user ? app.user.compagny : NULL) %}
+{% set logopath = asset('uploads/logos/' ~ (cmp ? app.user.compagny.logo : 'default.png')) %}
+
 {% block stylesheets %}
 {{parent()}}
 <link rel="stylesheet" href="{{ asset('bundles/booking/css/datepicker.min.css') }}">
@@ -21,40 +24,48 @@
         <span class="text">UNIC WEBOOKING</span>
     </a>
     <span class="navbar-brand sec hidden-xs" id="info">
-    <style media="screen">
-    .logo {
-        background-image: url({{ asset('bundles/booking/img/QatarAirwaysBrand.svg') }});
-    }
-    </style>
-    <a href="{{ path('homepage') }}" class="navbar-brand sec text" id="logo">
-        <span class="text">{{ 'header.title'|trans }}</span>
-            <span class="logo"></span>
-    </a>
-</span>
+        <a href="{{ path('homepage') }}" class="navbar-brand sec text" id="logo">
+            <span class="text">{{ 'header.title'|trans }}</span>
+        </a>
+    </span>
 </header>
 
 <main id="content">
     <div class="container">
         {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
         <div class="col-lg-12" id="head">
-            <h5>
-                {{ app.user.username }} • {{ app.user.email }}
-                <a href="{{ path('fos_user_security_logout') }}">
-                    {{ 'layout.logout'|trans({}, 'FOSUserBundle') }}
-                </a>
-                {% if is_granted("ROLE_ADMIN") %}
-                <a class="marg label label-info" href="{{ path('admin') }}">
-                    Admin
-                </a>
-                {% endif %}
-                <a class="marg label label-info" href="{{ path('homepage') }}">
-                    Main
-                </a>
-            </h5>
-        </div>
-        {% endif %}
-        {% block content %}{% endblock %}
+
+            <h5 style="height:35px">
+            <style media="screen">
+            .logo {
+                vertical-align: middle;
+                background-size: auto 100%;
+                width: 30px;
+                height:22px;
+                display: inline-block;
+                background-repeat: no-repeat;
+                background-position: left center;
+                background-image: url({{ logopath }});
+            }
+            </style>
+            <span class="logo" style="float:left"></span>
+            <span style="float:left">{{ app.user.username }}</span>
+            <a href="{{ path('fos_user_security_logout') }}">
+                {{ 'layout.logout'|trans({}, 'FOSUserBundle') }}
+            </a>
+            {% if is_granted("ROLE_ADMIN") %}
+            <a class="marg label label-info" href="{{ path('admin') }}">
+                Admin
+            </a>
+            {% endif %}
+            <a class="marg label label-info" href="{{ path('homepage') }}">
+                Main
+            </a>
+        </h5>
     </div>
+    {% endif %}
+    {% block content %}{% endblock %}
+</div>
 </main>
 
 {# {% include 'default/footer.html.twig' %} #}

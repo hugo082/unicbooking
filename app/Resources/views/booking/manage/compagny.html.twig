@@ -22,6 +22,13 @@
             {{ form_widget(form.code) }}
         </div>
     </div>
+    <div class="input-group row col-md-12 col-sm-12 col-xs-12 col-lg-12">
+        <div class="col-md-4 col-sm-6 col-lg-4">
+            {{ form_label(form.logo) }}
+            {{ form_errors(form.logo) }}
+            {{ form_widget(form.logo) }}
+        </div>
+    </div>
 
     <button type="submit" name="button" class="btn btn-primary">{{key}}</button>
     {{ form_end(form) }}

@@ -7,12 +7,16 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 
 class CompagnyType extends AbstractType
 {
     /**
-     * {@inheritdoc}
-     */
+    * {@inheritdoc}
+    */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -21,18 +25,16 @@ class CompagnyType extends AbstractType
         ))
         ->add('code', TextType::class, array(
             'label' => 'Code'
+        ))
+        ->add('logo', FileType::class, array(
+            'label' => 'Logo (Image file)',
+            'data_class' => null
         ));
-        // ->add('maincolor', TextType::class, array(
-        //     'label' => 'Main color'
-        // ))
-        // ->add('secondcolor', TextType::class, array(
-        //     'label' => 'Second color'
-        // ));
     }
 
     /**
-     * {@inheritdoc}
-     */
+    * {@inheritdoc}
+    */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
@@ -41,8 +43,8 @@ class CompagnyType extends AbstractType
     }
 
     /**
-     * {@inheritdoc}
-     */
+    * {@inheritdoc}
+    */
     public function getBlockPrefix()
     {
         return 'appbundle_compagny';

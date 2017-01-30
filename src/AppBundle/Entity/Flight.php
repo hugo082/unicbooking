@@ -112,6 +112,16 @@ class Flight
     }
 
     /**
+    * Get type
+    *
+    * @return string
+    */
+    public function getFullType()
+    {
+        return ($this->type == "ARR") ? 'Arrival' : 'Departure';
+    }
+
+    /**
     * Set deptime
     *
     * @param \DateTime $deptime
