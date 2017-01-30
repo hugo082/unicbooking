@@ -56,8 +56,9 @@ class BookType extends AbstractType
         'label' => 'book.form.air',
         'query_builder' => function (EntityRepository $er) {
             return $er->createQueryBuilder('a')
-            ->where('a.compagny = :cmp')
-            ->setParameter('cmp', $this->getUser()->getCompagny())
+            ->where('a.compagny = :ucmp')
+            ->orwhere(':ucmp is NULL')
+            ->setParameter('ucmp', $this->getUser()->getCompagny())
             ->orwhere('a.compagny is NULL')
             ->andwhere('a.removed = :false')
             ->andwhere('a.selectable != :false')
@@ -85,8 +86,9 @@ class BookType extends AbstractType
         'label' => 'book.form.prod',
         'query_builder' => function (EntityRepository $er) {
             return $er->createQueryBuilder('p')
-            ->where('p.compagny = :cmp')
-            ->setParameter('cmp', $this->getUser()->getCompagny())
+            ->where('p.compagny = :ucmp')
+            ->orwhere(':ucmp is NULL')
+            ->setParameter('ucmp', $this->getUser()->getCompagny())
             ->orwhere('p.compagny is NULL')
             ->andwhere('p.removed = :rm')
             ->setParameter('rm', false );
@@ -97,13 +99,10 @@ class BookType extends AbstractType
         'placeholder' => 'book.form.select.placeholder',
         'choice_attr' => function($f) {return ['is' => $f->getType(), 'airp' => $f->getMainAirport()->getId()];},
         'query_builder' => function (EntityRepository $er) {
-            $cmp = $this->getUser()->getCompagny();
             return $er->createQueryBuilder('f')
-            ->where('f.compagny = :cmp')
-            ->setParameter('cmp', $cmp)
-            ->orwhere('f.compagny is NULL')
+            ->where('f.compagny = :ucmp')
             ->orwhere(':ucmp is NULL')
-            ->setParameter('ucmp', $cmp)
+            ->setParameter('ucmp', $this->getUser()->getCompagny())
             ->andwhere('f.removed = :rm')
             ->setParameter('rm', false );
         }
