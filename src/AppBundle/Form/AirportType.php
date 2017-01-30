@@ -8,6 +8,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 
 use Doctrine\ORM\EntityRepository;
 
@@ -24,6 +25,10 @@ class AirportType extends AbstractType
         ))
         ->add('code', TextType::class, array(
             'label' => 'Code'
+        ))
+        ->add('selectable', CheckboxType::class, array(
+            'label' => 'Selectable in book now',
+            'required' => false
         ))
         ->add('compagny', EntityType::class, array(
             'class' => 'AppBundle:Compagny',

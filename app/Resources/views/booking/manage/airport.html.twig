@@ -29,6 +29,13 @@
             {{ form_widget(form.compagny) }}
         </div>
     </div>
+    <div class="input-group row col-md-12 col-sm-12 col-xs-12 col-lg-12">
+        <div class="col-md-4 col-sm-6 col-lg-4">
+            {{ form_label(form.selectable) }}
+            {{ form_errors(form.selectable) }}
+            {{ form_widget(form.selectable) }}
+        </div>
+    </div>
     <button type="submit" name="button" class="btn btn-primary">{{key}}</button>
     {{ form_end(form) }}
 {% endblock %}
@@ -40,6 +47,7 @@
             <th>Name</th>
             <th>Code</th>
             <th>Airline</th>
+            <th>Selectable</th>
         </tr>
     </thead>
     <tbody>
@@ -48,6 +56,7 @@
             <td>{{aip.name}}</td>
             <td>{{aip.code}}</td>
             <td>{{aip.compagny ? aip.compagny.name : 'All'}}</td>
+            <td>{{aip.selectable ? 'YES' : 'NO'}}</td>
             <td>
                 <a href="{{ path('admin.manage.airports.remove', {'id':aip.id})}}" type="button" class="btn btn-danger">Remove</a>
                 <a href="{{ path('admin.manage.airports.edit', {'id':aip.id})}}" type="button" class="btn btn-default">Edit</a>

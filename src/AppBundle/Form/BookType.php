@@ -59,8 +59,9 @@ class BookType extends AbstractType
             ->where('a.compagny = :cmp')
             ->setParameter('cmp', $this->getUser()->getCompagny())
             ->orwhere('a.compagny is NULL')
-            ->andwhere('a.removed = :rm')
-            ->setParameter('rm', false );
+            ->andwhere('a.removed = :false')
+            ->andwhere('a.selectable != :false')
+            ->setParameter('false', false );
         }
         ))
         ->add('date', DateType::class, array(

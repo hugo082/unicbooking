@@ -43,6 +43,13 @@ class Airport
     private $code;
 
     /**
+     * @var boolean
+     *
+     * @ORM\Column(name="selectable", type="boolean")
+    */
+    private $selectable;
+
+    /**
     * @var Compagny
     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Compagny")
     * @ORM\JoinColumn(nullable=true)
@@ -140,5 +147,29 @@ class Airport
     public function getCompagny()
     {
         return $this->compagny;
+    }
+
+    /**
+     * Set removed
+     *
+     * @param boolean $removed
+     *
+     * @return Airport
+     */
+    public function setRemoved($removed)
+    {
+        $this->removed = $removed;
+
+        return $this;
+    }
+
+    /**
+     * Get removed
+     *
+     * @return boolean
+     */
+    public function getRemoved()
+    {
+        return $this->removed;
     }
 }
