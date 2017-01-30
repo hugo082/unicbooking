@@ -61,7 +61,7 @@ class DefaultController extends Controller
             ->setSubject('Hello Email')
             ->setFrom('hugo.fouquet@outlook.com')
             ->setTo('hugo-boss12@hotmail.fr')
-            ->setBody($this->renderView('Emails/test.html.twig', array(
+            ->setBody($this->renderView('Emails/test2.html.twig', array(
                 'book' => $book,
                 'user' => $user,
                 'state' => array('code' => 'conf', 'key'=>'Confirmed')
@@ -71,7 +71,7 @@ class DefaultController extends Controller
             echo 'Ignore Action';
         }
 
-        return $this->render('Emails/test.html.twig', array(
+        return $this->render('Emails/test2.html.twig', array(
             'book' => $book,
             'user' => $user,
             'state' => array('code' => 'conf', 'key'=>'Confirmed')

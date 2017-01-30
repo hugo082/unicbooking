@@ -2,6 +2,16 @@
 
 {% block title %}{{parent()}} • Employee{% endblock %}
 
+{% block stylesheets %}
+{{parent()}}
+<link rel="stylesheet" href="{{ asset('bundles/booking/css/colorselector.css') }}">
+{% endblock %}
+
+{% block headscripts %}
+{{parent()}}
+<script src="{{ asset('bundles/booking/js/colorselector.js') }}"></script>
+{% endblock %}
+
 {% block contenthead %}
 <h3 class="card-header">{{key}} airline</h3>
 <div class="card-block">
@@ -24,9 +34,45 @@
     </div>
     <div class="input-group row col-md-12 col-sm-12 col-xs-12 col-lg-12">
         <div class="col-md-4 col-sm-6 col-lg-4">
+            {{ form_label(form.portageprice) }}
+            {{ form_errors(form.portageprice) }}
+            {{ form_widget(form.portageprice) }}
+        </div>
+    </div>
+    <div class="input-group row col-md-12 col-sm-12 col-xs-12 col-lg-12">
+        <div class="col-md-4 col-sm-6 col-lg-4">
             {{ form_label(form.logo) }}
             {{ form_errors(form.logo) }}
             {{ form_widget(form.logo) }}
+        </div>
+    </div>
+    <div class="input-group row col-md-12 col-sm-12 col-xs-12 col-lg-12">
+        <div class="col-md-4 col-sm-6 col-lg-4">
+            {{ form_errors(form.color) }}
+            {{ form_widget(form.color) }}
+            <span class="input-group-addon" style="display: inline-block; width: initial">
+                <select id="appbundle_compagny_color_ctn">
+                    <option value="186" data-color="#C8102E">Delta Airlines</option>
+                    <option value="202" data-color="#862633">Delta Airlines</option>
+                    <option value="654" data-color="#003A70">Delta Airlines</option>
+
+                    <option value="222" data-color="#6C1D45">Qatar Airlines</option>
+
+                    <option value="311" data-color="#01C0DA">Air Thaiti Nui</option>
+                    <option value="660" data-color="#337AB7">Air Thaiti Nui</option>
+
+                    <option value="2347" data-color="#ff0000">Air France</option>
+                    <option value="2765" data-color="#051039">Air France</option>
+                </select>
+            </span>
+            <script>
+            $('#appbundle_compagny_color_ctn').colorselector({
+                callback: function (value, color) {
+                    $("input#appbundle_compagny_color").val(color);
+                }
+            });
+
+            </script>
         </div>
     </div>
 
@@ -40,8 +86,8 @@
         <tr>
             <th>Name</th>
             <th>Code</th>
-            <!-- <th>Main Color</th>
-            <th>Second Color</th> -->
+            <th>Portage Price</th>
+            <th>Color</th>
         </tr>
     </thead>
     <tbody>
@@ -49,6 +95,8 @@
         <tr>
             <td>{{cmp.name}}</td>
             <td>{{cmp.code}}</td>
+            <td>{{cmp.portageprice}}</td>
+            <td>{{cmp.color}}</td>
             <td>
                 <a href="{{ path('admin.manage.compagnys.remove', {'id':cmp.id})}}" type="button" class="btn btn-danger">Remove</a>
                 <a href="{{ path('admin.manage.compagnys.edit', {'id':cmp.id})}}" type="button" class="btn btn-default">Edit</a>

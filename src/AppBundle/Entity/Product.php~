@@ -26,7 +26,7 @@ class Product
      *
      * @ORM\Column(name="removed", type="boolean")
      */
-    private $removed;
+    private $removed = false;
 
     /**
      * @var string
@@ -64,6 +64,13 @@ class Product
     private $code;
 
     /**
+    * @var integer
+    *
+    * @ORM\Column(name="additionalprice", type="integer")
+    */
+    private $additionalprice;
+
+    /**
     * @var Compagny
     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Compagny")
     * @ORM\JoinColumn(nullable=true)
@@ -76,11 +83,8 @@ class Product
     public function getFullName()
     {
         $res = $this->name . " " . $this->price . "€ (" . $this->passengers;
-        if ($this->passengers > 1) {
-            $res .=  " Persons)";
-        } else {
-            $res .=  " Person)";
-        }
+        if ($this->passengers > 1) $res .=  " Persons)";
+        else $res .=  " Person)";
         return $res;
     }
 
@@ -236,5 +240,29 @@ class Product
     public function getTransport()
     {
         return $this->transport;
+    }
+
+    /**
+     * Set removed
+     *
+     * @param boolean $removed
+     *
+     * @return Product
+     */
+    public function setRemoved($removed)
+    {
+        $this->removed = $removed;
+
+        return $this;
+    }
+
+    /**
+     * Get removed
+     *
+     * @return boolean
+     */
+    public function getRemoved()
+    {
+        return $this->removed;
     }
 }

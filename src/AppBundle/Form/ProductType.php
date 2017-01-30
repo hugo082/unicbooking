@@ -25,7 +25,11 @@ class ProductType extends AbstractType
             'label' => 'Name'
         ))
         ->add('price', IntegerType::class, array(
-            'label' => 'Price'
+            'label' => 'Price (EUR)'
+        ))
+        ->add('additionalprice', IntegerType::class, array(
+            'label' => 'Additional Pax Price (EUR)',
+            'required' => false
         ))
         ->add('passengers', IntegerType::class, array(
             'label' => 'Passengers'

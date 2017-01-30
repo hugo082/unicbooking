@@ -22,14 +22,14 @@ class Book
     private $id;
 
     /**
-    * @ORM\Column(name="uid", type="integer")
+    * @ORM\Column(name="uid", type="string", unique=true)
     */
     private $uid;
 
     /**
     * @var Airport
     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Airport")
-    * @ORM\JoinColumn(nullable=true)
+    * @ORM\JoinColumn(nullable=false)
     */
     private $airport;
 
@@ -37,10 +37,7 @@ class Book
     * @var \DateTime
     *
     * @ORM\Column(name="date", type="date")
-    * @Assert\Range(
-    *      min = "now",
-    *      minMessage = "date.min.now"
-    * )
+    * @Assert\GreaterThanOrEqual("yesterday")
     */
     protected $date;
 
@@ -213,12 +210,19 @@ class Book
     protected $subbooks;
 
     /**
+    * @var Compagny
+    * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Compagny")
+    * @ORM\JoinColumn(nullable=false)
+    */
+    private $compagny;
+
+    /**
     * Constructor
     */
     public function __construct()
     {
         $date = new \DateTime();
-        $this->uid = $date->format('mdhis');
+        $this->uid = dechex($date->format('ymdHHis') . rand(0,99));
         $this->creationdate = $date;
         $this->state = "WAITING";
         $this->customers = new \Doctrine\Common\Collections\ArrayCollection();
@@ -235,8 +239,7 @@ class Book
         $nbPPass = $this->product->getPassengers();
         $price += $this->product->getPrice();
         if ($nbP > $nbPPass){
-            $supPrice = ($this->product->getCode() == 'GOL') ? 58 : 72;
-            $price += ($nbP - $nbPPass) * $supPrice;
+            $price += ($nbP - $nbPPass) * $this->product->getAdditionalPrice();
         }
         $price += $this->bags * 10;
         if ($doc != NULL) $price += 25 * count($doc->getRepository('AppBundle:SubBook')->getChargedCountEdit($this));
@@ -437,6 +440,18 @@ class Book
     public function getBags()
     {
         return $this->bags;
+    }
+
+    /**
+    * Get bags informations
+    *
+    * @return string
+    */
+    public function getFullBags()
+    {
+        $res = $this->bags . " bag";
+        if ($this->bags > 1) $res .= "s";
+        return $res . " (" . $this->bags * 10 . "€)";
     }
 
     /**
@@ -704,6 +719,17 @@ class Book
     }
 
     /**
+    * Get product quantity
+    *
+    * @return integer
+    */
+    public function getProductQuantity()
+    {
+        $prodPass = $this->product->getPassengers();
+        return ceil($this->getTotalcus() / $prodPass);
+    }
+
+    /**
     * Set flight
     *
     * @param \AppBundle\Entity\Flight $flight
@@ -879,6 +905,20 @@ class Book
     }
 
     /**
+    * Get subbooks
+    *
+    * @return \Doctrine\Common\Collections\Collection
+    */
+    public function getChargedSubbooks()
+    {
+        $subs = array();
+        foreach ($this->subbooks as $sub) {
+            if ($sub->getCharged()) $subs[] = $sub;
+        }
+        return $subs;
+    }
+
+    /**
      * Set uid
      *
      * @param integer $uid
@@ -910,5 +950,29 @@ class Book
     public function getFullid()
     {
         return $this->uid . "#" . count($this->subbooks);
+    }
+
+    /**
+     * Set airport
+     *
+     * @param \AppBundle\Entity\Airport $airport
+     *
+     * @return Book
+     */
+    public function setAirport(\AppBundle\Entity\Airport $airport = null)
+    {
+        $this->airport = $airport;
+
+        return $this;
+    }
+
+    /**
+     * Get airport
+     *
+     * @return \AppBundle\Entity\Airport
+     */
+    public function getAirport()
+    {
+        return $this->airport;
     }
 }

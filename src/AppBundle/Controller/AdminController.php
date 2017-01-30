@@ -62,7 +62,7 @@ class AdminController extends Controller
     /**
     * @Route("/admin/answer/book/{uid}/{state}", name="admin.answer.book",
     *     requirements={
-    *         "uid": "\d+",
+    *         "uid": "[0-9a-fA-F]+",
     *         "state": "REJ|ACC"
     *     })
     */
@@ -87,7 +87,7 @@ class AdminController extends Controller
     /**
     * @Route("/admin/answer/book/edit/{uid}/{state}", name="admin.answer.book.edit",
     *     requirements={
-    *         "uid": "\d+",
+    *         "uid": "[0-9a-fA-F]+",
     *         "state": "REJ|ACC|ACP"
     *     })
     */

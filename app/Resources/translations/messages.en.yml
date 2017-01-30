@@ -41,7 +41,7 @@ manage:
             number: Booking number
             go: Find
     last:
-        title: Last Books
+        title: Last Orders
         booknumber: Number
         fdate: Date
         customer: Passenger

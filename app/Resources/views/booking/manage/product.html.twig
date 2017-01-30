@@ -25,6 +25,13 @@
     </div>
     <div class="input-group row col-md-12 col-sm-12 col-xs-12 col-lg-12">
         <div class="col-md-4 col-sm-6 col-lg-4">
+            {{ form_label(form.additionalprice) }}
+            {{ form_errors(form.additionalprice) }}
+            {{ form_widget(form.additionalprice) }}
+        </div>
+    </div>
+    <div class="input-group row col-md-12 col-sm-12 col-xs-12 col-lg-12">
+        <div class="col-md-4 col-sm-6 col-lg-4">
             {{ form_label(form.passengers) }}
             {{ form_errors(form.passengers) }}
             {{ form_widget(form.passengers) }}
@@ -62,6 +69,7 @@
         <tr>
             <th class="hidden-xs">Name</th>
             <th>Price</th>
+            <th>Add Pax Price</th>
             <th>Passengers</th>
             <th>Transport</th>
             <th>Code</th>
@@ -73,6 +81,7 @@
         <tr>
             <td>{{prod.name}}</td>
             <td>{{prod.price}}</td>
+            <td>{{prod.additionalprice}}</td>
             <td>{{prod.passengers}}</td>
             <td>{{prod.transport ? 'YES' : 'NO'}}</td>
             <td>{{prod.code}}</td>

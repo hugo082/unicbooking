@@ -47,7 +47,7 @@ class BookController extends Controller
     }
 
     /**
-    * @Route("/book/edit/{uid}", requirements={"uid" = "\d+"}, name="book.edit")
+    * @Route("/book/edit/{uid}", requirements={"uid" = "[0-9a-fA-F]+"}, name="book.edit")
     */
     public function editAction(Request $request, $uid)
     {
@@ -78,7 +78,7 @@ class BookController extends Controller
     }
 
     /**
-    * @Route("/show/{uid}", requirements={"uid" = "\d+"}, name="show")
+    * @Route("/show/{uid}", requirements={"uid" = "[0-9a-fA-F]+"}, name="show")
     */
     public function showAction(Request $request, $uid)
     {
@@ -106,7 +106,7 @@ class BookController extends Controller
     }
 
     /**
-    * @Route("/book/enabled/{uid}", requirements={"uid" = "\d+"}, name="book.enabled")
+    * @Route("/book/enabled/{uid}", requirements={"uid" = "[0-9a-fA-F]+"}, name="book.enabled")
     */
     public function enabledAction(Request $request, $uid)
     {

@@ -4,11 +4,25 @@
 
 {% set cmp = (app.user ? app.user.compagny : NULL) %}
 {% set logopath = asset('uploads/logos/' ~ (cmp ? app.user.compagny.logo : 'default.png')) %}
+{% set cmpcolor = (cmp ? app.user.compagny.color : '#ff0000') %}
 
 {% block stylesheets %}
 {{parent()}}
 <link rel="stylesheet" href="{{ asset('bundles/booking/css/datepicker.min.css') }}">
 <link rel="stylesheet" href="{{ asset('bundles/booking/css/shared.css') }}">
+<style media="screen">
+    .cmpcolor {
+        color: {{cmpcolor}} !important
+    }
+    .back-cmpcolor {
+        background-color: {{cmpcolor}} !important
+    }
+    .border-bot-cmpcolor {
+        border-bottom-color: {{cmpcolor}} !important
+    }
+    .label-danger,
+    .btn-danger { background-color: {{cmpcolor}}; border: none; }
+</style>
 {% endblock %}
 
 
@@ -19,7 +33,7 @@
 
 {% block body %}
 
-<header class="navbar" role="navigation" id="head">
+<header class="navbar border-bot-cmpcolor" role="navigation" id="head">
     <a href="{{ path('homepage') }}" class="navbar-brand sec">
         <span class="text">UNIC WEBOOKING</span>
     </a>

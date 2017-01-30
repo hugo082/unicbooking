@@ -25,6 +25,7 @@ class ProdController extends Controller
         $form = $this->createForm(ProductType::class, $prod);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            if (!$prod->getAdditionalPrice()) $prod->setAdditionalprice($prod->getPrice());
             $em = $this->getDoctrine()->getManager();
             $em->persist($prod);
             $em->flush();
@@ -64,6 +65,7 @@ class ProdController extends Controller
         $form = $this->createForm(ProductType::class, $product);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            if (!$product->getAdditionalPrice()) $product->setAdditionalprice($product->getPrice());
             $em = $this->getDoctrine()->getManager();
             $em->persist($product);
             $em->flush();

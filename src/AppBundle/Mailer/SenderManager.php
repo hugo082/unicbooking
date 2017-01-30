@@ -74,7 +74,7 @@ class SenderManager
         ->setSubject('Unic Webooking' . $sub)
         ->setFrom(array('admin@unicairport.com' => 'Unic Webooking'))
         ->setTo($sendat)
-        ->setBody($this->twig->render('Emails/test.html.twig', array(
+        ->setBody($this->twig->render('Emails/test2.html.twig', array(
             'book' => $book,
             'state' => $state
         )),'text/html');

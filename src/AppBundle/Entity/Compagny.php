@@ -44,6 +44,20 @@ class Compagny
     private $code;
 
     /**
+    * @var integer
+    *
+    * @ORM\Column(name="portageprice", type="integer")
+    */
+    private $portageprice;
+
+    /**
+    * @var string
+    *
+    * @ORM\Column(name="color", type="string", length=8)
+    */
+    private $color;
+
+    /**
     * @ORM\Column(name="logo", type="string")
     *
     * @Assert\File(mimeTypes = {
@@ -158,7 +172,7 @@ class Compagny
     public function setLogo($logo)
     {
         $this->logo = $logo;
-        
+
         return $this;
     }
 
@@ -170,5 +184,53 @@ class Compagny
     public function getLogo()
     {
         return $this->logo;
+    }
+
+    /**
+     * Set color
+     *
+     * @param string $color
+     *
+     * @return Compagny
+     */
+    public function setColor($color)
+    {
+        $this->color = $color;
+
+        return $this;
+    }
+
+    /**
+     * Get color
+     *
+     * @return string
+     */
+    public function getColor()
+    {
+        return $this->color;
+    }
+
+    /**
+     * Set portageprice
+     *
+     * @param integer $portageprice
+     *
+     * @return Compagny
+     */
+    public function setPortageprice($portageprice)
+    {
+        $this->portageprice = $portageprice;
+
+        return $this;
+    }
+
+    /**
+     * Get portageprice
+     *
+     * @return integer
+     */
+    public function getPortageprice()
+    {
+        return $this->portageprice;
     }
 }

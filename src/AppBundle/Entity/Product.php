@@ -64,6 +64,13 @@ class Product
     private $code;
 
     /**
+    * @var integer
+    *
+    * @ORM\Column(name="additionalprice", type="integer")
+    */
+    private $additionalprice;
+
+    /**
     * @var Compagny
     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Compagny")
     * @ORM\JoinColumn(nullable=true)
@@ -257,5 +264,29 @@ class Product
     public function getRemoved()
     {
         return $this->removed;
+    }
+
+    /**
+     * Set additionalprice
+     *
+     * @param integer $additionalprice
+     *
+     * @return Product
+     */
+    public function setAdditionalprice($additionalprice)
+    {
+        $this->additionalprice = $additionalprice;
+
+        return $this;
+    }
+
+    /**
+     * Get additionalprice
+     *
+     * @return integer
+     */
+    public function getAdditionalprice()
+    {
+        return $this->additionalprice;
     }
 }

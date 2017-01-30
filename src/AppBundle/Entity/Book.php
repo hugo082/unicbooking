@@ -22,7 +22,7 @@ class Book
     private $id;
 
     /**
-    * @ORM\Column(name="uid", type="integer")
+    * @ORM\Column(name="uid", type="string", unique=true)
     */
     private $uid;
 
@@ -209,13 +209,20 @@ class Book
     */
     protected $subbooks;
 
+    // /**
+    // * @var Compagny
+    // * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Compagny")
+    // * @ORM\JoinColumn(nullable=false)
+    // */
+    // private $compagny;
+
     /**
     * Constructor
     */
     public function __construct()
     {
         $date = new \DateTime();
-        $this->uid = $date->format('mdhis');
+        $this->uid = dechex($date->format('ymdHHis') . rand(0,99));
         $this->creationdate = $date;
         $this->state = "WAITING";
         $this->customers = new \Doctrine\Common\Collections\ArrayCollection();
@@ -228,16 +235,19 @@ class Book
     */
     public function updatePrice($doc = NULL) {
         $price = 0;
-        $nbP = $this->adultcus + $this->childcus;
-        $nbPPass = $this->product->getPassengers();
         $price += $this->product->getPrice();
-        if ($nbP > $nbPPass){
-            $supPrice = ($this->product->getCode() == 'GOL') ? 58 : 72;
-            $price += ($nbP - $nbPPass) * $supPrice;
-        }
+        $price += $this->getAdditionalcus() * $this->product->getAdditionalPrice();
         $price += $this->bags * 10;
         if ($doc != NULL) $price += 25 * count($doc->getRepository('AppBundle:SubBook')->getChargedCountEdit($this));
         $this->price = $price;
+    }
+
+    public function getDeviceConvertion(){
+        $cmp = $this->getUser()->getCompagny();
+        if ($cmp && strpos($cmp->getName(), 'Qatar') !== false) {
+            return $this->price * 3.8164 . " QAR";
+        }
+        return $this->price * 1.069 . " USD";
     }
 
     /**
@@ -386,6 +396,17 @@ class Book
     public function getTotalcus()
     {
         return count($this->customers);
+    }
+
+    /**
+    * Get total customers
+    *
+    * @return integer
+    */
+    public function getAdditionalcus()
+    {
+        $n = $this->getTotalcus() - $this->product->getPassengers();
+        return ($n >= 0) ? $n : 0;
     }
 
     /**
@@ -913,12 +934,12 @@ class Book
     }
 
     /**
-     * Set uid
-     *
-     * @param integer $uid
-     *
-     * @return Book
-     */
+    * Set uid
+    *
+    * @param integer $uid
+    *
+    * @return Book
+    */
     public function setUid($uid)
     {
         $this->uid = $uid;
@@ -927,32 +948,32 @@ class Book
     }
 
     /**
-     * Get uid
-     *
-     * @return integer
-     */
+    * Get uid
+    *
+    * @return integer
+    */
     public function getUid()
     {
         return $this->uid;
     }
 
     /**
-     * Get fullid
-     *
-     * @return integer
-     */
+    * Get fullid
+    *
+    * @return integer
+    */
     public function getFullid()
     {
         return $this->uid . "#" . count($this->subbooks);
     }
 
     /**
-     * Set airport
-     *
-     * @param \AppBundle\Entity\Airport $airport
-     *
-     * @return Book
-     */
+    * Set airport
+    *
+    * @param \AppBundle\Entity\Airport $airport
+    *
+    * @return Book
+    */
     public function setAirport(\AppBundle\Entity\Airport $airport = null)
     {
         $this->airport = $airport;
@@ -961,12 +982,13 @@ class Book
     }
 
     /**
-     * Get airport
-     *
-     * @return \AppBundle\Entity\Airport
-     */
+    * Get airport
+    *
+    * @return \AppBundle\Entity\Airport
+    */
     public function getAirport()
     {
         return $this->airport;
     }
+
 }

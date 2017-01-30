@@ -1,0 +1,298 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>UnicExpert Webooking • MAIL</title>
+
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+
+    <link rel="stylesheet" href="/bundles/booking/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/bundles/booking/css/shared.css">
+    <style media="screen">
+    .card {
+        margin: 15px 0;
+    }
+    .conf { color:#70AD47; }
+    .edit { color:blue; }
+    .reje { color:black; }
+    .wait { color:red; }
+    .cmpcolor {
+        color: #ff0000 !important
+    }
+    .back-cmpcolor {
+        background-color: #ff0000 !important
+    }
+    .border-bot-cmpcolor {
+        border-bottom-color: #ff0000 !important
+    }
+    .label-danger,
+    .btn-danger { background-color: #ff0000; border: none; }
+    </style>
+
+    <link rel="stylesheet" href="/bundles/booking/css/book.css">
+    <link rel="stylesheet" href="/bundles/booking/css/manage.css">
+
+
+    <script src="/bundles/booking/js/jquery.min.js"></script>
+    <script src="/bundles/booking/js/moment.js"></script>
+    <script src="/bundles/booking/js/bootstrap.min.js"></script>
+
+    <script src="/bundles/booking/js/datepicker.min.js"></script>
+
+</head>
+<body>
+    {% set edi = subbook is defined and not subbook is empty and subbook.state == "WAITING" %}
+    <main id="content">
+        <div class="container">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <h2>UNIC Webooking</h2>
+                <p>
+                    Dear Mr/Ms. {{book.agentlastname}},<br>
+                    We are pleased to inform you that we have created the booking for
+                    UNIC services
+                    as per your request.<br> The details are as below
+                </p>
+                {% if activeSubbooks is defined and not activeSubbooks is empty %}
+                <div class="card">
+                    <h3 class="card-header">History</h3>
+                    <div class="card-block">
+                        <table class="table">
+                            <thead>
+                                <th>ID</th>
+                                <th>Number</th>
+                                <th>Date</th>
+                                <th>Charged</th>
+                                <th>State</th>
+                            </thead>
+                            <tbody>
+                                {% for sub in activeSubbooks %}
+                                <tr id="{{ sub.number }}">
+                                    <td>{{ sub.id }}</td>
+                                    <td>{{ sub.number }}</td>
+                                    <td>{{ sub.creationdate|date("d M Y") }}</td>
+                                    <td>{{ sub.charged ? '25€' : '0€' }}</td>
+                                    <td>
+                                        {% if sub.state == 'WAITING' %}
+                                        <span class="label label-default">{{ 'book.state.wait.title'|trans }}</span>
+                                        {% elseif sub.state == 'ACCEPTED' %}
+                                        <span class="label label-success">{{ 'book.state.acc.title'|trans }}</span>
+                                        {% elseif sub.state == 'REFUSED' %}
+                                        <span class="label label-danger">{{ 'book.state.ref.title'|trans }}</span>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                {% endif %}
+                <div class="card">
+                    <h3 class="card-header">Agent</h3>
+                    <div class="card-block">
+                        <table class="table">
+                            <tbody>
+                                <tr>
+                                    <td class="col-md-6">{{ 'agent.username'|trans }}</td>
+                                    <td class="value">{{book.user.username}}</td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-6">{{ 'agent.fname'|trans }}</td>
+                                    <td class="value"><span id="{{ edi and subbook.agentfirstname ? 'edited' : '' }}">{{book.agentfirstname}}</span></td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-6">{{ 'agent.lname'|trans }}</td>
+                                    <td class="value"><span id="{{ edi and subbook.agentlastname ? 'edited' : '' }}">{{book.agentlastname}}</span></td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-6">{{ 'agent.email'|trans }}</td>
+                                    <td class="value"><span id="{{ edi and subbook.agentemail ? 'edited' : '' }}">{{book.agentemail}}</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="card">
+                    <h3 class="card-header">Service</h3>
+                    <div class="card-block">
+                        <table class="table">
+                            <tbody>
+                                <tr>
+                                    <td class="col-md-6">{{ 'manage.find.form.number'|trans }}</td>
+                                    <td class="value"><span id="id">{{book.fullid}}</span></td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-6">Booking Statut</td>
+                                    <td class="value"><span class="{{state.code}}">{{state.key}}</span></td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-6">Type</td>
+                                    <td class="value"><span id="{{ edi and subbook.service ? 'edited' : '' }}">{% if book.service == 'DEP' %}{{ 'book.form.dep'|trans }}{% else %}{{ 'book.form.arr'|trans }}{% endif %}</span></td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-6">{{ 'book.form.date'|trans }}</td>
+                                    <td class="value"><span id="{{ edi and subbook.date ? 'edited' : '' }}">{{book.date|date("d M Y")}}</span></td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-6">Airport location</td>
+                                    <td class="value">{{book.flight.mainairport.code}} - {{book.flight.mainairport.name}}</td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-6">{{ 'book.form.prod'|trans }}</td>
+                                    <td class="value"><span id="{{ edi and subbook.product ? 'edited' : '' }}">{{book.product.name}} {{book.product.price}}€</span></td>
+                                </tr>
+                                {% if not book.nameboard is empty %}
+                                <tr>
+                                    <td class="col-md-6">{{ 'book.form.nameboard'|trans }}</td>
+                                    <td class="value"><span id="{{ edi and subbook.nameboard ? 'edited' : '' }}">{{book.nameboard}}</span></td>
+                                </tr>
+                                {% endif %}
+                                <tr>
+                                    <td class="col-md-6">{{ 'price'|trans }}</td>
+                                    <td class="value"><span id="{{ edi and subbook.price ? 'edited' : '' }}">{{book.price}} €</span></td>
+                                </tr>
+                                {% if book.product.code == "FAM" %}
+                                <tr>
+                                    <td class="col-md-6">{{ 'book.form.timepu'|trans }}</td>
+                                    <td class="value"><span id="{{ edi and subbook.timepu ? 'edited' : '' }}">{{book.timepu|date("H:m")}}</span></td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-6">{{ 'book.form.addpu'|trans }}</td>
+                                    <td class="value"><span id="{{ edi and subbook.addresspu ? 'edited' : '' }}">{{book.addresspu}}</span></td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-6">{{ 'book.form.adddo'|trans }}</td>
+                                    <td class="value"><span id="{{ edi and subbook.addressdo ? 'edited' : '' }}">{{book.addressdo}}</span></td>
+                                </tr>
+                                {% endif %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="card">
+                    <h3 class="card-header">
+                        <span id="{{ edi and (subbook.adultcus or subbook.childcus or subbook.bags)  ? 'edited' : '' }}">
+                            {{ 'book.form.cust'|trans }}
+                        </span>
+                    </h3>
+                    <div class="card-block">
+                        <table class="table">
+                            <tbody>
+                                <tr>
+                                    <td class="col-md-6">{{ 'total'|trans }}</td>
+                                    <td class="value">{{book.totalcus}}</td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-6">{{ 'book.form.adult'|trans }}</td>
+                                    <td class="value">{{book.adultcus}}</td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-6">{{ 'book.form.chilu2y'|trans }}</td>
+                                    <td class="value">{{book.childcus}}</td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-6">Additional Pax</td>
+                                    <td class="value">+{{book.additionalcus}} ( {{book.additionalcus * book.product.additionalprice}} € )</td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-6">{{ 'book.form.bags'|trans }}</td>
+                                    <td class="value">{{book.bags}} bag(s) ( {{book.bags * 10}} € )</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <h5>{{ 'cust.inf'|trans }} ({{ book.customers|length}})</h5>
+                        <style media="screen">
+                        .table {
+                            margin: 0
+                        }
+                        .customer_row {
+                            padding: 15px;
+                        }
+                        .customer_row > * {
+                            margin: 0 10px
+                        }
+                        .customer_row .customer_fname {
+                            text-transform: uppercase;
+                            font-weight: 700
+                        }
+                        </style>
+                        {% for customer in book.customers %}
+
+                        <div class="customer_row">
+                            <span class="customer_title">{{customer.title}}</span>
+                            <span class="customer_fname">{{customer.firstname}}</span>
+                            <span class="customer_lname">{{customer.lastname}}</span>
+                            <span class="customer_lname">{{customer.cabin}}</span>
+                            <span class="customer_phone">{{customer.phone}}</span>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="card">
+                    <h3 class="card-header"><span id="{{ edi and subbook.flight ? 'edited' : '' }}">{{ 'book.form.flight'|trans }}</span></h3>
+                    <div class="card-block">
+                        <table class="table">
+                            <tbody>
+                                <tr>
+                                    <td class="col-md-6">{{ 'book.flight.number'|trans }}</td>
+                                    <td class="value">{{book.flight.number}}</td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-6">{{ 'book.flight.deptime'|trans }}</td>
+                                    <td class="value">{{book.flight.deptime|date('H:i')}}</td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-6">{{ 'book.flight.arrtime'|trans }}</td>
+                                    <td class="value">{{book.flight.arrtime|date('H:i')}}</td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-6">{{ 'book.flight.dest'|trans }}</td>
+                                    <td class="value">{{book.flight.destination}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                {% if not book.driver is empty %}
+                <div class="card">
+                    <h3 class="card-header">Greeter</h3>
+                    <div class="card-block">
+                        <table class="table">
+                            <tbody>
+                                <tr>
+                                    <td class="col-md-6">{{ 'admin.driver_add.form.fname'|trans }}</td>
+                                    <td class="value">{{book.driver.firstname}}</td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-6">{{ 'admin.driver_add.form.lname'|trans }}</td>
+                                    <td class="value"><span id="fdate">{{book.driver.lastname}}</span></td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-6">{{ 'admin.driver_add.form.phone'|trans }}</td>
+                                    <td class="value"><span id="products">{{book.driver.phone}}</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                {% endif %}
+                <p>
+                    <b>For Arrivals:</b> the passengers names will be displayed on plasma screens located inside the terminal.<br>
+                    <b>For Departures:</b> Kindly ensure to report 3 hours prior to the flight departure at the respective terminal.
+                </p>
+                <p>
+                    You can follow your book
+                    <a href="{{ path('show', {'uid': book.uid}) }}" class="font10">here</a>
+                    <br><br>
+                    We are pleased to arrange this journey for you.<br>
+                    Please feel free to contact us incase of any questions.
+                    <span style='mso-spacerun:yes'>&nbsp; </span>24/7. +33 184 194 84<br>
+                    This is a system generated message, please do not reply.
+
+                </p>
+            </div>
+        </div>
+    </main>
+</body>
+</html>
