@@ -68,7 +68,6 @@ class CompagnyController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $compagny = $this->uploadFile($compagny, $em);
-            echo "<br>". $compagny->getLogo() . " - " . $compagny->getName();
             $em->persist($compagny);
             $em->flush($compagny);
             return $this->redirectToRoute('admin.manage.compagnys');
@@ -85,7 +84,6 @@ class CompagnyController extends Controller
             $this->getParameter('logos_directory'),
             $fileName
         );
-        echo "PATH : " . $this->getParameter('logos_directory') . $fileName;
         $cmp->setLogo($fileName);
         return $cmp;
     }
