@@ -861,147 +861,24 @@ HEADER
 
 *****/
 
-header#head {
-    /*border-bottom: #6D071A solid 3px;
-    background-color: #000;
-    min-height: 60px;
-    margin-bottom: 0;*/
-border-bottom: #6D071A solid 3px;
-    position: fixed;
-    width: 100%;
-    height: 49px;
-    background-color: rgba(0,0,0,0.8);
-    -webkit-box-shadow: 0px 3px 3px 0px rgba(0,0,0,0.3);
-    -moz-box-shadow: 0px 3px 3px 0px rgba(0,0,0,0.3);
-    box-shadow: 0px 3px 3px 0px rgba(0,0,0,0.3);
-    padding: 15px 30px;
-    box-sizing: border-box;
-    border-radius: 0;
-    z-index: 99;
-}
-header#head .sec {
-    height: 28px;
-    line-height: 28px;
-    z-index: 2;
-    margin-top: -5px;
-    opacity: 0.8;
-    padding: 0;
-    color: #cdcdcd;
-}
-header#head #logo {
-    float: left;
-}
-header#head #info {
-    float: right;
-    color: #fff;
-}
-header#head #logo:hover {
-    color: #fff;
-}
-header#head .sec > span {
-    vertical-align: middle;
-}
-header#head .sec .logo {
-    /*max-height: 100%*/
 
-    background-size: auto 100%;
-    width: 25px;
-    /*padding-left: 18px;*/
-
-    display: inline-block;
-    height: 100%;
-    background-repeat: no-repeat;
-    background-position: left center;
-}
-header#head .sec .text {
-    font-weight: 200;
-    letter-spacing: 4px;
-    font-size: 15px;
-}
-header#head #info > .text {
-    text-align: right;
-}
-.navbar-title {
-    color: #FFF;
-    height: 60px;
-    padding: 15px 15px;
-    font-size: 18px;
-    line-height: 30px;
-}
-.navbar-center {
-    float:none;
-    margin: 0 auto;
-    display: table;
-    table-layout: fixed;
-}
-
-/*****
-
-CONTENT
-
-*****/
-
-#content {
-    padding-top: 49px;
-    min-height: 100vh;
-    padding-bottom: 40px;
-    position: relative;
-}
-#content::before {
-  content: "";
-  opacity: 0.5;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  position: absolute;
-  z-index: -1;
-}
-#content #head h5 {
-    text-transform: uppercase;
-    padding: 10px 0;
-    border-bottom: solid 1px grey;
-}
-#content #head h5 a.marg,
-#content #head h5 span.marg {
-    margin: 1px 15px;
-}
-#content #head h5 a,
-#content #head h5 span {
-    float: right;
-}
 .card {
-    position: relative;
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: normal;
-    -webkit-flex-direction: column;
-    -ms-flex-direction: column;
-    flex-direction: column;
-    background-color: rgba(255, 255, 255, 0.85);
+    max-width: 500px;
+    margin: 5px;
     border: 1px solid rgba(0,0,0,.125);
     border-radius: .25rem;
-    padding: 0;
-    margin: 30px 20px;
 }
 .card-header:first-child {
     border-radius: calc(.25rem - 1px) calc(.25rem - 1px) 0 0;
 }
 .card-header {
-    padding: .75rem 1.25rem;
+    padding: 5px;
     margin: 0;
     background-color: #f7f7f9;
     border-bottom: 1px solid rgba(0,0,0,.125);
 }
-.card-block {
-    -webkit-box-flex: 1;
-    -webkit-flex: 1 1 auto;
-    -ms-flex: 1 1 auto;
-    flex: 1 1 auto;
-    padding: 1.25rem;
+.card .card-block {
+    padding: 3px;
 }
 .card-title {
     margin-bottom: .75rem;
@@ -1037,7 +914,42 @@ a:focus, a:hover { color: #b29600; }
 .label-danger,
 .btn-danger { background-color: #7B003A; border: none; }
 
-
+/* MAIL ADAPTATION */
+h2 > span {
+    font-size: 14px;
+}
+h2 {
+    font-size: 12px;
+}
+h3 {
+    font-size: 10px;
+}
+p {
+    font-size: 8px;
+}
+table td, table th {
+    font-size: 8px;
+    padding: 2px !important;
+}
+table { table-layout: fixed; }
+td { width: 33%; }
+.table {
+    margin: 0;
+}
+.tab-sep {
+    padding: 0;
+    font-size: 2px;
+}
+</style>
+<style type="text/css" media="print">
+.dontprint { display: none; }
+h3 { font-size: 9px; }
+p { font-size: 8px; }
+table td, table th {
+    font-size: 8px;
+    padding: 0 !important;
+}
+.tab-sep { font-size: 0; }
 </style>
 {% endblock %}
 
@@ -1048,11 +960,11 @@ a:focus, a:hover { color: #b29600; }
 {% endblock %}
 
 {% block body %}
-<main id="content">
+<main>
     <div class="container">
-        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-            <h2><span class="cmpcolor">UNIC Webooking</span> / Booking No. {{book.fullid}}</h2>
-            <p>
+        <div>
+            <h2 class="dontprint"><span class="cmpcolor-c">UNIC Webooking</span> / Booking No. {{book.fullid}}</h2>
+            <p class="dontprint">
                 Dear Mr/Ms. {{book.agentlastname}},<br>
                 We are pleased to inform you that we have created the booking for
                 UNIC services
@@ -1063,7 +975,7 @@ a:focus, a:hover { color: #b29600; }
                 <b>For Arrivals:</b> the passengers names will be displayed on plasma screens located inside the terminal.<br>
                 <b>For Departures:</b> Kindly ensure to report 3 hours prior to the flight departure at the respective terminal.
             </p>
-            <p>
+            <p class="dontprint">
                 You can follow your book
                 <a href="{{ url('show', {'id': book.id}) }}" class="font10">here</a>
                 <br><br>

@@ -297,4 +297,15 @@ class Product
     {
         return $this->additionalprice;
     }
+
+    /**
+    * Set Default Pax Price
+    */
+    public function setDefaultPaxPrice()
+    {
+        if (!$this->additionalprice) {
+            $this->additionalprice = $this->transport ? 25 : $this->price;
+        }
+        return $this;
+    }
 }

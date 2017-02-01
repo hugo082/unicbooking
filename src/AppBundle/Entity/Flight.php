@@ -126,7 +126,7 @@ class Flight
     *
     * @return string
     */
-    public function getSelectionType()
+    public function getSelectionType() // NOT USED
     {
         return ($this->type == "ARR") ?
             '<span class="se-type back-cmpcolor">Arrival</span> Departure'

@@ -46,7 +46,7 @@
             </style>
             <span class="logo" style="float:left"></span>
             <span style="float:left">{{ app.user.username }}</span>
-            <a href="{{ path('fos_user_security_logout') }}">
+            <a href="{{ path('fos_user_security_logout') }}" style="color:black">
                 {{ 'layout.logout'|trans({}, 'FOSUserBundle') }}
             </a>
             {% if is_granted("ROLE_ADMIN") %}

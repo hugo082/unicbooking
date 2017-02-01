@@ -37,7 +37,8 @@ class CompagnyType extends AbstractType
         ))
         ->add('logo', FileType::class, array(
             'label' => 'Logo (Image file)',
-            'data_class' => NULL
+            'data_class' => NULL,
+            'required' => false
         ));
     }
 

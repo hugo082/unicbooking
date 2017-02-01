@@ -1,3 +1,5 @@
+{% set cmp_c = (book.user ? book.user.compagny : NULL) %}
+{% set cmpcolor_c = (cmp_c ? cmp_c.color : '#ff0000') %}
 <style media="screen">
 #edited {
     background-color: #5cb85c;
@@ -13,9 +15,16 @@
     vertical-align: baseline;
     border-radius: .25em;
 }
-.se-type {
+.cmpcolor-c {
+    color: {{cmpcolor_c}} !important
+}
+.back-cmpcolor-c {
+    background-color: {{cmpcolor_c}} !important;
     color: white;
-    padding: 2px;
+    padding: 5px;
+}
+.border-bot-cmpcolor-c {
+    border-bottom-color: {{cmpcolor_c}} !important
 }
 </style>
 {% if activeSubbooks is defined and not activeSubbooks is empty %}
@@ -60,7 +69,7 @@
             <tbody>
                 <tr>
                     <td class="col-md-6">Airlines Compagny</td>
-                    <td class="value">{{book.user.compagny ? book.user.compagny.name : 'Admin' }}</td>
+                    <td class="value"><span class="back-cmpcolor-c">{{book.user.compagny ? book.user.compagny.name : 'Admin' }}</span></td>
                 </tr>
                 <tr>
                     <td class="col-md-6">Booked by</td>
@@ -71,7 +80,7 @@
                     <td class="value"><span id="{{ edi and subbook.agentemail ? 'edited' : '' }}">{{book.agentemail}}</span></td>
                 </tr>
                 <tr>
-                    <td colspan="2">&nbsp;</td>
+                    <td class="tab-sep" colspan="2">&nbsp;</td>
                 </tr>
                 <tr>
                     <td class="col-md-6">Booking No.</td>
@@ -95,7 +104,7 @@
                     <td class="value"><span>{{book.fullprice}}</span></td>
                 </tr>
                 <tr>
-                    <td colspan="2">&nbsp;</td>
+                    <td class="tab-sep" colspan="2">&nbsp;</td>
                 </tr>
                 <tr>
                     <td class="col-md-6">Airport Location</td>
@@ -103,7 +112,7 @@
                 </tr>
                 <tr>
                     <td class="col-md-6">Type</td>
-                    <td><span>{{book.flight.selectiontype|raw}}</span></td>
+                    <td class="value"><span>{{book.flight.fulltype}}</span></td>
                 </tr>
                 <tr>
                     <td class="col-md-6">Product</td>
@@ -161,7 +170,7 @@
         <table class="table">
             <tbody>
                 <tr>
-                    <td class="col-md-6">{{ 'total'|trans }}</td>
+                    <td class="col-md-6">Total customers</td>
                     <td class="value">{{book.totalcus}}</td>
                 </tr>
                 <tr>
@@ -194,7 +203,7 @@
                     <td>Mobile</td>
                 </tr>
                 {% for customer in book.customers %}
-                <tr>
+                <tr class="back-cmpcolor-c">
                     <td>{{customer.title}}</td>
                     <td>{{customer.firstname}} {{customer.lastname}}</td>
                     <td>{{customer.cabin}}</td>
@@ -203,15 +212,15 @@
                 </tr>
                 {% endfor %}
                 <tr>
-                    <td colspan="5">&nbsp;</td>
+                    <td class="tab-sep" colspan="5">&nbsp;</td>
                 </tr>
                 <tr>
                     <td colspan="2">Nameboard</td>
                     <td colspan="3">{{book.nameboard}}</td>
                 </tr>
                 <tr>
-                    <td colspan="2">Remarks</td>
-                    <td colspan="3">
+                    <td colspan=1>Remarks</td>
+                    <td colspan=3>
                         {% if book.product.transport %}
                         PickUp address: {{book.addresspu}}<br>DropOff address: {{book.addressdo}}<br>
                         {% endif %}
@@ -232,37 +241,44 @@
         <table class="table">
             <tbody>
                 <tr>
-                    <td>Service Name</td>
-                    <td>A/D</td>
-                    <td>Quantity</td>
-                    <td>Price unit.</td>
-                    <td>Amount (EUR)</td>
+                    <th>Service Name</th>
+                    <th>A/D</th>
+                    <th>Quantity</th>
+                    <th>Price unit.</th>
+                    <th>Amount (EUR)</th>
                 </tr>
                 <tr>
                     <td>{{book.product.name}}</td>
                     <td>{{book.flight.fulltype}}</td>
                     <td>{{book.productquantity}}</td>
-                    <td>{{book.product.price}}</td>
-                    <td>{{book.product.price * book.productquantity}}</td>
+                    <td>{{book.product.price|number_format(2, ',', ' ')}}</td>
+                    <td>{{(book.fullproductprice)|number_format(2, ',', ' ')}}</td>
                 </tr>
                 <tr>
                     <td>Porterage</td>
                     <td>1 bag.</td>
                     <td>{{book.bags}}</td>
-                    <td>10,00</td>
-                    <td>{{book.bags * 10}}</td>
+                    <td>{{book.porterageprice|number_format(2, ',', ' ')}}</td>
+                    <td>{{(book.bags * book.porterageprice)|number_format(2, ',', ' ')}}</td>
                 </tr>
                 <tr>
-                    <td>Edition</td>
-                    <td>1 edition.</td>
+                    <td>Additional Car</td>
+                    <td>1 car.</td>
+                    <td>{{book.additionalcar}}</td>
+                    <td>90,00</td>
+                    <td>{{(book.additionalcar * 90)|number_format(2, ',', ' ')}}</td>
+                </tr>
+                <tr>
+                    <td>Modification</td>
+                    <td>1 modification.</td>
                     <td>{{book.chargedsubbooks|length}}</td>
                     <td>25,00</td>
-                    <td>{{book.chargedsubbooks|length * 25}}</td>
+                    <td>{{(book.chargedsubbooks|length * 25)|number_format(2, ',', ' ')}}</td>
                 </tr>
                 <tr>
-                    <td>Total Amount</td>
+                    <td><b>Total Amount</b></td>
                     <td colspan=3>(estimated price)</td>
-                    <td>EUR {{book.price}}</td>
+                    <td><b>EUR {{book.price|number_format(2, ',', ' ')}}</b></td>
                 </tr>
                 <tr>
                     <td colspan=4>&nbsp;</td>
@@ -274,7 +290,7 @@
 </div>
 {% if not book.driver is empty or not book.greeter is empty %}
 <div class="card">
-    <h3 class="card-header">Diver / Greeter</h3>
+    <h3 class="card-header">Driver / Greeter</h3>
     <div class="card-block">
         <table class="table">
             <tbody>

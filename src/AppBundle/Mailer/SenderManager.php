@@ -40,8 +40,8 @@ class SenderManager
     }
 
     public function sendConfirmation($book, $agentcpy = true, $admincpy = true) {
-        $state = array('code' => 'conf', 'key' => 'Confirmation');
-        $sub = ' • Confirmation';
+        $state = array('code' => 'conf', 'key' => 'Confirmed');
+        $sub = ' • Confirmed';
         if ($admincpy) $this->sendEmail($book, $this->adminemail, $state, $sub);
         if ($agentcpy) $this->sendEmail($book, $book->getAgentemail(), $state, $sub);
     }

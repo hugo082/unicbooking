@@ -243,17 +243,28 @@ class Book
         $price = 0;
         $price += $this->product->getPrice();
         $price += $this->getAdditionalcus() * $this->product->getAdditionalPrice();
-        $price += $this->bags * 10;
+        $price += $this->getAdditionalCar() * 90;
+        $cmp = $this->user->getCompagny();
+        $price += $this->bags * $this->getPorterageprice();
         if ($doc != NULL) $price += 25 * count($doc->getRepository('AppBundle:SubBook')->getChargedCountEdit($this));
         $this->price = $price;
     }
 
     public function getDeviceConvertion(){
-        $cmp = $this->getUser()->getCompagny();
+        $cmp = $this->user->getCompagny();
         if ($cmp && strpos($cmp->getName(), 'Qatar') !== false) {
             return "QAR " . $this->price * 3.8164;
         }
         return "USD " . $this->price * 1.069;
+    }
+
+    public function getFullProductPrice() {
+        return $this->product->getPrice() + $this->getAdditionalcus() * $this->product->getAdditionalPrice();
+    }
+
+    public function getPorterageprice() {
+        $cmp = $this->user->getCompagny();
+        return $cmp ? $cmp->getPortageprice() : 8;
     }
 
     /**
@@ -401,7 +412,7 @@ class Book
     */
     public function getTotalcus()
     {
-        return count($this->customers);
+        return $this->childcus + $this->adultcus;
     }
 
     /**
@@ -413,6 +424,19 @@ class Book
     {
         $n = $this->getTotalcus() - $this->product->getPassengers();
         return ($n >= 0) ? $n : 0;
+    }
+
+    /**
+    * Get total customers
+    *
+    * @return integer
+    */
+    public function getAdditionalCar()
+    {
+        if ($this->product->getTransport()) {
+            return ceil($this->getTotalcus() / 4) - 1;
+        }
+        return 0;
     }
 
     /**
@@ -768,8 +792,7 @@ class Book
     */
     public function getProductQuantity()
     {
-        $prodPass = $this->product->getPassengers();
-        return ceil($this->getTotalcus() / $prodPass);
+        return "1 ( +" . $this->getAdditionalcus() . " PAX )";
     }
 
     /**

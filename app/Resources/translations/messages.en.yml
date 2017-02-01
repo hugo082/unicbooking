@@ -28,7 +28,7 @@ show:
         content: Book %id% is not present on our database. %ls%Try again%le%.
     form:
         driver: Driver
-        greeter: Geeter
+        greeter: Greeter
         go: Select
 
 manage:

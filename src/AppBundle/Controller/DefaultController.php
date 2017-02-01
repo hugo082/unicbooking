@@ -57,16 +57,7 @@ class DefaultController extends Controller
         $book = $this->getDoctrine()->getRepository('AppBundle:Book')->getOneLast();
         if ($bool) {
             echo 'Send Action<br>';
-            $message = \Swift_Message::newInstance()
-            ->setSubject('Hello Email')
-            ->setFrom('hugo.fouquet@outlook.com')
-            ->setTo('hugo-boss12@hotmail.fr')
-            ->setBody($this->renderView('Emails/test2.html.twig', array(
-                'book' => $book,
-                'user' => $user,
-                'state' => array('code' => 'conf', 'key'=>'Confirmed')
-            )),'text/html');
-            echo $this->get('mailer')->send($message);
+            $this->get('app.mailer')->sendWaiting($book, true, false);
         } else {
             echo 'Ignore Action';
         }

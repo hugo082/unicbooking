@@ -22,7 +22,7 @@
             {{ form_widget(form.enabled) }}
         </div>
         <div>
-            <button type="submit" name="button" class="btn btn-primary">Order {{book.price}}€</button>
+            <button type="submit" name="button" class="btn btn-primary">Order {{book.price|number_format(2, ',', ' ')}}€</button>
             <span class="conversion"><span id="priceQAR">{{book.deviceconvertion}}</span></span>
         </div>
         {{ form_end(form) }}
