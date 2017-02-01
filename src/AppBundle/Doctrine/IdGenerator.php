@@ -22,7 +22,6 @@ class IdGenerator extends AbstractIdGenerator
             $item = $em->find($entity_name, $id);
 
             if (!$item) {
-                echo "Founded : " . dechex($id);
                 return dechex($id);
             }
 

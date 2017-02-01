@@ -79,7 +79,8 @@
                 </tr>
                 <tr>
                     <td class="col-md-6">Booking statut</td>
-                    {% if state is not defined and state is not empty %}
+                    {% set bool = state is defined ? state is empty : true %}
+                    {% if bool %}
                     <td class="value state-{{book.fullstate}}"><span>{{book.fullstate}}</span></td>
                     {% else %}
                     <td class="value {{state.code}}">{{state.key}}</td>

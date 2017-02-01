@@ -100,7 +100,8 @@ class BookType extends AbstractType
         'choice_attr' => function($f) {return ['is' => $f->getType(), 'airp' => $f->getMainAirport()->getId()];},
         'query_builder' => function (EntityRepository $er) {
             return $er->createQueryBuilder('f')
-            ->where('f.compagny = :ucmp')
+            ->where('f.compagny is NULL')
+            ->orwhere('f.compagny = :ucmp')
             ->orwhere(':ucmp is NULL')
             ->setParameter('ucmp', $this->getUser()->getCompagny())
             ->andwhere('f.removed = :rm')

@@ -19,7 +19,7 @@ class BookRepository extends \Doctrine\ORM\EntityRepository
         ->setParameter('limit_top', new \DateTime())
         ->andwhere('b.creationdate >= :limit_bottom')
         ->setParameter('limit_bottom', new \DateTime("-1 month"))
-        ->orderBy('b.id', 'DESC');
+        ->orderBy('b.creationdate', 'DESC');
 
         return $qb
         ->getQuery()
@@ -46,7 +46,7 @@ class BookRepository extends \Doctrine\ORM\EntityRepository
 
     public function getOneLast(){
         return $this->createQueryBuilder('b')
-        ->orderBy('b.id', 'DESC')
+        ->orderBy('b.creationdate', 'DESC')
         ->setMaxResults(1)
         ->getQuery()
         ->getOneOrNullResult();
