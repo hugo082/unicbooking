@@ -65,7 +65,7 @@ class ProdController extends Controller
         $form = $this->createForm(ProductType::class, $product);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $prod->setDefaultPaxPrice();
+            $product->setDefaultPaxPrice();
             $em = $this->getDoctrine()->getManager();
             $em->persist($product);
             $em->flush();

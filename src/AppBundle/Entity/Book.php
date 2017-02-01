@@ -252,7 +252,7 @@ class Book
 
     public function getDeviceConvertion(){
         $cmp = $this->user->getCompagny();
-        if ($cmp && strpos($cmp->getName(), 'Qatar') !== false) {
+        if ($cmp && stripos($cmp->getName(), 'qatar') !== false) {
             return "QAR " . $this->price * 3.8164;
         }
         return "USD " . $this->price * 1.069;
