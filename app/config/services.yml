@@ -32,8 +32,8 @@ services:
         tags:
             - { name: doctrine.event_listener, event: prePersist }
             - { name: doctrine.event_listener, event: preUpdate }
-    app.change_pass_listener:
-        class: AppBundle\EventListener\ChangePassListener
-        arguments: [ "@router", "@security.authorization_checker", "@security.token_storage", "@session", "@event_dispatcher", "@fos_user.user_manager" ]
-        tags:
-            - { name: kernel.event_subscriber }
+    #app.change_pass_listener:
+    #    class: AppBundle\EventListener\ChangePassListener
+    #    arguments: [ "@router", "@security.authorization_checker", "@security.token_storage", "@session", "@event_dispatcher", "@fos_user.user_manager" ]
+    #    tags:
+    #        - { name: kernel.event_subscriber }

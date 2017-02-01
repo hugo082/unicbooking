@@ -53,6 +53,7 @@ class ChangePassListener implements EventSubscriberInterface {
     }
 
     public function onLogin(InteractiveLoginEvent $event) {
+        echo "Login Listener";
         if ($this->context->isGranted('IS_AUTHENTICATED_FULLY')) {
             $route_name = $event->getRequest()->get('_route');
             if ($route_name != 'fos_user_change_password' && $this->context->isGranted(self::CHANGE_PASS_ROLE)) {
@@ -66,7 +67,7 @@ class ChangePassListener implements EventSubscriberInterface {
     }
 
     public function onChangePasswordSuccess(FormEvent $event) {
-
+        echo "ChangePasswordSuccess Listener";
         $user = $this->token->getToken()->getUser();
         $user->removeRole(self::CHANGE_PASS_ROLE);
         $this->usermanager->updateUser($user);
