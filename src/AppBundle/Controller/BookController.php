@@ -38,7 +38,7 @@ class BookController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->persist($book);
             $em->flush();
-            return $this->redirectToRoute('book.enabled', array('uid' => $book->getUid()));
+            return $this->redirectToRoute('book.enabled', array('id' => $book->getid()));
         }
 
         return $this->render('booking/form/create.html.twig', array(
@@ -47,12 +47,12 @@ class BookController extends Controller
     }
 
     /**
-    * @Route("/book/edit/{uid}", requirements={"uid" = "[0-9a-fA-F]+"}, name="book.edit")
+    * @Route("/book/edit/{id}", requirements={"id" = "[0-9a-fA-F]+"}, name="book.edit")
     */
-    public function editAction(Request $request, $uid)
+    public function editAction(Request $request, $id)
     {
-        $book = $this->getDoctrine()->getRepository('AppBundle:Book')->findOneByUid($uid);
-        $bc = $this->get('app.checker.book')->edit($book, $uid);
+        $book = $this->getDoctrine()->getRepository('AppBundle:Book')->findOneByid($id);
+        $bc = $this->get('app.checker.book')->edit($book, $id);
 
         $form = $this->createForm(BookType::class, $book);
         $form->handleRequest($request);
@@ -69,7 +69,7 @@ class BookController extends Controller
             $em->persist($subbook);
             $em->persist($book);
             $em->flush();
-            return $this->redirectToRoute('show', array('uid' => $book->getUid()));
+            return $this->redirectToRoute('show', array('id' => $book->getid()));
         }
 
         return $this->render('booking/form/edit.html.twig', array(
@@ -78,12 +78,12 @@ class BookController extends Controller
     }
 
     /**
-    * @Route("/show/{uid}", requirements={"uid" = "[0-9a-fA-F]+"}, name="show")
+    * @Route("/show/{id}", requirements={"id" = "[0-9a-fA-F]+"}, name="show")
     */
-    public function showAction(Request $request, $uid)
+    public function showAction(Request $request, $id)
     {
-        $book = $this->getDoctrine()->getRepository('AppBundle:Book')->findOneByUid($uid);
-        $bc = $this->get('app.checker.book')->show($book, $uid);
+        $book = $this->getDoctrine()->getRepository('AppBundle:Book')->findOneByid($id);
+        $bc = $this->get('app.checker.book')->show($book, $id);
 
         $subrepo = $this->getDoctrine()->getRepository('AppBundle:SubBook');
         $subbook = $subrepo->getLastEdit($book);
@@ -106,12 +106,12 @@ class BookController extends Controller
     }
 
     /**
-    * @Route("/book/enabled/{uid}", requirements={"uid" = "[0-9a-fA-F]+"}, name="book.enabled")
+    * @Route("/book/enabled/{id}", requirements={"id" = "[0-9a-fA-F]+"}, name="book.enabled")
     */
-    public function enabledAction(Request $request, $uid)
+    public function enabledAction(Request $request, $id)
     {
-        $book = $this->getDoctrine()->getRepository('AppBundle:Book')->findOneByUid($uid);
-        $bc = $this->get('app.checker.book')->enabled($book, $uid);
+        $book = $this->getDoctrine()->getRepository('AppBundle:Book')->findOneByid($id);
+        $bc = $this->get('app.checker.book')->enabled($book, $id);
 
         $form = $this->createForm(BookValidationType::class, $book);
         $form->handleRequest($request);
@@ -121,7 +121,7 @@ class BookController extends Controller
             $em->persist($book);
             $em->flush();
             $this->get('app.mailer')->sendWaiting($book);
-            return $this->redirectToRoute('show', array('uid' => $uid));
+            return $this->redirectToRoute('show', array('id' => $id));
         }
 
         return $this->render('booking/show/enabled.html.twig', array(

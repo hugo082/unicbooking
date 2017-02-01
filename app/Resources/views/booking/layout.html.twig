@@ -2,27 +2,9 @@
 
 {% block title %}{{parent()}}Expert Webooking{% endblock %}
 
-{% set cmp = (app.user ? app.user.compagny : NULL) %}
-{% set logopath = asset('uploads/logos/' ~ (cmp ? app.user.compagny.logo : 'default.png')) %}
-{% set cmpcolor = (cmp ? app.user.compagny.color : '#ff0000') %}
-
 {% block stylesheets %}
 {{parent()}}
 <link rel="stylesheet" href="{{ asset('bundles/booking/css/datepicker.min.css') }}">
-<link rel="stylesheet" href="{{ asset('bundles/booking/css/shared.css') }}">
-<style media="screen">
-    .cmpcolor {
-        color: {{cmpcolor}} !important
-    }
-    .back-cmpcolor {
-        background-color: {{cmpcolor}} !important
-    }
-    .border-bot-cmpcolor {
-        border-bottom-color: {{cmpcolor}} !important
-    }
-    .label-danger,
-    .btn-danger { background-color: {{cmpcolor}}; border: none; }
-</style>
 {% endblock %}
 
 
@@ -77,6 +59,17 @@
             </a>
         </h5>
     </div>
+    {% endif %}
+    {% if app.request.hasPreviousSession %}
+    {% for type, messages in app.session.flashbag.all() %}
+    {% for message in messages %}
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="alert alert-{{ type }}">
+            <strong>{{ type }}</strong> {{ message }}
+        </div>
+    </div>
+    {% endfor %}
+    {% endfor %}
     {% endif %}
     {% block content %}{% endblock %}
 </div>

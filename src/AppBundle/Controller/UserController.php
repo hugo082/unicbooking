@@ -6,6 +6,11 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
+use FOS\UserBundle\Event\GetResponseUserEvent;
+use FOS\UserBundle\FOSUserEvents;
+
+use AppBundle\EventListener\ChangePassListener;
+
 use AppBundle\Entity\User;
 
 class UserController extends Controller
@@ -38,24 +43,19 @@ class UserController extends Controller
     }
 
     /**
-    * @Route("/admin/manage/users/edit/{id}", requirements={"id" = "\d+"}, name="admin.manage.users.edit")
+    * @Route("/admin/manage/users/changepass/{id}", requirements={"id" = "\d+"}, name="admin.manage.users.changepass")
     */
-    public function editAction(Request $request, $id)
+    public function changepassAction(Request $request, $id)
     {
         $user = $this->getDoctrine()->getRepository('AppBundle:User')->find($id);
         if (!$user) {
+            $this->addFlash('warning','User not found.');
             return $this->redirectToRoute('admin.manage.users');
         }
-        $form = $this->createForm(UserType::class, $user);
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($user);
-            $em->flush();
-            return $this->redirectToRoute('admin.manage.prod');
-        }
-        return $this->render('booking/manage/user.html.twig', array(
-            'form' => $form->createView()
-        ));
+        $user->addRole(ChangePassListener::CHANGE_PASS_ROLE);
+        $em = $this->getDoctrine()->getManager();
+        $em->flush($user);
+        $this->addFlash('success','User will have to change password at next logon');
+        return $this->redirectToRoute('admin.manage.users');
     }
 }

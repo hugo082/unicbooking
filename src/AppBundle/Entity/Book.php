@@ -16,15 +16,11 @@ class Book
 {
     /**
     * @ORM\Id
-    * @ORM\GeneratedValue(strategy="AUTO")
-    * @ORM\Column(name="id", type="integer")
+    * @ORM\Column(type="string")
+    * @ORM\GeneratedValue(strategy="CUSTOM")
+    * @ORM\CustomIdGenerator(class="AppBundle\Doctrine\IdGenerator")
     */
     private $id;
-
-    /**
-    * @ORM\Column(name="uid", type="string", unique=true)
-    */
-    private $uid;
 
     /**
     * @var Airport
@@ -222,12 +218,22 @@ class Book
     public function __construct()
     {
         $date = new \DateTime();
-        $this->uid = dechex($date->format('ymdHHis') . rand(0,99));
+        // $this->id = dechex($date->format('ymdHHis') . rand(0,99));
         $this->creationdate = $date;
         $this->state = "WAITING";
         $this->customers = new \Doctrine\Common\Collections\ArrayCollection();
         $this->subbooks = new \Doctrine\Common\Collections\ArrayCollection();
         $this->enabled = false;
+    }
+
+    /**
+    * Compute price of this book. Without edit price.
+    */
+    public function getOptions() {
+        $res = array();
+        if ($this->product->getTransport()) $res[] = 'Airport transfer included';
+        $res[] = $this->getFullBags();
+        return $res;
     }
 
     /**
@@ -245,9 +251,9 @@ class Book
     public function getDeviceConvertion(){
         $cmp = $this->getUser()->getCompagny();
         if ($cmp && strpos($cmp->getName(), 'Qatar') !== false) {
-            return $this->price * 3.8164 . " QAR";
+            return "QAR " . $this->price * 3.8164;
         }
-        return $this->price * 1.069 . " USD";
+        return "USD " . $this->price * 1.069;
     }
 
     /**
@@ -556,6 +562,16 @@ class Book
     }
 
     /**
+    * Get full price
+    *
+    * @return string
+    */
+    public function getFullPrice()
+    {
+        return "EUR " . $this->price;
+    }
+
+    /**
     * Get price
     *
     * @return integer
@@ -673,6 +689,18 @@ class Book
         $this->state = $state;
 
         return $this;
+    }
+
+    /**
+    * Get full state
+    *
+    * @return string
+    */
+    public function getFullState()
+    {
+        if ($this->state == "ACCEPTED") return "Confirmed";
+        if ($this->state == "REJECTED") return "Cancelled";
+        if ($this->state == "WAITING") return "Waitlist";
     }
 
     /**
@@ -934,27 +962,17 @@ class Book
     }
 
     /**
-    * Set uid
+    * Get subbooks
     *
-    * @param integer $uid
-    *
-    * @return Book
+    * @return Subbook
     */
-    public function setUid($uid)
+    public function getLastSubbook()
     {
-        $this->uid = $uid;
-
-        return $this;
-    }
-
-    /**
-    * Get uid
-    *
-    * @return integer
-    */
-    public function getUid()
-    {
-        return $this->uid;
+        $res = NULL;
+        foreach ($this->subbooks as $sub) {
+            if (!$res || $sub->getId() > $res->getId()) $res = $sub;
+        }
+        return $res;
     }
 
     /**
@@ -964,7 +982,7 @@ class Book
     */
     public function getFullid()
     {
-        return $this->uid . "#" . count($this->subbooks);
+        return $this->id . "#" . count($this->subbooks);
     }
 
     /**

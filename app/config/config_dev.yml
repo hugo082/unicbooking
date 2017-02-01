@@ -32,4 +32,4 @@ monolog:
 
 swiftmailer:
     delivery_addresses: ['hugo-boss12@hotmail.fr']
-    disable_delivery: true
+    disable_delivery: false

@@ -122,6 +122,18 @@ class Flight
     }
 
     /**
+    * Get type
+    *
+    * @return string
+    */
+    public function getSelectionType()
+    {
+        return ($this->type == "ARR") ?
+            '<span class="se-type back-cmpcolor">Arrival</span> Departure'
+            : 'Arrival <span class="se-type back-cmpcolor">Departure</span>';
+    }
+
+    /**
     * Set deptime
     *
     * @param \DateTime $deptime

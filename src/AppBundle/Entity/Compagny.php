@@ -59,7 +59,6 @@ class Compagny
 
     /**
     * @ORM\Column(name="logo", type="string")
-    *
     * @Assert\File(mimeTypes = {
     *          "image/png",
     *          "image/jpeg",

@@ -10,7 +10,7 @@
         <h5>{{ exception.title }}</h5>
         <p>{{ exception.message }}</p>
         {% if exception.statusCode == 329 %}
-            <p><a class="btn btn-default" href="{{path('book.enabled', {'uid': exception.headers.uid})}}">Confirm</a></p>
+            <p><a class="btn btn-default" href="{{path('book.enabled', {'id': exception.headers.id})}}">Confirm</a></p>
         {% endif %}
         <p><a href="{{path('homepage')}}">Back</a></p>
     </div>

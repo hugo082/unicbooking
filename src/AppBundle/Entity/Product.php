@@ -5,62 +5,62 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Service
- *
- * @ORM\Table(name="product")
- * @ORM\Entity(repositoryClass="AppBundle\Repository\ProductRepository")
- */
+* Service
+*
+* @ORM\Table(name="product")
+* @ORM\Entity(repositoryClass="AppBundle\Repository\ProductRepository")
+*/
 class Product
 {
     /**
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
+    * @var int
+    *
+    * @ORM\Column(name="id", type="integer")
+    * @ORM\Id
+    * @ORM\GeneratedValue(strategy="AUTO")
+    */
     private $id;
 
     /**
-     * @var boolean
-     *
-     * @ORM\Column(name="removed", type="boolean")
-     */
+    * @var boolean
+    *
+    * @ORM\Column(name="removed", type="boolean")
+    */
     private $removed = false;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="name", type="string", length=255)
-     */
+    * @var string
+    *
+    * @ORM\Column(name="name", type="string", length=255)
+    */
     private $name;
 
     /**
-     * @var int
-     *
-     * @ORM\Column(name="price", type="integer")
-     */
+    * @var int
+    *
+    * @ORM\Column(name="price", type="integer")
+    */
     private $price;
 
     /**
-     * @var int
-     *
-     * @ORM\Column(name="passengers", type="integer")
-     */
+    * @var int
+    *
+    * @ORM\Column(name="passengers", type="integer")
+    */
     private $passengers;
 
     /**
-     * @var boolean
-     *
-     * @ORM\Column(name="transport", type="boolean")
-     */
+    * @var boolean
+    *
+    * @ORM\Column(name="transport", type="boolean")
+    */
     private $transport;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="code", type="string", length=255)
-     */
+    * @var string
+    *
+    * @ORM\Column(name="code", type="string", length=255)
+    */
     private $code;
 
     /**
@@ -78,8 +78,8 @@ class Product
     private $compagny;
 
     /**
-     * Get Full Name
-     */
+    * Get Full Name
+    */
     public function getFullName()
     {
         $res = $this->name . " " . $this->price . "€ (" . $this->passengers;
@@ -89,22 +89,30 @@ class Product
     }
 
     /**
-     * Get id
-     *
-     * @return int
-     */
+    * Get Full description
+    */
+    public function getDescription()
+    {
+        return "Pack" . $this->name . " (" . $this->passengers . ") " . $this->price . "€";
+    }
+
+    /**
+    * Get id
+    *
+    * @return int
+    */
     public function getId()
     {
         return $this->id;
     }
 
     /**
-     * Set name
-     *
-     * @param string $name
-     *
-     * @return Service
-     */
+    * Set name
+    *
+    * @param string $name
+    *
+    * @return Service
+    */
     public function setName($name)
     {
         $this->name = $name;
@@ -113,22 +121,22 @@ class Product
     }
 
     /**
-     * Get name
-     *
-     * @return string
-     */
+    * Get name
+    *
+    * @return string
+    */
     public function getName()
     {
         return $this->name;
     }
 
     /**
-     * Set price
-     *
-     * @param integer $price
-     *
-     * @return Service
-     */
+    * Set price
+    *
+    * @param integer $price
+    *
+    * @return Service
+    */
     public function setPrice($price)
     {
         $this->price = $price;
@@ -137,22 +145,22 @@ class Product
     }
 
     /**
-     * Get price
-     *
-     * @return int
-     */
+    * Get price
+    *
+    * @return int
+    */
     public function getPrice()
     {
         return $this->price;
     }
 
     /**
-     * Set passengers
-     *
-     * @param integer $passengers
-     *
-     * @return Service
-     */
+    * Set passengers
+    *
+    * @param integer $passengers
+    *
+    * @return Service
+    */
     public function setPassengers($passengers)
     {
         $this->passengers = $passengers;
@@ -161,22 +169,22 @@ class Product
     }
 
     /**
-     * Get passengers
-     *
-     * @return int
-     */
+    * Get passengers
+    *
+    * @return int
+    */
     public function getPassengers()
     {
         return $this->passengers;
     }
 
     /**
-     * Set code
-     *
-     * @param string $code
-     *
-     * @return Service
-     */
+    * Set code
+    *
+    * @param string $code
+    *
+    * @return Service
+    */
     public function setCode($code)
     {
         $this->code = $code;
@@ -185,22 +193,22 @@ class Product
     }
 
     /**
-     * Get code
-     *
-     * @return string
-     */
+    * Get code
+    *
+    * @return string
+    */
     public function getCode()
     {
         return $this->code;
     }
 
     /**
-     * Set compagny
-     *
-     * @param \AppBundle\Entity\Compagny $compagny
-     *
-     * @return Product
-     */
+    * Set compagny
+    *
+    * @param \AppBundle\Entity\Compagny $compagny
+    *
+    * @return Product
+    */
     public function setCompagny(\AppBundle\Entity\Compagny $compagny = null)
     {
         $this->compagny = $compagny;
@@ -209,22 +217,22 @@ class Product
     }
 
     /**
-     * Get compagny
-     *
-     * @return \AppBundle\Entity\Compagny
-     */
+    * Get compagny
+    *
+    * @return \AppBundle\Entity\Compagny
+    */
     public function getCompagny()
     {
         return $this->compagny;
     }
 
     /**
-     * Set transport
-     *
-     * @param boolean $transport
-     *
-     * @return Product
-     */
+    * Set transport
+    *
+    * @param boolean $transport
+    *
+    * @return Product
+    */
     public function setTransport($transport)
     {
         $this->transport = $transport;
@@ -233,22 +241,22 @@ class Product
     }
 
     /**
-     * Get transport
-     *
-     * @return boolean
-     */
+    * Get transport
+    *
+    * @return boolean
+    */
     public function getTransport()
     {
         return $this->transport;
     }
 
     /**
-     * Set removed
-     *
-     * @param boolean $removed
-     *
-     * @return Product
-     */
+    * Set removed
+    *
+    * @param boolean $removed
+    *
+    * @return Product
+    */
     public function setRemoved($removed)
     {
         $this->removed = $removed;
@@ -257,22 +265,22 @@ class Product
     }
 
     /**
-     * Get removed
-     *
-     * @return boolean
-     */
+    * Get removed
+    *
+    * @return boolean
+    */
     public function getRemoved()
     {
         return $this->removed;
     }
 
     /**
-     * Set additionalprice
-     *
-     * @param integer $additionalprice
-     *
-     * @return Product
-     */
+    * Set additionalprice
+    *
+    * @param integer $additionalprice
+    *
+    * @return Product
+    */
     public function setAdditionalprice($additionalprice)
     {
         $this->additionalprice = $additionalprice;
@@ -281,10 +289,10 @@ class Product
     }
 
     /**
-     * Get additionalprice
-     *
-     * @return integer
-     */
+    * Get additionalprice
+    *
+    * @return integer
+    */
     public function getAdditionalprice()
     {
         return $this->additionalprice;

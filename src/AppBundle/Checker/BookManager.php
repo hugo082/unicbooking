@@ -27,8 +27,8 @@ class BookManager
         $this->subrepo = $em->getRepository('AppBundle:SubBook');
     }
 
-    public function edit($book, $uid) {
-        $this->base($book, $uid);
+    public function edit($book, $id) {
+        $this->base($book, $id);
         if ($book->getState() != 'ACCEPTED') {
             throw new NotAcceptedException($book);
         }
@@ -37,17 +37,17 @@ class BookManager
         }
     }
 
-    public function enabled($book, $uid) {
-        $this->base($book, $uid, true);
+    public function enabled($book, $id) {
+        $this->base($book, $id, true);
     }
 
-    public function show($book, $uid) {
-        $this->base($book, $uid);
+    public function show($book, $id) {
+        $this->base($book, $id);
     }
 
-    private function base($book, $uid, $bool = false) {
+    private function base($book, $id, $bool = false) {
         if (!$book) {
-            throw new NotFoundException($uid);
+            throw new NotFoundException($id);
         }
         if ($book->getEnabled() == $bool) {
             throw new NotEnabledException($book);

@@ -11,7 +11,7 @@ class AlreadyEditedException extends \Exception implements ExceptionInterface
     {
         $this->headers = array();
         $this->title = "Unable to edit this book.";
-        $message = "The book (". $book->getUid() . ") is still waiting to accept the last change.";
+        $message = "The book (". $book->getid() . ") is still waiting to accept the last change.";
         parent::__construct($message, 0, null);
     }
     public function getStatusCode()

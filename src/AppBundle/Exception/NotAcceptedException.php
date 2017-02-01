@@ -10,10 +10,10 @@ class NotAcceptedException extends \Exception implements ExceptionInterface
     public function __construct($book)
     {
         $this->headers = array(
-            'uid' => $book->getUid()
+            'id' => $book->getid()
         );
         $this->title = "Book has not been accepted";
-        $message = "The book with uid : ". $book->getUid() . " is present on our database but it was not accepted by an admin..";
+        $message = "The book with id : ". $book->getid() . " is present on our database but it was not accepted by an admin..";
         parent::__construct($message, 0, null);
     }
     public function getStatusCode()

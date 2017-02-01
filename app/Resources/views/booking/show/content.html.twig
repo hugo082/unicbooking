@@ -13,6 +13,10 @@
     vertical-align: baseline;
     border-radius: .25em;
 }
+.se-type {
+    color: white;
+    padding: 2px;
+}
 </style>
 {% if activeSubbooks is defined and not activeSubbooks is empty %}
 <div class="card">
@@ -50,75 +54,98 @@
 </div>
 {% endif %}
 <div class="card">
-    <h3 class="card-header">Agent</h3>
+    <h3 class="card-header">Agent Booking</h3>
     <div class="card-block">
         <table class="table">
             <tbody>
                 <tr>
-                    <td class="col-md-6">{{ 'agent.username'|trans }}</td>
-                    <td class="value">{{book.user.username}}</td>
+                    <td class="col-md-6">Airlines Compagny</td>
+                    <td class="value">{{book.user.compagny ? book.user.compagny.name : 'Admin' }}</td>
                 </tr>
                 <tr>
-                    <td class="col-md-6">{{ 'agent.fname'|trans }}</td>
-                    <td class="value"><span id="{{ edi and subbook.agentfirstname ? 'edited' : '' }}">{{book.agentfirstname}}</span></td>
-                </tr>
-                <tr>
-                    <td class="col-md-6">{{ 'agent.lname'|trans }}</td>
-                    <td class="value"><span id="{{ edi and subbook.agentlastname ? 'edited' : '' }}">{{book.agentlastname}}</span></td>
+                    <td class="col-md-6">Booked by</td>
+                    <td class="value"><span id="{{ edi and subbook.agentfirstname ? 'edited' : '' }}">{{book.agentfirstname}} {{book.agentlastname}}</span></td>
                 </tr>
                 <tr>
                     <td class="col-md-6">{{ 'agent.email'|trans }}</td>
                     <td class="value"><span id="{{ edi and subbook.agentemail ? 'edited' : '' }}">{{book.agentemail}}</span></td>
                 </tr>
+                <tr>
+                    <td colspan="2">&nbsp;</td>
+                </tr>
+                <tr>
+                    <td class="col-md-6">Booking No.</td>
+                    <td class="value"><span>{{book.fullid}}</span></td>
+                </tr>
+                <tr>
+                    <td class="col-md-6">Booking statut</td>
+                    {% if state is not defined and state is not empty %}
+                    <td class="value state-{{book.fullstate}}"><span>{{book.fullstate}}</span></td>
+                    {% else %}
+                    <td class="value {{state.code}}">{{state.key}}</td>
+                    {% endif %}
+                </tr>
+                <tr>
+                    <td class="col-md-6">Booking Created Date</td>
+                    <td class="value"><span>{{book.creationdate|date('d-M-y')}}</span></td>
+                </tr>
+                <tr>
+                    <td class="col-md-6">Total amount</td>
+                    <td class="value"><span>{{book.fullprice}}</span></td>
+                </tr>
+                <tr>
+                    <td colspan="2">&nbsp;</td>
+                </tr>
+                <tr>
+                    <td class="col-md-6">Airport Location</td>
+                    <td class="value"><span>{{book.flight.mainairport.code}} - {{book.flight.mainairport.name}}</span></td>
+                </tr>
+                <tr>
+                    <td class="col-md-6">Type</td>
+                    <td><span>{{book.flight.selectiontype|raw}}</span></td>
+                </tr>
+                <tr>
+                    <td class="col-md-6">Product</td>
+                    <td class="value"><span>{{book.product.description}}</span></td>
+                </tr>
+                {% for opt in book.options %}
+                <tr>
+                    <td class="col-md-6">Option#{{ loop.index }}</td>
+                    <td class="value"><span>{{opt}}</span></td>
+                </tr>
+                {% endfor %}
             </tbody>
         </table>
     </div>
 </div>
 <div class="card">
-    <h3 class="card-header">Service</h3>
+    <h3 class="card-header"><span id="{{ edi and subbook.flight ? 'edited' : '' }}">Flight details</span></h3>
     <div class="card-block">
         <table class="table">
             <tbody>
+
+
+
                 <tr>
-                    <td class="col-md-6">{{ 'manage.find.form.number'|trans }}</td>
-                    <td class="value"><span id="id">{{book.fullid}}</span></td>
+                    <td class="col-md-6">Flight No.</td>
+                    <td class="value"><span id="{{ edi and subbook.service ? 'edited' : '' }}">{{book.flight.number}}</span></td>
                 </tr>
                 <tr>
-                    <td class="col-md-6">Type</td>
-                    <td class="value"><span id="{{ edi and subbook.service ? 'edited' : '' }}">{% if book.service == 'DEP' %}{{ 'book.form.dep'|trans }}{% else %}{{ 'book.form.arr'|trans }}{% endif %}</span></td>
+                    <td class="col-md-6">Flight Date</td>
+                    <td class="value"><span id="{{ edi and subbook.date ? 'edited' : '' }}">{{book.date|date("d-M-y")}}</span></td>
                 </tr>
                 <tr>
-                    <td class="col-md-6">{{ 'book.form.date'|trans }}</td>
-                    <td class="value"><span id="{{ edi and subbook.date ? 'edited' : '' }}">{{book.date|date("d M Y")}}</span></td>
+                    <td class="col-md-6">Departure Time</td>
+                    <td class="value">{{book.flight.deptime|date('H:i')}}</td>
                 </tr>
                 <tr>
-                    <td class="col-md-6">{{ 'book.form.prod'|trans }}</td>
-                    <td class="value"><span id="{{ edi and subbook.product ? 'edited' : '' }}">{{book.product.name}} {{book.product.price}}€</span></td>
-                </tr>
-                {% if not book.nameboard is empty %}
-                <tr>
-                    <td class="col-md-6">{{ 'book.form.nameboard'|trans }}</td>
-                    <td class="value"><span id="{{ edi and subbook.nameboard ? 'edited' : '' }}">{{book.nameboard}}</span></td>
-                </tr>
-                {% endif %}
-                <tr>
-                    <td class="col-md-6">{{ 'price'|trans }}</td>
-                    <td class="value"><span id="{{ edi and subbook.price ? 'edited' : '' }}">{{book.price}} €</span></td>
-                </tr>
-                {% if book.product.code == "FAM" %}
-                <tr>
-                    <td class="col-md-6">{{ 'book.form.timepu'|trans }}</td>
-                    <td class="value"><span id="{{ edi and subbook.timepu ? 'edited' : '' }}">{{book.timepu|date("H:m")}}</span></td>
+                    <td class="col-md-6">Arrival Time</td>
+                    <td class="value">{{book.flight.arrtime|date('H:i')}}</td>
                 </tr>
                 <tr>
-                    <td class="col-md-6">{{ 'book.form.addpu'|trans }}</td>
-                    <td class="value"><span id="{{ edi and subbook.addresspu ? 'edited' : '' }}">{{book.addresspu}}</span></td>
+                    <td class="col-md-6">Origine/Destination</td>
+                    <td class="value">{{book.flight.destination}}</td>
                 </tr>
-                <tr>
-                    <td class="col-md-6">{{ 'book.form.adddo'|trans }}</td>
-                    <td class="value"><span id="{{ edi and subbook.addressdo ? 'edited' : '' }}">{{book.addressdo}}</span></td>
-                </tr>
-                {% endif %}
             </tbody>
         </table>
     </div>
@@ -126,7 +153,7 @@
 <div class="card">
     <h3 class="card-header">
         <span id="{{ edi and (subbook.adultcus or subbook.childcus or subbook.bags)  ? 'edited' : '' }}">
-            {{ 'book.form.cust'|trans }}
+            Customers Informations
         </span>
     </h3>
     <div class="card-block">
@@ -144,83 +171,124 @@
                     <td class="col-md-6">{{ 'book.form.chilu2y'|trans }}</td>
                     <td class="value">{{book.childcus}}</td>
                 </tr>
-                <tr>
-                    <td class="col-md-6">{{ 'book.form.bags'|trans }}</td>
-                    <td class="value">{{book.bags}} bag(s) ( {{book.bags * 10}} € )</td>
-                </tr>
             </tbody>
         </table>
-        <h5>{{ 'cust.inf'|trans }} ({{ book.customers|length}})</h5>
-        <style media="screen">
-        .table {
-            margin: 0
-        }
-        .customer_row {
-            padding: 15px;
-        }
-        .customer_row > * {
-            margin: 0 10px
-        }
-        .customer_row .customer_fname {
-            text-transform: uppercase;
-            font-weight: 700
-        }
-        </style>
-        {% for customer in book.customers %}
+    </div>
+</div>
 
-        <div class="customer_row">
-            <span class="customer_title">{{customer.title}}</span>
-            <span class="customer_fname">{{customer.firstname}}</span>
-            <span class="customer_lname">{{customer.lastname}}</span>
-            <span class="customer_lname">{{customer.cabin}}</span>
-            <span class="customer_phone">{{customer.phone}}</span>
-        </div>
-        {% endfor %}
-    </div>
-</div>
 <div class="card">
-    <h3 class="card-header"><span id="{{ edi and subbook.flight ? 'edited' : '' }}">{{ 'book.form.flight'|trans }}</span></h3>
+    <h3 class="card-header">
+        <span id="{{ edi and (subbook.adultcus or subbook.childcus or subbook.bags)  ? 'edited' : '' }}">
+            Passengers details
+        </span>
+    </h3>
     <div class="card-block">
         <table class="table">
             <tbody>
                 <tr>
-                    <td class="col-md-6">{{ 'book.flight.number'|trans }}</td>
-                    <td class="value">{{book.flight.number}}</td>
+                    <td>Title</td>
+                    <td>Name</td>
+                    <td>Cabin</td>
+                    <td>Gender</td>
+                    <td>Mobile</td>
+                </tr>
+                {% for customer in book.customers %}
+                <tr>
+                    <td>{{customer.title}}</td>
+                    <td>{{customer.firstname}} {{customer.lastname}}</td>
+                    <td>{{customer.cabin}}</td>
+                    <td>{{customer.sexe}}</td>
+                    <td>{{customer.phone}}</td>
+                </tr>
+                {% endfor %}
+                <tr>
+                    <td colspan="5">&nbsp;</td>
                 </tr>
                 <tr>
-                    <td class="col-md-6">{{ 'book.flight.deptime'|trans }}</td>
-                    <td class="value">{{book.flight.deptime|date('H:i')}}</td>
+                    <td colspan="2">Nameboard</td>
+                    <td colspan="3">{{book.nameboard}}</td>
                 </tr>
                 <tr>
-                    <td class="col-md-6">{{ 'book.flight.arrtime'|trans }}</td>
-                    <td class="value">{{book.flight.arrtime|date('H:i')}}</td>
-                </tr>
-                <tr>
-                    <td class="col-md-6">{{ 'book.flight.dest'|trans }}</td>
-                    <td class="value">{{book.flight.destination}}</td>
+                    <td colspan="2">Remarks</td>
+                    <td colspan="3">
+                        {% if book.product.transport %}
+                        PickUp address: {{book.addresspu}}<br>DropOff address: {{book.addressdo}}<br>
+                        {% endif %}
+                        {{book.note}}
+                    </td>
                 </tr>
             </tbody>
         </table>
     </div>
 </div>
-{% if not book.driver is empty %}
 <div class="card">
-    <h3 class="card-header">Greeter</h3>
+    <h3 class="card-header">
+        <span id="{{ edi and (subbook.adultcus or subbook.childcus or subbook.bags)  ? 'edited' : '' }}">
+            Service details
+        </span>
+    </h3>
     <div class="card-block">
         <table class="table">
             <tbody>
                 <tr>
-                    <td class="col-md-6">{{ 'admin.driver_add.form.fname'|trans }}</td>
-                    <td class="value">{{book.driver.firstname}}</td>
+                    <td>Service Name</td>
+                    <td>A/D</td>
+                    <td>Quantity</td>
+                    <td>Price unit.</td>
+                    <td>Amount (EUR)</td>
                 </tr>
                 <tr>
-                    <td class="col-md-6">{{ 'admin.driver_add.form.lname'|trans }}</td>
-                    <td class="value"><span id="fdate">{{book.driver.lastname}}</span></td>
+                    <td>{{book.product.name}}</td>
+                    <td>{{book.flight.fulltype}}</td>
+                    <td>{{book.productquantity}}</td>
+                    <td>{{book.product.price}}</td>
+                    <td>{{book.product.price * book.productquantity}}</td>
                 </tr>
                 <tr>
-                    <td class="col-md-6">{{ 'admin.driver_add.form.phone'|trans }}</td>
-                    <td class="value"><span id="products">{{book.driver.phone}}</span></td>
+                    <td>Porterage</td>
+                    <td>1 bag.</td>
+                    <td>{{book.bags}}</td>
+                    <td>10,00</td>
+                    <td>{{book.bags * 10}}</td>
                 </tr>
+                <tr>
+                    <td>Edition</td>
+                    <td>1 edition.</td>
+                    <td>{{book.chargedsubbooks|length}}</td>
+                    <td>25,00</td>
+                    <td>{{book.chargedsubbooks|length * 25}}</td>
+                </tr>
+                <tr>
+                    <td>Total Amount</td>
+                    <td colspan=3>(estimated price)</td>
+                    <td>EUR {{book.price}}</td>
+                </tr>
+                <tr>
+                    <td colspan=4>&nbsp;</td>
+                    <td>{{book.deviceconvertion}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+{% if not book.driver is empty or not book.greeter is empty %}
+<div class="card">
+    <h3 class="card-header">Diver / Greeter</h3>
+    <div class="card-block">
+        <table class="table">
+            <tbody>
+                {% if not book.driver is empty%}
+                <tr>
+                    <td>Driver</td>
+                    <td class="value">{{book.driver.firstname}} {{book.driver.lastname}} {{book.driver.phone}}</td>
+                </tr>
+                {% endif %}
+                {% if not book.greeter is empty%}
+                <tr>
+                    <td>Greeter</td>
+                    <td class="value">{{book.greeter.firstname}} {{book.greeter.lastname}} {{book.greeter.phone}}</td>
+                </tr>
+                {% endif %}
             </tbody>
         </table>
     </div>

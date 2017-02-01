@@ -63,12 +63,14 @@ class CompagnyController extends Controller
         if (!$compagny) {
             return $this->redirectToRoute('admin.manage.compagnys');
         }
+        $holdFile = $compagny->getLogo();
         $form = $this->createForm(CompagnyType::class, $compagny);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $compagny = $this->uploadFile($compagny, $em);
-            $em->persist($compagny);
+            if ($compagny->getLogo() == NULL) {
+                $compagny->setLogo($holdFile);
+            }
             $em->flush($compagny);
             return $this->redirectToRoute('admin.manage.compagnys');
         }
@@ -78,13 +80,18 @@ class CompagnyController extends Controller
     }
 
     private function uploadFile($cmp, $em) {
+
         $file = $cmp->getLogo();
-        $fileName = md5(uniqid()).'.'.$file->guessExtension();
-        $file->move(
-            $this->getParameter('logos_directory'),
-            $fileName
-        );
+        $fileName = $this->get('app.logo_uploader')->upload($file);
         $cmp->setLogo($fileName);
+
+        // $file = $cmp->getLogo();
+        // $fileName = md5(uniqid()).'.'.$file->guessExtension();
+        // $file->move(
+        //     $this->getParameter('logos_directory'),
+        //     $fileName
+        // );
+        // $cmp->setLogo($fileName);
         return $cmp;
     }
 

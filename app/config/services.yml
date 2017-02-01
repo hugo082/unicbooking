@@ -23,3 +23,17 @@ services:
     app.mailer:
         class: AppBundle\Mailer\SenderManager
         arguments: [ "@mailer", "@templating" ]
+    app.logo_uploader:
+        class: AppBundle\FileUploader
+        arguments: ['%logos_directory%']
+    app.doctrine_logo_listener:
+        class: AppBundle\EventListener\LogoUploadListener
+        arguments: ['@app.logo_uploader']
+        tags:
+            - { name: doctrine.event_listener, event: prePersist }
+            - { name: doctrine.event_listener, event: preUpdate }
+    app.change_pass_listener:
+        class: AppBundle\EventListener\ChangePassListener
+        arguments: [ "@router", "@security.authorization_checker", "@security.token_storage", "@session", "@event_dispatcher", "@fos_user.user_manager" ]
+        tags:
+            - { name: kernel.event_subscriber }

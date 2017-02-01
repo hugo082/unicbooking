@@ -7,11 +7,11 @@ class NotFoundException extends \Exception implements ExceptionInterface
     private $headers;
     private $title;
 
-    public function __construct($uid)
+    public function __construct($id)
     {
         $this->headers = array();
         $this->title = "Unable to find the book.";
-        $message = "The book with id : ". $uid . " is not present on our database.";
+        $message = "The book with id : ". $id . " is not present on our database.";
         parent::__construct($message, 0, null);
     }
     public function getStatusCode()

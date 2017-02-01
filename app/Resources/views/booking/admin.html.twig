@@ -73,8 +73,8 @@
                         <td>{{user.lastname}}</td>
                         <td>{{user.email}}</td>
                         <td>
-                            <a href="{{ path('admin.answer.user', {'uid':user.uid, 'state':'ACC'})}}" type="button" class="btn btn-success">{{ 'book.state.wait.admin.acc'|trans }}</a>
-                            <a href="{{ path('admin.answer.user', {'uid':user.uid, 'state':'REJ'})}}" type="button" class="btn btn-danger">{{ 'book.state.wait.admin.ref'|trans }}</a>
+                            <a href="{{ path('admin.answer.user', {'id':user.id, 'state':'ACC'})}}" type="button" class="btn btn-success">{{ 'book.state.wait.admin.acc'|trans }}</a>
+                            <a href="{{ path('admin.answer.user', {'id':user.id, 'state':'REJ'})}}" type="button" class="btn btn-danger">{{ 'book.state.wait.admin.ref'|trans }}</a>
                         </td>
                     </tr>
                     {% endfor %}
