@@ -31,7 +31,7 @@
 <div class="card">
     <h3 class="card-header">History</h3>
     <div class="card-block">
-        <table class="table">
+        <table class="table tab-td-cel-5">
             <thead>
                 <th>ID</th>
                 <th>Number</th>
@@ -65,7 +65,7 @@
 <div class="card">
     <h3 class="card-header">Agent Booking</h3>
     <div class="card-block">
-        <table class="table">
+        <table class="table tab-td-cel-2">
             <tbody>
                 <tr>
                     <td class="col-md-6">Airlines Compagny</td>
@@ -112,7 +112,7 @@
                 </tr>
                 <tr>
                     <td class="col-md-6">Type</td>
-                    <td class="value"><span>{{book.flight.fulltype}}</span></td>
+                    <td class="value"><span class="back-cmpcolor-c">{{book.flight.fulltype}}</span></td>
                 </tr>
                 <tr>
                     <td class="col-md-6">Product</td>
@@ -131,18 +131,15 @@
 <div class="card">
     <h3 class="card-header"><span id="{{ edi and subbook.flight ? 'edited' : '' }}">Flight details</span></h3>
     <div class="card-block">
-        <table class="table">
+        <table class="table tab-td-cel-2">
             <tbody>
-
-
-
                 <tr>
                     <td class="col-md-6">Flight No.</td>
                     <td class="value"><span id="{{ edi and subbook.service ? 'edited' : '' }}">{{book.flight.number}}</span></td>
                 </tr>
                 <tr>
                     <td class="col-md-6">Flight Date</td>
-                    <td class="value"><span id="{{ edi and subbook.date ? 'edited' : '' }}">{{book.date|date("d-M-y")}}</span></td>
+                    <td class="value"><span class="back-cmpcolor-c" id="{{ edi and subbook.date ? 'edited' : '' }}">{{book.date|date("d-M-y")}}</span></td>
                 </tr>
                 <tr>
                     <td class="col-md-6">Departure Time</td>
@@ -167,7 +164,7 @@
         </span>
     </h3>
     <div class="card-block">
-        <table class="table">
+        <table class="table tab-td-cel-2">
             <tbody>
                 <tr>
                     <td class="col-md-6">Total customers</td>
@@ -193,7 +190,7 @@
         </span>
     </h3>
     <div class="card-block">
-        <table class="table">
+        <table class="table tab-td-cel-5">
             <tbody>
                 <tr>
                     <td>Title</td>

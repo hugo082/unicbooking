@@ -93,7 +93,7 @@ class Product
     */
     public function getDescription()
     {
-        return "Pack" . $this->name . " (" . $this->passengers . ") " . $this->price . "€";
+        return "Pack" . $this->name . " (" . $this->passengers . " Pax.) " . $this->price . "€";
     }
 
     /**

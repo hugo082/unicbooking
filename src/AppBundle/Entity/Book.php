@@ -253,9 +253,9 @@ class Book
     public function getDeviceConvertion(){
         $cmp = $this->user->getCompagny();
         if ($cmp && stripos($cmp->getName(), 'qatar') !== false) {
-            return "QAR " . $this->price * 3.8164;
+            return "QAR " . number_format($this->price * 3.8164, 2, ',', ' ');
         }
-        return "USD " . $this->price * 1.069;
+        return "USD " . number_format($this->price * 1.069, 2, ',', ' ');
     }
 
     public function getFullProductPrice() {
