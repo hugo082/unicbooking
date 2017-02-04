@@ -16,7 +16,9 @@ table {
 .ui-draggable, .ui-droppable {
     background-position: top;
 }
-
+.req-indicator {
+    color: red;
+}
 
 </style>
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
@@ -47,16 +49,19 @@ table {
     <div class="input-group row col-md-12 col-sm-12 col-xs-12 col-lg-12">
         <div class="col-md-4 col-sm-4 col-lg-4">
             {{ form_label(form.agentemail) }}
+            <span class=req-indicator>*</span>
             {{ form_errors(form.agentemail) }}
             {{ form_widget(form.agentemail) }}
         </div>
         <div class="col-md-4 col-sm-4 col-lg-4">
             {{ form_label(form.agentfirstname) }}
+            <span class=req-indicator>*</span>
             {{ form_errors(form.agentfirstname) }}
             {{ form_widget(form.agentfirstname) }}
         </div>
         <div class="col-md-4 col-sm-4 col-lg-4">
             {{ form_label(form.agentlastname) }}
+            <span class=req-indicator>*</span>
             {{ form_errors(form.agentlastname) }}
             {{ form_widget(form.agentlastname) }}
         </div>
@@ -68,11 +73,13 @@ table {
     <div class="input-group row col-md-12 col-sm-12 col-xs-12 col-lg-12">
         <div class="col-md-4 col-sm-6 col-lg-4">
             {{ form_label(form.airport) }}
+            <span class=req-indicator>*</span>
             {{ form_errors(form.airport) }}
             {{ form_widget(form.airport) }}
         </div>
         <div class="col-md-4 col-sm-6 col-lg-4">
             {{ form_label(form.date) }}
+            <span class=req-indicator>*</span>
             {{ form_errors(form.date) }}
             {{ form_widget(form.date) }}
         </div>
@@ -80,11 +87,13 @@ table {
     <div class="input-group row col-md-12 col-sm-12 col-xs-12 col-lg-12" id="service">
         <div class="col-lg-3 col-md-3 col-sm-4">
             {{ form_label(form.service) }}
+            <span class=req-indicator>*</span>
             {{ form_errors(form.service) }}
             {{ form_widget(form.service) }}
         </div>
         <div class="col-lg-3 col-md-3 col-sm-4">
             {{ form_label(form.product) }}
+            <span class=req-indicator>*</span>
             <span>Additional pax (25€)</span>
             {{ form_errors(form.product) }}
             {{ form_widget(form.product) }}
@@ -94,6 +103,7 @@ table {
         </button>
         <div class="col-lg-4 col-md-4 col-sm-4">
             {{ form_label(form.flight) }}
+            <span class=req-indicator>*</span>
             {{ form_errors(form.flight) }}
             {{ form_widget(form.flight) }}
         </div>
@@ -112,9 +122,9 @@ table {
                         <p>Platinium : 1 Person and 2 bagages included</p>
                         <p>Pack Family : 4 Persons + 6 bagages + Transportation (Mercedes Van or equivalent)</p>
                         <style media="screen">
-                            #infoModal img {
-                                width: 100%;
-                            }
+                        #infoModal img {
+                            width: 100%;
+                        }
                         </style>
                         <img src="{{asset('bundles/booking/img/PastedGraphic.png')}}" alt="">
                     </div>
@@ -129,6 +139,7 @@ table {
     <div class="input-group row col-md-12 col-sm-12 col-xs-12 col-lg-12" id="bags">
         <div class="col-md-3 col-sm-6 col-lg-3">
             {{ form_label(form.bags) }}
+            <span class=req-indicator>*</span>
             {{ form_errors(form.bags) }}
             {{ form_widget(form.bags) }}
         </div>
@@ -136,16 +147,19 @@ table {
     <div class="input-group row hidden col-md-12 col-sm-12 col-xs-12 col-lg-12" id="address">
         <div class="col-lg-3 col-md-4 col-sm-6 hidden" id="addresse_timepu">
             {{ form_label(form.timepu) }}
+            <span class=req-indicator>*</span>
             {{ form_errors(form.timepu) }}
             {{ form_widget(form.timepu) }}
         </div>
         <div class="col-lg-3 col-md-4 col-sm-6">
             {{ form_label(form.addresspu) }}
+            <span class=req-indicator>*</span>
             {{ form_errors(form.addresspu) }}
             {{ form_widget(form.addresspu) }}
         </div>
         <div class="col-lg-3 col-md-4 col-sm-6">
             {{ form_label(form.addressdo) }}
+            <span class=req-indicator>*</span>
             {{ form_errors(form.addressdo) }}
             {{ form_widget(form.addressdo) }}
         </div>
@@ -157,15 +171,21 @@ table {
         <span> {{ 'book.title.cust'|trans }}</span>
     </h2>
     <div class="input-group row col-md-12 col-sm-12 col-xs-12 col-lg-12" id="customer">
-        <div class="col-lg-4 col-md-4 col-sm-5 col-xs-6 little-field">
-            {{ form_label(form.adultcus) }}
+        <div class="col-lg-4 col-md-4 col-sm-5 col-xs-6">
+            <div>
+                {{ form_label(form.adultcus) }}
+                <span class=req-indicator>*</span>
+            </div>
             {{ form_errors(form.adultcus) }}
             <div class="col-lg-4 col-md-4 col-sm-5 col-xs-5">
                 {{ form_widget(form.adultcus) }}
             </div>
         </div>
-        <div class="col-lg-4 col-md-4 col-sm-5 col-xs-6 little-field">
-            {{ form_label(form.childcus) }}
+        <div class="col-lg-4 col-md-4 col-sm-5 col-xs-6">
+            <div>
+                {{ form_label(form.childcus) }}
+                <span class=req-indicator>*</span>
+            </div>
             {{ form_errors(form.childcus) }}
             <div class="col-lg-4 col-md-4 col-sm-5 col-xs-5">
                 {{ form_widget(form.childcus) }}
@@ -174,7 +194,7 @@ table {
     </div>
     {% if form.customers is defined %}
     <div class="input-group row col-md-12 col-sm-12 col-xs-12 col-lg-12" id="address">
-    {% form_theme form.customers 'form/form_collection.html.twig' %}
+        {% form_theme form.customers 'form/form_collection.html.twig' %}
         {{ form_row(form.customers) }}
     </div>
     {% endif %}
@@ -189,6 +209,10 @@ table {
             {{ form_errors(form.note) }}
             {{ form_widget(form.note) }}
         </div>
+    </div>
+    <div class="">
+        <span class=req-indicator>*</span>
+        Required Field
     </div>
     {% block confirm %}{% endblock %}
 </div>

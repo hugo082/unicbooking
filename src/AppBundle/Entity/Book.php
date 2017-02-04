@@ -496,7 +496,7 @@ class Book
     {
         $res = $this->bags . " bag";
         if ($this->bags > 1) $res .= "s";
-        return $res . " (" . $this->bags * 10 . "€)";
+        return $res . " (" . $this->bags * $this->getPorterageprice() . "€)";
     }
 
     /**
