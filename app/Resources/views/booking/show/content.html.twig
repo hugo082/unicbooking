@@ -1,5 +1,3 @@
-{% set cmp_c = (book.user ? book.user.compagny : NULL) %}
-{% set cmpcolor_c = (cmp_c ? cmp_c.color : '#ff0000') %}
 <style media="screen">
 #edited {
     background-color: #5cb85c;
@@ -16,15 +14,13 @@
     border-radius: .25em;
 }
 .cmpcolor-c {
-    color: {{cmpcolor_c}} !important
+    color: {{book.color}} !important
 }
 .back-cmpcolor-c {
-    background-color: {{cmpcolor_c}} !important;
-    color: white;
-    padding: 5px;
+    background-color: {{book.color}} !important;
 }
 .border-bot-cmpcolor-c {
-    border-bottom-color: {{cmpcolor_c}} !important
+    border-bottom-color: {{book.color}} !important
 }
 </style>
 {% if activeSubbooks is defined and not activeSubbooks is empty %}

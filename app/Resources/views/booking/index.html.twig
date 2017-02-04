@@ -50,6 +50,7 @@
                         <th>{{ 'manage.last.fdate'|trans }}</th>
                         <th>{{ 'manage.last.customer'|trans }}</th>
                         <th>{{ 'book.form.prod'|trans }}</th>
+                        <th>Airlines</th>
                         <th>{{ 'book.state.title'|trans }}</th>
                     </tr>
                 </thead>
@@ -60,6 +61,7 @@
                         <td>{{book.date|date("d M Y")}}</td>
                         <td>{{book.customers[0].title}} {{book.customers[0].firstname}} (+{{book.totalcus - 1}})</td>
                         <td>{{book.product.name}} {{book.flight.destinationwithtime}}</td>
+                        <td><span class="back-cmpcolor-c" style="background-color:{{book.color}}">{{book.user.compagny ? book.user.compagny.name : 'Admin' }}</span></td>
                         <td>{% if book.state == 'WAITING' %}
                             <span class="label label-default">{{ 'book.state.wait.title'|trans }}</span>
                             {% elseif book.state == 'ACCEPTED' %}

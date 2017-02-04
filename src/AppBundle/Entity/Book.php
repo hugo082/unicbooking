@@ -226,6 +226,14 @@ class Book
         $this->enabled = false;
     }
 
+    public function getColor() {
+        if ($this->user->getCompagny() == NULL) {
+            return '#ff0000';
+        } else {
+            return $this->user->getCompagny()->getColor();
+        }
+    }
+
     /**
     * Compute price of this book. Without edit price.
     */
