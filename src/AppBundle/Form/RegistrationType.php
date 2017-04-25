@@ -14,7 +14,7 @@ class RegistrationType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-        ->remove('email')
+        //->remove('email')
         ->add('compagny', EntityType::class, array(
             'class' => 'AppBundle:Compagny',
             'placeholder' => 'book.form.select.placeholder',
