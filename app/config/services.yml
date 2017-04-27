@@ -25,10 +25,10 @@ services:
         arguments: [ "@mailer", "@templating" ]
     app.logo_uploader:
         class: AppBundle\FileUploader
-        arguments: ['%logos_directory%']
-    app.doctrine_logo_listener:
-        class: AppBundle\EventListener\LogoUploadListener
-        arguments: ['@app.logo_uploader']
+        arguments: ['%upload_directory%']
+    app.doctrine_upload_listener:
+        class: AppBundle\EventListener\UploadListener
+        arguments: ['%upload_directory%']
         tags:
             - { name: doctrine.event_listener, event: prePersist }
             - { name: doctrine.event_listener, event: preUpdate }

@@ -1,5 +1,6 @@
 {% set cmp = (app.user ? app.user.compagny : NULL) %}
 {% set logopath = asset('uploads/logos/' ~ (cmp ? app.user.compagny.logo : 'default.png')) %}
+{% set docpath = (cmp ? asset('uploads/docs/' ~ app.user.compagny.doc) : null) %}
 {% set cmpcolor = (cmp ? app.user.compagny.color : '#ff0000') %}
 
 <!DOCTYPE html>

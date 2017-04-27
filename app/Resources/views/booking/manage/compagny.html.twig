@@ -48,6 +48,13 @@
     </div>
     <div class="input-group row col-md-12 col-sm-12 col-xs-12 col-lg-12">
         <div class="col-md-4 col-sm-6 col-lg-4">
+            {{ form_label(form.doc) }}
+            {{ form_errors(form.doc) }}
+            {{ form_widget(form.doc) }}
+        </div>
+    </div>
+    <div class="input-group row col-md-12 col-sm-12 col-xs-12 col-lg-12">
+        <div class="col-md-4 col-sm-6 col-lg-4">
             {{ form_errors(form.color) }}
             {{ form_widget(form.color) }}
             <span class="input-group-addon" style="display: inline-block; width: initial">

@@ -13,10 +13,20 @@ class FileUploader
         $this->targetDir = $targetDir;
     }
 
-    public function upload(UploadedFile $file)
+    public function uploadLogo(UploadedFile $file)
+    {
+        return $this->processFile($file, $this->targetDir."/logos");
+    }
+
+    public function uploadDoc(UploadedFile $file)
+    {
+        return $this->processFile($file, $this->targetDir."/docs");
+    }
+
+    private function processFile(UploadedFile $file, string $dir)
     {
         $fileName = md5(uniqid()).'.'.$file->guessExtension();
-        $file->move($this->targetDir, $fileName);
+        $file->move($dir, $fileName);
         return $fileName;
     }
 }

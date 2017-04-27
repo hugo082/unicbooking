@@ -68,6 +68,16 @@ class Compagny
     */
     private $logo;
 
+    /**
+     * @ORM\Column(name="documentation", type="string")
+     * @Assert\File(
+     *     maxSize = "1024k",
+     *     mimeTypes = {"application/pdf", "application/x-pdf"},
+     *     mimeTypesMessage = "Please upload a valid PDF"
+     * )
+     */
+    private $doc;
+
 
     /**
     * Get id
@@ -231,5 +241,29 @@ class Compagny
     public function getPortageprice()
     {
         return $this->portageprice;
+    }
+
+    /**
+     * Set doc
+     *
+     * @param string $doc
+     *
+     * @return Compagny
+     */
+    public function setDoc($doc)
+    {
+        $this->doc = $doc;
+
+        return $this;
+    }
+
+    /**
+     * Get doc
+     *
+     * @return string
+     */
+    public function getDoc()
+    {
+        return $this->doc;
     }
 }

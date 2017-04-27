@@ -26,9 +26,9 @@ class CompagnyController extends Controller
         $form = $this->createForm(CompagnyType::class, $compagny);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            if ($compagny->getLogo() != null) {
+            if ($compagny->getLogo() != null && $compagny->getDoc() != null) {
                 $em = $this->getDoctrine()->getManager();
-                $compagny = $this->uploadFile($compagny, $em);
+                //$compagny = $this->uploadFile($compagny, $em);
                 $em->persist($compagny);
                 $em->flush();
             } else
@@ -66,14 +66,16 @@ class CompagnyController extends Controller
         if (!$compagny) {
             return $this->redirectToRoute('admin.manage.compagnys');
         }
-        $holdFile = $compagny->getLogo();
+        $holdLogoFile = $compagny->getLogo();
+        $holdDocFile = $compagny->getDoc();
         $form = $this->createForm(CompagnyType::class, $compagny);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            if ($compagny->getLogo() == NULL) {
-                $compagny->setLogo($holdFile);
-            }
+            if ($compagny->getLogo() == NULL)
+                $compagny->setLogo($holdLogoFile);
+            if ($compagny->getDoc() == NULL)
+                $compagny->setDoc($holdDocFile);
             $em->flush($compagny);
             return $this->redirectToRoute('admin.manage.compagnys');
         }

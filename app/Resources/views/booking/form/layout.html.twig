@@ -109,24 +109,20 @@ table {
         </div>
         <!-- Modal -->
         <div id="infoModal" class="modal fade" role="dialog">
-            <div class="modal-dialog">
+            <div class="modal-dialog" style="min-height: 90%">
 
                 <!-- Modal content-->
-                <div class="modal-content">
+                <div class="modal-content" style="height: 100%">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                         <h4 class="modal-title">Include</h4>
                     </div>
                     <div class="modal-body">
-                        <p>Gold : 1 Person and 2 bagages included</p>
-                        <p>Platinium : 1 Person and 2 bagages included</p>
-                        <p>Pack Family : 4 Persons + 6 bagages + Transportation (Mercedes Van or equivalent)</p>
-                        <style media="screen">
-                        #infoModal img {
-                            width: 100%;
-                        }
-                        </style>
-                        <img src="{{asset('bundles/booking/img/PastedGraphic.png')}}" alt="">
+                        {%  if docpath is null %}
+                        <h1>Products informations are not available.</h1>
+                        {% else %}
+                        <embed src="{{ docpath }}" style="width: 100%; min-height: 450px"/>
+                        {% endif %}
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

@@ -9,13 +9,13 @@ use Doctrine\ORM\Event\PreUpdateEventArgs;
 use AppBundle\Entity\Compagny;
 use AppBundle\FileUploader;
 
-class LogoUploadListener
+class UploadListener
 {
-    private $uploader;
+    private $targetDir;
 
-    public function __construct(FileUploader $uploader)
+    public function __construct(string $targetDir)
     {
-        $this->uploader = $uploader;
+        $this->targetDir = $targetDir;
     }
 
     public function prePersist(LifecycleEventArgs $args)
@@ -37,11 +37,33 @@ class LogoUploadListener
         if (!$entity instanceof Compagny) {
             return;
         }
+        $this->uploadLogo($entity);
+        $this->uploadDoc($entity);
+    }
+
+    private function uploadLogo(Compagny $entity) {
         $file = $entity->getLogo();
         if (!$file instanceof UploadedFile) {
             return;
         }
-        $fileName = $this->uploader->upload($file);
+        $fileName = $this->processFile($file, "/logos");
         $entity->setLogo($fileName);
+    }
+
+    private function uploadDoc(Compagny $entity) {
+        $file = $entity->getDoc();
+        if (!$file instanceof UploadedFile) {
+            return;
+        }
+        $fileName = $this->processFile($file, "/docs");
+        $entity->setDoc($fileName);
+    }
+
+    private function processFile(UploadedFile $file, string $dir)
+    {
+        $dir = $this->targetDir . $dir;
+        $fileName = md5(uniqid()).'.'.$file->guessExtension();
+        $file->move($dir, $fileName);
+        return $fileName;
     }
 }

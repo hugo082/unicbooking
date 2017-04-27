@@ -39,6 +39,11 @@ class CompagnyType extends AbstractType
             'label' => 'Logo (Image file)',
             'data_class' => NULL,
             'required' => false
+        ))
+        ->add('doc', FileType::class, array(
+            'label' => 'Documentation (PDF file)',
+            'data_class' => NULL,
+            'required' => false
         ));
     }
 
