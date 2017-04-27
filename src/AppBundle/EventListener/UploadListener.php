@@ -7,7 +7,6 @@ use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\ORM\Event\PreUpdateEventArgs;
 
 use AppBundle\Entity\Compagny;
-use AppBundle\FileUploader;
 
 class UploadListener
 {

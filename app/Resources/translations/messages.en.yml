@@ -84,7 +84,9 @@ book:
         prod: Product
         dep: Departure
         arr: Arrival
+        trans: Transit
         flight: Flight
+        flight_transit: Transit flight
         timepu: Time PU
         addpu: Address PU
         adddo: Address DO

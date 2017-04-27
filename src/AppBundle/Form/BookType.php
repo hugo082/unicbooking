@@ -74,7 +74,8 @@ class BookType extends AbstractType
         ->add('service', ChoiceType::class, array(
             'choices'  => array(
                 'book.form.dep' => 'DEP',
-                'book.form.arr' => 'ARR'
+                'book.form.arr' => 'ARR',
+                'book.form.trans' => 'TRA'
             ),
             'placeholder' => 'book.form.select.placeholder',
             'label' => 'book.form.rqserv'
@@ -107,6 +108,21 @@ class BookType extends AbstractType
             ->andwhere('f.removed = :rm')
             ->setParameter('rm', false );
         }
+        ))
+        ->add('flight_transit', EntityType::class, array( 'class' => 'AppBundle:Flight',
+            'choice_label' => function ($f) {return $f->getFullName();},
+            'label' => 'book.form.flight_transit',
+            'placeholder' => 'book.form.select.placeholder',
+            'choice_attr' => function($f) {return ['is' => $f->getType(), 'airp' => $f->getMainAirport()->getId()];},
+            'query_builder' => function (EntityRepository $er) {
+                return $er->createQueryBuilder('f')
+                    ->where('f.compagny is NULL')
+                    ->orwhere('f.compagny = :ucmp')
+                    ->orwhere(':ucmp is NULL')
+                    ->setParameter('ucmp', $this->getUser()->getCompagny())
+                    ->andwhere('f.removed = :rm')
+                    ->setParameter('rm', false);
+            }
         ))
         ->add('bags', ChoiceType::class, array(
             'label' => 'book.form.bags',

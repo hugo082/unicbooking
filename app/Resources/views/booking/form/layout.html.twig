@@ -85,7 +85,7 @@ table {
         </div>
     </div>
     <div class="input-group row col-md-12 col-sm-12 col-xs-12 col-lg-12" id="service">
-        <div class="col-lg-3 col-md-3 col-sm-4">
+        <div class="col-lg-3 col-md-2 col-sm-3">
             {{ form_label(form.service) }}
             <span class=req-indicator>*</span>
             {{ form_errors(form.service) }}
@@ -101,11 +101,17 @@ table {
         <button type="button" class="info btn btn-primary" data-toggle="modal" data-target="#infoModal">
             <span class="glyphicon glyphicon-info-sign"></span>
         </button>
-        <div class="col-lg-4 col-md-4 col-sm-4">
+        <div class="col-lg-2 col-md-3 col-sm-4">
             {{ form_label(form.flight) }}
             <span class=req-indicator>*</span>
             {{ form_errors(form.flight) }}
             {{ form_widget(form.flight) }}
+        </div>
+        <div id="flight_transit_bloc" class="col-lg-2 col-md-3 col-sm-4 hidden">
+            {{ form_label(form.flight_transit) }}
+            <span class=req-indicator>*</span>
+            {{ form_errors(form.flight_transit) }}
+            {{ form_widget(form.flight_transit) }}
         </div>
         <!-- Modal -->
         <div id="infoModal" class="modal fade" role="dialog">

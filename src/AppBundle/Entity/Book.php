@@ -2,7 +2,6 @@
 
 namespace AppBundle\Entity;
 
-use AppBundle\Model\Book as BaseBook;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -59,11 +58,22 @@ class Book
     protected $product;
 
     /**
-    * @var Flight
-    * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Flight")
-    * @ORM\JoinColumn(nullable=false)
-    */
-    protected $flight;
+     * Default Flight
+     * @var Flight
+     * @ORM\Column(name="flight")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Flight")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $flight;
+
+    /**
+     * Flight destination for transit service
+     * @var Flight
+     * @ORM\Column(name="flight_transit")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Flight")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $flightTransit;
 
     /**
     * @var array
@@ -1040,4 +1050,28 @@ class Book
         return $this->airport;
     }
 
+
+    /**
+     * Set flightTransit
+     *
+     * @param string $flightTransit
+     *
+     * @return Book
+     */
+    public function setFlightTransit($flightTransit)
+    {
+        $this->flightTransit = $flightTransit;
+
+        return $this;
+    }
+
+    /**
+     * Get flightTransit
+     *
+     * @return string
+     */
+    public function getFlightTransit()
+    {
+        return $this->flightTransit;
+    }
 }

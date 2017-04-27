@@ -78,7 +78,9 @@ book:
         prod: Produit
         dep: Départ
         arr: Arrivé
+        trans: Transit
         flight: Vol
+        flight_transit: Vol de transit
         addpu: Adresse de récupération
         adddo: Adresse de dépot
         adult: Adulte

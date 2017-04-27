@@ -2,200 +2,210 @@
 
 namespace AppBundle\Entity;
 
-use AppBundle\Model\Book as BaseBook;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
-* Book
-*
-* @ORM\Table(name="subbook")
-* @ORM\Entity(repositoryClass="AppBundle\Repository\SubBookRepository")
-*/
+ * Book
+ *
+ * @ORM\Table(name="subbook")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\SubBookRepository")
+ */
 class SubBook
 {
 
     /**
-    * @var int
-    *
-    * @ORM\Column(name="id", type="integer")
-    * @ORM\Id
-    * @ORM\GeneratedValue(strategy="AUTO")
-    */
+     * @var int
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
     private $id;
 
     /**
-    * @var int
-    *
-    * @ORM\Column(name="number", type="integer")
-    */
+     * @var int
+     *
+     * @ORM\Column(name="number", type="integer")
+     */
     private $number;
 
     /**
-    * @var string
-    *
-    * @ORM\Column(name="airport", type="string", length=255, nullable=true)
-    */
+     * @var string
+     *
+     * @ORM\Column(name="airport", type="string", length=255, nullable=true)
+     */
     private $airport;
 
     /**
-    * @var \DateTime
-    *
-    * @ORM\Column(name="date", type="date", nullable=true)
-    * @Assert\Range(
-    *      min = "now",
-    *      minMessage = "date.min.now"
-    * )
-    */
+     * @var \DateTime
+     *
+     * @ORM\Column(name="date", type="date", nullable=true)
+     * @Assert\Range(
+     *      min = "now",
+     *      minMessage = "date.min.now"
+     * )
+     */
     private $date;
 
     /**
-    * @var \Date
-    *
-    * @ORM\Column(name="creation_date", type="date", nullable=true)
-    */
+     * @var \Date
+     *
+     * @ORM\Column(name="creation_date", type="date", nullable=true)
+     */
     private $creationdate;
 
     /**
-    * @var string
-    *
-    * @ORM\Column(name="service", type="string", length=255, nullable=true)
-    */
+     * @var string
+     *
+     * @ORM\Column(name="service", type="string", length=255, nullable=true)
+     */
     private $service;
 
     /**
-    * @var Product
-    * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Product")
-    * @ORM\JoinColumn(nullable=true)
-    */
+     * @var Product
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Product")
+     * @ORM\JoinColumn(nullable=true)
+     */
     private $product;
 
     /**
-    * @var Flight
-    * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Flight")
-    * @ORM\JoinColumn(nullable=true)
-    */
+     * Default Flight
+     * @var Flight
+     * @ORM\Column(name="flight")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Flight")
+     * @ORM\JoinColumn(nullable=true)
+     */
     private $flight;
 
     /**
-    * @var array
-    * Adult Customer
-    * @ORM\Column(name="adultcus", type="integer", nullable=true)
-    * @Assert\Range(
-    *      min = 0
-    * )
-    */
+     * Flight destination for transit service
+     * @var Flight
+     * @ORM\Column(name="flight_transit")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Flight")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $flightTransit;
+
+    /**
+     * @var array
+     * Adult Customer
+     * @ORM\Column(name="adultcus", type="integer", nullable=true)
+     * @Assert\Range(
+     *      min = 0
+     * )
+     */
     private $adultcus;
 
     /**
-    * @var array
-    * Child Customer
-    * @ORM\Column(name="childcus", type="integer", nullable=true)
-    * @Assert\Range(
-    *      min = 0
-    * )
-    */
+     * @var array
+     * Child Customer
+     * @ORM\Column(name="childcus", type="integer", nullable=true)
+     * @Assert\Range(
+     *      min = 0
+     * )
+     */
     private $childcus;
 
     /**
-    * @var string
-    *
-    * @ORM\Column(name="nameboard", type="string", length=255, nullable=true)
-    */
+     * @var string
+     *
+     * @ORM\Column(name="nameboard", type="string", length=255, nullable=true)
+     */
     private $nameboard;
 
     /**
-    * @var int
-    *
-    * @ORM\Column(name="bags", type="integer", nullable=true)
-    * @Assert\Range(
-    *      min = 0
-    * )
-    */
+     * @var int
+     *
+     * @ORM\Column(name="bags", type="integer", nullable=true)
+     * @Assert\Range(
+     *      min = 0
+     * )
+     */
     private $bags;
 
     /**
-    * @var string
-    *
-    * @ORM\Column(name="agent_firstname", type="string", length=255, nullable=true)
-    */
+     * @var string
+     *
+     * @ORM\Column(name="agent_firstname", type="string", length=255, nullable=true)
+     */
     private $agentfirstname;
 
     /**
-    * @var string
-    *
-    * @ORM\Column(name="agent_lastname", type="string", length=255, nullable=true)
-    */
+     * @var string
+     *
+     * @ORM\Column(name="agent_lastname", type="string", length=255, nullable=true)
+     */
     private $agentlastname;
 
     /**
-    * @var string
-    *
-    * @ORM\Column(name="agent_email", type="string", length=255, nullable=true)
-    */
+     * @var string
+     *
+     * @ORM\Column(name="agent_email", type="string", length=255, nullable=true)
+     */
     private $agentemail;
 
     /**
-    * @var int
-    *
-    * @ORM\Column(name="price", type="integer", nullable=true)
-    * @Assert\Range(
-    *      min = 0
-    * )
-    */
+     * @var int
+     *
+     * @ORM\Column(name="price", type="integer", nullable=true)
+     * @Assert\Range(
+     *      min = 0
+     * )
+     */
     private $price;
 
     /**
-    * @var string
-    *
-    * @ORM\Column(name="timepu", type="string", length=255, nullable=true)
-    */
+     * @var string
+     *
+     * @ORM\Column(name="timepu", type="string", length=255, nullable=true)
+     */
     private $timepu;
 
     /**
-    * @var string
-    *
-    * @ORM\Column(name="addresspu", type="string", length=255, nullable=true)
-    */
+     * @var string
+     *
+     * @ORM\Column(name="addresspu", type="string", length=255, nullable=true)
+     */
     private $addresspu;
 
     /**
-    * @var string
-    *
-    * @ORM\Column(name="addressdo", type="string", length=255, nullable=true)
-    */
+     * @var string
+     *
+     * @ORM\Column(name="addressdo", type="string", length=255, nullable=true)
+     */
     private $addressdo;
 
     /**
-    * @var text
-    * @ORM\Column(name="note", type="text", nullable=true)
-    */
+     * @var text
+     * @ORM\Column(name="note", type="text", nullable=true)
+     */
     private $note;
 
     /**
-    * @var string
-    *
-    * @ORM\Column(name="state", type="string", length=255, nullable=true)
-    */
+     * @var string
+     *
+     * @ORM\Column(name="state", type="string", length=255, nullable=true)
+     */
     private $state;
 
     /**
-    * @var Book
-    * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Book", inversedBy="subbooks", cascade={"remove", "persist"})
-    * @ORM\JoinColumn(nullable=false)
-    */
+     * @var Book
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Book", inversedBy="subbooks", cascade={"remove", "persist"})
+     * @ORM\JoinColumn(nullable=false)
+     */
     private $parent;
 
     /**
-    * @var boolean
-    *
-    * @ORM\Column(name="charged", type="boolean")
-    */
+     * @var boolean
+     *
+     * @ORM\Column(name="charged", type="boolean")
+     */
     private $charged;
 
     /**
-    * Constructor
-    */
+     * Constructor
+     */
     public function __construct($book, $changeset)
     {
         $this->charged = false;
@@ -221,12 +231,12 @@ class SubBook
     }
 
     /**
-    * Set parent
-    *
-    * @param \AppBundle\Entity\Book $parent
-    *
-    * @return SubBook
-    */
+     * Set parent
+     *
+     * @param \AppBundle\Entity\Book $parent
+     *
+     * @return SubBook
+     */
     public function setParent(\AppBundle\Entity\Book $parent)
     {
         $this->parent = $parent;
@@ -235,10 +245,10 @@ class SubBook
     }
 
     /**
-    * Get parent
-    *
-    * @return \AppBundle\Entity\Book
-    */
+     * Get parent
+     *
+     * @return \AppBundle\Entity\Book
+     */
     public function getParent()
     {
         return $this->parent;
@@ -756,5 +766,29 @@ class SubBook
     public function getNumber()
     {
         return $this->number;
+    }
+
+    /**
+     * Set flightTransit
+     *
+     * @param string $flightTransit
+     *
+     * @return SubBook
+     */
+    public function setFlightTransit($flightTransit)
+    {
+        $this->flightTransit = $flightTransit;
+
+        return $this;
+    }
+
+    /**
+     * Get flightTransit
+     *
+     * @return string
+     */
+    public function getFlightTransit()
+    {
+        return $this->flightTransit;
     }
 }
