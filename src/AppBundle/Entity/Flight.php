@@ -118,7 +118,7 @@ class Flight
     */
     public function getFullType()
     {
-        return ($this->type == "ARR") ? 'Arrival' : 'Departure';
+        return ($this->type == "ARR") ? 'book.form.arr' : 'book.form.dep';
     }
 
     /**

@@ -72,7 +72,6 @@ class SubBook
     /**
      * Default Flight
      * @var Flight
-     * @ORM\Column(name="flight")
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Flight")
      * @ORM\JoinColumn(nullable=true)
      */
@@ -81,7 +80,6 @@ class SubBook
     /**
      * Flight destination for transit service
      * @var Flight
-     * @ORM\Column(name="flight_transit")
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Flight")
      * @ORM\JoinColumn(nullable=true)
      */

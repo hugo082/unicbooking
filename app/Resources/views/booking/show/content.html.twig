@@ -59,7 +59,7 @@
 </div>
 {% endif %}
 <div class="card">
-    <h3 class="card-header">Agent Booking</h3>
+    <h3 class="card-header"><span id="{{ edi ? 'edited' : '' }}">Agent Booking</span></h3>
     <div class="card-block">
         <table class="table tab-td-cel-2">
             <tbody>
@@ -108,7 +108,7 @@
                 </tr>
                 <tr>
                     <td class="col-md-6">Type</td>
-                    <td class="value"><span class="back-cmpcolor-c">{{book.flight.fulltype}}</span></td>
+                    <td class="value"><span class="back-cmpcolor-c">{{book.fullServiceName | trans}}</span></td>
                 </tr>
                 <tr>
                     <td class="col-md-6">Product</td>
@@ -145,9 +145,24 @@
                     <td class="col-md-6">Arrival Time</td>
                     <td class="value">{{book.flight.arrtime|date('H:i')}}</td>
                 </tr>
+                {% if book.service == "TRA" %}
+                    <tr>
+                        <td class="col-md-6">Transit Departure Time</td>
+                        <td class="value">{{book.flighttransit.deptime|date('H:i')}}</td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-6">Transit Arrival Time</td>
+                        <td class="value">{{book.flighttransit.arrtime|date('H:i')}}</td>
+                    </tr>
+                {% endif %}
                 <tr>
                     <td class="col-md-6">Origine/Destination</td>
-                    <td class="value">{{book.flight.destination}}</td>
+                    <td class="value">
+                        {{book.flight.destination}}
+                        {% if book.service == "TRA" %}
+                            -- {{book.flighttransit.destination}}
+                        {% endif %}
+                    </td>
                 </tr>
             </tbody>
         </table>
@@ -242,7 +257,7 @@
                 </tr>
                 <tr>
                     <td>{{book.product.name}}</td>
-                    <td>{{book.flight.fulltype}}</td>
+                    <td>{{book.flight.fulltype | trans}}</td>
                     <td>{{book.productquantity}}</td>
                     <td>{{book.product.price|number_format(2, ',', ' ')}}</td>
                     <td>{{(book.fullproductprice)|number_format(2, ',', ' ')}}</td>

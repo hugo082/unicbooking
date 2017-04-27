@@ -107,11 +107,11 @@ table {
             {{ form_errors(form.flight) }}
             {{ form_widget(form.flight) }}
         </div>
-        <div id="flight_transit_bloc" class="col-lg-2 col-md-3 col-sm-4 hidden">
-            {{ form_label(form.flight_transit) }}
+        <div id="flight_transit_bloc" class="col-lg-2 col-md-3 col-sm-4">
+            {{ form_label(form.flighttransit) }}
             <span class=req-indicator>*</span>
-            {{ form_errors(form.flight_transit) }}
-            {{ form_widget(form.flight_transit) }}
+            {{ form_errors(form.flighttransit) }}
+            {{ form_widget(form.flighttransit) }}
         </div>
         <!-- Modal -->
         <div id="infoModal" class="modal fade" role="dialog">

@@ -60,7 +60,6 @@ class Book
     /**
      * Default Flight
      * @var Flight
-     * @ORM\Column(name="flight")
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Flight")
      * @ORM\JoinColumn(nullable=true)
      */
@@ -69,11 +68,10 @@ class Book
     /**
      * Flight destination for transit service
      * @var Flight
-     * @ORM\Column(name="flight_transit")
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Flight")
      * @ORM\JoinColumn(nullable=true)
      */
-    private $flightTransit;
+    private $flighttransit;
 
     /**
     * @var array
@@ -283,6 +281,17 @@ class Book
     public function getPorterageprice() {
         $cmp = $this->user->getCompagny();
         return $cmp ? $cmp->getPortageprice() : 8;
+    }
+
+    /**
+     * Get the full service of this book (ARR | DEP | TRA)
+     * @return string
+     */
+    public function getFullServiceName() {
+        if ($this->service == "TRA")
+            return "book.form.trans";
+        else
+            return $this->flight->getFullType();
     }
 
     /**
@@ -1052,26 +1061,26 @@ class Book
 
 
     /**
-     * Set flightTransit
+     * Set flighttransit
      *
-     * @param string $flightTransit
+     * @param \AppBundle\Entity\Flight $flighttransit
      *
      * @return Book
      */
-    public function setFlightTransit($flightTransit)
+    public function setflighttransit($flighttransit)
     {
-        $this->flightTransit = $flightTransit;
+        $this->flighttransit = $flighttransit;
 
         return $this;
     }
 
     /**
-     * Get flightTransit
+     * Get flighttransit
      *
-     * @return string
+     * @return \AppBundle\Entity\Flight
      */
-    public function getFlightTransit()
+    public function getflighttransit()
     {
-        return $this->flightTransit;
+        return $this->flighttransit;
     }
 }

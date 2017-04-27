@@ -109,7 +109,7 @@ class BookType extends AbstractType
             ->setParameter('rm', false );
         }
         ))
-        ->add('flight_transit', EntityType::class, array( 'class' => 'AppBundle:Flight',
+        ->add('flighttransit', EntityType::class, array( 'class' => 'AppBundle:Flight',
             'choice_label' => function ($f) {return $f->getFullName();},
             'label' => 'book.form.flight_transit',
             'placeholder' => 'book.form.select.placeholder',
