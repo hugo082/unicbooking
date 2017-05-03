@@ -12,7 +12,7 @@ class UploadListener
 {
     private $targetDir;
 
-    public function __construct(string $targetDir)
+    public function __construct($targetDir)
     {
         $this->targetDir = $targetDir;
     }
@@ -58,7 +58,7 @@ class UploadListener
         $entity->setDoc($fileName);
     }
 
-    private function processFile(UploadedFile $file, string $dir)
+    private function processFile(UploadedFile $file, $dir)
     {
         $dir = $this->targetDir . $dir;
         $fileName = md5(uniqid()).'.'.$file->guessExtension();
