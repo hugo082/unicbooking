@@ -11,6 +11,9 @@ services:
     app.checker.book:
         class: AppBundle\Checker\BookManager
         arguments: [ "@doctrine.orm.entity_manager", "@security.authorization_checker", "@security.token_storage" ]
+    app.checker.api:
+            class: AppBundle\Checker\APIChecker
+            arguments: [ "@doctrine.orm.entity_manager" ]
     exception.listener:
         class: AppBundle\EventListener\ExceptionListener
         arguments: [ "@twig" ]

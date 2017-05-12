@@ -85,6 +85,8 @@ book:
         dep: Departure
         arr: Arrival
         trans: Transit
+        flight_number: OACI Flight Code
+        flight_number_transit: OACI Transit Flight Code
         flight: Flight
         flight_transit: Transit flight
         timepu: Time PU

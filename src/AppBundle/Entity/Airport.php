@@ -38,9 +38,16 @@ class Airport
     /**
      * @var string
      *
-     * @ORM\Column(name="code", type="string", length=255, unique=true)
+     * @ORM\Column(name="code_aita", type="string", length=255, unique=true)
      */
-    private $code;
+    private $code_aita;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="code_oaci", type="string", length=255, unique=true)
+     */
+    private $code_oaci;
 
     /**
      * @var boolean
@@ -97,31 +104,7 @@ class Airport
      */
     public function getFullName()
     {
-        return $this->code . " - " . $this->name;
-    }
-
-    /**
-     * Set code
-     *
-     * @param string $code
-     *
-     * @return Airport
-     */
-    public function setCode($code)
-    {
-        $this->code = $code;
-
-        return $this;
-    }
-
-    /**
-     * Get code
-     *
-     * @return string
-     */
-    public function getCode()
-    {
-        return $this->code;
+        return $this->code_aita . " - " . $this->name;
     }
 
     /**
@@ -194,5 +177,53 @@ class Airport
     public function getSelectable()
     {
         return $this->selectable;
+    }
+
+    /**
+     * Set codeAita
+     *
+     * @param string $codeAita
+     *
+     * @return Airport
+     */
+    public function setCodeAita($codeAita)
+    {
+        $this->code_aita = $codeAita;
+
+        return $this;
+    }
+
+    /**
+     * Get codeAita
+     *
+     * @return string
+     */
+    public function getCodeAita()
+    {
+        return $this->code_aita;
+    }
+
+    /**
+     * Set codeOaci
+     *
+     * @param string $codeOaci
+     *
+     * @return Airport
+     */
+    public function setCodeOaci($codeOaci)
+    {
+        $this->code_oaci = $codeOaci;
+
+        return $this;
+    }
+
+    /**
+     * Get codeOaci
+     *
+     * @return string
+     */
+    public function getCodeOaci()
+    {
+        return $this->code_oaci;
     }
 }

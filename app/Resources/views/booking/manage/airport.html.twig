@@ -17,9 +17,16 @@
     </div>
     <div class="input-group row col-md-12 col-sm-12 col-xs-12 col-lg-12">
         <div class="col-md-4 col-sm-6 col-lg-4">
-            {{ form_label(form.code) }}
-            {{ form_errors(form.code) }}
-            {{ form_widget(form.code) }}
+            {{ form_label(form.code_aita) }}
+            {{ form_errors(form.code_aita) }}
+            {{ form_widget(form.code_aita) }}
+        </div>
+    </div>
+    <div class="input-group row col-md-12 col-sm-12 col-xs-12 col-lg-12">
+        <div class="col-md-4 col-sm-6 col-lg-4">
+            {{ form_label(form.code_oaci) }}
+            {{ form_errors(form.code_oaci) }}
+            {{ form_widget(form.code_oaci) }}
         </div>
     </div>
     <div class="input-group row col-md-12 col-sm-12 col-xs-12 col-lg-12">
@@ -45,7 +52,8 @@
     <thead>
         <tr>
             <th>Name</th>
-            <th>Code</th>
+            <th>Code AITA</th>
+            <th>Code OACI</th>
             <th>Airline</th>
             <th>Selectable</th>
         </tr>
@@ -54,7 +62,8 @@
         {% for aip in entities %}
         <tr>
             <td>{{aip.name}}</td>
-            <td>{{aip.code}}</td>
+            <td>{{aip.codeAita}}</td>
+            <td>{{aip.codeOaci}}</td>
             <td>{{aip.compagny ? aip.compagny.name : 'All'}}</td>
             <td>{{aip.selectable ? 'YES' : 'NO'}}</td>
             <td>

@@ -22,4 +22,20 @@ class FlightRepository extends \Doctrine\ORM\EntityRepository
         ->getQuery()
         ->getResult();
     }
+
+    public function getWithCodeOACI($code_oaci) {
+        $qb = $this->createQueryBuilder('e');
+
+        $qb
+            ->select('e')
+            ->where('e.removed = :rm')
+            ->setParameter('rm', false )
+            ->andWhere('e.number = :oacicode')
+            ->setParameter('oacicode', $code_oaci )
+        ;
+
+        return $qb
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
 }

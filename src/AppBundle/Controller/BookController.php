@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\AppBundle;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -16,6 +17,7 @@ use AppBundle\Form\BookEmployeeType;
 use AppBundle\Form\BookValidationType;
 
 use AppBundle\Checker\BookManager as BookChecker;
+use AppBundle\Checker\APIChecker;
 
 class BookController extends Controller
 {
@@ -35,10 +37,17 @@ class BookController extends Controller
             $book->setCustomersParent();
             $cus = $book->getCustomers();
 
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($book);
-            $em->flush();
-            return $this->redirectToRoute('book.enabled', array('id' => $book->getid()));
+            /** @var APIChecker $apiChecker */
+            $apiChecker = $this->get('app.checker.api');
+            $result = $apiChecker->processBook($book);
+            if (!$result["success"])
+                $this->computeFlash($result);
+            else {
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($book);
+                $em->flush();
+                return $this->redirectToRoute('book.enabled', array('id' => $book->getid()));
+            }
         }
 
         return $this->render('booking/form/create.html.twig', array(
@@ -130,15 +139,9 @@ class BookController extends Controller
         ));
     }
 
-    // private function bookErrorConvertor($error, $book, $id = 0) {
-    //     if ($bc == 'NOT_FOUND') {
-    //         throw $this->createNotFoundException('No user found for id '.$id);
-    //     } else
-    //
-    // }
-
-    // return $this->render('booking/show/look.html.twig', array(
-    //     'book_id_finded' => $id
-    // ));
-
+    private function computeFlash(array $data) {
+        if (!key_exists("flash", $data))
+            return;
+        $this->addFlash($data["flash"]["type"], $data["flash"]["msg"]);
+    }
 }

@@ -71,12 +71,20 @@ table {
         <span> {{ 'book.title.service'|trans }}</span>
     </h2>
     <div class="input-group row col-md-12 col-sm-12 col-xs-12 col-lg-12">
+        <div class="col-lg-2 col-md-3 col-sm-4">
+            {{ form_label(form.flight_oaci) }}
+            <span class=req-indicator>*</span>
+            {{ form_errors(form.flight_oaci) }}
+            {{ form_widget(form.flight_oaci) }}
+        </div>
+        {#
         <div class="col-md-4 col-sm-6 col-lg-4">
             {{ form_label(form.airport) }}
             <span class=req-indicator>*</span>
             {{ form_errors(form.airport) }}
             {{ form_widget(form.airport) }}
         </div>
+        #}
         <div class="col-md-4 col-sm-6 col-lg-4">
             {{ form_label(form.date) }}
             <span class=req-indicator>*</span>
@@ -101,17 +109,11 @@ table {
         <button type="button" class="info btn btn-primary" data-toggle="modal" data-target="#infoModal">
             <span class="glyphicon glyphicon-info-sign"></span>
         </button>
-        <div class="col-lg-2 col-md-3 col-sm-4">
-            {{ form_label(form.flight) }}
-            <span class=req-indicator>*</span>
-            {{ form_errors(form.flight) }}
-            {{ form_widget(form.flight) }}
-        </div>
         <div id="flight_transit_bloc" class="col-lg-2 col-md-3 col-sm-4">
-            {{ form_label(form.flighttransit) }}
+            {{ form_label(form.flight_transit_oaci) }}
             <span class=req-indicator>*</span>
-            {{ form_errors(form.flighttransit) }}
-            {{ form_widget(form.flighttransit) }}
+            {{ form_errors(form.flight_transit_oaci) }}
+            {{ form_widget(form.flight_transit_oaci) }}
         </div>
         <!-- Modal -->
         <div id="infoModal" class="modal fade" role="dialog">

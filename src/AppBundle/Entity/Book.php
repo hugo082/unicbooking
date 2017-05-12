@@ -23,7 +23,7 @@ class Book
 
     /**
     * @var Airport
-    * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Airport")
+    * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Airport", cascade={"persist"})
     * @ORM\JoinColumn(nullable=false)
     */
     private $airport;
@@ -60,18 +60,28 @@ class Book
     /**
      * Default Flight
      * @var Flight
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Flight")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Flight", cascade={"persist"})
      * @ORM\JoinColumn(nullable=true)
      */
     private $flight;
+    /**
+     * @var string
+     * @ORM\Column(name="flight_oaci", type="string", length=255, nullable=false)
+     */
+    private $flight_oaci;
 
     /**
      * Flight destination for transit service
      * @var Flight
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Flight")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Flight", cascade={"persist"})
      * @ORM\JoinColumn(nullable=true)
      */
     private $flighttransit;
+    /**
+     * @var string
+     * @ORM\Column(name="flight_transit_oaci", type="string", length=255, nullable=true)
+     */
+    private $flighttransit_oaci;
 
     /**
     * @var array
@@ -1082,5 +1092,53 @@ class Book
     public function getflighttransit()
     {
         return $this->flighttransit;
+    }
+
+    /**
+     * Set flightOaci
+     *
+     * @param string $flightOaci
+     *
+     * @return Book
+     */
+    public function setFlightOaci($flightOaci)
+    {
+        $this->flight_oaci = $flightOaci;
+
+        return $this;
+    }
+
+    /**
+     * Get flightOaci
+     *
+     * @return string
+     */
+    public function getFlightOaci()
+    {
+        return $this->flight_oaci;
+    }
+
+    /**
+     * Set flighttransitOaci
+     *
+     * @param string $flighttransitOaci
+     *
+     * @return Book
+     */
+    public function setFlighttransitOaci($flighttransitOaci)
+    {
+        $this->flighttransit_oaci = $flighttransitOaci;
+
+        return $this;
+    }
+
+    /**
+     * Get flighttransitOaci
+     *
+     * @return string
+     */
+    public function getFlighttransitOaci()
+    {
+        return $this->flighttransit_oaci;
     }
 }

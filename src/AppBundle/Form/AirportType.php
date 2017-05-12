@@ -23,9 +23,12 @@ class AirportType extends AbstractType
         ->add('name', TextType::class, array(
             'label' => 'Name'
         ))
-        ->add('code', TextType::class, array(
-            'label' => 'Code'
+        ->add('code_aita', TextType::class, array(
+            'label' => 'Code AITA'
         ))
+            ->add('code_oaci', TextType::class, array(
+                'label' => 'Code OACI'
+            ))
         ->add('selectable', CheckboxType::class, array(
             'label' => 'Selectable in book now',
             'required' => false

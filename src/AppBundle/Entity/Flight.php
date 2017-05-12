@@ -57,15 +57,15 @@ class Flight
     private $arrtime;
 
     /**
-    * @var Compagny
-    * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Airport")
+    * @var Airport
+    * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Airport", cascade={"persist"})
     * @ORM\JoinColumn(nullable=false)
     */
     private $depair;
 
     /**
-    * @var Compagny
-    * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Airport")
+    * @var Airport
+    * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Airport", cascade={"persist"})
     * @ORM\JoinColumn(nullable=false)
     */
     private $arrair;
@@ -184,6 +184,12 @@ class Flight
         if (is_string($value)) {
             return date_create_from_format('H:i:s', $value);
         }
+        if (is_int($value)) {
+            $date = new \DateTime();
+            $date->setTimestamp($value);
+            echo "Int Convertion : " . date("d-m-Y H:i:s", $value) . " - " . $date->format('d-m-Y H:i:s') . "<br>";
+            return $date;
+        }
         return $value;
     }
 
@@ -290,7 +296,7 @@ class Flight
     */
     public function getDestination()
     {
-        return $this->depair->getCode() . " → " . $this->arrair->getCode();
+        return $this->depair->getCodeOaci() . " → " . $this->arrair->getCodeOaci();
     }
 
     /**
