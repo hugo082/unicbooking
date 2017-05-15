@@ -30,7 +30,7 @@ class AirportType extends AbstractType
                 'label' => 'Code OACI'
             ))
         ->add('selectable', CheckboxType::class, array(
-            'label' => 'Selectable in book now',
+            'label' => 'Supported (Possibility of servicing this airport)',
             'required' => false
         ))
         ->add('compagny', EntityType::class, array(

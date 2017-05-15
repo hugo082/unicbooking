@@ -157,10 +157,10 @@ class APIChecker
     }
 
     private function flightNotFound($OACICode) {
-        return array( "success" => false, "flash" => array("type" => "error", "msg" => "Impossible to find flight with OACI code : " . $OACICode));
+        return array( "success" => false, "flash" => array("type" => "danger", "msg" => "Impossible to find flight with OACI code : " . $OACICode));
     }
 
     private function notSupportedAirport($OACICode) {
-        return array( "success" => false, "flash" => array("type" => "error", "msg" => "We don't yet support airport with OACI code : " . $OACICode));
+        return array( "success" => false, "flash" => array("type" => "danger", "msg" => "We don't yet support airport with OACI code : " . $OACICode));
     }
 }

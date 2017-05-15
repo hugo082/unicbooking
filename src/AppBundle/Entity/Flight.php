@@ -296,7 +296,7 @@ class Flight
     */
     public function getDestination()
     {
-        return $this->depair->getCodeOaci() . " → " . $this->arrair->getCodeOaci();
+        return $this->depair->getCode() . " → " . $this->arrair->getCode();
     }
 
     /**

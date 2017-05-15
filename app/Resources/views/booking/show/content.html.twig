@@ -92,7 +92,7 @@
                     {% endif %}
                 </tr>
                 <tr>
-                    <td class="col-md-6">Booking Created Date</td>
+                    <td class="col-md-6">Booking Creation Date</td>
                     <td class="value"><span>{{book.creationdate|date('d-M-y')}}</span></td>
                 </tr>
                 <tr>
@@ -104,7 +104,7 @@
                 </tr>
                 <tr>
                     <td class="col-md-6">Airport Location</td>
-                    <td class="value"><span>{{book.flight.mainairport.codeOaci}} - {{book.flight.mainairport.name}}</span></td>
+                    <td class="value"><span>{{book.flight.mainairport.code}} - {{book.flight.mainairport.name}}</span></td>
                 </tr>
                 <tr>
                     <td class="col-md-6">Type</td>

@@ -226,4 +226,17 @@ class Airport
     {
         return $this->code_oaci;
     }
+
+    /**
+     * Get code
+     *
+     * @return string
+     */
+    public function getCode()
+    {
+        if ($this->code_oaci != $this->code_aita)
+            return $this->code_aita . "(" . $this->code_oaci . ")";
+        else
+            return $this->code_oaci;
+    }
 }

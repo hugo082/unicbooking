@@ -40,9 +40,8 @@ class BookController extends Controller
             /** @var APIChecker $apiChecker */
             $apiChecker = $this->get('app.checker.api');
             $result = $apiChecker->processBook($book);
-            if (!$result["success"])
-                $this->computeFlash($result);
-            else {
+            $this->computeFlash($result);
+            if ($result["success"]) {
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($book);
                 $em->flush();
@@ -69,16 +68,22 @@ class BookController extends Controller
             $book->updatePrice($this->getDoctrine());
             $book->setCustomersParent();
 
-            $em = $this->getDoctrine()->getManager();
-            $uow = $em->getUnitOfWork();
-            $uow->computeChangeSets();
-            $changeset = $uow->getEntityChangeSet($book);
-            $subbook = new SubBook($book, $changeset);
+            /** @var APIChecker $apiChecker */
+            $apiChecker = $this->get('app.checker.api');
+            $result = $apiChecker->processBook($book);
+            $this->computeFlash($result);
+            if ($result["success"]) {
+                $em = $this->getDoctrine()->getManager();
+                $uow = $em->getUnitOfWork();
+                $uow->computeChangeSets();
+                $changeset = $uow->getEntityChangeSet($book);
+                $subbook = new SubBook($book, $changeset);
 
-            $em->persist($subbook);
-            $em->persist($book);
-            $em->flush();
-            return $this->redirectToRoute('show', array('id' => $book->getid()));
+                $em->persist($subbook);
+                $em->persist($book);
+                $em->flush();
+                return $this->redirectToRoute('show', array('id' => $book->getid()));
+            }
         }
 
         return $this->render('booking/form/edit.html.twig', array(
