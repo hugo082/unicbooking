@@ -33,6 +33,8 @@ class APIChecker
 
     public function __construct(EntityManager $em)
     {
+        if (version_compare(PHP_VERSION, '7.0.0', '<'))
+            ini_set("soap.wsdl_cache_enabled", "0");
         $this->em = $em;
         $this->client = new \SoapClient('http://flightxml.flightaware.com/soap/FlightXML2/wsdl', array(
             'trace' => true,
@@ -113,13 +115,17 @@ class APIChecker
 
     private function checkFlightWithOaciCode($code){
         $result = $this->client->FlightInfo(array("ident" => $code, "howMany" => 1, "offset" => 0));
+        if ($result instanceof \SoapFault) {
+            echo $result->faultstring;
+            return null;
+        }
         $flight = $result->FlightInfoResult->flights;
         if (empty($flight->origin))
             return null;
         return $flight;
     }
 
-    private function checkAirportSupport(Book $book, bool $isOrigin, Airport &$airport = null, bool $isTransitFlight = false, $oaci_code) {
+    private function checkAirportSupport(Book $book, $isOrigin, Airport &$airport = null, $isTransitFlight, $oaci_code) {
         if ($book->getService() == "DEP" && $isOrigin && ($airport == null || !$airport->getSelectable()))
             return false;
         elseif ($book->getService() == "ARR" && !$isOrigin && ($airport == null || !$airport->getSelectable()))
