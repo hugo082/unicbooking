@@ -23,14 +23,9 @@
     <div class="card">
         <h3 class="card-header">{{ 'manage.now.title'|trans }}</h3>
         <div class="card-block">
-            <a href="{{ path('booknow') }}" class="btn btn-primary">{{ 'manage.now.go'|trans }}</a>
-        </div>
-    </div>
-    <div class="card">
-        <h3 class="card-header">{{ 'manage.find.title'|trans }}</h3>
-        <div class="card-block">
             {% form_theme form 'bootstrap_3_layout.html.twig' %}
             {{ form_start(form) }}
+            <a href="{{ path('booknow') }}" class="btn btn-primary">{{ 'manage.now.go'|trans }}</a>
             {{ form_widget(form.booknb) }}
             <button type="submit" name="button" class="btn btn-primary">{{ 'manage.find.form.go'|trans }}</button>
             {{ form_end(form) }}
@@ -48,9 +43,14 @@
                     <tr>
                         <th class="hidden-xs">{{ 'manage.last.booknumber'|trans }}</th>
                         <th>{{ 'manage.last.fdate'|trans }}</th>
-                        <th>{{ 'manage.last.customer'|trans }}</th>
                         <th>{{ 'book.form.prod'|trans }}</th>
-                        <th>Airlines</th>
+                        <th>Airline</th>
+                        <th>{{ 'manage.last.customer'|trans }}</th>
+                        <th>Greeter</th>
+                        <th>Flight No</th>
+                        <th>Form/To</th>
+                        <th>Location</th>
+                        <th>Horaire</th>
                         <th>{{ 'book.state.title'|trans }}</th>
                     </tr>
                 </thead>
@@ -58,10 +58,15 @@
                     {% for book in books %}
                     <tr>
                         <td class="hidden-xs">{{book.id}}</td>
-                        <td>{{book.date|date("d M Y")}}</td>
-                        <td>{{book.customers[0].title}} {{book.customers[0].firstname}} (+{{book.totalcus - 1}})</td>
-                        <td>{{book.product.name}} {{book.flight.destinationwithtime}}</td>
+                        <td>{{book.date|date("d/m/y")}}</td>
+                        <td>{{ book.product.name }}</td>
                         <td><span class="back-cmpcolor-c" style="background-color:{{book.color}}">{{book.user.compagny ? book.user.compagny.name : 'Admin' }}</span></td>
+                        <td>{{ book.customersPreview }}</td>
+                        <td>{{ book.greeterPreview }}</td>
+                        <td>{{ book.flight.number }}</td>
+                        <td>{{book.destinationPreview}}</td>
+                        <td>{{book.locationPreview}}</td>
+                        <td>{{book.flight.time}}</td>
                         <td>{% if book.state == 'WAITING' %}
                             <span class="label label-default">{{ 'book.state.wait.title'|trans }}</span>
                             {% elseif book.state == 'ACCEPTED' %}
@@ -70,8 +75,23 @@
                             <span class="label label-danger">{{ 'book.state.ref.title'|trans }}</span>
                             {% endif %}
                         </td>
-                        <td><a href="{{ path('show', {'id': book.id}) }}" class="btn btn-default">{{ 'manage.last.show'|trans }}</a></td>
-                        <td><a href="{{ path('book.edit', {'id': book.id}) }}" class="btn btn-default">{{ 'manage.last.edit'|trans }}</a></td>
+                        <td>
+                            <a href="{{ path('show', {'id': book.id}) }}" class="btn btn-default">
+                                <span class="glyphicon glyphicon-search"></span>
+                            </a>
+                        </td>
+                        <td>
+                            <a href="{{ path('book.edit', {'id': book.id}) }}" class="btn btn-default">
+                                <span class="glyphicon glyphicon-pencil"></span>
+                            </a>
+                        </td>
+                        {% if is_granted("ROLE_ADMIN") %}
+                            <td>
+                                <a href="#" class="btn btn-danger">
+                                    <span class="glyphicon glyphicon-folder-open"></span>
+                                </a>
+                            </td>
+                        {% endif %}
                     </tr>
                     {% endfor %}
                 </tbody>

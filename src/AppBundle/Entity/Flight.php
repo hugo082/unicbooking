@@ -313,6 +313,19 @@ class Flight
     }
 
     /**
+     * Get destination with time
+     *
+     * @return string
+     */
+    public function getTime()
+    {
+        if ($this->type == "ARR") {
+            return $this->arrtime->format('H:i');
+        }
+        return $this->deptime->format('H:i');
+    }
+
+    /**
     * Get Full Name
     */
     public function getFullName()

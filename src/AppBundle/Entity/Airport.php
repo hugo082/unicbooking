@@ -235,7 +235,7 @@ class Airport
     public function getCode()
     {
         if ($this->code_oaci != $this->code_aita)
-            return $this->code_aita . "(" . $this->code_oaci . ")";
+            return $this->code_aita;
         else
             return $this->code_oaci;
     }

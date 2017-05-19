@@ -200,14 +200,14 @@ class Book
     protected $enabled;
 
     /**
-    * @var User
+    * @var Employee
     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Employee")
     * @ORM\JoinColumn(nullable=true)
     */
     protected $driver;
 
     /**
-    * @var User
+    * @var Employee
     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Employee")
     * @ORM\JoinColumn(nullable=true)
     */
@@ -857,6 +857,18 @@ class Book
     }
 
     /**
+     * Get Flight with Transit support
+     *
+     * @return string
+     */
+    public function getFlightNumber()
+    {
+        if ($this->service == "TRA")
+            return $this->flight->getNumber() . " → " . $this->flighttransit->getNumber();
+        return $this->flight->getNumber();
+    }
+
+    /**
     * Set user
     *
     * @param \AppBundle\Entity\User $user
@@ -929,6 +941,18 @@ class Book
     }
 
     /**
+     * Get greeter
+     *
+     * @return \AppBundle\Entity\Employee
+     */
+    public function getGreeterPreview()
+    {
+        if ($this->greeter)
+            return $this->greeter->getLastname();
+        return " - ";
+    }
+
+    /**
     * Add customer
     *
     * @param \AppBundle\Entity\Customer $customer
@@ -959,6 +983,20 @@ class Book
     public function getCustomers()
     {
         return $this->customers;
+    }
+
+    /**
+     * Get customers preview
+     *
+     * @return string
+     */
+    public function getCustomersPreview()
+    {
+        if (count($this->customers) == 0)
+            return " - ";
+        /** @var Customer $mainCust */
+        $mainCust = $this->customers[0];
+        return $mainCust->getTitle() . " " . $mainCust->getLastname();
     }
 
     /**
@@ -1042,7 +1080,7 @@ class Book
     */
     public function getFullid()
     {
-        return $this->id . "#" . count($this->subbooks);
+        return $this->id . " - " . count($this->subbooks);
     }
 
     /**
@@ -1140,5 +1178,27 @@ class Book
     public function getFlighttransitOaci()
     {
         return $this->flighttransit_oaci;
+    }
+
+    /**
+     * get Destination Preview
+     *
+     * @return string
+     */
+    public function getDestinationPreview()
+    {
+        if ($this->service != "TRA")
+            return $this->flight->getDestination();
+        return $this->flight->getDestination() . " - " . $this->flighttransit->getDestination();
+    }
+
+    /**
+     * get Location Preview
+     *
+     * @return string
+     */
+    public function getLocationPreview()
+    {
+        return $this->flight->getMainAirport()->getCode();
     }
 }

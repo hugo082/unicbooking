@@ -6,7 +6,7 @@ price: Price
 total: Total
 
 header:
-    title: Airport Paris Charles de Gaulle
+    title: Worldwide Airports
 
 admin:
     driver_add:
@@ -33,7 +33,7 @@ show:
 
 manage:
     now:
-        title: Book our CDG Meet and Assist
+        title: Book our Meet and Assist
         go: Book Now
     find:
         title: Manage your Booking
@@ -42,7 +42,7 @@ manage:
             go: Find
     last:
         title: Last Orders
-        booknumber: Booking No
+        booknumber: Bkg No
         fdate: Date
         customer: Passenger
         show: Show
