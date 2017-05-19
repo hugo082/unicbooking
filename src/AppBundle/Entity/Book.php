@@ -200,6 +200,13 @@ class Book
     protected $enabled;
 
     /**
+     * @var boolean
+     *
+     * @ORM\Column(name="archived", type="boolean")
+     */
+    protected $archived;
+
+    /**
     * @var Employee
     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Employee")
     * @ORM\JoinColumn(nullable=true)
@@ -242,6 +249,7 @@ class Book
         $this->customers = new \Doctrine\Common\Collections\ArrayCollection();
         $this->subbooks = new \Doctrine\Common\Collections\ArrayCollection();
         $this->enabled = false;
+        $this->archived = false;
     }
 
     public function getColor() {
@@ -1200,5 +1208,29 @@ class Book
     public function getLocationPreview()
     {
         return $this->flight->getMainAirport()->getCode();
+    }
+
+    /**
+     * Set archived
+     *
+     * @param boolean $archived
+     *
+     * @return Book
+     */
+    public function setArchived($archived)
+    {
+        $this->archived = $archived;
+
+        return $this;
+    }
+
+    /**
+     * Get archived
+     *
+     * @return boolean
+     */
+    public function getArchived()
+    {
+        return $this->archived;
     }
 }

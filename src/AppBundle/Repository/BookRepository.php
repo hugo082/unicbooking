@@ -14,16 +14,17 @@ class BookRepository extends \Doctrine\ORM\EntityRepository
         $qb = $this->createQueryBuilder('b');
 
         $qb->select('b')
-        ->where('b.enabled = true')
-        ->andwhere('b.creationdate <= :limit_top')
-        ->setParameter('limit_top', new \DateTime())
-        ->andwhere('b.creationdate >= :limit_bottom')
-        ->setParameter('limit_bottom', new \DateTime("-1 month"))
-        ->orderBy('b.creationdate', 'DESC');
+            ->where('b.enabled = true')
+            ->andwhere('b.creationdate <= :limit_top')
+            ->andwhere('b.archived = false')
+            ->setParameter('limit_top', new \DateTime())
+            ->andwhere('b.creationdate >= :limit_bottom')
+            ->setParameter('limit_bottom', new \DateTime("-1 month"))
+            ->orderBy('b.creationdate', 'DESC');
 
         return $qb
-        ->getQuery()
-        ->getResult();
+            ->getQuery()
+            ->getResult();
     }
 
     public function getOneMonthLast($user){

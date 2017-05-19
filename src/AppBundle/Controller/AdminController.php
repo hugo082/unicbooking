@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\Book;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -119,5 +120,40 @@ class AdminController extends Controller
         $em->flush();
         $this->get('app.mailer')->sendEditionAnswer($book, $state);
         return $this->redirectToRoute('show', array('id' => $book->getid()));
+    }
+
+    /**
+     * @Route("/admin/archive/book/{id}", name="admin.archive.book",
+     *     requirements={
+     *         "id": "[0-9a-fA-F]+"
+     *     })
+     */
+    public function archiveBookAction(Request $request, $id)
+    {
+        /** @var Book $book */
+        $book = $this->getDoctrine()->getRepository('AppBundle:Book')->findOneByid($id);
+        if (!$book) {
+            throw $this->createNotFoundException(
+                'No product found for id '.$id
+            );
+        }
+        $book->setArchived(true);
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($book);
+        $em->flush();
+        $this->addFlash("success", "Book " . $book->getId() . " have been archived.");
+        return $this->redirectToRoute('homepage');
+    }
+
+    /**
+     * @Route("/admin/list/book", name="admin.list")
+     */
+    public function listBookAction(Request $request)
+    {
+        /** @var Book $book */
+        $books = $this->getDoctrine()->getRepository('AppBundle:Book')->findAll();
+        return $this->render('booking/manage/list.html.twig', array(
+            'books' => $books
+        ));
     }
 }

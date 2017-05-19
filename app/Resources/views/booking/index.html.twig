@@ -3,105 +3,118 @@
 {% block title %}{{parent()}}{% endblock %}
 
 {% block stylesheets %}
-{{parent()}}
-<link rel="stylesheet" href="{{ asset('bundles/booking/css/manage.css') }}">
-<style media="screen">
-#content::before {
-    background: url("{{ asset('bundles/booking/img/30419147_l.jpg') }}") no-repeat 75% top;
-    background-size: cover;
-}
-</style>
+    {{parent()}}
+    <link rel="stylesheet" href="{{ asset('bundles/booking/css/manage.css') }}">
+    <style media="screen">
+        #content::before {
+            background: url("{{ asset('bundles/booking/img/30419147_l.jpg') }}") no-repeat 75% top;
+            background-size: cover;
+        }
+    </style>
 {% endblock %}
 
 
 {% block headscripts %}
-{{parent()}}
+    {{parent()}}
+    <script src="{{ asset('bundles/booking/js/bootstrap-confirmation.min.js') }}"></script>
 {% endblock %}
 
 {% block content %}
-<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-    <div class="card">
-        <h3 class="card-header">{{ 'manage.now.title'|trans }}</h3>
-        <div class="card-block">
-            {% form_theme form 'bootstrap_3_layout.html.twig' %}
-            {{ form_start(form) }}
-            <a href="{{ path('booknow') }}" class="btn btn-primary">{{ 'manage.now.go'|trans }}</a>
-            {{ form_widget(form.booknb) }}
-            <button type="submit" name="button" class="btn btn-primary">{{ 'manage.find.form.go'|trans }}</button>
-            {{ form_end(form) }}
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="card">
+            <h3 class="card-header">{{ 'manage.now.title'|trans }}</h3>
+            <div class="card-block">
+                {% form_theme form 'bootstrap_3_layout.html.twig' %}
+                {{ form_start(form) }}
+                <a href="{{ path('booknow') }}" class="btn btn-primary">{{ 'manage.now.go'|trans }}</a>
+                {{ form_widget(form.booknb) }}
+                <button type="submit" name="button" class="btn btn-primary">{{ 'manage.find.form.go'|trans }}</button>
+                {{ form_end(form) }}
+            </div>
         </div>
-    </div>
-    <div class="card">
-        <h3 class="card-header">{{ 'manage.last.title'|trans }}</h3>
-        <div class="card-block">
-            {% if books is empty %}
-            No Book
-            {% else %}
+        <div class="card">
+            <h3 class="card-header">{{ 'manage.last.title'|trans }}</h3>
+            <div class="card-block">
+                {% if books is empty %}
+                    No Book
+                {% else %}
 
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th class="hidden-xs">{{ 'manage.last.booknumber'|trans }}</th>
-                        <th>{{ 'manage.last.fdate'|trans }}</th>
-                        <th>{{ 'book.form.prod'|trans }}</th>
-                        <th>Airline</th>
-                        <th>{{ 'manage.last.customer'|trans }}</th>
-                        <th>Greeter</th>
-                        <th>Flight No</th>
-                        <th>Form/To</th>
-                        <th>Location</th>
-                        <th>Horaire</th>
-                        <th>{{ 'book.state.title'|trans }}</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for book in books %}
-                    <tr>
-                        <td class="hidden-xs">{{book.id}}</td>
-                        <td>{{book.date|date("d/m/y")}}</td>
-                        <td>{{ book.product.name }}</td>
-                        <td><span class="back-cmpcolor-c" style="background-color:{{book.color}}">{{book.user.compagny ? book.user.compagny.name : 'Admin' }}</span></td>
-                        <td>{{ book.customersPreview }}</td>
-                        <td>{{ book.greeterPreview }}</td>
-                        <td>{{ book.flight.number }}</td>
-                        <td>{{book.destinationPreview}}</td>
-                        <td>{{book.locationPreview}}</td>
-                        <td>{{book.flight.time}}</td>
-                        <td>{% if book.state == 'WAITING' %}
-                            <span class="label label-default">{{ 'book.state.wait.title'|trans }}</span>
-                            {% elseif book.state == 'ACCEPTED' %}
-                            <span class="label label-success">{{ 'book.state.acc.title'|trans }}</span>
-                            {% elseif book.state == 'REFUSED' %}
-                            <span class="label label-danger">{{ 'book.state.ref.title'|trans }}</span>
-                            {% endif %}
-                        </td>
-                        <td>
-                            <a href="{{ path('show', {'id': book.id}) }}" class="btn btn-default">
-                                <span class="glyphicon glyphicon-search"></span>
-                            </a>
-                        </td>
-                        <td>
-                            <a href="{{ path('book.edit', {'id': book.id}) }}" class="btn btn-default">
-                                <span class="glyphicon glyphicon-pencil"></span>
-                            </a>
-                        </td>
-                        {% if is_granted("ROLE_ADMIN") %}
-                            <td>
-                                <a href="#" class="btn btn-danger">
-                                    <span class="glyphicon glyphicon-folder-open"></span>
-                                </a>
-                            </td>
-                        {% endif %}
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-            {% endif %}
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th class="hidden-xs">{{ 'manage.last.booknumber'|trans }}</th>
+                            <th>{{ 'manage.last.fdate'|trans }}</th>
+                            <th>{{ 'book.form.prod'|trans }}</th>
+                            <th>Airline</th>
+                            <th>{{ 'manage.last.customer'|trans }}</th>
+                            <th>Greeter</th>
+                            <th>Flight No</th>
+                            <th>Form/To</th>
+                            <th>Location</th>
+                            <th>Horaire</th>
+                            <th>{{ 'book.state.title'|trans }}</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for book in books %}
+                            <tr>
+                                <td class="hidden-xs">{{book.id}}</td>
+                                <td>{{book.date|date("d/m/y")}}</td>
+                                <td>{{ book.product.name }}</td>
+                                <td><span class="back-cmpcolor-c" style="background-color:{{book.color}}">{{book.user.compagny ? book.user.compagny.name : 'Admin' }}</span></td>
+                                <td>{{ book.customersPreview }}</td>
+                                <td>{{ book.greeterPreview }}</td>
+                                <td>{{ book.flight.number }}</td>
+                                <td>{{book.destinationPreview}}</td>
+                                <td>{{book.locationPreview}}</td>
+                                <td>{{book.flight.time}}</td>
+                                <td>
+                                    {% if book.state == 'WAITING' %}
+                                        <span class="label label-default">{{ 'book.state.wait.title'|trans }}</span>
+                                    {% elseif book.state == 'ACCEPTED' %}
+                                        <span class="label label-success">{{ 'book.state.acc.title'|trans }}</span>
+                                    {% elseif book.state == 'REFUSED' %}
+                                        <span class="label label-danger">{{ 'book.state.ref.title'|trans }}</span>
+                                    {% endif %}
+                                </td>
+                                {% if is_granted("ROLE_ADMIN") %}
+                                    <td>
+                                        <a href="{{ path('admin.archive.book', {'id': book.id}) }}" class="btn btn-danger"
+                                           data-toggle="confirmation" data-title="Sure ?" data-popout="true">
+                                            <span class="glyphicon glyphicon-folder-open"></span>
+                                        </a>
+                                    </td>
+                                {% endif %}
+                                <td>
+                                    <a href="{{ path('show', {'id': book.id}) }}" class="btn btn-default">
+                                        <span class="glyphicon glyphicon-search"></span>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a href="{{ path('book.edit', {'id': book.id}) }}" class="btn btn-default">
+                                        <span class="glyphicon glyphicon-pencil"></span>
+                                    </a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                {% endif %}
+                {% if is_granted("ROLE_ADMIN") %}
+                    <a href="{{ path('admin.list') }}" class="btn btn-default">
+                        List Books
+                    </a>
+                {% endif %}
+            </div>
         </div>
     </div>
-</div>
 {% endblock %}
 
 {% block javascripts %}
-{{parent()}}
+    <script>
+        $('[data-toggle=confirmation]').confirmation({
+            rootSelector: '[data-toggle=confirmation]',
+            // other options
+        });
+    </script>
 {% endblock %}

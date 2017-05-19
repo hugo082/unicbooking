@@ -1,0 +1,59 @@
+{% extends 'booking/manage/layout.html.twig' %}
+
+{% block title %}{{parent()}}{% endblock %}
+
+{% block content %}
+
+    <div class="no-pad col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="card">
+            <h3 class="card-header">Books</h3>
+            <div class="card-block">
+                {% if books is empty %}
+                    No books
+                {% else %}
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>Booking No.</th>
+                            <th>Date</th>
+                            <th>Airline</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for book in books %}
+                            <tr>
+                                <td class="hidden-xs">{{book.id}}</td>
+                                <td>{{book.date|date("d/m/y")}}</td>
+                                <td><span class="back-cmpcolor-c" style="background-color:{{book.color}}">{{book.user.compagny ? book.user.compagny.name : 'Admin' }}</span></td>
+                                <td>
+                                    {% if book.enabled %}
+                                        <span class="label label-success">Enabled</span>
+                                    {% else %}
+                                        <span class="label label-danger">Disabled</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if book.state == 'WAITING' %}
+                                        <span class="label label-default">{{ 'book.state.wait.title'|trans }}</span>
+                                    {% elseif book.state == 'ACCEPTED' %}
+                                        <span class="label label-success">{{ 'book.state.acc.title'|trans }}</span>
+                                    {% elseif book.state == 'REFUSED' %}
+                                        <span class="label label-danger">{{ 'book.state.ref.title'|trans }}</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <a href="{{ path('show', {'id': book.id}) }}" class="btn btn-default">
+                                        <span class="glyphicon glyphicon-search"></span>
+                                    </a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}
