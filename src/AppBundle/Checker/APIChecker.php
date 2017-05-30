@@ -116,7 +116,6 @@ class APIChecker
     private function checkFlightWithOaciCode($code){
         $result = $this->client->FlightInfo(array("ident" => $code, "howMany" => 1, "offset" => 0));
         if ($result instanceof \SoapFault) {
-            echo $result->faultstring;
             return null;
         }
         $flight = $result->FlightInfoResult->flights;
