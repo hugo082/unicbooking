@@ -5,6 +5,10 @@ remove: Supprimer
 price: Prix
 total: Total
 
+codes:
+    icao: Code OACI
+    iata: Code AITA
+
 header:
     title: Aéroport Internationale
 

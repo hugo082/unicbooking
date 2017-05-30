@@ -72,7 +72,7 @@ class SubBook
     /**
      * Default Flight
      * @var Flight
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Flight")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Flight", cascade={"persist"})
      * @ORM\JoinColumn(nullable=true)
      */
     private $flight;
@@ -80,7 +80,7 @@ class SubBook
     /**
      * Flight destination for transit service
      * @var Flight
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Flight")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Flight", cascade={"persist"})
      * @ORM\JoinColumn(nullable=true)
      */
     private $flightTransit;

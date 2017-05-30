@@ -31,6 +31,11 @@ class APIChecker
      */
     private $client;
 
+    /**
+     * @var null|Book
+     */
+    private $book = null;
+
     public function __construct(EntityManager $em)
     {
         if (version_compare(PHP_VERSION, '7.0.0', '<'))
@@ -45,127 +50,115 @@ class APIChecker
     }
 
     public function processBook(Book $book) {
-        $result = $this->checkFlightOfBook($book);
-        if (!$result["success"])
-            return $result;
-        if ($book->getService() == "TRA") {
-            $result = $this->checkFlightTransitOfBook($book);
-            if (!$result["success"])
-                return $result;
+        $this->book = $book;
+        $res = $this->computeFlightWithFlightCodes($this->book->getFlight());
+        if (!$res instanceof Flight)
+            return $res;
+        if ($this->book->isTransit()) {
+            $res = $this->computeFlightWithFlightCodes($this->book->getflighttransit(), true);
+            if (!$res instanceof Flight)
+                return $res;
         }
-        $book->setAirport($book->getFlight()->getMainAirport());
+        $this->book->setAirport($this->book->getFlight()->getMainAirport());
         return array(
             "success" => true
         );
     }
 
-    private function checkFlightTransitOfBook(Book &$book) {
-        $flight = $this->checkFlightWithOaciCode($book->getFlighttransitOaci());
-        if ($flight == null)
-            return $this->flightNotFound($book->getFlightOaci());
-        $flight = $this->loadFlight($book, $flight);
-        $flight->setType("DEP");
-        $book->setflighttransit($flight);
-        return $this->success($flight);
-    }
-
-    private function checkFlightOfBook(Book &$book) {
-        $flight = $this->checkFlightWithOaciCode($book->getFlightOaci());
-        if ($flight == null)
-            return $this->flightNotFound($book->getFlightOaci());
-        $result = $this->loadFlight($book, $flight);
-        if (!$result instanceof  Flight)
-            return $result;
-        if ($book->getService() == "TRA")
-            $result->setType("ARR");
+    private function computeFlightWithFlightCodes(Flight $flight, $isTransitFlight = false) {
+        $flight = $this->loadFlightWithApi($flight);
+        if (!$flight instanceof Flight)
+            return $flight;
+        if (!$this->book->isTransit())
+            $flight->setType($this->book->getService());
         else
-            $result->setType($book->getService());
-        $book->setFlight($result);
-        return $this->success($result);
-    }
-
-    private function loadFlight(Book $book, \stdClass $flight) {
-        /** @var FlightRepository $airRepo */
-        $flightRepo = $this->em->getRepository("AppBundle:Flight");
-        $bddFlight = $flightRepo->getWithCodeOACI($flight->ident);
-        if ($bddFlight instanceof Flight)
-            return $bddFlight;
-        return $this->createFlight($book, $flight);
-    }
-
-    private function createFlight(Book $book, \stdClass $flight) {
-        /** @var AirportRepository $airRepo */
-        $airRepo = $this->em->getRepository("AppBundle:Airport");
-        $originAirport = $airRepo->getWithCodeOACI($flight->origin);
-        if (!$this->checkAirportSupport($book, true, $originAirport, false, $flight->origin))
-            return $this->notSupportedAirport($flight->origin);
-        $destinationAirport = $airRepo->getWithCodeOACI($flight->destination);
-        if (!$this->checkAirportSupport($book, false, $destinationAirport, false, $flight->destination))
-            return $this->notSupportedAirport($flight->destination);
-        $entityFlight = new Flight();
-        $entityFlight->setDepair($originAirport);
-        $entityFlight->setArrair($destinationAirport);
-        $entityFlight->setNumber($flight->ident);
-        $entityFlight->setCompagny(null);
-        $entityFlight->setRemoved(false);
-        $entityFlight->setArrtime($flight->estimatedarrivaltime);
-        $entityFlight->setDeptime($flight->filed_departuretime);
-        return $entityFlight;
-    }
-
-    private function checkFlightWithOaciCode($code){
-        $result = $this->client->FlightInfo(array("ident" => $code, "howMany" => 1, "offset" => 0));
-        if ($result instanceof \SoapFault) {
-            return null;
-        }
-        $flight = $result->FlightInfoResult->flights;
-        if (empty($flight->origin))
-            return null;
+            $flight->setType($isTransitFlight ? "DEP" : "ARR");
+        if (!$this->checkFlightSupport($flight, $isTransitFlight))
+            return $this->notSupportedAirport($flight->getMainAirport()->getCodes()->getCode());
         return $flight;
     }
 
-    private function checkAirportSupport(Book $book, $isOrigin, Airport &$airport = null, $isTransitFlight, $oaci_code) {
-        if ($book->getService() == "DEP" && $isOrigin && ($airport == null || !$airport->getSelectable()))
-            return false;
-        elseif ($book->getService() == "ARR" && !$isOrigin && ($airport == null || !$airport->getSelectable()))
-            return false;
-        elseif ($book->getService() == "TRA") {
-            if (!$isOrigin && !$isTransitFlight && ($airport == null || !$airport->getSelectable()))
-                return false;
-            elseif ($isOrigin && $isTransitFlight && ($airport == null || !$airport->getSelectable()))
-                return false;
+    public function checkFlightSupport(Flight $flight, $isTransitFlight = false) {
+        if ($this->book->isDeparture() && $flight->getDepair()->getSelectable())
+            return true;
+        if ($this->book->isArrival() && $flight->getArrair()->getSelectable())
+            return true;
+        if ($this->book->isTransit()) {
+            if (!$isTransitFlight && $flight->getArrair()->getSelectable())
+                return true;
+            if ($isTransitFlight && $flight->getDepair()->getSelectable())
+                return true;
         }
-        $airport = $this->loadAirportWithAPI($airport, $oaci_code);
-        if (!$airport instanceof Airport)
-            return false;
-        return true;
+        return false;
     }
 
-    private function loadAirportWithAPI(Airport $airport = null, $oaci_code) {
+    /**
+     * Load flight in API
+     * @param Flight $flightEntity
+     * @return Flight|array
+     */
+    private function loadFlightWithApi(Flight $flightEntity){
+        $result = $this->client->FlightInfo(array("ident" => $flightEntity->getCodes()->getIcao(), "howMany" => 1, "offset" => 0));
+        if ($result instanceof \SoapFault)
+            return $this->flightNotFound($flightEntity->getCodes()->getIcao());
+        $flight = $result->FlightInfoResult->flights;
+        if (empty($flight->origin))
+            return $this->flightNotFound($flightEntity->getCodes()->getIcao());
+        if (!$oAirport = $this->getAirportWithIcao($flight->origin))
+            return $this->airportNotFound($flight->origin);
+        if (!$dAirport = $this->getAirportWithIcao($flight->destination))
+            return $this->airportNotFound($flight->destination);
+        $flightEntity->setDepair($oAirport);
+        $flightEntity->setArrair($dAirport);
+        $flightEntity->getCodes()->setIcao($flight->ident);
+        $flightEntity->setCompagny(null);
+        $flightEntity->setArrtime($flight->estimatedarrivaltime);
+        $flightEntity->setDeptime($flight->filed_departuretime);
+        return $flightEntity;
+    }
+
+    /**
+     * Get Airport from database. If doesn't exist, load from API.
+     * @param $code
+     * @return Airport|null
+     */
+    private function getAirportWithIcao($code) {
+        /** @var AirportRepository $airRepo */
+        $airRepo = $this->em->getRepository("AppBundle:Airport");
+        $airport = $airRepo->getWithCodeIcao($code);
         if ($airport instanceof Airport)
             return $airport;
-        $result = $this->client->AirportInfo(array("airportCode" => $oaci_code));
-        if ($airport instanceof \SoapFault)
-            return null;
-        $airport = new Airport();
-        $airport->setName($result->AirportInfoResult->name);
-        $airport->setCodeOaci($oaci_code);
-        $airport->setCodeAita($oaci_code);
-        $airport->setRemoved(false);
-        $airport->setSelectable(false);
-        $airport->setCompagny(null);
-        return $airport;
+        return $this->loadAirportWithAPI($code);
     }
 
-    private function success(Flight $flight) {
-        return array( "success" => true, "flight" => $flight);
+    /**
+     * Load Airport form API
+     * @param $icao_code
+     * @return Airport|null
+     */
+    private function loadAirportWithAPI($icao_code) {
+        $airport = $this->client->AirportInfo(array("airportCode" => $icao_code));
+        if ($airport instanceof \SoapFault)
+            return null;
+        $airportEntity = new Airport();
+        $airportEntity->setName($airport->AirportInfoResult->name);
+        $airportEntity->getCodes()->setIcao($icao_code);
+        $airportEntity->getCodes()->setIata($icao_code);
+        $airportEntity->setRemoved(false);
+        $airportEntity->setSelectable(false);
+        $airportEntity->setCompagny(null);
+        return $airportEntity;
     }
 
     private function flightNotFound($OACICode) {
-        return array( "success" => false, "flash" => array("type" => "danger", "msg" => "Impossible to find flight with OACI code : " . $OACICode));
+        return array( "success" => false, "flash" => array("type" => "danger", "msg" => "Impossible to find flight with code : " . $OACICode));
+    }
+
+    private function airportNotFound($OACICode) {
+        return array( "success" => false, "flash" => array("type" => "danger", "msg" => "Impossible to find airport with code : " . $OACICode));
     }
 
     private function notSupportedAirport($OACICode) {
-        return array( "success" => false, "flash" => array("type" => "danger", "msg" => "We don't yet support airport with OACI code : " . $OACICode));
+        return array( "success" => false, "flash" => array("type" => "danger", "msg" => "We don't yet support airport with code : " . $OACICode));
     }
 }

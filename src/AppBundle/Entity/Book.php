@@ -6,69 +6,67 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
-* Book
-*
-* @ORM\Table(name="book")
-* @ORM\Entity(repositoryClass="AppBundle\Repository\BookRepository")
-*/
+ * Book
+ *
+ * @ORM\Table(name="book")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\BookRepository")
+ */
 class Book
 {
+    public const SERVICE_DEP = "DEP";
+    public const SERVICE_ARR = "ARR";
+    public const SERVICE_TRA = "TRA";
+
     /**
-    * @ORM\Id
+     * @ORM\Id
      * @ORM\Column(name="id", type="integer")
-    * @ORM\GeneratedValue(strategy="CUSTOM")
-    * @ORM\CustomIdGenerator(class="AppBundle\Doctrine\IdGenerator")
-    */
+     * @ORM\GeneratedValue(strategy="CUSTOM")
+     * @ORM\CustomIdGenerator(class="AppBundle\Doctrine\IdGenerator")
+     */
     private $id;
 
     /**
-    * @var Airport
-    * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Airport", cascade={"persist"})
-    * @ORM\JoinColumn(nullable=false)
-    */
+     * @var Airport
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Airport", cascade={"persist"})
+     * @ORM\JoinColumn(nullable=false)
+     */
     private $airport;
 
     /**
-    * @var \DateTime
-    *
-    * @ORM\Column(name="date", type="date")
-    * @Assert\GreaterThanOrEqual("yesterday")
-    */
+     * @var \DateTime
+     *
+     * @ORM\Column(name="date", type="date")
+     * @Assert\GreaterThanOrEqual("yesterday")
+     */
     protected $date;
 
     /**
-    * @var \Date
-    *
-    * @ORM\Column(name="creation_date", type="date")
-    */
+     * @var \Date
+     *
+     * @ORM\Column(name="creation_date", type="date")
+     */
     protected $creationdate;
 
     /**
-    * @var string
-    *
-    * @ORM\Column(name="service", type="string", length=255, nullable=false)
-    */
+     * @var string
+     *
+     * @ORM\Column(name="service", type="string", length=255, nullable=false)
+     */
     protected $service;
 
     /**
-    * @var Product
-    * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Product")
-    * @ORM\JoinColumn(nullable=false)
-    */
+     * @var Product
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Product")
+     * @ORM\JoinColumn(nullable=false)
+     */
     protected $product;
 
     /**
      * Default Flight
      * @var Flight
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Flight", cascade={"persist"})
-     * @ORM\JoinColumn(nullable=true)
      */
     private $flight;
-    /**
-     * @var string
-     * @ORM\Column(name="flight_oaci", type="string", length=255, nullable=false)
-     */
-    private $flight_oaci;
 
     /**
      * Flight destination for transit service
@@ -77,126 +75,121 @@ class Book
      * @ORM\JoinColumn(nullable=true)
      */
     private $flighttransit;
-    /**
-     * @var string
-     * @ORM\Column(name="flight_transit_oaci", type="string", length=255, nullable=true)
-     */
-    private $flighttransit_oaci;
 
     /**
-    * @var array
-    * Adult Customer
-    * @ORM\Column(name="adultcus", type="integer")
-    * @Assert\Range(
-    *      min = 0
-    * )
-    */
+     * @var array
+     * Adult Customer
+     * @ORM\Column(name="adultcus", type="integer")
+     * @Assert\Range(
+     *      min = 0
+     * )
+     */
     protected $adultcus;
 
     /**
-    * @var array
-    * Child Customer
-    * @ORM\Column(name="childcus", type="integer")
-    * @Assert\Range(
-    *      min = 0
-    * )
-    */
+     * @var array
+     * Child Customer
+     * @ORM\Column(name="childcus", type="integer")
+     * @Assert\Range(
+     *      min = 0
+     * )
+     */
     protected $childcus;
 
     /**
-    * @var string
-    *
-    * @ORM\Column(name="nameboard", type="string", length=255, nullable=true)
-    */
+     * @var string
+     *
+     * @ORM\Column(name="nameboard", type="string", length=255, nullable=true)
+     */
     protected $nameboard;
 
     /**
-    * @var int
-    *
-    * @ORM\Column(name="bags", type="integer")
-    * @Assert\Range(
-    *      min = 0
-    * )
-    */
+     * @var int
+     *
+     * @ORM\Column(name="bags", type="integer")
+     * @Assert\Range(
+     *      min = 0
+     * )
+     */
     protected $bags;
 
     /**
-    * @var string
-    *
-    * @ORM\Column(name="agent_firstname", type="string", length=255)
-    */
+     * @var string
+     *
+     * @ORM\Column(name="agent_firstname", type="string", length=255)
+     */
     protected $agentfirstname;
 
     /**
-    * @var string
-    *
-    * @ORM\Column(name="agent_lastname", type="string", length=255)
-    */
+     * @var string
+     *
+     * @ORM\Column(name="agent_lastname", type="string", length=255)
+     */
     protected $agentlastname;
 
     /**
-    * @var string
-    *
-    * @ORM\Column(name="agent_email", type="string", length=255)
-    */
+     * @var string
+     *
+     * @ORM\Column(name="agent_email", type="string", length=255)
+     */
     protected $agentemail;
 
     /**
-    * @var int
-    *
-    * @ORM\Column(name="price", type="integer")
-    * @Assert\Range(
-    *      min = 0
-    * )
-    */
+     * @var int
+     *
+     * @ORM\Column(name="price", type="integer")
+     * @Assert\Range(
+     *      min = 0
+     * )
+     */
     protected $price;
 
     /**
-    * @var string
-    *
-    * @ORM\Column(name="timepu", type="string", length=255, nullable=true)
-    */
+     * @var string
+     *
+     * @ORM\Column(name="timepu", type="string", length=255, nullable=true)
+     */
     protected $timepu;
 
     /**
-    * @var string
-    *
-    * @ORM\Column(name="addresspu", type="string", length=255, nullable=true)
-    */
+     * @var string
+     *
+     * @ORM\Column(name="addresspu", type="string", length=255, nullable=true)
+     */
     protected $addresspu;
 
     /**
-    * @var string
-    *
-    * @ORM\Column(name="addressdo", type="string", length=255, nullable=true)
-    */
+     * @var string
+     *
+     * @ORM\Column(name="addressdo", type="string", length=255, nullable=true)
+     */
     protected $addressdo;
 
     /**
-    * @var text
-    * @ORM\Column(name="note", type="text", nullable=true)
-    */
+     * @var text
+     * @ORM\Column(name="note", type="text", nullable=true)
+     */
     protected $note;
 
     /**
-    * @var string
-    *
-    * @ORM\Column(name="state", type="string", length=255, nullable=false)
-    */
+     * @var string
+     *
+     * @ORM\Column(name="state", type="string", length=255, nullable=false)
+     */
     protected $state;
 
     /**
-    * @var User
-    * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User", inversedBy="books", cascade={"remove"})
-    * @ORM\JoinColumn(nullable=false)
-    */
+     * @var User
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User", inversedBy="books", cascade={"remove"})
+     * @ORM\JoinColumn(nullable=false)
+     */
     protected $user;
 
     /**
-    * @var boolean
-    *
-    * @ORM\Column(name="enabled", type="boolean")
-    */
+     * @var boolean
+     *
+     * @ORM\Column(name="enabled", type="boolean")
+     */
     protected $enabled;
 
     /**
@@ -207,27 +200,27 @@ class Book
     protected $archived;
 
     /**
-    * @var Employee
-    * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Employee")
-    * @ORM\JoinColumn(nullable=true)
-    */
+     * @var Employee
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Employee")
+     * @ORM\JoinColumn(nullable=true)
+     */
     protected $driver;
 
     /**
-    * @var Employee
-    * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Employee")
-    * @ORM\JoinColumn(nullable=true)
-    */
+     * @var Employee
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Employee")
+     * @ORM\JoinColumn(nullable=true)
+     */
     protected $greeter;
 
     /**
-    * @ORM\OneToMany(targetEntity="AppBundle\Entity\Customer", mappedBy="book", cascade={"persist"})
-    */
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Customer", mappedBy="book", cascade={"persist"})
+     */
     protected $customers;
 
     /**
-    * @ORM\OneToMany(targetEntity="AppBundle\Entity\SubBook", mappedBy="parent", cascade={"remove", "persist"})
-    */
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\SubBook", mappedBy="parent", cascade={"remove", "persist"})
+     */
     protected $subbooks;
 
     // /**
@@ -238,8 +231,8 @@ class Book
     // private $compagny;
 
     /**
-    * Constructor
-    */
+     * Constructor
+     */
     public function __construct()
     {
         $date = new \DateTime();
@@ -261,8 +254,8 @@ class Book
     }
 
     /**
-    * Compute price of this book. Without edit price.
-    */
+     * Compute price of this book. Without edit price.
+     */
     public function getOptions() {
         $res = array();
         if ($this->product->getTransport()) $res[] = 'Airport transfer included';
@@ -271,8 +264,8 @@ class Book
     }
 
     /**
-    * Compute price of this book. Without edit price.
-    */
+     * Compute price of this book. Without edit price.
+     */
     public function updatePrice($doc = NULL) {
         $price = 0;
         $price += $this->product->getPrice();
@@ -313,30 +306,30 @@ class Book
     }
 
     /**
-    * Add $value at book.price
-    */
+     * Add $value at book.price
+     */
     public function addToPrice($value) {
         $this->price += $value;
         return $this;
     }
 
     /**
-    * Get id
-    *
-    * @return integer
-    */
+     * Get id
+     *
+     * @return integer
+     */
     public function getId()
     {
         return $this->id;
     }
 
     /**
-    * Set date
-    *
-    * @param \DateTime $date
-    *
-    * @return Book
-    */
+     * Set date
+     *
+     * @param \DateTime $date
+     *
+     * @return Book
+     */
     public function setDate($date)
     {
         $this->date = $date;
@@ -345,22 +338,22 @@ class Book
     }
 
     /**
-    * Get date
-    *
-    * @return \DateTime
-    */
+     * Get date
+     *
+     * @return \DateTime
+     */
     public function getDate()
     {
         return $this->date;
     }
 
     /**
-    * Set creationdate
-    *
-    * @param \DateTime $creationdate
-    *
-    * @return Book
-    */
+     * Set creationdate
+     *
+     * @param \DateTime $creationdate
+     *
+     * @return Book
+     */
     public function setCreationdate($creationdate)
     {
         $this->creationdate = $creationdate;
@@ -369,22 +362,22 @@ class Book
     }
 
     /**
-    * Get creationdate
-    *
-    * @return \DateTime
-    */
+     * Get creationdate
+     *
+     * @return \DateTime
+     */
     public function getCreationdate()
     {
         return $this->creationdate;
     }
 
     /**
-    * Set service
-    *
-    * @param string $service
-    *
-    * @return Book
-    */
+     * Set service
+     *
+     * @param string $service
+     *
+     * @return Book
+     */
     public function setService($service)
     {
         $this->service = $service;
@@ -393,22 +386,46 @@ class Book
     }
 
     /**
-    * Get service
-    *
-    * @return string
-    */
+     * Get service
+     *
+     * @return string
+     */
     public function getService()
     {
         return $this->service;
     }
 
     /**
-    * Set adultcus
-    *
-    * @param integer $adultcus
-    *
-    * @return Book
-    */
+     * @return bool
+     */
+    public function isDeparture()
+    {
+        return $this->service == self::SERVICE_DEP;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isArrival()
+    {
+        return $this->service == self::SERVICE_ARR;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isTransit()
+    {
+        return $this->service == self::SERVICE_TRA;
+    }
+
+    /**
+     * Set adultcus
+     *
+     * @param integer $adultcus
+     *
+     * @return Book
+     */
     public function setAdultcus($adultcus)
     {
         $this->adultcus = $adultcus;
@@ -417,22 +434,22 @@ class Book
     }
 
     /**
-    * Get adultcus
-    *
-    * @return integer
-    */
+     * Get adultcus
+     *
+     * @return integer
+     */
     public function getAdultcus()
     {
         return $this->adultcus;
     }
 
     /**
-    * Set childcus
-    *
-    * @param integer $childcus
-    *
-    * @return Book
-    */
+     * Set childcus
+     *
+     * @param integer $childcus
+     *
+     * @return Book
+     */
     public function setChildcus($childcus)
     {
         $this->childcus = $childcus;
@@ -441,30 +458,30 @@ class Book
     }
 
     /**
-    * Get childcus
-    *
-    * @return integer
-    */
+     * Get childcus
+     *
+     * @return integer
+     */
     public function getChildcus()
     {
         return $this->childcus;
     }
 
     /**
-    * Get total customers
-    *
-    * @return integer
-    */
+     * Get total customers
+     *
+     * @return integer
+     */
     public function getTotalcus()
     {
         return $this->childcus + $this->adultcus;
     }
 
     /**
-    * Get total customers
-    *
-    * @return integer
-    */
+     * Get total customers
+     *
+     * @return integer
+     */
     public function getAdditionalcus()
     {
         $n = $this->getTotalcus() - $this->product->getPassengers();
@@ -472,10 +489,10 @@ class Book
     }
 
     /**
-    * Get total customers
-    *
-    * @return integer
-    */
+     * Get total customers
+     *
+     * @return integer
+     */
     public function getAdditionalCar()
     {
         if ($this->product->getTransport()) {
@@ -485,12 +502,12 @@ class Book
     }
 
     /**
-    * Set nameboard
-    *
-    * @param string $nameboard
-    *
-    * @return Book
-    */
+     * Set nameboard
+     *
+     * @param string $nameboard
+     *
+     * @return Book
+     */
     public function setNameboard($nameboard)
     {
         $this->nameboard = $nameboard;
@@ -499,22 +516,22 @@ class Book
     }
 
     /**
-    * Get nameboard
-    *
-    * @return string
-    */
+     * Get nameboard
+     *
+     * @return string
+     */
     public function getNameboard()
     {
         return $this->nameboard;
     }
 
     /**
-    * Set bags
-    *
-    * @param integer $bags
-    *
-    * @return Book
-    */
+     * Set bags
+     *
+     * @param integer $bags
+     *
+     * @return Book
+     */
     public function setBags($bags)
     {
         $this->bags = $bags;
@@ -523,20 +540,20 @@ class Book
     }
 
     /**
-    * Get bags
-    *
-    * @return integer
-    */
+     * Get bags
+     *
+     * @return integer
+     */
     public function getBags()
     {
         return $this->bags;
     }
 
     /**
-    * Get bags informations
-    *
-    * @return string
-    */
+     * Get bags informations
+     *
+     * @return string
+     */
     public function getFullBags()
     {
         $res = $this->bags . " bag";
@@ -545,12 +562,12 @@ class Book
     }
 
     /**
-    * Set agentfirstname
-    *
-    * @param string $agentfirstname
-    *
-    * @return Book
-    */
+     * Set agentfirstname
+     *
+     * @param string $agentfirstname
+     *
+     * @return Book
+     */
     public function setAgentfirstname($agentfirstname)
     {
         $this->agentfirstname = $agentfirstname;
@@ -559,22 +576,22 @@ class Book
     }
 
     /**
-    * Get agentfirstname
-    *
-    * @return string
-    */
+     * Get agentfirstname
+     *
+     * @return string
+     */
     public function getAgentfirstname()
     {
         return $this->agentfirstname;
     }
 
     /**
-    * Set agentlastname
-    *
-    * @param string $agentlastname
-    *
-    * @return Book
-    */
+     * Set agentlastname
+     *
+     * @param string $agentlastname
+     *
+     * @return Book
+     */
     public function setAgentlastname($agentlastname)
     {
         $this->agentlastname = $agentlastname;
@@ -583,22 +600,22 @@ class Book
     }
 
     /**
-    * Get agentlastname
-    *
-    * @return string
-    */
+     * Get agentlastname
+     *
+     * @return string
+     */
     public function getAgentlastname()
     {
         return $this->agentlastname;
     }
 
     /**
-    * Set agentemail
-    *
-    * @param string $agentemail
-    *
-    * @return Book
-    */
+     * Set agentemail
+     *
+     * @param string $agentemail
+     *
+     * @return Book
+     */
     public function setAgentemail($agentemail)
     {
         $this->agentemail = $agentemail;
@@ -607,22 +624,22 @@ class Book
     }
 
     /**
-    * Get agentemail
-    *
-    * @return string
-    */
+     * Get agentemail
+     *
+     * @return string
+     */
     public function getAgentemail()
     {
         return $this->agentemail;
     }
 
     /**
-    * Set price
-    *
-    * @param integer $price
-    *
-    * @return Book
-    */
+     * Set price
+     *
+     * @param integer $price
+     *
+     * @return Book
+     */
     public function setPrice($price)
     {
         $this->price = $price;
@@ -631,32 +648,32 @@ class Book
     }
 
     /**
-    * Get full price
-    *
-    * @return string
-    */
+     * Get full price
+     *
+     * @return string
+     */
     public function getFullPrice()
     {
         return "EUR " . $this->price;
     }
 
     /**
-    * Get price
-    *
-    * @return integer
-    */
+     * Get price
+     *
+     * @return integer
+     */
     public function getPrice()
     {
         return $this->price;
     }
 
     /**
-    * Set timepu
-    *
-    * @param string $timepu
-    *
-    * @return Book
-    */
+     * Set timepu
+     *
+     * @param string $timepu
+     *
+     * @return Book
+     */
     public function setTimepu($timepu)
     {
         $this->timepu = $timepu;
@@ -665,22 +682,22 @@ class Book
     }
 
     /**
-    * Get timepu
-    *
-    * @return string
-    */
+     * Get timepu
+     *
+     * @return string
+     */
     public function getTimepu()
     {
         return $this->timepu;
     }
 
     /**
-    * Set addresspu
-    *
-    * @param string $addresspu
-    *
-    * @return Book
-    */
+     * Set addresspu
+     *
+     * @param string $addresspu
+     *
+     * @return Book
+     */
     public function setAddresspu($addresspu)
     {
         $this->addresspu = $addresspu;
@@ -689,22 +706,22 @@ class Book
     }
 
     /**
-    * Get addresspu
-    *
-    * @return string
-    */
+     * Get addresspu
+     *
+     * @return string
+     */
     public function getAddresspu()
     {
         return $this->addresspu;
     }
 
     /**
-    * Set addressdo
-    *
-    * @param string $addressdo
-    *
-    * @return Book
-    */
+     * Set addressdo
+     *
+     * @param string $addressdo
+     *
+     * @return Book
+     */
     public function setAddressdo($addressdo)
     {
         $this->addressdo = $addressdo;
@@ -713,22 +730,22 @@ class Book
     }
 
     /**
-    * Get addressdo
-    *
-    * @return string
-    */
+     * Get addressdo
+     *
+     * @return string
+     */
     public function getAddressdo()
     {
         return $this->addressdo;
     }
 
     /**
-    * Set note
-    *
-    * @param string $note
-    *
-    * @return Book
-    */
+     * Set note
+     *
+     * @param string $note
+     *
+     * @return Book
+     */
     public function setNote($note)
     {
         $this->note = $note;
@@ -737,22 +754,22 @@ class Book
     }
 
     /**
-    * Get note
-    *
-    * @return string
-    */
+     * Get note
+     *
+     * @return string
+     */
     public function getNote()
     {
         return $this->note;
     }
 
     /**
-    * Set state
-    *
-    * @param string $state
-    *
-    * @return Book
-    */
+     * Set state
+     *
+     * @param string $state
+     *
+     * @return Book
+     */
     public function setState($state)
     {
         $this->state = $state;
@@ -761,10 +778,10 @@ class Book
     }
 
     /**
-    * Get full state
-    *
-    * @return string
-    */
+     * Get full state
+     *
+     * @return string
+     */
     public function getFullState()
     {
         if ($this->state == "ACCEPTED") return "Confirmed";
@@ -773,22 +790,22 @@ class Book
     }
 
     /**
-    * Get state
-    *
-    * @return string
-    */
+     * Get state
+     *
+     * @return string
+     */
     public function getState()
     {
         return $this->state;
     }
 
     /**
-    * Set enabled
-    *
-    * @param boolean $enabled
-    *
-    * @return Book
-    */
+     * Set enabled
+     *
+     * @param boolean $enabled
+     *
+     * @return Book
+     */
     public function setEnabled($enabled)
     {
         $this->enabled = $enabled;
@@ -797,22 +814,22 @@ class Book
     }
 
     /**
-    * Get enabled
-    *
-    * @return boolean
-    */
+     * Get enabled
+     *
+     * @return boolean
+     */
     public function getEnabled()
     {
         return $this->enabled;
     }
 
     /**
-    * Set product
-    *
-    * @param \AppBundle\Entity\Product $product
-    *
-    * @return Book
-    */
+     * Set product
+     *
+     * @param \AppBundle\Entity\Product $product
+     *
+     * @return Book
+     */
     public function setProduct(\AppBundle\Entity\Product $product)
     {
         $this->product = $product;
@@ -821,32 +838,32 @@ class Book
     }
 
     /**
-    * Get product
-    *
-    * @return \AppBundle\Entity\Product
-    */
+     * Get product
+     *
+     * @return \AppBundle\Entity\Product
+     */
     public function getProduct()
     {
         return $this->product;
     }
 
     /**
-    * Get product quantity
-    *
-    * @return integer
-    */
+     * Get product quantity
+     *
+     * @return integer
+     */
     public function getProductQuantity()
     {
         return "1 ( +" . $this->getAdditionalcus() . " PAX )";
     }
 
     /**
-    * Set flight
-    *
-    * @param \AppBundle\Entity\Flight $flight
-    *
-    * @return Book
-    */
+     * Set flight
+     *
+     * @param \AppBundle\Entity\Flight $flight
+     *
+     * @return Book
+     */
     public function setFlight(\AppBundle\Entity\Flight $flight)
     {
         $this->flight = $flight;
@@ -855,10 +872,10 @@ class Book
     }
 
     /**
-    * Get flight
-    *
-    * @return \AppBundle\Entity\Flight
-    */
+     * Get flight
+     *
+     * @return \AppBundle\Entity\Flight
+     */
     public function getFlight()
     {
         return $this->flight;
@@ -877,12 +894,12 @@ class Book
     }
 
     /**
-    * Set user
-    *
-    * @param \AppBundle\Entity\User $user
-    *
-    * @return Book
-    */
+     * Set user
+     *
+     * @param \AppBundle\Entity\User $user
+     *
+     * @return Book
+     */
     public function setUser(\AppBundle\Entity\User $user)
     {
         $this->user = $user;
@@ -891,22 +908,22 @@ class Book
     }
 
     /**
-    * Get user
-    *
-    * @return \AppBundle\Entity\User
-    */
+     * Get user
+     *
+     * @return \AppBundle\Entity\User
+     */
     public function getUser()
     {
         return $this->user;
     }
 
     /**
-    * Set driver
-    *
-    * @param \AppBundle\Entity\Employee $driver
-    *
-    * @return Book
-    */
+     * Set driver
+     *
+     * @param \AppBundle\Entity\Employee $driver
+     *
+     * @return Book
+     */
     public function setDriver(\AppBundle\Entity\Employee $driver = null)
     {
         $this->driver = $driver;
@@ -915,22 +932,22 @@ class Book
     }
 
     /**
-    * Get driver
-    *
-    * @return \AppBundle\Entity\Employee
-    */
+     * Get driver
+     *
+     * @return \AppBundle\Entity\Employee
+     */
     public function getDriver()
     {
         return $this->driver;
     }
 
     /**
-    * Set greeter
-    *
-    * @param \AppBundle\Entity\Employee $greeter
-    *
-    * @return Book
-    */
+     * Set greeter
+     *
+     * @param \AppBundle\Entity\Employee $greeter
+     *
+     * @return Book
+     */
     public function setGreeter(\AppBundle\Entity\Employee $greeter = null)
     {
         $this->greeter = $greeter;
@@ -939,10 +956,10 @@ class Book
     }
 
     /**
-    * Get greeter
-    *
-    * @return \AppBundle\Entity\Employee
-    */
+     * Get greeter
+     *
+     * @return \AppBundle\Entity\Employee
+     */
     public function getGreeter()
     {
         return $this->greeter;
@@ -961,12 +978,12 @@ class Book
     }
 
     /**
-    * Add customer
-    *
-    * @param \AppBundle\Entity\Customer $customer
-    *
-    * @return Book
-    */
+     * Add customer
+     *
+     * @param \AppBundle\Entity\Customer $customer
+     *
+     * @return Book
+     */
     public function addCustomer(\AppBundle\Entity\Customer $customer)
     {
         $this->customers[] = $customer;
@@ -974,20 +991,20 @@ class Book
     }
 
     /**
-    * Remove customer
-    *
-    * @param \AppBundle\Entity\Customer $customer
-    */
+     * Remove customer
+     *
+     * @param \AppBundle\Entity\Customer $customer
+     */
     public function removeCustomer(\AppBundle\Entity\Customer $customer)
     {
         $this->customers->removeElement($customer);
     }
 
     /**
-    * Get customers
-    *
-    * @return \Doctrine\Common\Collections\Collection
-    */
+     * Get customers
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
     public function getCustomers()
     {
         return $this->customers;
@@ -1008,24 +1025,24 @@ class Book
     }
 
     /**
-    * Set parent customers to this
-    *
-    * @return Book
-    */
+     * Set parent customers to this
+     *
+     * @return Book
+     */
     public function setCustomersParent()
     {
         foreach ($this->customers as $c)
-        $c->setBook($this);
+            $c->setBook($this);
         return $this;
     }
 
     /**
-    * Add subbook
-    *
-    * @param \AppBundle\Entity\Customer $subbook
-    *
-    * @return Book
-    */
+     * Add subbook
+     *
+     * @param \AppBundle\Entity\Customer $subbook
+     *
+     * @return Book
+     */
     public function addSubbook(\AppBundle\Entity\Customer $subbook)
     {
         $this->subbooks[] = $subbook;
@@ -1034,30 +1051,30 @@ class Book
     }
 
     /**
-    * Remove subbook
-    *
-    * @param \AppBundle\Entity\Customer $subbook
-    */
+     * Remove subbook
+     *
+     * @param \AppBundle\Entity\Customer $subbook
+     */
     public function removeSubbook(\AppBundle\Entity\Customer $subbook)
     {
         $this->subbooks->removeElement($subbook);
     }
 
     /**
-    * Get subbooks
-    *
-    * @return \Doctrine\Common\Collections\Collection
-    */
+     * Get subbooks
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
     public function getSubbooks()
     {
         return $this->subbooks;
     }
 
     /**
-    * Get subbooks
-    *
-    * @return \Doctrine\Common\Collections\Collection
-    */
+     * Get subbooks
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
     public function getChargedSubbooks()
     {
         $subs = array();
@@ -1068,10 +1085,10 @@ class Book
     }
 
     /**
-    * Get subbooks
-    *
-    * @return Subbook
-    */
+     * Get subbooks
+     *
+     * @return Subbook
+     */
     public function getLastSubbook()
     {
         $res = NULL;
@@ -1082,22 +1099,22 @@ class Book
     }
 
     /**
-    * Get fullid
-    *
-    * @return integer
-    */
+     * Get fullid
+     *
+     * @return integer
+     */
     public function getFullid()
     {
         return $this->id . " - " . count($this->subbooks);
     }
 
     /**
-    * Set airport
-    *
-    * @param \AppBundle\Entity\Airport $airport
-    *
-    * @return Book
-    */
+     * Set airport
+     *
+     * @param \AppBundle\Entity\Airport $airport
+     *
+     * @return Book
+     */
     public function setAirport(\AppBundle\Entity\Airport $airport = null)
     {
         $this->airport = $airport;
@@ -1106,10 +1123,10 @@ class Book
     }
 
     /**
-    * Get airport
-    *
-    * @return \AppBundle\Entity\Airport
-    */
+     * Get airport
+     *
+     * @return \AppBundle\Entity\Airport
+     */
     public function getAirport()
     {
         return $this->airport;
@@ -1138,54 +1155,6 @@ class Book
     public function getflighttransit()
     {
         return $this->flighttransit;
-    }
-
-    /**
-     * Set flightOaci
-     *
-     * @param string $flightOaci
-     *
-     * @return Book
-     */
-    public function setFlightOaci($flightOaci)
-    {
-        $this->flight_oaci = $flightOaci;
-
-        return $this;
-    }
-
-    /**
-     * Get flightOaci
-     *
-     * @return string
-     */
-    public function getFlightOaci()
-    {
-        return $this->flight_oaci;
-    }
-
-    /**
-     * Set flighttransitOaci
-     *
-     * @param string $flighttransitOaci
-     *
-     * @return Book
-     */
-    public function setFlighttransitOaci($flighttransitOaci)
-    {
-        $this->flighttransit_oaci = $flighttransitOaci;
-
-        return $this;
-    }
-
-    /**
-     * Get flighttransitOaci
-     *
-     * @return string
-     */
-    public function getFlighttransitOaci()
-    {
-        return $this->flighttransit_oaci;
     }
 
     /**

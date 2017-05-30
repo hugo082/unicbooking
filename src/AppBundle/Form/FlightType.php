@@ -12,6 +12,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 use Doctrine\ORM\EntityRepository;
+use AppBundle\Entity\Flight;
 
 class FlightType extends AbstractType
 {
@@ -21,50 +22,8 @@ class FlightType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-        ->add('number', TextType::class, array(
-            'label' => 'book.flight.number'
-        ))
-        ->add('type', ChoiceType::class, array(
-            'choices'  => array(
-                'book.form.dep' => 'DEP',
-                'book.form.arr' => 'ARR'
-            ),
-            'placeholder' => 'book.form.select.placeholder',
-            'label' => 'book.form.rqserv'
-        ))
-        ->add('deptime', TimeType::class, array(
-            'label' => "Departure time",
-            'widget' => 'single_text',
-            //'input' => 'string'
-        ))
-        ->add('arrtime', TimeType::class, array(
-            'label' => "Arrival time",
-            'widget' => 'single_text',
-            //'input' => 'string'
-        ))
-        ->add('depair', EntityType::class, array(
-            'class' => 'AppBundle:Airport',
-            'placeholder' => 'book.form.select.placeholder',
-            'choice_label' => function ($p) {return $p->getFullName();},
-            'label' => 'Departure airport'
-        ))
-        ->add('arrair', EntityType::class, array(
-            'class' => 'AppBundle:Airport',
-            'placeholder' => 'book.form.select.placeholder',
-            'choice_label' => function ($p) {return $p->getFullName();},
-            'label' => 'Arrival airport'
-        ))
-        ->add('compagny', EntityType::class, array(
-            'class' => 'AppBundle:Compagny',
-            'placeholder' => 'book.form.select.placeholder',
-            'choice_label' => function ($p) {return $p->getFullName();},
-            'label' => 'Airline',
-            'required' => false,
-            'query_builder' => function (EntityRepository $er) {
-                return $er->createQueryBuilder('e')
-                ->where('e.removed = :rm')
-                ->setParameter('rm', false );
-            }
+        ->add('codes', InternationalCodesType::class, array(
+            'precision' => InternationalCodesType::PERCISION_NUMBER
         ));
     }
 
@@ -74,7 +33,7 @@ class FlightType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\Flight'
+            'data_class' => Flight::class
         ));
     }
 

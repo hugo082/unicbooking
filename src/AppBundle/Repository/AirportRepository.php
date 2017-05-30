@@ -23,15 +23,15 @@ class AirportRepository extends \Doctrine\ORM\EntityRepository
         ->getResult();
     }
 
-    public function getWithCodeOACI($code_oaci) {
+    public function getWithCodeIcao($icaocode) {
         $qb = $this->createQueryBuilder('e');
 
         $qb
             ->select('e')
             ->where('e.removed = :rm')
             ->setParameter('rm', false )
-            ->andWhere('e.code_oaci = :oacicode')
-            ->setParameter('oacicode', $code_oaci )
+            ->andWhere('e.codes.icao = :icaocode')
+            ->setParameter('icaocode', $icaocode )
         ;
 
         return $qb

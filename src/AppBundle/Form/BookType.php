@@ -50,8 +50,8 @@ class BookType extends AbstractType
         ->add('agentfirstname', TextType::class, array(
             'label' => "agent.fname"
         ))
-        ->add('flight_oaci', TextType::class, array(
-        'label' => 'book.form.flight_number'
+        ->add('flight', FlightType::class, array(
+            'label' => 'book.form.flight_number'
         ))
         ->add('date', DateType::class, array(
             'label' => 'book.form.date',
@@ -82,7 +82,7 @@ class BookType extends AbstractType
             ->andwhere('p.removed = :rm')
             ->setParameter('rm', false );
         }))
-        ->add('flight_transit_oaci', TextType::class, array(
+        ->add('flighttransit', FlightType::class, array(
             'label' => 'book.form.flight_number_transit',
             'required' => false
         ))

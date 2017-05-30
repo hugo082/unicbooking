@@ -36,32 +36,30 @@ class Airport
     private $name;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="code_aita", type="string", length=255, unique=true)
+     * ICAO and IATA Codes
+     * @var InternationalCodes
+     * @ORM\Embedded(class="AppBundle\Entity\InternationalCodes", columnPrefix="codes_")
      */
-    private $code_aita;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="code_oaci", type="string", length=255, unique=true)
-     */
-    private $code_oaci;
+    private $codes;
 
     /**
      * @var boolean
      *
      * @ORM\Column(name="selectable", type="boolean")
-    */
+     */
     private $selectable;
 
     /**
-    * @var Compagny
-    * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Compagny")
-    * @ORM\JoinColumn(nullable=true)
-    */
+     * @var Compagny
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Compagny")
+     * @ORM\JoinColumn(nullable=true)
+     */
     private $compagny;
+
+    public function __construct()
+    {
+        $this->codes = new InternationalCodes();
+    }
 
     /**
      * Get id
@@ -104,7 +102,7 @@ class Airport
      */
     public function getFullName()
     {
-        return $this->code_aita . " - " . $this->name;
+        return $this->codes->getCode() . " - " . $this->name;
     }
 
     /**
@@ -180,63 +178,18 @@ class Airport
     }
 
     /**
-     * Set codeAita
-     *
-     * @param string $codeAita
-     *
-     * @return Airport
+     * @return InternationalCodes
      */
-    public function setCodeAita($codeAita)
+    public function getCodes(): ?InternationalCodes
     {
-        $this->code_aita = $codeAita;
-
-        return $this;
+        return $this->codes;
     }
 
     /**
-     * Get codeAita
-     *
-     * @return string
+     * @param InternationalCodes $codes
      */
-    public function getCodeAita()
+    public function setCodes(InternationalCodes $codes)
     {
-        return $this->code_aita;
-    }
-
-    /**
-     * Set codeOaci
-     *
-     * @param string $codeOaci
-     *
-     * @return Airport
-     */
-    public function setCodeOaci($codeOaci)
-    {
-        $this->code_oaci = $codeOaci;
-
-        return $this;
-    }
-
-    /**
-     * Get codeOaci
-     *
-     * @return string
-     */
-    public function getCodeOaci()
-    {
-        return $this->code_oaci;
-    }
-
-    /**
-     * Get code
-     *
-     * @return string
-     */
-    public function getCode()
-    {
-        if ($this->code_oaci != $this->code_aita)
-            return $this->code_aita;
-        else
-            return $this->code_oaci;
+        $this->codes = $codes;
     }
 }

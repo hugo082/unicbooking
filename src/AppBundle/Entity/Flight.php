@@ -5,95 +5,79 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
-* Flight
-*
-* @ORM\Table(name="flight")
-* @ORM\Entity(repositoryClass="AppBundle\Repository\FlightRepository")
-*/
+ * Flight
+ *
+ * @ORM\Table(name="flight")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\FlightRepository")
+ */
 class Flight
 {
     /**
-    * @var int
-    *
-    * @ORM\Column(name="id", type="integer")
-    * @ORM\Id
-    * @ORM\GeneratedValue(strategy="AUTO")
-    */
+     * @ORM\Id
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
     private $id;
 
     /**
-     * @var boolean
-     *
-     * @ORM\Column(name="removed", type="boolean")
+     * ICAO and IATA Codes
+     * @var InternationalCodes
+     * @ORM\Embedded(class="AppBundle\Entity\InternationalCodes", columnPrefix="codes_")
      */
-    private $removed = false;
+    private $codes;
 
     /**
-    * @var string
-    *
-    * @ORM\Column(name="number", type="string", length=255)
-    */
-    private $number;
-
-    /**
-    * @var string
-    *
-    * @ORM\Column(name="type", type="string", length=255)
-    */
+     * @var string
+     *
+     * @ORM\Column(name="type", type="string", length=255)
+     */
     private $type;
 
     /**
-    * @var \DateTime
-    *
-    * @ORM\Column(name="deptime", type="time")
-    */
+     * @var \DateTime
+     *
+     * @ORM\Column(name="deptime", type="time")
+     */
     private $deptime;
 
     /**
-    * @var \DateTime
-    *
-    * @ORM\Column(name="arrtime", type="time")
-    */
+     * @var \DateTime
+     *
+     * @ORM\Column(name="arrtime", type="time")
+     */
     private $arrtime;
 
     /**
-    * @var Airport
-    * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Airport", cascade={"persist"})
-    * @ORM\JoinColumn(nullable=false)
-    */
+     * @var Airport
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Airport", cascade={"persist"})
+     */
     private $depair;
 
     /**
-    * @var Airport
-    * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Airport", cascade={"persist"})
-    * @ORM\JoinColumn(nullable=false)
-    */
+     * @var Airport
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Airport", cascade={"persist"})
+     */
     private $arrair;
 
     /**
-    * @var Compagny
-    * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Compagny")
-    * @ORM\JoinColumn(nullable=true)
-    */
+     * @var Compagny
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Compagny")
+     * @ORM\JoinColumn(nullable=true)
+     */
     private $compagny;
 
-    /**
-    * Get id
-    *
-    * @return int
-    */
-    public function getId()
+    public function __construct()
     {
-        return $this->id;
+        $this->codes = new InternationalCodes();
     }
 
     /**
-    * Set type
-    *
-    * @param string $type
-    *
-    * @return Flight
-    */
+     * Set type
+     *
+     * @param string $type
+     *
+     * @return Flight
+     */
     public function setType($type)
     {
         $this->type = $type;
@@ -102,30 +86,30 @@ class Flight
     }
 
     /**
-    * Get type
-    *
-    * @return string
-    */
+     * Get type
+     *
+     * @return string
+     */
     public function getType()
     {
         return $this->type;
     }
 
     /**
-    * Get type
-    *
-    * @return string
-    */
+     * Get type
+     *
+     * @return string
+     */
     public function getFullType()
     {
         return ($this->type == "ARR") ? 'book.form.arr' : 'book.form.dep';
     }
 
     /**
-    * Get type
-    *
-    * @return string
-    */
+     * Get type
+     *
+     * @return string
+     */
     public function getSelectionType() // NOT USED
     {
         return ($this->type == "ARR") ?
@@ -134,12 +118,12 @@ class Flight
     }
 
     /**
-    * Set deptime
-    *
-    * @param \DateTime $deptime
-    *
-    * @return Flight
-    */
+     * Set deptime
+     *
+     * @param \DateTime $deptime
+     *
+     * @return Flight
+     */
     public function setDeptime($deptime)
     {
         $this->deptime = $this->convertToDateTime($deptime);
@@ -148,22 +132,22 @@ class Flight
     }
 
     /**
-    * Get deptime
-    *
-    * @return \DateTime
-    */
+     * Get deptime
+     *
+     * @return \DateTime
+     */
     public function getDeptime()
     {
         return $this->deptime;
     }
 
     /**
-    * Set arrtime
-    *
-    * @param \DateTime $arrtime
-    *
-    * @return Flight
-    */
+     * Set arrtime
+     *
+     * @param \DateTime $arrtime
+     *
+     * @return Flight
+     */
     public function setArrtime($arrtime)
     {
         $this->arrtime = $this->convertToDateTime($arrtime);
@@ -171,10 +155,10 @@ class Flight
     }
 
     /**
-    * Get arrtime
-    *
-    * @return \DateTime
-    */
+     * Get arrtime
+     *
+     * @return \DateTime
+     */
     public function getArrtime()
     {
         return $this->arrtime;
@@ -187,20 +171,19 @@ class Flight
         if (is_int($value)) {
             $date = new \DateTime();
             $date->setTimestamp($value);
-            echo "Int Convertion : " . date("d-m-Y H:i:s", $value) . " - " . $date->format('d-m-Y H:i:s') . "<br>";
             return $date;
         }
         return $value;
     }
 
     /**
-    * Set compagny
-    *
-    * @param \AppBundle\Entity\Compagny $compagny
-    *
-    * @return Flight
-    */
-    public function setCompagny(\AppBundle\Entity\Compagny $compagny = null)
+     * Set compagny
+     *
+     * @param Compagny $compagny
+     *
+     * @return Flight
+     */
+    public function setCompagny(Compagny $compagny = null)
     {
         $this->compagny = $compagny;
 
@@ -208,23 +191,23 @@ class Flight
     }
 
     /**
-    * Get compagny
-    *
-    * @return \AppBundle\Entity\Compagny
-    */
+     * Get compagny
+     *
+     * @return Compagny
+     */
     public function getCompagny()
     {
         return $this->compagny;
     }
 
     /**
-    * Set depair
-    *
-    * @param \AppBundle\Entity\Airport $depair
-    *
-    * @return Flight
-    */
-    public function setDepair(\AppBundle\Entity\Airport $depair)
+     * Set depair
+     *
+     * @param Airport $depair
+     *
+     * @return Flight
+     */
+    public function setDepair(Airport $depair)
     {
         $this->depair = $depair;
 
@@ -232,23 +215,23 @@ class Flight
     }
 
     /**
-    * Get depair
-    *
-    * @return \AppBundle\Entity\Airport
-    */
+     * Get depair
+     *
+     * @return \AppBundle\Entity\Airport
+     */
     public function getDepair()
     {
         return $this->depair;
     }
 
     /**
-    * Set arrair
-    *
-    * @param \AppBundle\Entity\Airport $arrair
-    *
-    * @return Flight
-    */
-    public function setArrair(\AppBundle\Entity\Airport $arrair)
+     * Set arrair
+     *
+     * @param Airport $arrair
+     *
+     * @return Flight
+     */
+    public function setArrair(Airport $arrair)
     {
         $this->arrair = $arrair;
 
@@ -256,60 +239,36 @@ class Flight
     }
 
     /**
-    * Get arrair
-    *
-    * @return \AppBundle\Entity\Airport
-    */
+     * Get arrair
+     *
+     * @return \AppBundle\Entity\Airport
+     */
     public function getArrair()
     {
         return $this->arrair;
     }
 
     /**
-    * Set number
-    *
-    * @param string $number
-    *
-    * @return Flight
-    */
-    public function setNumber($number)
-    {
-        $this->number = $number;
-
-        return $this;
-    }
-
-    /**
-    * Get number
-    *
-    * @return string
-    */
-    public function getNumber()
-    {
-        return $this->number;
-    }
-
-    /**
-    * Get destination
-    *
-    * @return string
-    */
+     * Get destination
+     *
+     * @return string
+     */
     public function getDestination()
     {
-        return $this->depair->getCode() . " → " . $this->arrair->getCode();
+        return $this->depair->getCodes()->getCode() . " → " . $this->arrair->getCodes()->getCode();
     }
 
     /**
-    * Get destination with time
-    *
-    * @return string
-    */
+     * Get destination with time
+     *
+     * @return string
+     */
     public function getDestinationWithTime()
     {
         if ($this->type == "ARR") {
-            return $this->number. " " . $this->depair->getCode() . " → " . $this->arrair->getCode() . " (" . $this->arrtime->format('H:i') . ")";
+            return $this->codes->getCode(). " " . $this->depair->getCodes()->getCode() . " → " . $this->arrair->getCodes()->getCode() . " (" . $this->arrtime->format('H:i') . ")";
         }
-        return $this->number. " " . $this->depair->getCode() ." (" . $this->deptime->format('H:i') . ") → " . $this->arrair->getCode();
+        return $this->codes->getCode(). " " . $this->depair->getCodes()->getCode() ." (" . $this->deptime->format('H:i') . ") → " . $this->arrair->getCodes()->getCode();
     }
 
     /**
@@ -326,16 +285,16 @@ class Flight
     }
 
     /**
-    * Get Full Name
-    */
+     * Get Full Name
+     */
     public function getFullName()
     {
-        return $this->number. " " . $this->depair->getCode() ." (" . $this->deptime->format('H:i') . ") → " . $this->arrair->getCode() . " (" . $this->arrtime->format('H:i') . ")";
+        return $this->codes->getCode(). " " . $this->depair->getCodes()->getCode() ." (" . $this->deptime->format('H:i') . ") → " . $this->arrair->getCodes()->getCode() . " (" . $this->arrtime->format('H:i') . ")";
     }
 
     /**
-    * Get the main airport where the service takes place
-    */
+     * Get the main airport where the service takes place
+     */
     public function getMainAirport()
     {
         if ($this->type == "ARR") {
@@ -345,26 +304,18 @@ class Flight
     }
 
     /**
-     * Set removed
-     *
-     * @param boolean $removed
-     *
-     * @return Flight
+     * @return InternationalCodes
      */
-    public function setRemoved($removed)
+    public function getCodes(): ?InternationalCodes
     {
-        $this->removed = $removed;
-
-        return $this;
+        return $this->codes;
     }
 
     /**
-     * Get removed
-     *
-     * @return boolean
+     * @param InternationalCodes $codes
      */
-    public function getRemoved()
+    public function setCodes(InternationalCodes $codes)
     {
-        return $this->removed;
+        $this->codes = $codes;
     }
 }

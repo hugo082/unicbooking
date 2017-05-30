@@ -60,9 +60,9 @@ $( function() {
         }
     }
 
-    var flightChecker = new ApiChecker("#appbundle_book_flight_oaci");
+    var flightChecker = new ApiChecker("#appbundle_book_flight_codes_code");
     flightChecker.listen();
 
-    var transitChecker = new ApiChecker("#appbundle_book_flight_transit_oaci");
+    var transitChecker = new ApiChecker("#appbundle_book_flighttransit_codes_code");
     transitChecker.listen();
 });

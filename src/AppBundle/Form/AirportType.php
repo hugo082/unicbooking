@@ -2,6 +2,7 @@
 
 namespace AppBundle\Form;
 
+use AppBundle\Entity\Airport;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -23,12 +24,9 @@ class AirportType extends AbstractType
         ->add('name', TextType::class, array(
             'label' => 'Name'
         ))
-        ->add('code_aita', TextType::class, array(
-            'label' => 'Code AITA'
+        ->add('codes', InternationalCodesType::class, array(
+            "precision" => InternationalCodesType::PRECISION_FULL
         ))
-            ->add('code_oaci', TextType::class, array(
-                'label' => 'Code OACI'
-            ))
         ->add('selectable', CheckboxType::class, array(
             'label' => 'Supported (Possibility of servicing this airport)',
             'required' => false
@@ -53,7 +51,8 @@ class AirportType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\Airport'
+            'data_class' => Airport::class,
+            'master_class' => Airport::class
         ));
     }
 

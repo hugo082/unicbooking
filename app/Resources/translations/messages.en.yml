@@ -5,6 +5,11 @@ remove: Remove
 price: Price
 total: Total
 
+codes:
+    icao: ICAO Code
+    iata: IATA Code
+    all: Code
+
 header:
     title: Worldwide Airports
 
@@ -85,8 +90,8 @@ book:
         dep: Departure
         arr: Arrival
         trans: Transit
-        flight_number: OACI Flight Code
-        flight_number_transit: OACI Transit Flight Code
+        flight_number: Flight Code
+        flight_number_transit: Transit Flight Code
         flight: Flight
         flight_transit: Transit flight
         timepu: Time PU

@@ -72,10 +72,10 @@ table {
     </h2>
     <div class="input-group row col-md-12 col-sm-12 col-xs-12 col-lg-12">
         <div class="col-lg-2 col-md-3 col-sm-4">
-            {{ form_label(form.flight_oaci) }}
+            {{ form_label(form.flight) }}
             <span class=req-indicator>*</span>
-            {{ form_errors(form.flight_oaci) }}
-            {{ form_widget(form.flight_oaci) }}
+            {{ form_errors(form.flight.codes.code) }}
+            {{ form_widget(form.flight.codes.code) }}
         </div>
         <!-- Modal -->
         <div id="flightOaciModal" class="modal fade" role="dialog">
@@ -134,10 +134,10 @@ table {
             <span class="glyphicon glyphicon-info-sign"></span>
         </button>
         <div id="flight_transit_bloc" class="col-lg-2 col-md-3 col-sm-4">
-            {{ form_label(form.flight_transit_oaci) }}
+            {{ form_label(form.flighttransit) }}
             <span class=req-indicator>*</span>
-            {{ form_errors(form.flight_transit_oaci) }}
-            {{ form_widget(form.flight_transit_oaci) }}
+            {{ form_errors(form.flighttransit.codes.code) }}
+            {{ form_widget(form.flighttransit.codes.code) }}
         </div>
         <!-- Modal -->
         <div id="infoModal" class="modal fade" role="dialog">
