@@ -15,7 +15,7 @@ class Book
 {
     /**
     * @ORM\Id
-    * @ORM\Column(type="string")
+     * @ORM\Column(name="id", type="integer")
     * @ORM\GeneratedValue(strategy="CUSTOM")
     * @ORM\CustomIdGenerator(class="AppBundle\Doctrine\IdGenerator")
     */
