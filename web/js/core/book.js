@@ -51,9 +51,6 @@ function updateFlightTransitVisibility(updateChoice){
             updateFlightTransitSelection();
     }
 }
-function updateFlightTransitSelection() {
-    $("#appbundle_book_flighttransit").val('');
-}
 function updateAddressVisibily(){
     var trspt = $('select#appbundle_book_product option:selected').attr('trspt');
     var cval = $("select#appbundle_book_service").val();

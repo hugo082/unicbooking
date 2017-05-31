@@ -84,7 +84,8 @@ class BookType extends AbstractType
                 }))
 
             ->add('flighttransit', FlightType::class, array(
-                'label' => 'book.form.flight_number_transit'
+                'label' => 'book.form.flight_number_transit',
+                'required' => false
             ))
             ->add('bags', ChoiceType::class, array(
                 'label' => 'book.form.bags',

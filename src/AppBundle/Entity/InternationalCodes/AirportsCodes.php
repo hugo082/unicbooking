@@ -11,7 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class AirportsCodes extends InternationalCodes
 {
-    protected const CODES_FILE = "Data/airportsCodes.min.json";
-    public const IATA_CODE_LEN = 3;
-    public const ICAO_CODE_LEN = 4;
+    const CODES_FILE = "Data/airportsCodes.min.json";
+    const IATA_CODE_LEN = 3;
+    const ICAO_CODE_LEN = 4;
 }

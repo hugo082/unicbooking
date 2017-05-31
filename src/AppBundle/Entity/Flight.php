@@ -73,7 +73,7 @@ class Flight
         $this->codes = new AirlinesCodes();
     }
 
-    public function encode(): array {
+    public function encode() {
         return array(
             "id" => $this->id,
             "codes" => $this->codes->encode(),
@@ -335,7 +335,7 @@ class Flight
     /**
      * @return AirlinesCodes
      */
-    public function getCodes(): ?AirlinesCodes
+    public function getCodes()
     {
         return $this->codes;
     }

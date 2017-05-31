@@ -11,13 +11,13 @@ class ApiException extends \Exception
      */
     protected $title;
 
-    public function __construct(string $title, string $message, int $code, Throwable $previous = null)
+    public function __construct($title, $message, $code, Throwable $previous = null)
     {
         parent::__construct($message, $code, $previous);
         $this->title = $title;
     }
 
-    public function encode(): array {
+    public function encode() {
         return array(
             "code" => $this->code,
             "title" => $this->title,

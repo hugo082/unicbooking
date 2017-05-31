@@ -62,7 +62,7 @@ class Airport
         $this->codes = new AirportsCodes();
     }
 
-    public function encode(): array {
+    public function encode() {
         return array(
             "codes" => $this->codes->encode(),
             "name" => $this->name
@@ -116,11 +116,11 @@ class Airport
     /**
      * Set compagny
      *
-     * @param \AppBundle\Entity\Compagny $compagny
+     * @param Compagny $compagny
      *
      * @return Airport
      */
-    public function setCompagny(\AppBundle\Entity\Compagny $compagny = null)
+    public function setCompagny(Compagny $compagny = null)
     {
         $this->compagny = $compagny;
 
@@ -130,7 +130,7 @@ class Airport
     /**
      * Get compagny
      *
-     * @return \AppBundle\Entity\Compagny
+     * @return Compagny
      */
     public function getCompagny()
     {
@@ -188,7 +188,7 @@ class Airport
     /**
      * @return AirportsCodes
      */
-    public function getCodes(): ?AirportsCodes
+    public function getCodes()
     {
         return $this->codes;
     }

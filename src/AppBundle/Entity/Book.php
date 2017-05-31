@@ -13,9 +13,9 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Book
 {
-    public const SERVICE_DEP = "DEP";
-    public const SERVICE_ARR = "ARR";
-    public const SERVICE_TRA = "TRA";
+    const SERVICE_DEP = "DEP";
+    const SERVICE_ARR = "ARR";
+    const SERVICE_TRA = "TRA";
 
     /**
      * @ORM\Id

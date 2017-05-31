@@ -12,9 +12,9 @@ use Symfony\Component\Config\Definition\Exception\Exception;
  */
 class AirlinesCodes extends InternationalCodes
 {
-    protected const CODES_FILE = "Data/airlinesCodes.min.json";
-    public const IATA_CODE_LEN = 2;
-    public const ICAO_CODE_LEN = 3;
+    const CODES_FILE = "Data/airlinesCodes.min.json";
+    const IATA_CODE_LEN = 2;
+    const ICAO_CODE_LEN = 3;
 
     /**
      * @var string
@@ -32,7 +32,7 @@ class AirlinesCodes extends InternationalCodes
         return $airline_code . $this->number;
     }
 
-    public function setCode($code, bool $force = false)
+    public function setCode($code, $force = false)
     {
         $len = (is_numeric($code{self::ICAO_CODE_LEN - 1})) ? self::IATA_CODE_LEN : self::ICAO_CODE_LEN;
         $this->number = substr($code, $len);
@@ -50,7 +50,7 @@ class AirlinesCodes extends InternationalCodes
     /**
      * @return string
      */
-    public function getNumber(): string
+    public function getNumber()
     {
         return $this->number;
     }
@@ -58,7 +58,7 @@ class AirlinesCodes extends InternationalCodes
     /**
      * @param string $number
      */
-    public function setNumber(string $number)
+    public function setNumber($number)
     {
         $this->number = $number;
     }

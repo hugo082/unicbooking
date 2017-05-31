@@ -15,8 +15,8 @@ use AppBundle\Entity\InternationalCodes\InternationalCodes;
 
 class InternationalCodesType extends AbstractType
 {
-    public const PRECISION_FULL = "prec_full";
-    public const PERCISION_NUMBER = "prec_num";
+    const PRECISION_FULL = "prec_full";
+    const PERCISION_NUMBER = "prec_num";
 
     /**
      * {@inheritdoc}

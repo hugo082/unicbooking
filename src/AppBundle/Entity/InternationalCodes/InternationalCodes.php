@@ -11,9 +11,9 @@ use Doctrine\ORM\Mapping as ORM;
  */
 abstract class InternationalCodes
 {
-    protected const CODES_FILE = null;
-    public const IATA_CODE_LEN = null;
-    public const ICAO_CODE_LEN = null;
+    const CODES_FILE = null;
+    const IATA_CODE_LEN = null;
+    const ICAO_CODE_LEN = null;
 
     /**
      * @var string
@@ -32,14 +32,14 @@ abstract class InternationalCodes
      */
     protected $_code = null;
 
-    protected function  computeCodes(bool $force = false) {
+    protected function  computeCodes($force = false) {
         if ($this->_code == null || $this->icao != null || !$force)
             return;
         $data = $this->getCodesData();
         $this->setCodes($data["content"]);
     }
 
-    public function encode(): array {
+    public function encode() {
         return array(
             "iata" => $this->iata,
             "icao" => $this->icao
@@ -74,7 +74,7 @@ abstract class InternationalCodes
      * @param string $icao
      * @param bool $compute
      */
-    public function setIcao(string $icao, bool $compute = false)
+    public function setIcao($icao, $compute = false)
     {
         $this->icao = $icao;
         if ($compute) {
@@ -95,7 +95,7 @@ abstract class InternationalCodes
     /**
      * @param string $iata
      */
-    public function setIata(string $iata)
+    public function setIata($iata)
     {
         $this->iata = $iata;
     }
@@ -123,7 +123,7 @@ abstract class InternationalCodes
         return false;
     }
 
-    private function searhCodesInValues(array $data, string $key = "icao") {
+    private function searhCodesInValues(array $data, $key = "icao") {
         if ($key == "icao" && strlen($this->_code) != static::ICAO_CODE_LEN)
             return false;
         foreach ($data as $_key => $codes_array) {
