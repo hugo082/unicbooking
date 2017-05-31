@@ -2,16 +2,11 @@
 
 namespace AppBundle\Form;
 
+use AppBundle\Entity\InternationalCodes\AirlinesCodes;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Symfony\Component\Form\Extension\Core\Type\TimeType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-
-use Doctrine\ORM\EntityRepository;
 use AppBundle\Entity\Flight;
 
 class FlightType extends AbstractType
@@ -23,6 +18,7 @@ class FlightType extends AbstractType
     {
         $builder
         ->add('codes', InternationalCodesType::class, array(
+            'data_class' => AirlinesCodes::class,
             'precision' => InternationalCodesType::PERCISION_NUMBER
         ));
     }

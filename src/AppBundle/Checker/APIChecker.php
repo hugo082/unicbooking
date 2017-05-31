@@ -98,19 +98,18 @@ class APIChecker
      * @return Flight|array
      */
     private function loadFlightWithApi(Flight $flightEntity){
-        $result = $this->client->FlightInfo(array("ident" => $flightEntity->getCodes()->getIcao(), "howMany" => 1, "offset" => 0));
+        $result = $this->client->FlightInfo(array("ident" => $flightEntity->getCodes()->getFullIcao(), "howMany" => 1, "offset" => 0));
         if ($result instanceof \SoapFault)
-            return $this->flightNotFound($flightEntity->getCodes()->getIcao());
+            return $this->flightNotFound($flightEntity->getCodes()->getFullIcao());
         $flight = $result->FlightInfoResult->flights;
         if (empty($flight->origin))
-            return $this->flightNotFound($flightEntity->getCodes()->getIcao());
+            return $this->flightNotFound($flightEntity->getCodes()->getFullIcao());
         if (!$oAirport = $this->getAirportWithIcao($flight->origin))
             return $this->airportNotFound($flight->origin);
         if (!$dAirport = $this->getAirportWithIcao($flight->destination))
             return $this->airportNotFound($flight->destination);
         $flightEntity->setDepair($oAirport);
         $flightEntity->setArrair($dAirport);
-        $flightEntity->getCodes()->setIcao($flight->ident);
         $flightEntity->setCompagny(null);
         $flightEntity->setArrtime($flight->estimatedarrivaltime);
         $flightEntity->setDeptime($flight->filed_departuretime);
@@ -142,8 +141,7 @@ class APIChecker
             return null;
         $airportEntity = new Airport();
         $airportEntity->setName($airport->AirportInfoResult->name);
-        $airportEntity->getCodes()->setIcao($icao_code);
-        $airportEntity->getCodes()->setIata($icao_code);
+        $airportEntity->getCodes()->setIcao($icao_code, true);
         $airportEntity->setRemoved(false);
         $airportEntity->setSelectable(false);
         $airportEntity->setCompagny(null);

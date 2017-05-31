@@ -3,6 +3,7 @@
 namespace AppBundle\Form;
 
 use AppBundle\Entity\Airport;
+use AppBundle\Entity\InternationalCodes\AirlinesCodes;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -25,6 +26,7 @@ class AirportType extends AbstractType
             'label' => 'Name'
         ))
         ->add('codes', InternationalCodesType::class, array(
+            'data_class' => AirlinesCodes::class,
             "precision" => InternationalCodesType::PRECISION_FULL
         ))
         ->add('selectable', CheckboxType::class, array(

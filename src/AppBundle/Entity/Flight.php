@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use AppBundle\Entity\InternationalCodes\AirlinesCodes;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -21,8 +22,8 @@ class Flight
 
     /**
      * ICAO and IATA Codes
-     * @var InternationalCodes
-     * @ORM\Embedded(class="AppBundle\Entity\InternationalCodes", columnPrefix="codes_")
+     * @var AirlinesCodes
+     * @ORM\Embedded(class="AppBundle\Entity\InternationalCodes\AirlinesCodes", columnPrefix="codes_")
      */
     private $codes;
 
@@ -68,7 +69,7 @@ class Flight
 
     public function __construct()
     {
-        $this->codes = new InternationalCodes();
+        $this->codes = new AirlinesCodes();
     }
 
     /**
@@ -304,17 +305,17 @@ class Flight
     }
 
     /**
-     * @return InternationalCodes
+     * @return AirlinesCodes
      */
-    public function getCodes(): ?InternationalCodes
+    public function getCodes(): ?AirlinesCodes
     {
         return $this->codes;
     }
 
     /**
-     * @param InternationalCodes $codes
+     * @param AirlinesCodes $codes
      */
-    public function setCodes(InternationalCodes $codes)
+    public function setCodes(AirlinesCodes $codes)
     {
         $this->codes = $codes;
     }

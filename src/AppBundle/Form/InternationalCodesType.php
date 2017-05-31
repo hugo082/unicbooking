@@ -11,7 +11,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 
-use AppBundle\Entity\InternationalCodes;
+use AppBundle\Entity\InternationalCodes\InternationalCodes;
 
 class InternationalCodesType extends AbstractType
 {
@@ -46,9 +46,7 @@ class InternationalCodesType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
-            'data_class' => InternationalCodes::class
-        ));
+        $resolver->setRequired('data_class');
         $resolver->setRequired('precision');
         $resolver->addAllowedValues('precision', array(self::PERCISION_NUMBER, self::PRECISION_FULL));
     }
