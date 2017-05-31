@@ -2,13 +2,11 @@
 
 namespace AppBundle\Controller;
 
-use AppBundle\AppBundle;
+use AppBundle\Exception\Api\ApiException;
+use AppBundle\Repository\SubBookRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
 use AppBundle\Entity\Book;
 use AppBundle\Entity\SubBook;
@@ -16,14 +14,15 @@ use AppBundle\Form\BookType;
 use AppBundle\Form\BookEmployeeType;
 use AppBundle\Form\BookValidationType;
 
-use AppBundle\Checker\BookManager as BookChecker;
 use AppBundle\Checker\APIChecker;
 
 class BookController extends Controller
 {
     /**
-    * @Route("/booknow", name="booknow")
-    */
+     * @Route("/booknow", name="booknow")
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     */
     public function booknowAction(Request $request)
     {
         $user = $this->getUser();
@@ -35,17 +34,17 @@ class BookController extends Controller
             $book->setUser($user);
             $book->updatePrice();
             $book->setCustomersParent();
-            $cus = $book->getCustomers();
 
             /** @var APIChecker $apiChecker */
             $apiChecker = $this->get('app.checker.api');
-            $result = $apiChecker->processBook($book);
-            $this->computeFlash($result);
-            if ($result["success"]) {
+            try {
+                $apiChecker->processBook($book);
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($book);
                 $em->flush();
                 return $this->redirectToRoute('book.enabled', array('id' => $book->getid()));
+            } catch (ApiException $e) {
+                $this->exceptionAsFlash($e);
             }
         }
 
@@ -55,12 +54,16 @@ class BookController extends Controller
     }
 
     /**
-    * @Route("/book/edit/{id}", requirements={"id" = "[0-9a-fA-F]+"}, name="book.edit")
-    */
+     * @Route("/book/edit/{id}", requirements={"id" = "[0-9a-fA-F]+"}, name="book.edit")
+     * @param Request $request
+     * @param $id
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     */
     public function editAction(Request $request, $id)
     {
-        $book = $this->getDoctrine()->getRepository('AppBundle:Book')->findOneByid($id);
-        $bc = $this->get('app.checker.book')->edit($book, $id);
+        /** @var Book $book */
+        $book = $this->getDoctrine()->getRepository('AppBundle:Book')->find($id);
+        $this->get('app.checker.book')->edit($book, $id);
 
         $form = $this->createForm(BookType::class, $book);
         $form->handleRequest($request);
@@ -70,9 +73,8 @@ class BookController extends Controller
 
             /** @var APIChecker $apiChecker */
             $apiChecker = $this->get('app.checker.api');
-            $result = $apiChecker->processBook($book);
-            $this->computeFlash($result);
-            if ($result["success"]) {
+            try {
+                $apiChecker->processBook($book);
                 $em = $this->getDoctrine()->getManager();
                 $uow = $em->getUnitOfWork();
                 $uow->computeChangeSets();
@@ -83,6 +85,8 @@ class BookController extends Controller
                 $em->persist($book);
                 $em->flush();
                 return $this->redirectToRoute('show', array('id' => $book->getid()));
+            } catch (ApiException $e) {
+                $this->exceptionAsFlash($e);
             }
         }
 
@@ -92,13 +96,18 @@ class BookController extends Controller
     }
 
     /**
-    * @Route("/show/{id}", requirements={"id" = "[0-9a-fA-F]+"}, name="show")
-    */
+     * @Route("/show/{id}", requirements={"id" = "[0-9a-fA-F]+"}, name="show")
+     * @param Request $request
+     * @param $id
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
     public function showAction(Request $request, $id)
     {
-        $book = $this->getDoctrine()->getRepository('AppBundle:Book')->findOneByid($id);
-        $bc = $this->get('app.checker.book')->show($book, $id);
+        /** @var Book $book */
+        $book = $this->getDoctrine()->getRepository('AppBundle:Book')->find($id);
+        $this->get('app.checker.book')->show($book, $id);
 
+        /** @var SubBookRepository $subrepo */
         $subrepo = $this->getDoctrine()->getRepository('AppBundle:SubBook');
         $subbook = $subrepo->getLastEdit($book);
         $activeSubbooks = $subrepo->getAll($book);
@@ -120,12 +129,16 @@ class BookController extends Controller
     }
 
     /**
-    * @Route("/book/enabled/{id}", requirements={"id" = "[0-9a-fA-F]+"}, name="book.enabled")
-    */
+     * @Route("/book/enabled/{id}", requirements={"id" = "[0-9a-fA-F]+"}, name="book.enabled")
+     * @param Request $request
+     * @param $id
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     */
     public function enabledAction(Request $request, $id)
     {
-        $book = $this->getDoctrine()->getRepository('AppBundle:Book')->findOneByid($id);
-        $bc = $this->get('app.checker.book')->enabled($book, $id);
+        /** @var Book $book */
+        $book = $this->getDoctrine()->getRepository('AppBundle:Book')->find($id);
+        $this->get('app.checker.book')->enabled($book, $id);
 
         $form = $this->createForm(BookValidationType::class, $book);
         $form->handleRequest($request);
@@ -144,9 +157,7 @@ class BookController extends Controller
         ));
     }
 
-    private function computeFlash(array $data) {
-        if (!key_exists("flash", $data))
-            return;
-        $this->addFlash($data["flash"]["type"], $data["flash"]["msg"]);
+    private function exceptionAsFlash(ApiException $exception) {
+        $this->addFlash("danger", $exception->getMessage());
     }
 }

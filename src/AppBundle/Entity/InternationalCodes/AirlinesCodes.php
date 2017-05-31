@@ -32,12 +32,12 @@ class AirlinesCodes extends InternationalCodes
         return $airline_code . $this->number;
     }
 
-    public function setCode($code)
+    public function setCode($code, bool $force = false)
     {
         $len = (is_numeric($code{self::ICAO_CODE_LEN - 1})) ? self::IATA_CODE_LEN : self::ICAO_CODE_LEN;
         $this->number = substr($code, $len);
         $airline_code = substr($code, 0, $len);
-        if ($airline_code != $this->_code) {
+        if ($airline_code != $this->_code || $force) {
             $this->_code = $airline_code;
             $this->computeCodes(true);
         }

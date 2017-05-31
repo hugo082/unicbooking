@@ -14,6 +14,7 @@ use Doctrine\ORM\Mapping as ORM;
 class Flight
 {
     /**
+     * @var integer
      * @ORM\Id
      * @ORM\Column(name="id", type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -30,7 +31,7 @@ class Flight
     /**
      * @var string
      *
-     * @ORM\Column(name="type", type="string", length=255)
+     * @ORM\Column(name="type", type="string", length=255, nullable=true)
      */
     private $type;
 
@@ -70,6 +71,32 @@ class Flight
     public function __construct()
     {
         $this->codes = new AirlinesCodes();
+    }
+
+    public function encode(): array {
+        return array(
+            "id" => $this->id,
+            "codes" => $this->codes->encode(),
+            "type" => $this->type,
+            "origin_time" => $this->deptime->getTimestamp(),
+            "origin" => $this->depair->encode(),
+            "destination_time" => $this->arrtime->getTimestamp(),
+            "destination" => $this->arrair->encode()
+        );
+    }
+
+    /**
+     * @return integer
+     */
+    public function getId() {
+        return $this->id;
+    }
+
+    /**
+     * @param $id
+     */
+    public function setId($id) {
+        $this->id = $id;
     }
 
     /**
@@ -295,6 +322,7 @@ class Flight
 
     /**
      * Get the main airport where the service takes place
+     * @return Airport
      */
     public function getMainAirport()
     {

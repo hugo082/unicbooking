@@ -39,6 +39,13 @@ abstract class InternationalCodes
         $this->setCodes($data["content"]);
     }
 
+    public function encode(): array {
+        return array(
+            "iata" => $this->iata,
+            "icao" => $this->icao
+        );
+    }
+
     /**
      * Get iata by default, icao else.
      * @return string

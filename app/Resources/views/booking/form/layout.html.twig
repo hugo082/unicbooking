@@ -1,255 +1,251 @@
 {% extends 'booking/layout.html.twig' %}
 
 {% block stylesheets %}
-{{parent()}}
-<link rel="stylesheet" href="{{ asset('bundles/booking/css/book.css') }}">
-<style media="screen">
-#content::before {
-    background: url("{{ asset('bundles/booking/img/24725242_l.jpg') }}") no-repeat 75% top;
-    background-size: cover;
-}
+    {{parent()}}
+    <link rel="stylesheet" href="{{ asset('bundles/booking/css/book.css') }}">
+    <style media="screen">
+        #content::before {
+            background: url("{{ asset('bundles/booking/img/24725242_l.jpg') }}") no-repeat 75% top;
+            background-size: cover;
+        }
 
-table {
-    font-size: 1em;
-}
+        table {
+            font-size: 1em;
+        }
 
-.ui-draggable, .ui-droppable {
-    background-position: top;
-}
-.req-indicator {
-    color: red;
-}
+        .ui-draggable, .ui-droppable {
+            background-position: top;
+        }
+        .req-indicator {
+            color: red;
+        }
 
-</style>
-<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-<link rel="stylesheet" href="{{ asset('bundles/booking/css/datetimepicker.min.css') }}">
-<link rel="stylesheet" href="{{ asset('bundles/booking/css/timepicker.min.css') }}">
+    </style>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="{{ asset('bundles/booking/css/datetimepicker.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('bundles/booking/css/timepicker.min.css') }}">
 {% endblock %}
 
 
 {% block headscripts %}
-{{parent()}}
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-<script src="{{ asset('bundles/booking/js/datetimepicker.min.js') }}"></script>
-<script src="{{ asset('bundles/booking/js/timepicker.min.js') }}"></script>
+    {{parent()}}
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="{{ asset('bundles/booking/js/datetimepicker.min.js') }}"></script>
+    <script src="{{ asset('bundles/booking/js/timepicker.min.js') }}"></script>
 {% endblock %}
 
 {% block content %}
-<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-{% form_theme form 'bootstrap_3_layout.html.twig' %}
-{% form_theme form.timepu 'form/form_div_layout.html.twig' %}
-{% form_theme form.date 'form/form_div_layout.html.twig' %}
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        {% form_theme form 'bootstrap_3_layout.html.twig' %}
+        {% form_theme form.timepu 'form/form_div_layout.html.twig' %}
+        {% form_theme form.date 'form/form_div_layout.html.twig' %}
 
-<!-- <form action="index.html" method="post"> -->
-{{ form_start(form) }}
-<div class="form-group">
-    <h2 class="title padd contentAnim" title="Select Service type for your booking">
-        <span>Booking Agent</span>
-    </h2>
-    <div class="input-group row col-md-12 col-sm-12 col-xs-12 col-lg-12">
-        <div class="col-md-4 col-sm-4 col-lg-4">
-            {{ form_label(form.agentemail) }}
-            <span class=req-indicator>*</span>
-            {{ form_errors(form.agentemail) }}
-            {{ form_widget(form.agentemail) }}
-        </div>
-        <div class="col-md-4 col-sm-4 col-lg-4">
-            {{ form_label(form.agentfirstname) }}
-            <span class=req-indicator>*</span>
-            {{ form_errors(form.agentfirstname) }}
-            {{ form_widget(form.agentfirstname) }}
-        </div>
-        <div class="col-md-4 col-sm-4 col-lg-4">
-            {{ form_label(form.agentlastname) }}
-            <span class=req-indicator>*</span>
-            {{ form_errors(form.agentlastname) }}
-            {{ form_widget(form.agentlastname) }}
-        </div>
-    </div>
-    <h2 class="title padd contentAnim" title="Select Service type for your booking">
-        <strong>01.</strong>
-        <span> {{ 'book.title.service'|trans }}</span>
-    </h2>
-    <div class="input-group row col-md-12 col-sm-12 col-xs-12 col-lg-12">
-        <div class="col-lg-2 col-md-3 col-sm-4">
-            {{ form_label(form.flight) }}
-            <span class=req-indicator>*</span>
-            {{ form_errors(form.flight.codes.code) }}
-            {{ form_widget(form.flight.codes.code) }}
-        </div>
-        <!-- Modal -->
-        <div id="flightOaciModal" class="modal fade" role="dialog">
-            <div class="modal-dialog" style="min-height: 90%">
-                <!-- Modal content-->
-                <div class="modal-content" style="height: 100%">
-                    <div class="modal-header">
-                        <h4 class="modal-title">Flight Information</h4>
-                    </div>
-                    <div class="modal-body">
-                        <ul>
-                            <li id="flightOaciModal_origin"></li>
-                            <li id="flightOaciModal_departure_time"></li>
-                            <li id="flightOaciModal_destination"></li>
-                            <li id="flightOaciModal_arrival_time"></li>
-                        </ul>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" id="flightOaciModal_cancel" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                        <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
+        <!-- <form action="index.html" method="post"> -->
+        {{ form_start(form) }}
+        <div class="form-group">
+            <h2 class="title padd contentAnim" title="Select Service type for your booking">
+                <span>Booking Agent</span>
+            </h2>
+            <div class="input-group row col-md-12 col-sm-12 col-xs-12 col-lg-12">
+                <div class="col-md-4 col-sm-4 col-lg-4">
+                    {{ form_label(form.agentemail) }}
+                    <span class=req-indicator>*</span>
+                    {{ form_errors(form.agentemail) }}
+                    {{ form_widget(form.agentemail) }}
+                </div>
+                <div class="col-md-4 col-sm-4 col-lg-4">
+                    {{ form_label(form.agentfirstname) }}
+                    <span class=req-indicator>*</span>
+                    {{ form_errors(form.agentfirstname) }}
+                    {{ form_widget(form.agentfirstname) }}
+                </div>
+                <div class="col-md-4 col-sm-4 col-lg-4">
+                    {{ form_label(form.agentlastname) }}
+                    <span class=req-indicator>*</span>
+                    {{ form_errors(form.agentlastname) }}
+                    {{ form_widget(form.agentlastname) }}
+                </div>
+            </div>
+            <h2 class="title padd contentAnim" title="Select Service type for your booking">
+                <strong>01.</strong>
+                <span> {{ 'book.title.service'|trans }}</span>
+            </h2>
+            <div class="input-group row col-md-12 col-sm-12 col-xs-12 col-lg-12">
+                <div class="col-lg-2 col-md-3 col-sm-4">
+                    {{ form_label(form.flight) }}
+                    <span class=req-indicator>*</span>
+                    {{ form_errors(form.flight.codes.code) }}
+                    {{ form_widget(form.flight.codes.code) }}
+                    {{ form_widget(form.flight) }}
+                </div>
+                <!-- Modal -->
+                <div id="flightOaciModal" class="modal fade" role="dialog">
+                    <div class="modal-dialog" style="min-height: 90%">
+                        <!-- Modal content-->
+                        <div class="modal-content" style="height: 100%">
+                            <div class="modal-header">
+                                <h4 class="modal-title">Flight Information</h4>
+                            </div>
+                            <div class="modal-body">
+                                <ul>
+                                    <li id="flightOaciModal_origin"></li>
+                                    <li id="flightOaciModal_departure_time"></li>
+                                    <li id="flightOaciModal_destination"></li>
+                                    <li id="flightOaciModal_arrival_time"></li>
+                                </ul>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" id="flightOaciModal_cancel" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
-
+                <div class="col-md-4 col-sm-6 col-lg-4">
+                    {{ form_label(form.date) }}
+                    <span class=req-indicator>*</span>
+                    {{ form_errors(form.date) }}
+                    {{ form_widget(form.date) }}
+                </div>
             </div>
-        </div>
-        {#
-        <div class="col-md-4 col-sm-6 col-lg-4">
-            {{ form_label(form.airport) }}
-            <span class=req-indicator>*</span>
-            {{ form_errors(form.airport) }}
-            {{ form_widget(form.airport) }}
-        </div>
-        #}
-        <div class="col-md-4 col-sm-6 col-lg-4">
-            {{ form_label(form.date) }}
-            <span class=req-indicator>*</span>
-            {{ form_errors(form.date) }}
-            {{ form_widget(form.date) }}
-        </div>
-    </div>
-    <div class="input-group row col-md-12 col-sm-12 col-xs-12 col-lg-12" id="service">
-        <div class="col-lg-3 col-md-2 col-sm-3">
-            {{ form_label(form.service) }}
-            <span class=req-indicator>*</span>
-            {{ form_errors(form.service) }}
-            {{ form_widget(form.service) }}
-        </div>
-        <div class="col-lg-3 col-md-3 col-sm-4">
-            {{ form_label(form.product) }}
-            <span class=req-indicator>*</span>
-            <span>Additional pax (25€)</span>
-            {{ form_errors(form.product) }}
-            {{ form_widget(form.product) }}
-        </div>
-        <button type="button" class="info btn btn-primary" data-toggle="modal" data-target="#infoModal">
-            <span class="glyphicon glyphicon-info-sign"></span>
-        </button>
-        <div id="flight_transit_bloc" class="col-lg-2 col-md-3 col-sm-4">
-            {{ form_label(form.flighttransit) }}
-            <span class=req-indicator>*</span>
-            {{ form_errors(form.flighttransit.codes.code) }}
-            {{ form_widget(form.flighttransit.codes.code) }}
-        </div>
-        <!-- Modal -->
-        <div id="infoModal" class="modal fade" role="dialog">
-            <div class="modal-dialog" style="min-height: 90%">
+            <div class="input-group row col-md-12 col-sm-12 col-xs-12 col-lg-12" id="service">
+                <div class="col-lg-3 col-md-2 col-sm-3">
+                    {{ form_label(form.service) }}
+                    <span class=req-indicator>*</span>
+                    {{ form_errors(form.service) }}
+                    {{ form_widget(form.service) }}
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-4">
+                    {{ form_label(form.product) }}
+                    <span class=req-indicator>*</span>
+                    <span>Additional pax (25€)</span>
+                    {{ form_errors(form.product) }}
+                    {{ form_widget(form.product) }}
+                </div>
+                <button type="button" class="info btn btn-primary" data-toggle="modal" data-target="#infoModal">
+                    <span class="glyphicon glyphicon-info-sign"></span>
+                </button>
 
-                <!-- Modal content-->
-                <div class="modal-content" style="height: 100%">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title">Include</h4>
-                    </div>
-                    <div class="modal-body">
-                        {%  if docpath is null %}
-                        <h1>Products informations are not available.</h1>
-                        {% else %}
-                        <embed src="{{ docpath }}" style="width: 100%; min-height: 450px"/>
-                        {% endif %}
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    </div>
+                <div id="flight_transit_bloc" class="col-lg-2 col-md-3 col-sm-4">
+                    {{ form_label(form.flighttransit) }}
+                    <span class=req-indicator>*</span>
+                    {{ form_errors(form.flighttransit.codes.code) }}
+                    {{ form_widget(form.flighttransit.codes.code) }}
+                    {{ form_widget(form.flighttransit) }}
                 </div>
 
+                <!-- Modal -->
+                <div id="infoModal" class="modal fade" role="dialog">
+                    <div class="modal-dialog" style="min-height: 90%">
+
+                        <!-- Modal content-->
+                        <div class="modal-content" style="height: 100%">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                <h4 class="modal-title">Include</h4>
+                            </div>
+                            <div class="modal-body">
+                                {%  if docpath is null %}
+                                    <h1>Products informations are not available.</h1>
+                                {% else %}
+                                    <embed src="{{ docpath }}" style="width: 100%; min-height: 450px"/>
+                                {% endif %}
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="input-group row col-md-12 col-sm-12 col-xs-12 col-lg-12" id="bags">
+                <div class="col-md-3 col-sm-6 col-lg-3">
+                    {{ form_label(form.bags) }}
+                    <span class=req-indicator>*</span>
+                    {{ form_errors(form.bags) }}
+                    {{ form_widget(form.bags) }}
+                </div>
+            </div>
+            <div class="input-group row hidden col-md-12 col-sm-12 col-xs-12 col-lg-12" id="address">
+                <div class="col-lg-3 col-md-4 col-sm-6 hidden" id="addresse_timepu">
+                    {{ form_label(form.timepu) }}
+                    <span class=req-indicator>*</span>
+                    {{ form_errors(form.timepu) }}
+                    {{ form_widget(form.timepu) }}
+                </div>
+                <div class="col-lg-3 col-md-4 col-sm-6">
+                    {{ form_label(form.addresspu) }}
+                    <span class=req-indicator>*</span>
+                    {{ form_errors(form.addresspu) }}
+                    {{ form_widget(form.addresspu) }}
+                </div>
+                <div class="col-lg-3 col-md-4 col-sm-6">
+                    {{ form_label(form.addressdo) }}
+                    <span class=req-indicator>*</span>
+                    {{ form_errors(form.addressdo) }}
+                    {{ form_widget(form.addressdo) }}
+                </div>
             </div>
         </div>
-    </div>
-    <div class="input-group row col-md-12 col-sm-12 col-xs-12 col-lg-12" id="bags">
-        <div class="col-md-3 col-sm-6 col-lg-3">
-            {{ form_label(form.bags) }}
-            <span class=req-indicator>*</span>
-            {{ form_errors(form.bags) }}
-            {{ form_widget(form.bags) }}
-        </div>
-    </div>
-    <div class="input-group row hidden col-md-12 col-sm-12 col-xs-12 col-lg-12" id="address">
-        <div class="col-lg-3 col-md-4 col-sm-6 hidden" id="addresse_timepu">
-            {{ form_label(form.timepu) }}
-            <span class=req-indicator>*</span>
-            {{ form_errors(form.timepu) }}
-            {{ form_widget(form.timepu) }}
-        </div>
-        <div class="col-lg-3 col-md-4 col-sm-6">
-            {{ form_label(form.addresspu) }}
-            <span class=req-indicator>*</span>
-            {{ form_errors(form.addresspu) }}
-            {{ form_widget(form.addresspu) }}
-        </div>
-        <div class="col-lg-3 col-md-4 col-sm-6">
-            {{ form_label(form.addressdo) }}
-            <span class=req-indicator>*</span>
-            {{ form_errors(form.addressdo) }}
-            {{ form_widget(form.addressdo) }}
-        </div>
-    </div>
-</div>
-<div class="form-group">
-    <h2 class="title padd contentAnim" title="Select Service type for your booking">
-        <strong>02.</strong>
-        <span> {{ 'book.title.cust'|trans }}</span>
-    </h2>
-    <div class="input-group row col-md-12 col-sm-12 col-xs-12 col-lg-12" id="customer">
-        <div class="col-lg-4 col-md-4 col-sm-5 col-xs-6">
-            <div>
-                {{ form_label(form.adultcus) }}
+        <div class="form-group">
+            <h2 class="title padd contentAnim" title="Select Service type for your booking">
+                <strong>02.</strong>
+                <span> {{ 'book.title.cust'|trans }}</span>
+            </h2>
+            <div class="input-group row col-md-12 col-sm-12 col-xs-12 col-lg-12" id="customer">
+                <div class="col-lg-4 col-md-4 col-sm-5 col-xs-6">
+                    <div>
+                        {{ form_label(form.adultcus) }}
+                        <span class=req-indicator>*</span>
+                    </div>
+                    {{ form_errors(form.adultcus) }}
+                    <div class="col-lg-4 col-md-4 col-sm-5 col-xs-5">
+                        {{ form_widget(form.adultcus) }}
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-5 col-xs-6">
+                    <div>
+                        {{ form_label(form.childcus) }}
+                        <span class=req-indicator>*</span>
+                    </div>
+                    {{ form_errors(form.childcus) }}
+                    <div class="col-lg-4 col-md-4 col-sm-5 col-xs-5">
+                        {{ form_widget(form.childcus) }}
+                    </div>
+                </div>
+            </div>
+            {% if form.customers is defined %}
+                <div class="input-group row col-md-12 col-sm-12 col-xs-12 col-lg-12" id="address">
+                    {% form_theme form.customers 'form/form_collection.html.twig' %}
+                    {{ form_row(form.customers) }}
+                </div>
+            {% endif %}
+            <div class="input-group row col-md-12 col-sm-12 col-xs-12 col-lg-12" style="/*color:#ddd*/" id="service">
+                <div class="col-md-6 col-sm-6 col-lg-5">
+                    {{ form_label(form.nameboard) }}
+                    {{ form_errors(form.nameboard) }}
+                    {{ form_widget(form.nameboard) }}
+                </div>
+                <div class="col-md-6 col-sm-6 col-lg-5">
+                    {{ form_label(form.note) }}
+                    {{ form_errors(form.note) }}
+                    {{ form_widget(form.note) }}
+                </div>
+            </div>
+            <div class="">
                 <span class=req-indicator>*</span>
+                Required Field
             </div>
-            {{ form_errors(form.adultcus) }}
-            <div class="col-lg-4 col-md-4 col-sm-5 col-xs-5">
-                {{ form_widget(form.adultcus) }}
-            </div>
+            {% block confirm %}{% endblock %}
         </div>
-        <div class="col-lg-4 col-md-4 col-sm-5 col-xs-6">
-            <div>
-                {{ form_label(form.childcus) }}
-                <span class=req-indicator>*</span>
-            </div>
-            {{ form_errors(form.childcus) }}
-            <div class="col-lg-4 col-md-4 col-sm-5 col-xs-5">
-                {{ form_widget(form.childcus) }}
-            </div>
-        </div>
+        {{ form_rest(form) }}
+        {{ form_end(form) }}
     </div>
-    {% if form.customers is defined %}
-    <div class="input-group row col-md-12 col-sm-12 col-xs-12 col-lg-12" id="address">
-        {% form_theme form.customers 'form/form_collection.html.twig' %}
-        {{ form_row(form.customers) }}
-    </div>
-    {% endif %}
-    <div class="input-group row col-md-12 col-sm-12 col-xs-12 col-lg-12" style="/*color:#ddd*/" id="service">
-        <div class="col-md-6 col-sm-6 col-lg-5">
-            {{ form_label(form.nameboard) }}
-            {{ form_errors(form.nameboard) }}
-            {{ form_widget(form.nameboard) }}
-        </div>
-        <div class="col-md-6 col-sm-6 col-lg-5">
-            {{ form_label(form.note) }}
-            {{ form_errors(form.note) }}
-            {{ form_widget(form.note) }}
-        </div>
-    </div>
-    <div class="">
-        <span class=req-indicator>*</span>
-        Required Field
-    </div>
-    {% block confirm %}{% endblock %}
-</div>
-{{ form_rest(form) }}
-{{ form_end(form) }}
-</div>
 {% endblock %}
 
 {% block javascripts %}
-{{parent()}}
-<script src="{{ asset('js/book.min.js') }}"></script>
+    {{parent()}}
+    <script src="{{ asset('js/book.min.js') }}"></script>
 {% endblock %}

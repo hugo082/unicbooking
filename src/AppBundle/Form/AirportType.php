@@ -3,7 +3,8 @@
 namespace AppBundle\Form;
 
 use AppBundle\Entity\Airport;
-use AppBundle\Entity\InternationalCodes\AirlinesCodes;
+use AppBundle\Entity\Compagny;
+use AppBundle\Entity\InternationalCodes\AirportsCodes;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -26,7 +27,7 @@ class AirportType extends AbstractType
             'label' => 'Name'
         ))
         ->add('codes', InternationalCodesType::class, array(
-            'data_class' => AirlinesCodes::class,
+            'data_class' => AirportsCodes::class,
             "precision" => InternationalCodesType::PRECISION_FULL
         ))
         ->add('selectable', CheckboxType::class, array(
@@ -36,7 +37,7 @@ class AirportType extends AbstractType
         ->add('compagny', EntityType::class, array(
             'class' => 'AppBundle:Compagny',
             'placeholder' => 'book.form.select.placeholder',
-            'choice_label' => function ($p) {return $p->getFullName();},
+            'choice_label' => function (Compagny $p) { return $p->getFullName();},
             'label' => 'Airline',
             'required' => false,
             'query_builder' => function (EntityRepository $er) {

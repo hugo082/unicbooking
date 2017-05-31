@@ -41,7 +41,7 @@ class Book
     protected $date;
 
     /**
-     * @var \Date
+     * @var \DateTime
      *
      * @ORM\Column(name="creation_date", type="date")
      */
@@ -77,7 +77,7 @@ class Book
     private $flighttransit;
 
     /**
-     * @var array
+     * @var integer
      * Adult Customer
      * @ORM\Column(name="adultcus", type="integer")
      * @Assert\Range(
@@ -87,7 +87,7 @@ class Book
     protected $adultcus;
 
     /**
-     * @var array
+     * @var integer
      * Child Customer
      * @ORM\Column(name="childcus", type="integer")
      * @Assert\Range(
@@ -166,7 +166,7 @@ class Book
     protected $addressdo;
 
     /**
-     * @var text
+     * @var string
      * @ORM\Column(name="note", type="text", nullable=true)
      */
     protected $note;
@@ -223,13 +223,6 @@ class Book
      */
     protected $subbooks;
 
-    // /**
-    // * @var Compagny
-    // * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Compagny")
-    // * @ORM\JoinColumn(nullable=false)
-    // */
-    // private $compagny;
-
     /**
      * Constructor
      */
@@ -265,15 +258,16 @@ class Book
 
     /**
      * Compute price of this book. Without edit price.
+     * @param null $doc
      */
     public function updatePrice($doc = NULL) {
         $price = 0;
         $price += $this->product->getPrice();
         $price += $this->getAdditionalcus() * $this->product->getAdditionalPrice();
         $price += $this->getAdditionalCar() * 90;
-        $cmp = $this->user->getCompagny();
         $price += $this->bags * $this->getPorterageprice();
-        if ($doc != NULL) $price += 25 * count($doc->getRepository('AppBundle:SubBook')->getChargedCountEdit($this));
+        if ($doc != NULL)
+            $price += 25 * count($doc->getRepository('AppBundle:SubBook')->getChargedCountEdit($this));
         $this->price = $price;
     }
 
@@ -338,8 +332,6 @@ class Book
     }
 
     /**
-     * Get date
-     *
      * @return \DateTime
      */
     public function getDate()
@@ -348,11 +340,8 @@ class Book
     }
 
     /**
-     * Set creationdate
-     *
-     * @param \DateTime $creationdate
-     *
-     * @return Book
+     * @param $creationdate
+     * @return $this
      */
     public function setCreationdate($creationdate)
     {
@@ -362,8 +351,6 @@ class Book
     }
 
     /**
-     * Get creationdate
-     *
      * @return \DateTime
      */
     public function getCreationdate()
@@ -434,9 +421,7 @@ class Book
     }
 
     /**
-     * Get adultcus
-     *
-     * @return integer
+     * @return int
      */
     public function getAdultcus()
     {
@@ -458,9 +443,7 @@ class Book
     }
 
     /**
-     * Get childcus
-     *
-     * @return integer
+     * @return int
      */
     public function getChildcus()
     {
@@ -468,9 +451,7 @@ class Book
     }
 
     /**
-     * Get total customers
-     *
-     * @return integer
+     * @return int
      */
     public function getTotalcus()
     {
@@ -778,15 +759,17 @@ class Book
     }
 
     /**
-     * Get full state
-     *
      * @return string
      */
     public function getFullState()
     {
-        if ($this->state == "ACCEPTED") return "Confirmed";
-        if ($this->state == "REJECTED") return "Cancelled";
-        if ($this->state == "WAITING") return "Waitlist";
+        if ($this->state == "ACCEPTED")
+            return "Confirmed";
+        if ($this->state == "REJECTED")
+            return "Cancelled";
+        if ($this->state == "WAITING")
+            return "Waitlist";
+        return "Unknow";
     }
 
     /**
@@ -826,11 +809,11 @@ class Book
     /**
      * Set product
      *
-     * @param \AppBundle\Entity\Product $product
+     * @param Product $product
      *
      * @return Book
      */
-    public function setProduct(\AppBundle\Entity\Product $product)
+    public function setProduct(Product $product)
     {
         $this->product = $product;
 
@@ -840,7 +823,7 @@ class Book
     /**
      * Get product
      *
-     * @return \AppBundle\Entity\Product
+     * @return Product
      */
     public function getProduct()
     {
@@ -889,8 +872,8 @@ class Book
     public function getFlightNumber()
     {
         if ($this->service == "TRA")
-            return $this->flight->getNumber() . " → " . $this->flighttransit->getNumber();
-        return $this->flight->getNumber();
+            return $this->flight->getCodes()->getCode() . " → " . $this->flighttransit->getCodes()->getCode();
+        return $this->flight->getCodes()->getCode();
     }
 
     /**
@@ -966,9 +949,7 @@ class Book
     }
 
     /**
-     * Get greeter
-     *
-     * @return \AppBundle\Entity\Employee
+     * @return string
      */
     public function getGreeterPreview()
     {
@@ -980,11 +961,11 @@ class Book
     /**
      * Add customer
      *
-     * @param \AppBundle\Entity\Customer $customer
+     * @param Customer $customer
      *
      * @return Book
      */
-    public function addCustomer(\AppBundle\Entity\Customer $customer)
+    public function addCustomer(Customer $customer)
     {
         $this->customers[] = $customer;
         return $this;
@@ -993,9 +974,9 @@ class Book
     /**
      * Remove customer
      *
-     * @param \AppBundle\Entity\Customer $customer
+     * @param Customer $customer
      */
-    public function removeCustomer(\AppBundle\Entity\Customer $customer)
+    public function removeCustomer(Customer $customer)
     {
         $this->customers->removeElement($customer);
     }
@@ -1043,7 +1024,7 @@ class Book
      *
      * @return Book
      */
-    public function addSubbook(\AppBundle\Entity\Customer $subbook)
+    public function addSubbook(Customer $subbook)
     {
         $this->subbooks[] = $subbook;
 
@@ -1053,9 +1034,9 @@ class Book
     /**
      * Remove subbook
      *
-     * @param \AppBundle\Entity\Customer $subbook
+     * @param Customer $subbook
      */
-    public function removeSubbook(\AppBundle\Entity\Customer $subbook)
+    public function removeSubbook(Customer $subbook)
     {
         $this->subbooks->removeElement($subbook);
     }
@@ -1071,9 +1052,7 @@ class Book
     }
 
     /**
-     * Get subbooks
-     *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return array
      */
     public function getChargedSubbooks()
     {
@@ -1093,15 +1072,14 @@ class Book
     {
         $res = NULL;
         foreach ($this->subbooks as $sub) {
-            if (!$res || $sub->getId() > $res->getId()) $res = $sub;
+            if (!$res || $sub->getId() > $res->getId())
+                $res = $sub;
         }
         return $res;
     }
 
     /**
-     * Get fullid
-     *
-     * @return integer
+     * @return string
      */
     public function getFullid()
     {
@@ -1109,13 +1087,10 @@ class Book
     }
 
     /**
-     * Set airport
-     *
-     * @param \AppBundle\Entity\Airport $airport
-     *
-     * @return Book
+     * @param Airport|null $airport
+     * @return $this
      */
-    public function setAirport(\AppBundle\Entity\Airport $airport = null)
+    public function setAirport(Airport $airport = null)
     {
         $this->airport = $airport;
 
@@ -1125,7 +1100,7 @@ class Book
     /**
      * Get airport
      *
-     * @return \AppBundle\Entity\Airport
+     * @return Airport
      */
     public function getAirport()
     {
@@ -1134,23 +1109,17 @@ class Book
 
 
     /**
-     * Set flighttransit
-     *
-     * @param \AppBundle\Entity\Flight $flighttransit
-     *
-     * @return Book
+     * @param $flighttransit
+     * @return $this
      */
     public function setflighttransit($flighttransit)
     {
         $this->flighttransit = $flighttransit;
-
         return $this;
     }
 
     /**
-     * Get flighttransit
-     *
-     * @return \AppBundle\Entity\Flight
+     * @return Flight
      */
     public function getflighttransit()
     {
@@ -1170,21 +1139,16 @@ class Book
     }
 
     /**
-     * get Location Preview
-     *
      * @return string
      */
     public function getLocationPreview()
     {
-        return $this->flight->getMainAirport()->getCode();
+        return $this->flight->getMainAirport()->getCodes()->getCode();
     }
 
     /**
-     * Set archived
-     *
-     * @param boolean $archived
-     *
-     * @return Book
+     * @param $archived
+     * @return $this
      */
     public function setArchived($archived)
     {
@@ -1194,9 +1158,7 @@ class Book
     }
 
     /**
-     * Get archived
-     *
-     * @return boolean
+     * @return bool
      */
     public function getArchived()
     {

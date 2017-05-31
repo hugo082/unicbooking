@@ -62,6 +62,13 @@ class Airport
         $this->codes = new AirportsCodes();
     }
 
+    public function encode(): array {
+        return array(
+            "codes" => $this->codes->encode(),
+            "name" => $this->name
+        );
+    }
+
     /**
      * Get id
      *
