@@ -51,4 +51,5 @@
 /composer.phar
 
 # Backup entities generated with doctrine:generate:entities command
-/src/AppBundle/Entity/*~
+*~
+trash
