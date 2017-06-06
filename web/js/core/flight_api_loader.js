@@ -15,7 +15,7 @@ $( function() {
             var checker = this;
             $.ajax({
                 type: 'GET',
-                url: "http://localhost:8000/data/api/flight",
+                url: "http://booking.unicairport.com/app.php/data/api/flight",
                 data: { 'flight_code': code },
                 success : function(result) {
                     console.log(result);
