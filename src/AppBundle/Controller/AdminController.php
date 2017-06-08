@@ -3,6 +3,8 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Book;
+use AppBundle\Entity\SubBook;
+use AppBundle\Repository\SubBookRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -101,7 +103,9 @@ class AdminController extends Controller
                 'No product found for id '.$id
             );
         }
+        /** @var SubBookRepository $subrepo */
         $subrepo = $this->getDoctrine()->getRepository('AppBundle:SubBook');
+        /** @var SubBook $subbook */
         $subbook = $subrepo->getLastEdit($book);
 
         if ($state == "ACC" || $state == "ACP") {

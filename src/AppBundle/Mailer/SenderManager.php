@@ -2,6 +2,7 @@
 
 namespace AppBundle\Mailer;
 
+use AppBundle\Entity\Book;
 use Symfony\Bundle\TwigBundle\TwigEngine;
 
 class SenderManager
@@ -32,39 +33,39 @@ class SenderManager
         }
     }
 
-    public function sendWaiting($book, $agentcpy = true, $admincpy = true) {
+    public function sendWaiting(Book $book, $agentcpy = true, $admincpy = true) {
         $state = array('code' => 'wait', 'key' => 'Waitlist');
         $sub = ' • Acknowledgment of receipt';
         if ($admincpy) $this->sendEmail($book, $this->adminemail, $state, $sub);
-        if ($agentcpy) $this->sendEmail($book, $book->getAgentemail(), $state, $sub);
+        if ($agentcpy) $this->sendEmail($book, $book->getAgent()->getEmail(), $state, $sub);
     }
 
-    public function sendConfirmation($book, $agentcpy = true, $admincpy = true) {
+    public function sendConfirmation(Book $book, $agentcpy = true, $admincpy = true) {
         $state = array('code' => 'conf', 'key' => 'Confirmed');
         $sub = ' • Confirmed';
         if ($admincpy) $this->sendEmail($book, $this->adminemail, $state, $sub);
-        if ($agentcpy) $this->sendEmail($book, $book->getAgentemail(), $state, $sub);
+        if ($agentcpy) $this->sendEmail($book, $book->getAgent()->getEmail(), $state, $sub);
     }
 
-    public function sendRejection($book, $agentcpy = true, $admincpy = true) {
+    public function sendRejection(Book $book, $agentcpy = true, $admincpy = true) {
         $state = array('code' => 'reje', 'key' => 'CANCELLED');
         $sub = ' • Rejection';
         if ($admincpy) $this->sendEmail($book, $this->adminemail, $state, $sub);
-        if ($agentcpy) $this->sendEmail($book, $book->getAgentemail(), $state, $sub);
+        if ($agentcpy) $this->sendEmail($book, $book->getAgent()->getEmail(), $state, $sub);
     }
 
-    public function sendEditionConfirmation($book, $agentcpy = true, $admincpy = true) {
+    public function sendEditionConfirmation(Book $book, $agentcpy = true, $admincpy = true) {
         $state = array('code' => 'edit', 'key' => 'Modification confirmed');
         $sub = ' • Modification';
         if ($admincpy) $this->sendEmail($book, $this->adminemail, $state, $sub);
-        if ($agentcpy) $this->sendEmail($book, $book->getAgentemail(), $state, $sub);
+        if ($agentcpy) $this->sendEmail($book, $book->getAgent()->getEmail(), $state, $sub);
     }
 
-    public function sendEditionRejection($book, $agentcpy = true, $admincpy = true) {
+    public function sendEditionRejection(Book $book, $agentcpy = true, $admincpy = true) {
         $state = array('code' => 'edit', 'key' => 'Modification rejected');
         $sub = ' • Modification';
         if ($admincpy) $this->sendEmail($book, $this->adminemail, $state, $sub);
-        if ($agentcpy) $this->sendEmail($book, $book->getAgentemail(), $state, $sub);
+        if ($agentcpy) $this->sendEmail($book, $book->getAgent()->getEmail(), $state, $sub);
     }
 
 

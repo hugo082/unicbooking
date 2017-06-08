@@ -27,7 +27,7 @@
                                 <td class="hidden-xs">{{book.id}}</td>
                                 <td>{{book.date|date("d/m/y")}}</td>
                                 <td><span class="back-cmpcolor-c" style="background-color:{{book.color}}">{{book.user.compagny ? book.user.compagny.name : 'Admin' }}</span></td>
-                                <td>{{ book.agentfirstname }} {{ book.agentlastname }}</td>
+                                <td>{{ book.agent.firstname }} {{ book.agent.lastname }}</td>
                                 <td>{{ book.customersPreview }}</td>
                                 <td>
                                     {% if book.state == 'WAITING' %}

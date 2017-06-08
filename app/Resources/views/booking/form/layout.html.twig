@@ -48,22 +48,22 @@
             </h2>
             <div class="input-group row col-md-12 col-sm-12 col-xs-12 col-lg-12">
                 <div class="col-md-4 col-sm-4 col-lg-4">
-                    {{ form_label(form.agentemail) }}
+                    {{ form_label(form.agent.email) }}
                     <span class=req-indicator>*</span>
-                    {{ form_errors(form.agentemail) }}
-                    {{ form_widget(form.agentemail) }}
+                    {{ form_errors(form.agent.email) }}
+                    {{ form_widget(form.agent.email) }}
                 </div>
                 <div class="col-md-4 col-sm-4 col-lg-4">
-                    {{ form_label(form.agentfirstname) }}
+                    {{ form_label(form.agent.firstname) }}
                     <span class=req-indicator>*</span>
-                    {{ form_errors(form.agentfirstname) }}
-                    {{ form_widget(form.agentfirstname) }}
+                    {{ form_errors(form.agent.firstname) }}
+                    {{ form_widget(form.agent.firstname) }}
                 </div>
                 <div class="col-md-4 col-sm-4 col-lg-4">
-                    {{ form_label(form.agentlastname) }}
+                    {{ form_label(form.agent.lastname) }}
                     <span class=req-indicator>*</span>
-                    {{ form_errors(form.agentlastname) }}
-                    {{ form_widget(form.agentlastname) }}
+                    {{ form_errors(form.agent.lastname) }}
+                    {{ form_widget(form.agent.lastname) }}
                 </div>
             </div>
             <h2 class="title padd contentAnim" title="Select Service type for your booking">

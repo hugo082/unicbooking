@@ -123,25 +123,10 @@ class SubBook
     private $bags;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="agent_firstname", type="string", length=255, nullable=true)
+     * @var Agent
+     * @ORM\Embedded(class="AppBundle\Entity\Agent", columnPrefix="agent_")
      */
-    private $agentfirstname;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="agent_lastname", type="string", length=255, nullable=true)
-     */
-    private $agentlastname;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="agent_email", type="string", length=255, nullable=true)
-     */
-    private $agentemail;
+    private $agent;
 
     /**
      * @var int
@@ -212,7 +197,16 @@ class SubBook
         $this->parent = $book;
         $this->number = count($book->getSubbooks()) + 1;
         foreach ($changeset as $key => $values) {
-            $this->$key = $values[0];
+            $keys = explode(".", $key);
+            $buf = $this;
+            $endKey = count($keys) - 1;
+            for ($i = 0; $i < $endKey; $i++) {
+                $methodName = "get". $keys[$i];
+                $buf = $buf->$methodName();
+            }
+            $methodName = "set". $keys[$endKey];
+            $methodName = str_replace("_", "", $methodName);
+            $buf->$methodName($values[0]);
         }
     }
 
@@ -221,11 +215,24 @@ class SubBook
         $vars = get_object_vars($this);
         foreach ($vars as $key => $value) {
             if ($value != NULL && !in_array($key, $rejected_var)) {
-                $method = "set" . ucfirst($key);
-                $book->$method($value);
+                if ($key == "agent")
+                    $this->computeAgent($book, $value);
+                else {
+                    $method = "set" . ucfirst($key);
+                    $book->$method($value);
+                }
             }
         }
         return $book;
+    }
+
+    private function computeAgent(Book $book, Agent $value) {
+        if ($value->getEmail() != null)
+            $book->getAgent()->setEmail($value->getEmail());
+        if ($value->getFirstName() != null)
+            $book->getAgent()->setFirstName($value->getFirstName());
+        if ($value->getLastName() != null)
+            $book->getAgent()->setLastName($value->getLastName());
     }
 
     /**
@@ -455,75 +462,21 @@ class SubBook
     }
 
     /**
-     * Set agentfirstname
-     *
-     * @param string $agentfirstname
-     *
-     * @return SubBook
+     * @return Agent
      */
-    public function setAgentfirstname($agentfirstname)
+    public function getAgent(): Agent
     {
-        $this->agentfirstname = $agentfirstname;
-
-        return $this;
+        if ($this->agent == null)
+            $this->agent = new Agent();
+        return $this->agent;
     }
 
     /**
-     * Get agentfirstname
-     *
-     * @return string
+     * @param Agent $agent
      */
-    public function getAgentfirstname()
+    public function setAgent(Agent $agent)
     {
-        return $this->agentfirstname;
-    }
-
-    /**
-     * Set agentlastname
-     *
-     * @param string $agentlastname
-     *
-     * @return SubBook
-     */
-    public function setAgentlastname($agentlastname)
-    {
-        $this->agentlastname = $agentlastname;
-
-        return $this;
-    }
-
-    /**
-     * Get agentlastname
-     *
-     * @return string
-     */
-    public function getAgentlastname()
-    {
-        return $this->agentlastname;
-    }
-
-    /**
-     * Set agentemail
-     *
-     * @param string $agentemail
-     *
-     * @return SubBook
-     */
-    public function setAgentemail($agentemail)
-    {
-        $this->agentemail = $agentemail;
-
-        return $this;
-    }
-
-    /**
-     * Get agentemail
-     *
-     * @return string
-     */
-    public function getAgentemail()
-    {
-        return $this->agentemail;
+        $this->agent = $agent;
     }
 
     /**

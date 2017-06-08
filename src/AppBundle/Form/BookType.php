@@ -2,6 +2,7 @@
 
 namespace AppBundle\Form;
 
+use AppBundle\Entity\Agent;
 use AppBundle\Entity\Product;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -40,14 +41,8 @@ class BookType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('agentemail', EmailType::class, array(
-                'label' => "agent.email"
-            ))
-            ->add('agentlastname', TextType::class, array(
-                'label' => "agent.lname"
-            ))
-            ->add('agentfirstname', TextType::class, array(
-                'label' => "agent.fname"
+            ->add('agent', AgentType::class, array(
+                'label' => false
             ))
             ->add('flight', FlightType::class, array(
                 'label' => 'book.form.flight_number'

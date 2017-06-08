@@ -69,11 +69,11 @@
                 </tr>
                 <tr>
                     <td class="col-md-6">Booked by</td>
-                    <td class="value"><span id="{{ edi and subbook.agentfirstname ? 'edited' : '' }}">{{book.agentfirstname}} {{book.agentlastname}}</span></td>
+                    <td class="value"><span id="{{ edi and subbook.agent.firstname ? 'edited' : '' }}">{{book.agent.firstname}} {{book.agent.lastname}}</span></td>
                 </tr>
                 <tr>
                     <td class="col-md-6">{{ 'agent.email'|trans }}</td>
-                    <td class="value"><span id="{{ edi and subbook.agentemail ? 'edited' : '' }}">{{book.agentemail}}</span></td>
+                    <td class="value"><span id="{{ edi and subbook.agent.email ? 'edited' : '' }}">{{book.agent.email}}</span></td>
                 </tr>
                 <tr>
                     <td class="tab-sep" colspan="2">&nbsp;</td>

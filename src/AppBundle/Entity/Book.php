@@ -116,25 +116,10 @@ class Book
     protected $bags;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="agent_firstname", type="string", length=255)
+     * @var Agent
+     * @ORM\Embedded(class="AppBundle\Entity\Agent", columnPrefix="agent_")
      */
-    protected $agentfirstname;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="agent_lastname", type="string", length=255)
-     */
-    protected $agentlastname;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="agent_email", type="string", length=255)
-     */
-    protected $agentemail;
+    private $agent;
 
     /**
      * @var int
@@ -548,75 +533,19 @@ class Book
     }
 
     /**
-     * Set agentfirstname
-     *
-     * @param string $agentfirstname
-     *
-     * @return Book
+     * @return Agent
      */
-    public function setAgentfirstname($agentfirstname)
+    public function getAgent(): ?Agent
     {
-        $this->agentfirstname = $agentfirstname;
-
-        return $this;
+        return $this->agent;
     }
 
     /**
-     * Get agentfirstname
-     *
-     * @return string
+     * @param Agent $agent
      */
-    public function getAgentfirstname()
+    public function setAgent(Agent $agent)
     {
-        return $this->agentfirstname;
-    }
-
-    /**
-     * Set agentlastname
-     *
-     * @param string $agentlastname
-     *
-     * @return Book
-     */
-    public function setAgentlastname($agentlastname)
-    {
-        $this->agentlastname = $agentlastname;
-
-        return $this;
-    }
-
-    /**
-     * Get agentlastname
-     *
-     * @return string
-     */
-    public function getAgentlastname()
-    {
-        return $this->agentlastname;
-    }
-
-    /**
-     * Set agentemail
-     *
-     * @param string $agentemail
-     *
-     * @return Book
-     */
-    public function setAgentemail($agentemail)
-    {
-        $this->agentemail = $agentemail;
-
-        return $this;
-    }
-
-    /**
-     * Get agentemail
-     *
-     * @return string
-     */
-    public function getAgentemail()
-    {
-        return $this->agentemail;
+        $this->agent = $agent;
     }
 
     /**
