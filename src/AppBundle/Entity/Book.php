@@ -535,7 +535,7 @@ class Book
     /**
      * @return Agent
      */
-    public function getAgent(): ?Agent
+    public function getAgent()
     {
         return $this->agent;
     }

@@ -34,7 +34,7 @@ class Agent
     /**
      * @return string
      */
-    public function getFirstName(): ?string
+    public function getFirstName()
     {
         return $this->first_name;
     }
@@ -50,7 +50,7 @@ class Agent
     /**
      * @return string
      */
-    public function getLastName(): ?string
+    public function getLastName()
     {
         return $this->last_name;
     }
@@ -66,7 +66,7 @@ class Agent
     /**
      * @return string
      */
-    public function getEmail(): ?string
+    public function getEmail()
     {
         return $this->email;
     }

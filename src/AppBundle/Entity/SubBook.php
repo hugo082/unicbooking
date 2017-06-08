@@ -464,7 +464,7 @@ class SubBook
     /**
      * @return Agent
      */
-    public function getAgent(): Agent
+    public function getAgent()
     {
         if ($this->agent == null)
             $this->agent = new Agent();
