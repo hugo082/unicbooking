@@ -1,63 +1,62 @@
 $( function() {
     function ApiChecker(input, hidden) {
-        this.inputId = input;
-        this.hiddenInputId = hidden;
-        this.flightModal = "#flightOaciModal";
-        this.flightModal_cancel = this.flightModal + "_cancel";
-        this.flightModal_origin = this.flightModal + "_origin";
-        this.flightModal_departure_time = this.flightModal + "_departure_time";
-        this.flightModal_destination = this.flightModal + "_destination";
-        this.flightModal_arrival_time = this.flightModal + "_arrival_time";
-        this.loadFlight = function () {
-            var code = $(this.inputId).val();
+        this.inputId_ = input;
+        this.hiddenInputId_ = hidden;
+        this.flightModal_ = "#flightOaciModal";
+        this.flightModal_cancel_ = this.flightModal_ + "_cancel";
+        this.flightModal_origin_ = this.flightModal_ + "_origin";
+        this.flightModal_departure_time_ = this.flightModal_ + "_departure_time";
+        this.flightModal_destination_ = this.flightModal_ + "_destination";
+        this.flightModal_arrival_time_ = this.flightModal_ + "_arrival_time";
+        this.loadFlight_ = function () {
+            var code = $(this.inputId_).val();
             if (typeof code === "undefined" || code === "")
                 return;
             var checker = this;
             $.ajax({
                 type: 'GET',
-                url: "http://booking.unicairport.com/app.php/data/api/flight",
+                url: "http://" + window.location.host + "/data/api/flight",
                 data: { 'flight_code': code },
                 success : function(result) {
-                    console.log(result);
                     if (result.status.code != 200) {
-                        checker.internalError(result.status);
+                        checker.internalError_(result.status);
                         return;
                     }
-                    $(checker.hiddenInputId).val(result.flight.id);
-                    checker.displayModal(result.flight);
+                    $(checker.hiddenInputId_).val(result.flight.id);
+                    checker.displayModal_(result.flight);
                 }
             });
         };
-        this.displayModal = function (flight) {
+        this.displayModal_ = function (flight) {
             var departuretime = new Date(1000 * flight.origin_time),
                 arrivaltime = new Date(1000 * flight.destination_time);
-            $(this.flightModal).modal('show');
-            $(this.flightModal_origin).text("Origin : " + flight.origin.name);
-            $(this.flightModal_departure_time).text("Departure time : " + departuretime.toLocaleTimeString());
-            $(this.flightModal_destination).text("Destination : " + flight.destination.name);
-            $(this.flightModal_arrival_time).text("Arrival time : " + arrivaltime.toLocaleTimeString());
+            $(this.flightModal_).modal('show');
+            $(this.flightModal_origin_).text("Origin : " + flight.origin.name);
+            $(this.flightModal_departure_time_).text("Departure time : " + departuretime.toLocaleTimeString());
+            $(this.flightModal_destination_).text("Destination : " + flight.destination.name);
+            $(this.flightModal_arrival_time_).text("Arrival time : " + arrivaltime.toLocaleTimeString());
         };
-        this.internalError = function (data) {
+        this.internalError_ = function (data) {
             alert('Error : ' + data.message);
-            $(this.inputId).val("");
+            $(this.inputId_).val("");
         };
-        this.cancel = function () {
-            $(this.inputId).val("");
+        this.cancel_ = function () {
+            $(this.inputId_).val("");
         };
-        this.listen = function () {
+        this.listen_ = function () {
             var checker = this;
-            $(this.inputId).change(function () {
-                checker.loadFlight();
+            $(this.inputId_).change(function () {
+                checker.loadFlight_();
             });
-            $(this.flightModal).on('click', checker.flightModal_cancel, function (e) {
-                checker.cancel();
+            $(this.flightModal_).on('click', checker.flightModal_cancel_, function (e) {
+                checker.cancel_();
             });
         }
     }
 
     var flightChecker = new ApiChecker("#appbundle_book_flight_codes_code", "#appbundle_book_flight_id");
-    flightChecker.listen();
+    flightChecker.listen_();
 
     var transitChecker = new ApiChecker("#appbundle_book_flighttransit_codes_code", "#appbundle_book_flighttransit_id");
-    transitChecker.listen();
+    transitChecker.listen_();
 });

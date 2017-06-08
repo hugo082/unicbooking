@@ -2,6 +2,8 @@
 
 namespace AppBundle\Entity;
 
+use AppBundle\Repository\SubBookRepository;
+use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -258,7 +260,7 @@ class Book
 
     /**
      * Compute price of this book. Without edit price.
-     * @param null $doc
+     * @param Registry $doc
      */
     public function updatePrice($doc = NULL) {
         $price = 0;
@@ -266,8 +268,11 @@ class Book
         $price += $this->getAdditionalcus() * $this->product->getAdditionalPrice();
         $price += $this->getAdditionalCar() * 90;
         $price += $this->bags * $this->getPorterageprice();
-        if ($doc != NULL)
-            $price += 25 * count($doc->getRepository('AppBundle:SubBook')->getChargedCountEdit($this));
+        if ($doc != NULL) {
+            /** @var SubBookRepository $repo */
+            $repo = $doc->getRepository('AppBundle:SubBook');
+            $price += 25 * count($repo->getChargedCountEdit($this));
+        }
         $this->price = $price;
     }
 

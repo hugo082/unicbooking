@@ -147,6 +147,10 @@
                 </tr>
                 {% if book.service == "TRA" %}
                     <tr>
+                        <td class="col-md-6">Transit Flight No.</td>
+                        <td class="value">{{book.flighttransit.codes.code}}</td>
+                    </tr>
+                    <tr>
                         <td class="col-md-6">Transit Departure Time</td>
                         <td class="value">{{book.flighttransit.deptime|date('H:i')}}</td>
                     </tr>

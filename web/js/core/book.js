@@ -26,6 +26,7 @@ $(document).ready(function () {
 function getMaxB() { // Max Bag
     return ($("select#appbundle_book_product").val() != 3) ? 999 : 10;
 }
+/*
 function getMaxP() { // Max Passengers
     return ($("select#appbundle_book_product").val() != 3) ? 999 : 6;
 }
@@ -34,6 +35,7 @@ function getNbP() {
     var adult = ($('#appbundle_book_adultcus').val() == "") ? 0 : parseInt($('#appbundle_book_adultcus').val());
     return child + adult;
 }
+*/
 function updateFlightSelection(){
     var sval = $("select#appbundle_book_service").val();
     var sval = $("select#appbundle_book_service").val();
@@ -84,7 +86,7 @@ function updateAddress(){
     }
 }
 
-
+/*
 $("#appbundle_book_adultcus").on('change', function() {
     var maxP = getMaxP();
     if (this.value > maxP) {
@@ -107,6 +109,7 @@ $("#appbundle_book_childcus").on('change', function() {
         $("#appbundle_book_adultcus").val(maxP - ad);
     }
 });
+*/
 
 $("select#appbundle_book_service").on('change', function(){
     updateFlightSelection();

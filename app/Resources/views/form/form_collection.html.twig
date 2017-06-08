@@ -5,43 +5,6 @@
 {% set attr = attr|merge({'data-prototype': block('collection_item_widget') }) %}
 {% endif %}
 <div {{ block('widget_container_attributes') }}></div>
-<a href="#" id="add_category" class="btn btn-default">{{ 'add'|trans }}</a>
-
-
-<script type="text/javascript">
-$(document).ready(function() {
-    var $container = $('div#appbundle_book_customers');
-    var index = $container.find('#collection_row').length;
-    $('#add_category').click(function(e) {
-        addItem($container, false);
-        e.preventDefault(); // évite qu'un # apparaisse dans l'URL
-        return false;
-    });
-    if (index == 0) {
-        addItem($container, true);
-    } else {
-        $container.children('div').each(function() {
-            addDeleteLink($(this));
-        });
-    }
-    function addItem($container, $first) {
-        var template = $container.attr('data-prototype').replace(/__name__label__/g, 'Catégorie n°' + (index+1)).replace(/__name__/g,index);
-        var $prototype = $(template);
-        if (!$first) addDeleteLink($prototype);
-        $container.append($prototype);
-        index++;
-    }
-    function addDeleteLink($prototype) {
-        var $deleteLink = $('<a href="#" class="btn btn-danger">{{ 'remove'|trans }}</a>');
-        $prototype.append($deleteLink);
-        $deleteLink.click(function(e) {
-            $prototype.remove();
-            e.preventDefault(); // évite qu'un # apparaisse dans l'URL
-            return false;
-        });
-    }
-});
-</script>
 
 {% endspaceless %}
 {% endblock collection_widget %}
