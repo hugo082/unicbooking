@@ -25,10 +25,11 @@
                     <li>
                         <a><i class="fa fa-book"></i> Catalog <span class="fa fa-chevron-down"></span></a>
                         <ul class="nav child_menu">
-                            <li><a href="#">Products</a></li>
+                            <li><a href="{{ path('db.manager.process', {actionID: 'list', name: 'Product'}) }}">Products</a></li>
                             <li><a href="#">Services</a></li>
                         </ul>
                     </li>
+                    <li><a href="{{ path('db.manager.process', {actionID: 'list', name: 'Airport'}) }}"><i class="fa fa-plane"></i> Airports</a></li>
                     <li><a href="#"><i class="fa fa-automobile"></i> Cars</a></li>
                 </ul>
             </div>

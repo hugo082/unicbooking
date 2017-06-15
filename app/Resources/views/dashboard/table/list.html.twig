@@ -1,0 +1,51 @@
+
+{% if data.all is not empty %}
+    <table  id="datatable" class="table table-striped table-bordered">
+
+        <thead>
+        <tr>
+            {% for name in data.all.0.annotation_container.annotations %}
+                <th>{{ name.title }}</th>
+            {% endfor %}
+
+            {% for action in eInfo.actions %}
+                {% if action.environment == constant('FQT\\DBCoreManagerBundle\\DependencyInjection\\Configuration::ENV_OBJECT') %}
+                    <th>{{ action.fullName }}</th>
+                {% endif %}
+            {% endfor %}
+        </tr>
+        </thead>
+
+        <tbody>
+        {% for e in data.all %}
+            <tr>
+                {% for item in e.annotation_container.annotations %}
+                    <td>
+                        {% if item.value is same as(NULL) %}
+                            Unknow
+                        {% elseif item.value is same as(true) %}
+                            Yes
+                        {% elseif item.value is same as(false) %}
+                            No
+                        {% else %}
+                            {{ item.value }}
+                        {% endif %}
+                    </td>
+                {% endfor %}
+
+                {% for action in eInfo.actions %}
+                    {% if action.environment == constant('FQT\\DBCoreManagerBundle\\DependencyInjection\\Configuration::ENV_OBJECT') %}
+                        {% if e.permissions[action.id] %}
+                            <td><a href="{{ path('db.manager.process', {'actionID':action.id,'name':name,'id':e.annotation_container.objectId})}}">{{ action.fullName }}</a></td>
+                        {% else %}
+                            <td>Forbiden</td>
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <div>{{ 'entity.empty'|trans }}</div>
+{% endif %}

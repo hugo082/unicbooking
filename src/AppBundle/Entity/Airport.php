@@ -4,6 +4,7 @@ namespace AppBundle\Entity;
 
 use AppBundle\Entity\InternationalCodes\AirportsCodes;
 use Doctrine\ORM\Mapping as ORM;
+use FQT\DBCoreManagerBundle\Annotations\Viewable;
 
 /**
  * Airport
@@ -31,7 +32,6 @@ class Airport
 
     /**
      * @var string
-     *
      * @ORM\Column(name="name", type="string", length=255)
      */
     private $name;
@@ -95,7 +95,7 @@ class Airport
 
     /**
      * Get name
-     *
+     * @Viewable(title="Name", index=1)
      * @return string
      */
     public function getName()
@@ -177,7 +177,7 @@ class Airport
 
     /**
      * Get selectable
-     *
+     * @Viewable(title="Is Selectable", index=3)
      * @return boolean
      */
     public function getSelectable()
@@ -186,6 +186,7 @@ class Airport
     }
 
     /**
+     * @Viewable(title="Codes", index=2)
      * @return AirportsCodes
      */
     public function getCodes()

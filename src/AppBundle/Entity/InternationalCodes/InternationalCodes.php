@@ -39,6 +39,11 @@ abstract class InternationalCodes
         $this->setCodes($data["content"]);
     }
 
+    public function __toString()
+    {
+        return $this->getCode();
+    }
+
     public function encode() {
         return array(
             "iata" => $this->iata,

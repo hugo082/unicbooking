@@ -80,3 +80,30 @@ fos_user:
     registration:
         form:
             type: AppBundle\Form\RegistrationType
+    from_email:
+        address: you@example.com
+        sender_name: You
+
+fqtdb_core_manager:
+    methods:
+        service: 'configure.service'
+    entities:
+        Airport:
+            fullName: AppBundle:Airport
+            methods: [ list, add, edit, remove ]
+        Product:
+            fullName: AppBundle:Product
+            methods: [ list, add, edit, remove ]
+
+db_manager:
+    templates:
+        #index_view: ...
+        main: dashboard/table/entity.html.twig
+    views:
+        - { action: list, custom_view: dashboard/table/list.html.twig, container: [ ] }
+        - { action: edit, custom_view: dashboard/table/form.html.twig, container: [ ] }
+        - { action: add, custom_view: dashboard/table/form.html.twig, container: [ ] }
+    links:
+        - { action: edit, container: [ list ] }
+        - { action: add, container: [ list ] }
+        - { action: list, container: [ add ] }
