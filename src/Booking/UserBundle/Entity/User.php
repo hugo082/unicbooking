@@ -2,7 +2,7 @@
 
 namespace Booking\UserBundle\Entity;
 
-use AppBundle\Entity\Book;
+use Booking\AppBundle\Entity\Book;
 use Doctrine\ORM\Mapping as ORM;
 use FOS\UserBundle\Model\User as BaseUser;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -23,8 +23,8 @@ class User extends BaseUser
     protected $id;
 
     /**
-     *
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Book", mappedBy="user", cascade={"persist"})
+     * @var ArrayCollection
+     * @ORM\OneToMany(targetEntity="Booking\AppBundle\Entity\Book", mappedBy="user", cascade={"persist"})
      */
     protected $books;
 

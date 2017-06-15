@@ -2,12 +2,13 @@
 
 namespace Booking\AppBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Client
  *
- * @ORM\Table(name="client")
+ * @ORM\Table(name="booking_client")
  * @ORM\Entity(repositoryClass="Booking\AppBundle\Repository\ClientRepository")
  */
 class Client
@@ -23,25 +24,44 @@ class Client
 
     /**
      * @var string
-     *
      * @ORM\Column(name="code", type="string", length=255, unique=true)
      */
     private $code;
 
     /**
      * @var string
-     *
      * @ORM\Column(name="name", type="string", length=255)
      */
     private $name;
 
     /**
      * @var string
-     *
      * @ORM\Column(name="type", type="string", length=255)
      */
     private $type;
 
+    /**
+     * @var string
+     * @ORM\Column(name="billing", type="string", length=3)
+     */
+    private $billing;
+
+    /**
+     * @var string
+     * @ORM\Column(name="tariff", type="string", length=20)
+     */
+    private $tariff;
+
+    /**
+     * @var ArrayCollection
+     * @ORM\OneToMany(targetEntity="Booking\AppBundle\Entity\Contact", mappedBy="client", cascade={"persist"})
+     */
+    protected $contacts;
+
+    public function __construct()
+    {
+        $this->contacts = new ArrayCollection();
+    }
 
     /**
      * Get id
@@ -123,6 +143,38 @@ class Client
     public function getType()
     {
         return $this->type;
+    }
+
+    /**
+     * @return string
+     */
+    public function getBilling(): string
+    {
+        return $this->billing;
+    }
+
+    /**
+     * @param string $billing
+     */
+    public function setBilling(string $billing)
+    {
+        $this->billing = $billing;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTariff(): string
+    {
+        return $this->tariff;
+    }
+
+    /**
+     * @param string $tariff
+     */
+    public function setTariff(string $tariff)
+    {
+        $this->tariff = $tariff;
     }
 }
 

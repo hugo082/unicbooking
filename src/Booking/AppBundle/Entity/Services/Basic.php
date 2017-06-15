@@ -1,16 +1,23 @@
 <?php
 
-namespace Booking\AppBundle\Entity;
+namespace Booking\AppBundle\Entity\Services;
 
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Service
  *
- * @ORM\Table(name="service")
+ * @ORM\Table(name="booking_service_basic")
  * @ORM\Entity(repositoryClass="Booking\AppBundle\Repository\ServiceRepository")
+ * @ORM\InheritanceType("JOINED")
+ * @ORM\DiscriminatorMap({
+ *     "service_basic" = "Basic",
+ *     "service_airport" = "Booking\AppBundle\Entity\Services\Airport",
+ *     "service_limousine" = "Booking\AppBundle\Entity\Services\Limousine",
+ *     "service_train" = "Booking\AppBundle\Entity\Services\Train"
+ * })
  */
-class Service
+class Basic
 {
     /**
      * @var int
@@ -19,22 +26,25 @@ class Service
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    protected $id;
 
     /**
      * @var string
-     *
      * @ORM\Column(name="type", type="string", length=255, unique=true)
      */
-    private $type;
+    protected $type;
 
     /**
      * @var string
-     *
      * @ORM\Column(name="name", type="string", length=255)
      */
-    private $name;
+    protected $name;
 
+    /**
+     * @var string
+     * @ORM\Column(name="note", type="text")
+     */
+    protected $note;
 
     /**
      * Get id
@@ -51,12 +61,11 @@ class Service
      *
      * @param string $type
      *
-     * @return Service
+     * @return Basic
      */
     public function setType($type)
     {
         $this->type = $type;
-
         return $this;
     }
 
@@ -75,12 +84,11 @@ class Service
      *
      * @param string $name
      *
-     * @return Service
+     * @return Basic
      */
     public function setName($name)
     {
         $this->name = $name;
-
         return $this;
     }
 
@@ -92,6 +100,22 @@ class Service
     public function getName()
     {
         return $this->name;
+    }
+
+    /**
+     * @return string
+     */
+    public function getNote()
+    {
+        return $this->note;
+    }
+
+    /**
+     * @param string $note
+     */
+    public function setNote(string $note)
+    {
+        $this->note = $note;
     }
 }
 
