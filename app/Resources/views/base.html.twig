@@ -31,13 +31,14 @@
   </style>
   {% endblock %}
 
-
+{#
   <script src="{{ absolute_url(asset('bundles/booking/js/jquery.min.js')) }}"></script>
   <script src="{{ absolute_url(asset('bundles/booking/js/moment.js')) }}"></script>
   <script src="{{ absolute_url(asset('bundles/booking/js/bootstrap.min.js')) }}"></script>
+#}
   {% block headscripts %}{% endblock %}
 </head>
-<body>
+<body class="nav-md">
   {% block body %}{% endblock %}
 
   {% block javascripts %}{% endblock %}

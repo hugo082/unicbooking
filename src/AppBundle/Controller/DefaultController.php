@@ -68,4 +68,12 @@ class DefaultController extends Controller
             'state' => array('code' => 'conf', 'key'=>'Confirmed')
         ));
     }
+
+    /**
+     * @Route("/test")
+     */
+    public function testAction()
+    {
+        return $this->render('dashboard/table/dynamic.html.twig');
+    }
 }
