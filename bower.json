@@ -1,0 +1,23 @@
+{
+  "name": "UnicBooking",
+  "homepage": "https://github.com/hugo082/unicbooking",
+  "authors": [
+    "hugo_082 <hugo.fouquet@epita.fr>"
+  ],
+  "description": "",
+  "main": "bower.json",
+  "keywords": [
+    "Symfony"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "^3.3.7"
+  }
+}
