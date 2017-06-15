@@ -18,7 +18,9 @@ class AppKernel extends Kernel
             new FOS\UserBundle\FOSUserBundle(),
             new AppBundle\AppBundle(),
             new DB\ManagerBundle\DBManagerBundle(),
-            new FQT\DBCoreManagerBundle\FQTDBCoreManagerBundle()
+            new FQT\DBCoreManagerBundle\FQTDBCoreManagerBundle(),
+            new Booking\UserBundle\BookingUserBundle(),
+            new Booking\AppBundle\BookingAppBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {

@@ -1,3 +1,13 @@
+booking_app:
+    resource: "@BookingAppBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
+booking_user:
+    resource: "@BookingUserBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
 db.manager:
     resource: "@DBManagerBundle/Resources/config/routing.yml"
     prefix:   /database

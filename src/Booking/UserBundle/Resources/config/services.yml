@@ -1,0 +1,4 @@
+services:
+#    booking_user.example:
+#        class: Booking\UserBundle\Example
+#        arguments: ["@service_id", "plain_value", "%parameter%"]
