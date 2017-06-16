@@ -3,7 +3,7 @@
 namespace Booking\AppBundle\Entity;
 
 use Booking\AppBundle\Entity\Core\Price;
-use Booking\AppBundle\Entity\Services\Basic;
+use FQT\DBCoreManagerBundle\Annotations\Viewable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -31,14 +31,8 @@ class Product
     private $name;
 
     /**
-     * @var int
-     * @ORM\Column(name="tva", type="integer")
-     */
-    private $tva;
-
-    /**
-     * @var Basic
-     * @ORM\ManyToOne(targetEntity="Booking\AppBundle\Entity\Services\Basic", cascade={"persist"})
+     * @var Service
+     * @ORM\ManyToOne(targetEntity="Booking\AppBundle\Entity\Service", cascade={"persist"})
      */
     private $service;
 
@@ -65,7 +59,7 @@ class Product
 
     /**
      * Get id
-     *
+     * @Viewable(title="id", index=0)
      * @return int
      */
     public function getId()
@@ -89,7 +83,7 @@ class Product
 
     /**
      * Get name
-     *
+     * @Viewable(title="Name", index=2)
      * @return string
      */
     public function getName()
@@ -98,41 +92,18 @@ class Product
     }
 
     /**
-     * Set tva
-     *
-     * @param integer $tva
-     *
-     * @return Product
+     * @Viewable(title="Service", index=1)
+     * @return Service
      */
-    public function setTva($tva)
-    {
-        $this->tva = $tva;
-
-        return $this;
-    }
-
-    /**
-     * Get tva
-     *
-     * @return int
-     */
-    public function getTva()
-    {
-        return $this->tva;
-    }
-
-    /**
-     * @return Basic
-     */
-    public function getService(): Basic
+    public function getService(): ?Service
     {
         return $this->service;
     }
 
     /**
-     * @param Basic $service
+     * @param Service $service
      */
-    public function setService(Basic $service)
+    public function setService(Service $service)
     {
         $this->service = $service;
     }
@@ -140,7 +111,7 @@ class Product
     /**
      * @return ArrayCollection
      */
-    public function getClients(): ArrayCollection
+    public function getClients()
     {
         return $this->clients;
     }
@@ -154,9 +125,10 @@ class Product
     }
 
     /**
+     * @Viewable(title="Price (TVA)", index=3)
      * @return Price
      */
-    public function getPrice(): Price
+    public function getPrice(): ?Price
     {
         return $this->price;
     }

@@ -3,6 +3,7 @@
 namespace Booking\AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use FQT\DBCoreManagerBundle\Annotations\Viewable;
 
 /**
  * Contact
@@ -48,7 +49,7 @@ class Contact
 
     /**
      * Get id
-     *
+     * @Viewable(title="id", index=0)
      * @return int
      */
     public function getId()
@@ -57,9 +58,10 @@ class Contact
     }
 
     /**
+     * @Viewable(title="Firstname", index=1)
      * @return string
      */
-    public function getFirstname(): string
+    public function getFirstname()
     {
         return $this->firstname;
     }
@@ -73,9 +75,10 @@ class Contact
     }
 
     /**
+     * @Viewable(title="Lastname", index=2)
      * @return string
      */
-    public function getLastname(): string
+    public function getLastname()
     {
         return $this->lastname;
     }
@@ -89,9 +92,10 @@ class Contact
     }
 
     /**
+     * @Viewable(title="Email", index=3)
      * @return string
      */
-    public function getEmail(): string
+    public function getEmail()
     {
         return $this->email;
     }
@@ -107,7 +111,7 @@ class Contact
     /**
      * @return Client
      */
-    public function getClient(): Client
+    public function getClient()
     {
         return $this->client;
     }

@@ -21,16 +21,16 @@
             <div class="menu_section">
                 <h3>Manage</h3>
                 <ul class="nav side-menu">
-                    <li><a href="#"><i class="fa fa-user"></i> Clients</a></li>
+                    <li><a href="{{ path('db.manager.process', {actionID: 'list', name: 'client'}) }}"><i class="fa fa-user"></i> Clients</a></li>
                     <li>
                         <a><i class="fa fa-book"></i> Catalog <span class="fa fa-chevron-down"></span></a>
                         <ul class="nav child_menu">
-                            <li><a href="{{ path('db.manager.process', {actionID: 'list', name: 'Product'}) }}">Products</a></li>
-                            <li><a href="#">Services</a></li>
+                            <li><a href="{{ path('db.manager.process', {actionID: 'list', name: 'product'}) }}">Products</a></li>
+                            <li><a href="{{ path('db.manager.process', {actionID: 'list', name: 'service'}) }}">Services</a></li>
                         </ul>
                     </li>
-                    <li><a href="{{ path('db.manager.process', {actionID: 'list', name: 'Airport'}) }}"><i class="fa fa-plane"></i> Airports</a></li>
-                    <li><a href="#"><i class="fa fa-automobile"></i> Cars</a></li>
+                    <li><a href="{{ path('db.manager.process', {actionID: 'list', name: 'airport'}) }}"><i class="fa fa-plane"></i> Airports</a></li>
+                    <li><a href="{{ path('db.manager.process', {actionID: 'list', name: 'car'}) }}"><i class="fa fa-automobile"></i> Cars</a></li>
                 </ul>
             </div>
 

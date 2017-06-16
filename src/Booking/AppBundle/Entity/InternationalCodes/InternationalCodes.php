@@ -41,7 +41,7 @@ abstract class InternationalCodes
 
     public function __toString()
     {
-        return $this->getCode();
+        return $this->icao . " - " . $this->iata;
     }
 
     public function encode() {

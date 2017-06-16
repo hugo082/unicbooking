@@ -88,16 +88,24 @@ fqtdb_core_manager:
     methods:
         service: 'configure.service'
     entities:
-        Airport:
+        airport:
+            title: Airport
             fullName: Booking\AppBundle:Airport
             methods: [ list, add, edit ]
-        Product:
+        product:
+            title: Product
             fullName: Booking\AppBundle:Product
             methods: [ list, add, edit, remove ]
-        Client:
+        client:
+            title: Client
             fullName: Booking\AppBundle:Client
             methods: [ list, add, edit, remove ]
-        Service:
+        car:
+            title: Car
+            fullName: Booking\AppBundle:Car
+            methods: [ list, add, edit, remove ]
+        service:
+            title: Service
             fullName: Booking\AppBundle:Service
             methods: [ list, add, edit, remove ]
 

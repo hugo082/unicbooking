@@ -1,22 +1,22 @@
 {% block collection_widget %}
-{% spaceless %}
+    {% spaceless %}
 
-{% if prototype is defined %}
-{% set attr = attr|merge({'data-prototype': block('collection_item_widget') }) %}
-{% endif %}
-<div {{ block('widget_container_attributes') }}></div>
+        {% if prototype is defined %}
+            {% set attr = attr|merge({'data-prototype': block('collection_item_widget') }) %}
+        {% endif %}
+        <div {{ block('widget_container_attributes') }}></div>
 
-{% endspaceless %}
+    {% endspaceless %}
 {% endblock collection_widget %}
 
 {% block collection_item_widget %}
-{% spaceless %}
-<div id="collection_row" class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
-    {% for row in prototype %}
-    <div class="col-md-2 col-sm-2 col-lg-2 col-xs-2">
-        {{ form_widget(row) }}
-    </div>
-    {% endfor %}
-</div>
-{% endspaceless %}
+    {% spaceless %}
+        <div id="collection_row" class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
+            {% for row in prototype %}
+                <div class="col-md-2 col-sm-2 col-lg-2 col-xs-2">
+                    {{ form_widget(row) }}
+                </div>
+            {% endfor %}
+        </div>
+    {% endspaceless %}
 {% endblock collection_item_widget %}

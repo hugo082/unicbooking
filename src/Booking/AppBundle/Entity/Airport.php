@@ -4,6 +4,7 @@ namespace Booking\AppBundle\Entity;
 
 use Booking\AppBundle\Entity\InternationalCodes\AirportsCodes;
 use Doctrine\ORM\Mapping as ORM;
+use FQT\DBCoreManagerBundle\Annotations\Viewable;
 
 /**
  * Airport
@@ -45,7 +46,7 @@ class Airport
 
     /**
      * Get id
-     *
+     * @Viewable(title="id", index=0)
      * @return int
      */
     public function getId()
@@ -69,7 +70,7 @@ class Airport
 
     /**
      * Get name
-     *
+     * @Viewable(title="Name", index=1)
      * @return string
      */
     public function getName()
@@ -78,6 +79,7 @@ class Airport
     }
 
     /**
+     * @Viewable(title="Codes", index=2)
      * @return AirportsCodes
      */
     public function getCodes()
@@ -94,9 +96,10 @@ class Airport
     }
 
     /**
+     * @Viewable(title="Supported", index=3)
      * @return bool
      */
-    public function isSupported(): bool
+    public function isSupported()
     {
         return $this->supported;
     }

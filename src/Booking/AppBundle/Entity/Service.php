@@ -1,23 +1,17 @@
 <?php
 
-namespace Booking\AppBundle\Entity\Services;
+namespace Booking\AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use FQT\DBCoreManagerBundle\Annotations\Viewable;
 
 /**
  * Service
  *
- * @ORM\Table(name="booking_service_basic")
+ * @ORM\Table(name="booking_service")
  * @ORM\Entity(repositoryClass="Booking\AppBundle\Repository\ServiceRepository")
- * @ORM\InheritanceType("JOINED")
- * @ORM\DiscriminatorMap({
- *     "service_basic" = "Basic",
- *     "service_airport" = "Booking\AppBundle\Entity\Services\Airport",
- *     "service_limousine" = "Booking\AppBundle\Entity\Services\Limousine",
- *     "service_train" = "Booking\AppBundle\Entity\Services\Train"
- * })
  */
-class Basic
+class Service
 {
     /**
      * @var int
@@ -40,15 +34,14 @@ class Basic
      */
     protected $name;
 
-    /**
-     * @var string
-     * @ORM\Column(name="note", type="text")
-     */
-    protected $note;
+    public function __toString()
+    {
+        return $this->type . " - " . $this->name;
+    }
 
     /**
      * Get id
-     *
+     * @Viewable(title="id", index=0)
      * @return int
      */
     public function getId()
@@ -61,7 +54,7 @@ class Basic
      *
      * @param string $type
      *
-     * @return Basic
+     * @return Service
      */
     public function setType($type)
     {
@@ -71,7 +64,7 @@ class Basic
 
     /**
      * Get type
-     *
+     * @Viewable(title="Type", index=1)
      * @return string
      */
     public function getType()
@@ -84,7 +77,7 @@ class Basic
      *
      * @param string $name
      *
-     * @return Basic
+     * @return Service
      */
     public function setName($name)
     {
@@ -94,28 +87,12 @@ class Basic
 
     /**
      * Get name
-     *
+     * @Viewable(title="Name", index=2)
      * @return string
      */
     public function getName()
     {
         return $this->name;
-    }
-
-    /**
-     * @return string
-     */
-    public function getNote()
-    {
-        return $this->note;
-    }
-
-    /**
-     * @param string $note
-     */
-    public function setNote(string $note)
-    {
-        $this->note = $note;
     }
 }
 

@@ -4,6 +4,7 @@ namespace Booking\AppBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use FQT\DBCoreManagerBundle\Annotations\Viewable;
 
 /**
  * Client
@@ -65,7 +66,7 @@ class Client
 
     /**
      * Get id
-     *
+     * @Viewable(title="id", index=0)
      * @return int
      */
     public function getId()
@@ -89,7 +90,7 @@ class Client
 
     /**
      * Get code
-     *
+     * @Viewable(title="Code", index=1)
      * @return string
      */
     public function getCode()
@@ -113,7 +114,7 @@ class Client
 
     /**
      * Get name
-     *
+     * @Viewable(title="Name", index=2)
      * @return string
      */
     public function getName()
@@ -137,7 +138,7 @@ class Client
 
     /**
      * Get type
-     *
+     * @Viewable(title="Type", index=3)
      * @return string
      */
     public function getType()
@@ -146,9 +147,10 @@ class Client
     }
 
     /**
+     * @Viewable(title="Billing", index=4)
      * @return string
      */
-    public function getBilling(): string
+    public function getBilling()
     {
         return $this->billing;
     }
@@ -162,9 +164,10 @@ class Client
     }
 
     /**
+     * @Viewable(title="Tariff", index=5)
      * @return string
      */
-    public function getTariff(): string
+    public function getTariff()
     {
         return $this->tariff;
     }
@@ -175,6 +178,28 @@ class Client
     public function setTariff(string $tariff)
     {
         $this->tariff = $tariff;
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getContacts()
+    {
+        return $this->contacts;
+    }
+
+    /**
+     * @param ArrayCollection $contacts
+     */
+    public function setContacts(ArrayCollection $contacts)
+    {
+        $this->contacts = $contacts;
+    }
+
+    public function linkContacts() {
+        /** @var Contact $contact */
+        foreach ($this->contacts as $contact)
+            $contact->setClient($this);
     }
 }
 

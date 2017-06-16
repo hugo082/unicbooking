@@ -1,0 +1,113 @@
+
+{% block collection_widget %}
+    {% spaceless %}
+        {% if prototype is defined %}
+            {% set attr = attr|merge({'data-prototype': block('collection_item_widget') }) %}
+        {% endif %}
+        <div {{ block('widget_container_attributes') }}>
+            {% for widget in form.children %}
+                {{ form_row(widget) }}
+            {% endfor %}
+        </div>
+        <br>
+        <a id="form_collection_add" class="btn btn-success" data-target="{{ id }}">Add</a>
+
+    {% endspaceless %}
+
+    <script>
+        $( document ).ready(function() {
+            $(document).on('click', '#form_collection_add[data-target]', function(event) {
+                var collectionHolder = $('#' + $(this).attr('data-target'));
+
+                if (!collectionHolder.attr('data-counter')) {
+                    collectionHolder.attr('data-counter', collectionHolder.children().length);
+                }
+
+                var prototype = collectionHolder.attr('data-prototype');
+                var form = prototype.replace(/__name__/g, collectionHolder.attr('data-counter'));
+
+                collectionHolder.attr('data-counter', Number(collectionHolder.attr('data-counter')) + 1);
+                collectionHolder.append(form);
+
+                event && event.preventDefault();
+            });
+
+            $(document).on('click', '#form_collection_remove[data-related]', function(event) {
+                var name = $(this).attr('data-related');
+                $('*[data-content="'+name+'"]').remove();
+
+                event && event.preventDefault();
+            });
+        });
+    </script>
+{% endblock collection_widget %}
+
+{% block collection_item_widget %}
+    {% spaceless %}
+        <div id="{{ prototype.vars.id }}" class="col-md-12 col-sm-12 col-lg-12 col-xs-12" data-content="{{ prototype.vars.id }}"
+             style="margin: 10px 0; padding: 0">
+            {% for row in prototype %}
+                {{ form_widget(row) }}
+            {% endfor %}
+            <a id="form_collection_remove" class="btn btn-danger" data-related="{{ prototype.vars.id }}">Remove</a>
+        </div>
+    {% endspaceless %}
+{% endblock collection_item_widget %}
+
+{% block _booking_appbundle_client_contacts_entry_row %}
+    {% spaceless %}
+        <div id="{{ form.vars.id }}" class="col-md-12 col-sm-12 col-lg-12 col-xs-12" data-content="{{ form.vars.id }}"
+             style="margin: 10px 0; padding: 0">
+            {% for row in form %}
+                {{ form_widget(row) }}
+            {% endfor %}
+            <a id="form_collection_remove" class="btn btn-danger" data-related="{{ form.vars.id }}">Remove</a>
+        </div>
+    {% endspaceless %}
+{% endblock _booking_appbundle_client_contacts_entry_row %}
+
+{% block _booking_appbundle_airport_codes_widget %}
+    {% spaceless %}
+        {% for widget in form.children %}
+            {{ form_row(widget) }}
+        {% endfor %}
+    {% endspaceless %}
+{% endblock _booking_appbundle_airport_codes_widget %}
+
+{% block _booking_appbundle_car_price_widget %}
+    {% spaceless %}
+        {% for widget in form.children %}
+            {{ form_row(widget, {'label': false}) }}
+        {% endfor %}
+    {% endspaceless %}
+{% endblock _booking_appbundle_car_price_widget %}
+
+{% block _booking_appbundle_product_clients_widget %}
+    {% spaceless %}
+        {% for widget in form.children %}
+            {% set class = (widget.vars.label_attr.class is defined) ? widget.vars.label_attr.class : "" %}
+            <label for="{{ widget.vars.id }}" class="{{ class }}">
+                <input type="checkbox" {{ block('widget_attributes') }}
+                        {% if widget.vars.value is defined %} value="{{ widget.vars.value }}"{% endif %}
+                        {% if widget.vars.checked %} checked="checked"{% endif %} />
+                {{ widget.vars.label|trans({}, translation_domain) }}
+            </label>
+            <br>
+        {% endfor %}
+    {% endspaceless %}
+{% endblock _booking_appbundle_product_clients_widget %}
+
+{% block checkbox_label %}
+    {% spaceless %}
+        {% set class = (label_attr.class is defined) ? label_attr.class : "" %}
+        <label for="{{ id }}" class="{{ class }}">{{ label|trans({}, translation_domain) }}</label>
+    {% endspaceless %}
+{% endblock checkbox_label %}
+
+{% block checkbox_widget %}
+    {% spaceless %}
+        <input type="checkbox" {{ block('widget_attributes') }}
+                {% if value is defined %} value="{{ value }}"{% endif %}
+                {% if checked %} checked="checked"{% endif %} />
+    {% endspaceless %}
+{% endblock checkbox_widget %}

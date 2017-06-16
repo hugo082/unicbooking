@@ -67,17 +67,17 @@
         },
         {
             "name": "db/managerbundle",
-            "version": "2.0.1",
+            "version": "2.0.2",
             "target-dir": "DB/ManagerBundle",
             "source": {
                 "type": "git",
                 "url": "https://github.com/hugo082/DBManagerBundle.git",
-                "reference": "91ed815d91ae4c2bce21dd71e7f865b7139008db"
+                "reference": "aec9fadf12b2e7c1899365775f6bc51d97c902d0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hugo082/DBManagerBundle/zipball/91ed815d91ae4c2bce21dd71e7f865b7139008db",
-                "reference": "91ed815d91ae4c2bce21dd71e7f865b7139008db",
+                "url": "https://api.github.com/repos/hugo082/DBManagerBundle/zipball/aec9fadf12b2e7c1899365775f6bc51d97c902d0",
+                "reference": "aec9fadf12b2e7c1899365775f6bc51d97c902d0",
                 "shasum": ""
             },
             "require": {
@@ -108,7 +108,7 @@
                 "Database manager",
                 "Web interface manager"
             ],
-            "time": "2017-06-04T16:53:26+00:00"
+            "time": "2017-06-16T09:35:15+00:00"
         },
         {
             "name": "doctrine/annotations",
@@ -881,17 +881,17 @@
         },
         {
             "name": "fqt/db-core-managerbundle",
-            "version": "1.1.1",
+            "version": "1.1.3",
             "target-dir": "FQT/DBCoreManagerBundle",
             "source": {
                 "type": "git",
                 "url": "https://github.com/hugo082/FQTDBCoreManagerBundle.git",
-                "reference": "b7dc695f32b0e8c5bc220282353bb78a929bf0cd"
+                "reference": "5c3fb0fc3c31511b79b57c10542b3df3f8852fb2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hugo082/FQTDBCoreManagerBundle/zipball/b7dc695f32b0e8c5bc220282353bb78a929bf0cd",
-                "reference": "b7dc695f32b0e8c5bc220282353bb78a929bf0cd",
+                "url": "https://api.github.com/repos/hugo082/FQTDBCoreManagerBundle/zipball/5c3fb0fc3c31511b79b57c10542b3df3f8852fb2",
+                "reference": "5c3fb0fc3c31511b79b57c10542b3df3f8852fb2",
                 "shasum": ""
             },
             "require": {
@@ -921,7 +921,7 @@
                 "Core manager",
                 "Database manager"
             ],
-            "time": "2017-06-04T17:34:01+00:00"
+            "time": "2017-06-16T09:34:01+00:00"
         },
         {
             "name": "friendsofsymfony/user-bundle",

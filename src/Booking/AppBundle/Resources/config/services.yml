@@ -2,3 +2,9 @@ services:
 #    booking_app.example:
 #        class: Booking\AppBundle\Example
 #        arguments: ["@service_id", "plain_value", "%parameter%"]
+
+
+    app.db.manager.listener:
+        class: Booking\AppBundle\Subscriber\DatabaseManagerSubscriber
+        tags:
+            - { name: kernel.event_subscriber }

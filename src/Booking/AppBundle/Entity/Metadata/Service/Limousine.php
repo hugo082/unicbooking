@@ -1,6 +1,6 @@
 <?php
 
-namespace Booking\AppBundle\Entity\Services;
+namespace Booking\AppBundle\Entity\Metadata\Service;
 
 use Booking\AppBundle\Entity\Car;
 use Doctrine\ORM\Mapping as ORM;
@@ -8,10 +8,9 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Limousine Service
  *
- * @ORM\Table(name="booking_service_limousine")
- * @ORM\Entity(repositoryClass="Booking\AppBundle\Repository\ServiceRepository")
+ * @ORM\Embeddable
  */
-class Limousine extends Basic
+class Limousine
 {
     /**
      * Default Flight
@@ -35,7 +34,7 @@ class Limousine extends Basic
     /**
      * @return string
      */
-    public function getPickUp(): string
+    public function getPickUp(): ?string
     {
         return $this->pick_up;
     }
@@ -51,7 +50,7 @@ class Limousine extends Basic
     /**
      * @return string
      */
-    public function getDropOff(): string
+    public function getDropOff(): ?string
     {
         return $this->drop_off;
     }

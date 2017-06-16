@@ -1,16 +1,15 @@
 <?php
 
-namespace Booking\AppBundle\Entity\Services;
+namespace Booking\AppBundle\Entity\Metadata\Service;
 
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Train Service
  *
- * @ORM\Table(name="booking_service_train")
- * @ORM\Entity(repositoryClass="Booking\AppBundle\Repository\ServiceRepository")
+ * @ORM\Embeddable
  */
-class Train extends Basic
+class Train
 {
     /**
      * @var string

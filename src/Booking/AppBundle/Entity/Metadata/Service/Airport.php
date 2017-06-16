@@ -1,6 +1,6 @@
 <?php
 
-namespace Booking\AppBundle\Entity\Services;
+namespace Booking\AppBundle\Entity\Metadata\Service;
 
 use Booking\AppBundle\Entity\Flight;
 use Doctrine\ORM\Mapping as ORM;
@@ -8,10 +8,9 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Airport Service
  *
- * @ORM\Table(name="booking_service_airport")
- * @ORM\Entity(repositoryClass="Booking\AppBundle\Repository\ServiceRepository")
+ * @ORM\Embeddable
  */
-class Airport extends Basic
+class Airport
 {
     /**
      * Default Flight
@@ -31,7 +30,7 @@ class Airport extends Basic
     /**
      * @return Flight
      */
-    public function getFlight()
+    public function getFlight(): ?Flight
     {
         return $this->flight;
     }
@@ -47,7 +46,7 @@ class Airport extends Basic
     /**
      * @return Flight
      */
-    public function getFlightTransit()
+    public function getFlightTransit(): ?Flight
     {
         return $this->flight_transit;
     }

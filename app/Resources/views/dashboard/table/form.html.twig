@@ -1,5 +1,13 @@
 
 
+{% form_theme data.form 'bootstrap_3_layout.html.twig' 'form/form_collection_add.html.twig' %}
+
+<style>
+    .form-group .control-label {
+        padding-top: 0;
+    }
+</style>
+
 <br>
 {{ form_start(data.form, { 'attr': {'class':'form-horizontal form-label-left'}}) }}
                 {% for row in data.form %}
@@ -8,7 +16,9 @@
                             {{ form_row(row) }}
                         {% else %}
                             {{ form_label(row, null, {'label_attr':{'class':'control-label col-md-3 col-sm-3 col-xs-12'}}) }}
-                            {{ form_widget(row) }}
+                            <div class="col-sm-9">
+                                {{ form_widget(row) }}
+                            </div>
                         {% endif %}
                     </div>
                 {% endfor %}
