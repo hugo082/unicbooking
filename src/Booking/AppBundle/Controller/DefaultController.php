@@ -12,6 +12,7 @@ class DefaultController extends Controller
      */
     public function indexAction()
     {
+        echo "DASHBOARD";
         return $this->render('BookingAppBundle:Default:index.html.twig');
     }
 }

@@ -111,3 +111,44 @@
                 {% if checked %} checked="checked"{% endif %} />
     {% endspaceless %}
 {% endblock checkbox_widget %}
+
+
+
+
+
+
+
+{% block _booking_appbundle_book_products_entry_service_row %}
+    {% spaceless %}
+        HELLO FDFS
+
+    {% endspaceless %}
+{% endblock _booking_appbundle_book_products_entry_service_row %}
+
+
+{% block _booking_appbundle_book_products_entry_product_type_widget %}
+    {% spaceless %}
+        {{ form_widget(form) }}
+        <script>
+            $( document ).ready(function () {
+
+                var parentId = "{{ form.parent.vars.id }}";
+                function loadForm(value) {
+                    $("#{{ id }} option").each(function () {
+                        var currentId = "#" + parentId + "_"+ $(this).attr("s-type");
+                        if (value === $(this).attr("s-type"))
+                            $(currentId).removeClass("disabled hidden");
+                        else
+                            $(currentId).addClass("disabled hidden");
+                        console.log(currentId, parentId, value);
+                    });
+                }
+
+                $("#{{ id }}").change(function () {
+                    loadForm($(this).find(":selected").attr("s-type"));
+                });
+                loadForm($("#{{ id }}").find(":selected").attr("s-type"));
+            });
+        </script>
+    {% endspaceless %}
+{% endblock _booking_appbundle_book_products_entry_product_type_widget %}

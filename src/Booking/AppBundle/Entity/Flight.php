@@ -39,5 +39,13 @@ class Flight
     {
         return $this->id;
     }
+
+    /**
+     * @return AirlinesCodes
+     */
+    public function getCodes(): ?AirlinesCodes
+    {
+        return $this->codes;
+    }
 }
 

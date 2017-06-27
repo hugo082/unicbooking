@@ -1,0 +1,79 @@
+{% extends 'dashboard/layout.html.twig' %}
+
+{% block stylesheets %}
+    {{parent()}}
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="{{ asset('bundles/booking/css/timepicker.min.css') }}">
+{% endblock %}
+
+{% block headscripts %}
+    {{parent()}}
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="{{ asset('bundles/booking/js/timepicker.min.js') }}"></script>
+{% endblock %}
+
+{% block content %}
+    <!-- page content -->
+    <div class="right_col" role="main">
+        <div class="">
+            <div class="page-title">
+                <div class="title_right">
+                    <a href="#" class="btn btn-lg btn-success">Lister</a>
+                </div>
+            </div>
+
+            <div class="clearfix"></div>
+
+
+            {% form_theme form 'bootstrap_3_layout.html.twig' 'form/form_collection_add.html.twig' 'form/form_div_layout.html.twig' %}
+
+            {{ form_start(form, { 'attr': {'class':'form-horizontal form-label-left'}}) }}
+
+            <div class="row">
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <div class="x_panel">
+                        <div class="x_title">
+                            <h2>Agent</h2>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="x_content">
+                            form agent field
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <div class="x_panel">
+                        <div class="x_title">
+                            <h2>Products</h2>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="x_content">
+                            {{ form_row(form.products) }}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <div class="x_panel">
+                        <div class="x_title">
+                            <h2>Action</h2>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="x_content">
+                            <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                                <button type="submit" class="btn btn-success">Submit</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {{ form_rest(form) }}
+            {{ form_end(form) }}
+        </div>
+    </div>
+{% endblock %}
+
+
+{% block javascripts %}
+    {{parent()}}
+    <script src="{{ asset('js/core/book_v2.js') }}"></script>
+{% endblock %}

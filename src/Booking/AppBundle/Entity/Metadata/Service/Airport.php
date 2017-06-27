@@ -16,6 +16,7 @@ class Airport
      * Default Flight
      * @var Flight
      * @ORM\ManyToOne(targetEntity="Booking\AppBundle\Entity\Flight", cascade={"persist"})
+     * @ORM\JoinColumn(name="flight_id", referencedColumnName="id", nullable=true)
      */
     private $flight;
 
@@ -23,9 +24,13 @@ class Airport
      * Transit Flight
      * @var Flight
      * @ORM\ManyToOne(targetEntity="Booking\AppBundle\Entity\Flight", cascade={"persist"})
+     * @ORM\JoinColumn(name="flight_tra_id", referencedColumnName="id", nullable=true)
      */
     private $flight_transit;
 
+    public function isValid(): Bool {
+        return $this->flight != null;
+    }
 
     /**
      * @return Flight

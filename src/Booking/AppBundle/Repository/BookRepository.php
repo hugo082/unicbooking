@@ -10,4 +10,19 @@ namespace Booking\AppBundle\Repository;
  */
 class BookRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function getLast(){
+        $qb = $this->createQueryBuilder('b');
+
+        $qb->select('b')
+            ->andwhere('b.creationdate <= :limit_top')
+            //->andwhere('b.archived = false')
+            ->setParameter('limit_top', new \DateTime())
+            ->andwhere('b.creationdate >= :limit_bottom')
+            ->setParameter('limit_bottom', new \DateTime("-1 month"))
+            ->orderBy('b.creationdate', 'DESC');
+
+        return $qb
+            ->getQuery()
+            ->getResult();
+    }
 }

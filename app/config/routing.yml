@@ -6,7 +6,7 @@ booking_app:
 booking_user:
     resource: "@BookingUserBundle/Controller/"
     type:     annotation
-    prefix:   /
+    prefix:   /user
 
 db.manager:
     resource: "@DBManagerBundle/Resources/config/routing.yml"
@@ -15,6 +15,7 @@ db.manager:
 app:
     resource: "@AppBundle/Controller/"
     type:     annotation
+    prefix:   /hold
 
 fos_user:
     resource: "@FOSUserBundle/Resources/config/routing/all.xml"

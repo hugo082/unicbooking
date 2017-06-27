@@ -3,6 +3,13 @@
 <div class="input-group date bootstrap-timepicker timepicker">
 	<input type="text" {{ required ? 'required' : '' }} id="{{id}}" name="{{full_name}}" class="form-control">
 	<span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+	<script>
+        $("#{{id}}").timepicker({
+            defaultTime: false,
+            minuteStep: 5,
+            showMeridian: false,
+        });
+	</script>
 </div>
 {% endblock %}
 
@@ -10,5 +17,14 @@
 <div class="input-group date bootstrap-datepicker datepicker">
 	<input type="text" {{ required ? 'required' : '' }} id="{{id}}" name="{{full_name}}"  value="{{value}}" class="form-control">
 	<span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+	<script>
+        $( function() {
+            $("#{{id}}").datepicker({
+                numberOfMonths: 3,
+                showButtonPanel: true,
+                dateFormat: 'yy-mm-dd'
+            });
+        } );
+	</script>
 </div>
 {% endblock %}

@@ -16,20 +16,25 @@ class Limousine
      * Default Flight
      * @var Car
      * @ORM\ManyToOne(targetEntity="Booking\AppBundle\Entity\Car", cascade={"persist"})
+     * @ORM\JoinColumn(name="car", referencedColumnName="id", nullable=true)
      */
     private $car;
 
     /**
      * @var string
-     * @ORM\Column(name="pick_up", type="string", length=255)
+     * @ORM\Column(name="pick_up", type="string", length=255, nullable=true)
      */
     private $pick_up;
 
     /**
      * @var string
-     * @ORM\Column(name="drop_off", type="string", length=255)
+     * @ORM\Column(name="drop_off", type="string", length=255, nullable=true)
      */
     private $drop_off;
+
+    public function isValid(): Bool {
+        return $this->car && $this->drop_off && $this->pick_up;
+    }
 
     /**
      * @return string
@@ -61,6 +66,22 @@ class Limousine
     public function setDropOff(string $drop_off)
     {
         $this->drop_off = $drop_off;
+    }
+
+    /**
+     * @return Car
+     */
+    public function getCar(): ?Car
+    {
+        return $this->car;
+    }
+
+    /**
+     * @param Car $car
+     */
+    public function setCar(Car $car)
+    {
+        $this->car = $car;
     }
 }
 

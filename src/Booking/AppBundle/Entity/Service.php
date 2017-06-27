@@ -73,6 +73,15 @@ class Service
     }
 
     /**
+     * Get type
+     * @return string
+     */
+    public function getTypeLower()
+    {
+        return strtolower($this->type);
+    }
+
+    /**
      * Set name
      *
      * @param string $name
