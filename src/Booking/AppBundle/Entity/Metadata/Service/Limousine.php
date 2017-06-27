@@ -8,10 +8,20 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Limousine Service
  *
- * @ORM\Embeddable
+ * @ORM\Table(name="booking_limousine_service_metadata")
+ * @ORM\Entity()
  */
 class Limousine
 {
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
     /**
      * Default Flight
      * @var Car
@@ -34,6 +44,14 @@ class Limousine
 
     public function isValid(): Bool {
         return $this->car && $this->drop_off && $this->pick_up;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getId()
+    {
+        return $this->id;
     }
 
     /**

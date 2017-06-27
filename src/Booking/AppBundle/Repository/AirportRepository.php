@@ -10,4 +10,20 @@ namespace Booking\AppBundle\Repository;
  */
 class AirportRepository extends \Doctrine\ORM\EntityRepository
 {
+
+    public function getWithCodeIcao($icaocode) {
+        $qb = $this->createQueryBuilder('e');
+
+        $qb
+            ->select('e')
+            ->where('e.removed = :rm')
+            ->setParameter('rm', false )
+            ->andWhere('e.codes.icao = :icaocode')
+            ->setParameter('icaocode', $icaocode )
+        ;
+
+        return $qb
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
 }

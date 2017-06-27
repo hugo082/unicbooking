@@ -3,15 +3,26 @@
 namespace Booking\AppBundle\Entity\Metadata\Service;
 
 use Booking\AppBundle\Entity\Flight;
+use Booking\AppBundle\Repository\FlightRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Airport Service
  *
- * @ORM\Embeddable
+ * @ORM\Table(name="booking_airport_service_metadata")
+ * @ORM\Entity()
  */
 class Airport
 {
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
     /**
      * Default Flight
      * @var Flight
@@ -30,6 +41,14 @@ class Airport
 
     public function isValid(): Bool {
         return $this->flight != null;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getId()
+    {
+        return $this->id;
     }
 
     /**
@@ -62,6 +81,31 @@ class Airport
     public function setFlightTransit(Flight $flight_transit)
     {
         $this->flight_transit = $flight_transit;
+    }
+
+    public function computeFlightWithCurrentFlight(FlightRepository $repo) {
+        $flight = $this->getFlightWithFlight($this->flight, $repo);
+        if ($flight instanceof Flight)
+            $this->setFlight($flight);
+    }
+    public function computeFlightTransitWithCurrentFlight(FlightRepository $repo) {
+        $flight = $this->getFlightWithFlight($this->flight_transit, $repo);
+        if ($flight instanceof Flight)
+            $this->setFlightTransit($flight);
+    }
+
+    /**
+     * @param Flight|null $flight
+     * @param FlightRepository $repo
+     * @return null|Flight
+     */
+    private function getFlightWithFlight($flight, FlightRepository $repo) {
+        if (!$flight || !$flight->getId())
+            return null;
+        $flight = $repo->find($flight->getId());
+        if ($flight instanceof Flight)
+            return $flight;
+        return null;
     }
 }
 

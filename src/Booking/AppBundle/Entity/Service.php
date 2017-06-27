@@ -72,6 +72,18 @@ class Service
         return $this->type;
     }
 
+    public function isAirport() {
+        return $this->getTypeLower() == "airport";
+    }
+
+    public function isLimousine() {
+        return $this->getTypeLower() == "limousine";
+    }
+
+    public function isTrain() {
+        return $this->getTypeLower() == "train";
+    }
+
     /**
      * Get type
      * @return string

@@ -2,7 +2,7 @@ $( function() {
     function ApiChecker(input, hidden) {
         this.inputId_ = input;
         this.hiddenInputId_ = hidden;
-        this.flightModal_ = "#flightOaciModal";
+        this.flightModal_ = "#flightModalInformation";
         this.flightModal_cancel_ = this.flightModal_ + "_cancel";
         this.flightModal_origin_ = this.flightModal_ + "_origin";
         this.flightModal_departure_time_ = this.flightModal_ + "_departure_time";
@@ -15,7 +15,7 @@ $( function() {
             var checker = this;
             $.ajax({
                 type: 'GET',
-                url: "http://" + window.location.host + "/data/api/flight",
+                url: "http://" + window.location.host + "/api/flight",
                 data: { 'flight_code': code },
                 success : function(result) {
                     if (result.status.code != 200) {

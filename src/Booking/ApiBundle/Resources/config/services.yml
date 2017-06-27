@@ -1,4 +1,4 @@
 services:
-#    booking_api.example:
-#        class: Booking\ApiBundle\Example
-#        arguments: ["@service_id", "plain_value", "%parameter%"]
+    booking.api.checker:
+        class: Booking\ApiBundle\Checker\ApiChecker
+        arguments: ["@doctrine.orm.entity_manager"]

@@ -29,6 +29,21 @@ class Flight
      */
     private $codes;
 
+    public function __construct()
+    {
+        $this->codes = new AirlinesCodes();
+    }
+
+    public function encode() {
+        return array(
+            "id" => $this->id,
+            "codes" => $this->codes->encode(),
+            //"origin_time" => $this->deptime->getTimestamp(),
+            //"origin" => $this->depair->encode(),
+            //"destination_time" => $this->arrtime->getTimestamp(),
+            //"destination" => $this->arrair->encode()
+        );
+    }
 
     /**
      * Get id
@@ -38,6 +53,14 @@ class Flight
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * @param int $id
+     */
+    public function setId(int $id)
+    {
+        $this->id = $id;
     }
 
     /**

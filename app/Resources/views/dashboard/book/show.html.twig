@@ -1,0 +1,137 @@
+{% extends 'dashboard/layout.html.twig' %}
+
+{% block stylesheets %}
+    {{parent()}}
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="{{ asset('bundles/booking/css/timepicker.min.css') }}">
+{% endblock %}
+
+{% block headscripts %}
+    {{parent()}}
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="{{ asset('bundles/booking/js/timepicker.min.js') }}"></script>
+{% endblock %}
+
+{% block content %}
+    <!-- page content -->
+    <div class="right_col" role="main">
+        <div class="">
+            <div class="page-title">
+                <div class="title_right">
+                    <a href="#" class="btn btn-lg btn-success">Lister</a>
+                </div>
+            </div>
+
+            <div class="clearfix"></div>
+
+
+            <style>
+                table .section {
+                    text-align: center;
+                    font-size: 13px;
+                    background-color: #f9f9f9;
+                }
+            </style>
+
+            <div class="row">
+                <div class="col-md-6 col-sm-6 col-xs-6">
+                    <div class="x_panel">
+                        <div class="x_title">
+                            <h2>Agent Information</h2>
+                            <ul class="nav navbar-right panel_toolbox">
+                                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                </li>
+                                <li><a class="close-link"><i class="fa fa-close"></i></a>
+                                </li>
+                            </ul>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="x_content">
+                            <table class="table col-lg-12 col-sm-12 col-xs-12">
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Hugo Fouquet</td>
+                                </tr>
+                                <tr>
+                                    <td>Email</td>
+                                    <td>hugo@email.com</td>
+                                </tr>
+                                <tr>
+                                    <td>Client</td>
+                                    <td>Client Name</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-sm-6 col-xs-6">
+                    <div class="x_panel">
+                        <div class="x_title">
+                            <h2>Book Information</h2>
+                            <ul class="nav navbar-right panel_toolbox">
+                                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                </li>
+                                <li><a class="close-link"><i class="fa fa-close"></i></a>
+                                </li>
+                            </ul>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="x_content">
+                            <table class="table col-lg-12 col-sm-12 col-xs-12">
+                                <tr>
+                                    <td>Creation</td>
+                                    <td>{{ book.creationDate|date('d-M-Y') }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Dates</td>
+                                    <td>{{ book.firstDate|date('d-M-Y') }} -> {{ book.lastDate|date('d-M-Y') }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Duration</td>
+                                    <td>{{ book.duration|date("%d day(s)") }}</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                {% for product in book.products %}
+                    <div class="col-md-6 col-sm-6 col-xs-6">
+                        <div class="x_panel">
+                            <div class="x_title">
+                                <h2>Product {{ product.productType.service.type }}</h2>
+                                <ul class="nav navbar-right panel_toolbox">
+                                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                    </li>
+                                    <li><a class="close-link"><i class="fa fa-close"></i></a>
+                                    </li>
+                                </ul>
+                                <div class="clearfix"></div>
+                            </div>
+                            <div class="x_content">
+                                {% if product.productType.service.isAirport %}
+                                    {{ include('dashboard/book/service/airport.html.twig', {product: product}) }}
+                                {% elseif product.productType.service.isTrain %}
+                                    {{ include('dashboard/book/service/train.html.twig', {product: product}) }}
+                                {% elseif product.productType.service.isLimousine %}
+                                    {{ include('dashboard/book/service/limousine.html.twig', {product: product}) }}
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+
+        </div>
+    </div>
+
+{% endblock %}
+
+
+{% block javascripts %}
+    {{parent()}}
+    <script src="{{ asset('js/core/flight_api_loader.js') }}"></script>
+{% endblock %}

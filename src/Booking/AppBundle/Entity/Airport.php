@@ -43,6 +43,10 @@ class Airport
      */
     private $supported;
 
+    public function __construct()
+    {
+        $this->codes = new AirportsCodes();
+    }
 
     /**
      * Get id

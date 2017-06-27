@@ -36,16 +36,19 @@ class Product
     /**
      * Limousine Metadata
      * @var Limousine
-     * @ORM\Embedded(class="Booking\AppBundle\Entity\Metadata\Service\Limousine", columnPrefix="lim_")
+     * @ORM\OneToOne(targetEntity="Booking\AppBundle\Entity\Metadata\Service\Limousine", cascade={"persist"})
+     * @ORM\JoinColumn(name="limousine_serv_id", referencedColumnName="id", nullable=true)
      */
     private $limousine;
 
     /**
      * Airport Metadata
      * @var Airport
-     * @ORM\Embedded(class="Booking\AppBundle\Entity\Metadata\Service\Airport", columnPrefix="air_")
+     * @ORM\OneToOne(targetEntity="Booking\AppBundle\Entity\Metadata\Service\Airport", cascade={"persist"})
+     * @ORM\JoinColumn(name="airport_serv_id", referencedColumnName="id", nullable=true)
      */
     private $airport;
+
     /**
      * @var Book
      * @ORM\ManyToOne(targetEntity="Booking\AppBundle\Entity\Book", inversedBy="products")

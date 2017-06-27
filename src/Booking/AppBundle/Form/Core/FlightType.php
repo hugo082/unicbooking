@@ -25,7 +25,8 @@ class FlightType extends AbstractType
                         'placeholder' => 'Flight Code',
                     ]
             ])
-            ->add('id', HiddenType::class);
+            ->add('id', HiddenType::class, [
+            ]);
     }
 
     /**
@@ -34,8 +35,7 @@ class FlightType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => Flight::class,
-            'empty_data' => null
+            'data_class' => Flight::class
         ));
     }
 

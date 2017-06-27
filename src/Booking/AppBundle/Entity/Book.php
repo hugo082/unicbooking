@@ -3,7 +3,9 @@
 namespace Booking\AppBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Booking\AppBundle\Entity\Metadata\Product as ProductMet;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\PersistentCollection;
 
 /**
  * Book
@@ -35,6 +37,14 @@ class Book
      */
     protected $products;
 
+    /**
+     * @var \DateTime
+     */
+    private $first_date;
+    /**
+     * @var \DateTime
+     */
+    private $last_date;
 
     public function __construct()
     {
@@ -64,7 +74,7 @@ class Book
     /**
      * @return ArrayCollection
      */
-    public function getProducts(): ArrayCollection
+    public function getProducts()
     {
         return $this->products;
     }
@@ -78,8 +88,47 @@ class Book
     }
 
     public function linkProducts() {
+        /** @var ProductMet $prod */
         foreach ($this->getProducts() as $prod)
             $prod->setBook($this);
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getCreationDate(): \DateTime
+    {
+        return $this->creation_date;
+    }
+
+    public function getFirstDate(): ?\DateTime {
+        if ($this->first_date == null)
+            $this->computeIntervalDates();
+        return $this->first_date;
+    }
+
+    public function getLastDate(): ?\DateTime {
+        if ($this->last_date == null)
+            $this->computeIntervalDates();
+        return $this->last_date;
+    }
+
+    public function getDuration(): ?\DateInterval {
+        if ($this->last_date == null || $this->first_date == null)
+            $this->computeIntervalDates();
+        if ($this->last_date == null || $this->first_date == null)
+            return null;
+        return $this->first_date->diff($this->last_date);
+    }
+
+    private function computeIntervalDates() {
+        /** @var ProductMet $product */
+        foreach ($this->getProducts() as $product) {
+            if ($this->first_date == null || $product->getDate() < $this->first_date)
+                $this->first_date = $product->getDate();
+            if ($this->last_date == null || $product->getDate() > $this->last_date)
+                $this->last_date = $product->getDate();
+        }
     }
 }
 

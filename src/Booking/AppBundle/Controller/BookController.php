@@ -2,6 +2,9 @@
 
 namespace Booking\AppBundle\Controller;
 
+use Booking\ApiBundle\Checker\ApiChecker;
+use Booking\ApiBundle\Exception\ApiException;
+use Booking\AppBundle\BookingAppBundle;
 use Booking\AppBundle\Entity\Book;
 use Booking\AppBundle\Entity\Metadata\Product;
 use Booking\AppBundle\Form\BookType;
@@ -58,48 +61,63 @@ class BookController extends Controller
         $form = $this->createForm(BookType::class, $book);
         $form->handleRequest($request);
 
-        echo "BOOKNOW <br>";
         if ($form->isSubmitted() && $form->isValid() && $book->isValid()) {
-            $book->linkProducts();
+            /** @var ApiChecker $apiChecker */
+            $apiChecker = $this->get('booking.api.checker');
+            $apiChecker->processBook($book);
+
             $em = $this->getDoctrine()->getManager();
             $em->persist($book);
             $em->flush();
-
-            echo "SAVED <br>";
-        } else {
-            echo "Submitted " . $form->isSubmitted() . "<br>";
-            echo "Valid " . $form->isValid() . "<br>";
-            echo "Custom Valid " . $book->isValid() . "<br>";
-            echo "Errors " . $form->getErrors() . "<br>";
+            return $this->redirectToRoute("booking_app_book_show", [
+                "id" => $book->getId()
+            ]);
         }
+
         return $this->render('dashboard/book/new.html.twig', array(
             "form" => $form->createView()
         ));
     }
 
     /**
-     * @Route("/test/form")
+     * @Route("/book/edit/{id}")
      */
-    public function testFormAction(Request $request)
+    public function editAction(Request $request, int $id)
     {
-        $prod = new Product();
-        $form = $this->createForm(ProductType::class, $prod);
+        /** @var Book $book */
+        $book = $this->getDoctrine()->getRepository('BookingAppBundle:Book')->find($id);
+        $form = $this->createForm(BookType::class, $book);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid() && $prod->isValid()) {
+        echo "USE MY HistoricalBundle";
+
+        if ($form->isSubmitted() && $form->isValid() && $book->isValid()) {
+            /** @var ApiChecker $apiChecker */
+            $apiChecker = $this->get('booking.api.checker');
+            $apiChecker->processBook($book);
+
             $em = $this->getDoctrine()->getManager();
-            $em->persist($prod);
+            $em->persist($book);
             $em->flush();
-            echo "SAVED";
-        } else {
-            echo "Submitted " . $form->isSubmitted() . "<br>";
-            echo "Valid " . $form->isValid() . "<br>";
-            echo "Custom Valid " . $prod->isValid() . "<br>";
-            echo "Errors " . $form->getErrors() . "<br>";
+            return $this->redirectToRoute("booking_app_book_show", [
+                "id" => $book->getId()
+            ]);
         }
 
         return $this->render('dashboard/book/new.html.twig', array(
             "form" => $form->createView()
+        ));
+    }
+
+    /**
+     * @Route("/book/show/{id}")
+     */
+    public function showAction(Request $request, int $id)
+    {
+        /** @var Book $book */
+        $book = $this->getDoctrine()->getRepository("BookingAppBundle:Book")->find($id);
+        return $this->render('dashboard/book/show.html.twig', array(
+            "book" => $book
         ));
     }
 }
