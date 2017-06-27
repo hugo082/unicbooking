@@ -112,20 +112,6 @@
     {% endspaceless %}
 {% endblock checkbox_widget %}
 
-
-
-
-
-
-
-{% block _booking_appbundle_book_products_entry_service_row %}
-    {% spaceless %}
-        HELLO FDFS
-
-    {% endspaceless %}
-{% endblock _booking_appbundle_book_products_entry_service_row %}
-
-
 {% block _booking_appbundle_book_products_entry_product_type_widget %}
     {% spaceless %}
         {{ form_widget(form) }}
@@ -140,7 +126,6 @@
                             $(currentId).removeClass("disabled hidden");
                         else
                             $(currentId).addClass("disabled hidden");
-                        console.log(currentId, parentId, value);
                     });
                 }
 
@@ -152,3 +137,18 @@
         </script>
     {% endspaceless %}
 {% endblock _booking_appbundle_book_products_entry_product_type_widget %}
+
+
+{% block _booking_appbundle_book_products_entry_airport_widget %}
+    {% spaceless %}
+        {{ form_widget(form) }}
+        <script>
+            $( document ).ready(function () {
+                if (typeof window.apiChecker !== 'undefined') {
+                    window.apiChecker.addField("#{{ form.children.flight.children.number.vars.id }}", "#{{ form.children.flight.children.id.vars.id }}");
+                    window.apiChecker.addField("#{{ form.children.flight_transit.children.number.vars.id }}", "#{{ form.children.flight_transit.children.id.vars.id }}");
+                }
+            });
+        </script>
+    {% endspaceless %}
+{% endblock _booking_appbundle_book_products_entry_airport_widget %}

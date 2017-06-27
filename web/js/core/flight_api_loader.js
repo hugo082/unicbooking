@@ -54,9 +54,24 @@ $( function() {
         }
     }
 
-    var flightChecker = new ApiChecker("#appbundle_book_flight_codes_code", "#appbundle_book_flight_id");
-    flightChecker.listen_();
+    function GlobalChecker () {
+        this.fields = [];
+        this.addField = function (input, hidden) {
+            var checker = new ApiChecker(input, hidden);
+            checker.listen_();
+            this.fields.push(checker)
+        };
+        this.check_ = function () {
+            var idx = 0, id = "#booking_appbundle_book_products_";
+            while ($(id + idx).length === 1 && idx < 10) {
+                var cId = id + idx + "_airport_flight_";
+                this.addField(cId + "number", cId + "id");
+                this.addField(cId + "transit_number", cId + "transit_id");
+                idx += 1;
+            }
+        }
+    }
 
-    var transitChecker = new ApiChecker("#appbundle_book_flighttransit_codes_code", "#appbundle_book_flighttransit_id");
-    transitChecker.listen_();
+    window.apiChecker = new GlobalChecker();
+    window.apiChecker.check_();
 });

@@ -1,3 +1,8 @@
+booking_api:
+    resource: "@BookingApiBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
 booking_app:
     resource: "@BookingAppBundle/Controller/"
     type:     annotation

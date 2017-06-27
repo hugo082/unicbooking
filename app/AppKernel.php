@@ -21,6 +21,7 @@ class AppKernel extends Kernel
             new FQT\DBCoreManagerBundle\FQTDBCoreManagerBundle(),
             new Booking\UserBundle\BookingUserBundle(),
             new Booking\AppBundle\BookingAppBundle(),
+            new Booking\ApiBundle\BookingApiBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {
