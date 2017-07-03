@@ -115,5 +115,18 @@ class Service
     {
         return $this->name;
     }
+
+    /**
+     * Get gentella icon
+     * @return string
+     */
+    public function getIconCode(): string {
+        if ($this->isAirport())
+            return "plane";
+        if ($this->isLimousine())
+            return "car";
+        if ($this->isTrain())
+            return "road";
+    }
 }
 

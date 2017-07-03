@@ -34,7 +34,7 @@ class Book
 
     /**
      * @var Client
-     * @ORM\OneToOne(targetEntity="Booking\AppBundle\Entity\Client", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="Booking\AppBundle\Entity\Client", cascade={"persist"})
      */
     private $client;
 
@@ -69,6 +69,7 @@ class Book
     {
         $this->creation_date = new \DateTime();
         $this->products = new ArrayCollection();
+        $this->archived = false;
     }
 
     public function isValid(): Bool {
@@ -171,8 +172,8 @@ class Book
     public function getDates(): string {
         $this->computeIntervalDates();
         if ($this->last_date == null)
-            return $this->first_date->format("d-M-Y");
-        return $this->first_date->format("d-M-Y") . " - " . $this->last_date->format("d-M-Y");
+            return $this->secureDateToString($this->first_date,"d-M-Y");
+        return $this->secureDateToString($this->first_date,"d-M-Y") . " - " . $this->secureDateToString($this->last_date,"d-M-Y");
     }
 
     public function getServices(): string {
@@ -201,7 +202,7 @@ class Book
     public function getDuration(): ?\DateInterval {
         $this->computeIntervalDates();
         if ($this->last_date == null || $this->first_date == null)
-            return null;
+            return new \DateInterval("P0D");
         return $this->first_date->diff($this->last_date);
     }
 
@@ -216,6 +217,12 @@ class Book
                 $this->last_date = $product->getDate();
         }
         return true;
+    }
+
+    private function secureDateToString(?\DateTime $date, string $format): string {
+        if ($date == null)
+            return "";
+        return $date->format($format);
     }
 }
 

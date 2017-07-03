@@ -1,0 +1,5 @@
+{% for product in products %}
+    <i class="fa fa-{{ product.productType.service.iconCode }}"></i>
+{% else %}
+    <i class="fa fa-ban"></i>
+{% endfor %}

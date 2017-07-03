@@ -27,26 +27,9 @@ class BookController extends Controller
         } else {
             $books = $this->getDoctrine()->getRepository('BookingAppBundle:Book')->getOneMonthLast($user);
         }
-        //$books = $user->getBooks(); FOR ALL
-
-        $data = array();
-        $form = $this->createFormBuilder($data)
-            ->add('book_id', TextType::class, array(
-                'label' => false,
-                'attr' => array (
-                    'placeholder' => 'manage.find.form.number'
-                )
-            ))->getForm();
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $data = $form->getData();
-            return $this->redirectToRoute('show', array('id' => $data['book_id']));
-        }
 
         return $this->render('dashboard/book/list.html.twig', [
-            'books' => $books,
-            'form' => $form->createView()
+            'books' => $books
         ]);
     }
 
@@ -117,5 +100,31 @@ class BookController extends Controller
         return $this->render('dashboard/book/show.html.twig', array(
             "book" => $book
         ));
+    }
+
+    /**
+     * @Route("/book/archive/{id}")
+     */
+    public function archiveAction(Request $request, int $id)
+    {
+        /** @var Book $book */
+        $book = $this->getDoctrine()->getRepository("BookingAppBundle:Book")->find($id);
+        $book->setArchived(true);
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($book);
+        $em->flush();
+        return $this->redirectToRoute("booking_app_book_index");
+    }
+
+    /**
+     * @Route("/book/list")
+     */
+    public function listAction(Request $request)
+    {
+        /** @var Book[] $books */
+        $books = $this->getDoctrine()->getRepository("BookingAppBundle:Book")->findAll();
+        return $this->render('dashboard/book/archive.html.twig', [
+            'books' => $books
+        ]);
     }
 }

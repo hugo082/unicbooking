@@ -31,6 +31,8 @@ class Agent
 
     public function __toString()
     {
+        if (empty($this->first_name))
+            return $this->last_name;
         return $this->last_name . " " . $this->first_name[0];
     }
 
