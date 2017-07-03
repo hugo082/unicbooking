@@ -16,8 +16,8 @@ class AirportRepository extends \Doctrine\ORM\EntityRepository
 
         $qb
             ->select('e')
-            ->where('e.removed = :rm')
-            ->setParameter('rm', false )
+            //->where('e.removed = :rm')
+            //->setParameter('rm', false )
             ->andWhere('e.codes.icao = :icaocode')
             ->setParameter('icaocode', $icaocode )
         ;

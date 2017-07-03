@@ -29,6 +29,32 @@ class Flight
      */
     private $codes;
 
+    /**
+     * Origin Airport
+     * @var Airport
+     * @ORM\ManyToOne(targetEntity="Booking\AppBundle\Entity\Airport")
+     */
+    private $origin;
+
+    /**
+     * Destination Airport
+     * @var Airport
+     * @ORM\ManyToOne(targetEntity="Booking\AppBundle\Entity\Airport")
+     */
+    private $destination;
+
+    /**
+     * @var \DateTime
+     * @ORM\Column(name="dep_time", type="datetime")
+     */
+    protected $departure_time;
+
+    /**
+     * @var \DateTime
+     * @ORM\Column(name="arr_time", type="datetime")
+     */
+    protected $arrival_time;
+
     public function __construct()
     {
         $this->codes = new AirlinesCodes();
@@ -69,6 +95,95 @@ class Flight
     public function getCodes(): ?AirlinesCodes
     {
         return $this->codes;
+    }
+
+    /**
+     * @return Airport
+     */
+    public function getOrigin(): ?Airport
+    {
+        return $this->origin;
+    }
+
+    /**
+     * @param Airport $origin
+     */
+    public function setOrigin(Airport $origin)
+    {
+        $this->origin = $origin;
+    }
+
+    /**
+     * @return Airport
+     */
+    public function getDestination(): ?Airport
+    {
+        return $this->destination;
+    }
+
+    /**
+     * @return string
+     */
+    public function getArrivalTime(): ?string
+    {
+        return $this->arrival_time;
+    }
+
+    /**
+     * @param mixed $arrival_time
+     */
+    public function setArrivalTime($arrival_time)
+    {
+        $this->arrival_time = $this->convertToDateTime($arrival_time);
+    }
+
+    /**
+     * @return string
+     */
+    public function getDepartureTime(): ?string
+    {
+        return $this->departure_time;
+    }
+
+    /**
+     * @param mixed $departure_time
+     */
+    public function setDepartureTime($departure_time)
+    {
+        $this->departure_time = $this->convertToDateTime($departure_time);
+    }
+
+    /**
+     * @param Airport $destination
+     */
+    public function setDestination(Airport $destination)
+    {
+        $this->destination = $destination;
+    }
+
+    public function getPath(): string {
+        return $this->origin->getCodes()->getCode() . " → " . $this->destination->getCodes()->getCode();
+    }
+
+    public function getTime(): string {
+        return $this->departure_time->format('H:i') . " → " . $this->arrival_time->format('H:i');
+    }
+
+    /**
+     * Convert mixed value to \DateTime
+     * @param $value
+     * @return \DateTime
+     */
+    private function convertToDateTime($value) {
+        if (is_string($value)) {
+            return date_create_from_format('H:i:s', $value);
+        }
+        if (is_int($value)) {
+            $date = new \DateTime();
+            $date->setTimestamp($value);
+            return $date;
+        }
+        return $value;
     }
 }
 

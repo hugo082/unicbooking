@@ -36,7 +36,7 @@
                                     <tr>
                                         <td>{{ book.id }}</td>
                                         <td>{{ book.dates }}</td>
-                                        <td>{{ book.services }}</td>
+                                        <td>{{ include('dashboard/book/service/icon_view.html.twig', {products: book.products}) }}</td>
                                         <td>{{ book.agent }}</td>
                                         <td>
                                             <a href="{{ path('booking_app_book_show', {'id': book.id}) }}" class="btn btn-default">
@@ -45,7 +45,9 @@
                                         </td>
                                     </tr>
                                 {% else %}
-                                    <tr><td colspan="100%">No book yet.</td></tr>
+                                    <tr>
+                                        <td class="table-empty" colspan="100%">No book yet.</td>
+                                    </tr>
                                 {% endfor %}
                                 </tbody>
                             </table>

@@ -65,8 +65,11 @@ class Book
      */
     private $last_date;
 
+    private $price;
+
     public function __construct()
     {
+        $this->price = null;
         $this->creation_date = new \DateTime();
         $this->products = new ArrayCollection();
         $this->archived = false;
@@ -176,19 +179,6 @@ class Book
         return $this->secureDateToString($this->first_date,"d-M-Y") . " - " . $this->secureDateToString($this->last_date,"d-M-Y");
     }
 
-    public function getServices(): string {
-        $str = "";
-        $index = 0;
-        foreach ($this->products as $key => $product) {
-            $index = $key;
-            if ($index <= 3)
-                $str .= $product->getProductType()->getService()->getName() . " ";
-        }
-        if ($index > 3)
-            return $str . " +" . ($index - 3) . "";
-        return $str;
-    }
-
     public function getFirstDate(): ?\DateTime {
         $this->computeIntervalDates();
         return $this->first_date;
@@ -204,6 +194,18 @@ class Book
         if ($this->last_date == null || $this->first_date == null)
             return new \DateInterval("P0D");
         return $this->first_date->diff($this->last_date);
+    }
+
+    public function getPrice(bool $force = false) {
+        if ($force || $this->price == null)
+            $this->computePrice();
+        return round($this->price, 1);
+    }
+
+    private function computePrice() {
+        $this->price = 0;
+        foreach ($this->products as $product)
+            $this->price += $product->getPrice($this->client);
     }
 
     private function computeIntervalDates(bool $force = false) {

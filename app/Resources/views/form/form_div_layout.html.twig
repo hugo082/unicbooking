@@ -1,7 +1,7 @@
 
 {% block time_widget %}
 <div class="input-group date bootstrap-timepicker timepicker">
-	<input type="text" {{ required ? 'required' : '' }} id="{{id}}" name="{{full_name}}" class="form-control">
+	<input type="text" {{ required ? 'required' : '' }} id="{{id}}" name="{{full_name}}" value="{{ value }}" class="form-control">
 	<span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
 	<script>
         $("#{{id}}").timepicker({

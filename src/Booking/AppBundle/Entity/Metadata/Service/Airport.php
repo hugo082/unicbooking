@@ -107,5 +107,23 @@ class Airport
             return $flight;
         return null;
     }
+
+    public function getDestination(): string {
+        if ($this->flight_transit == null)
+            return $this->flight->getPath();
+        return $this->flight->getPath() . " - " . $this->flight_transit->getPath();
+    }
+
+    public function getCode(): string {
+        if ($this->flight_transit == null)
+            return $this->flight->getCodes()->getCode();
+        return $this->flight->getCodes()->getCode() . " → " . $this->flight_transit->getCodes()->getCode();
+    }
+
+    public function getTime(): string {
+        if ($this->flight_transit == null)
+            return $this->flight->getTime();
+        return $this->flight->getTime() . " - " . $this->flight_transit->getTime();
+    }
 }
 

@@ -18,7 +18,8 @@ class AirportType extends AbstractType
         $builder
             ->add('name')
             ->add('supported', CheckboxType::class, array(
-                'label' => "Supported"
+                'label' => "Supported",
+                'required' => false
             ))
             ->add('codes', InternationalCodesType::class, array(
             "data_class" => AirportsCodes::class,

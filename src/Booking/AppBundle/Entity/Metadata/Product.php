@@ -3,6 +3,7 @@
 namespace Booking\AppBundle\Entity\Metadata;
 
 use Booking\AppBundle\Entity\Book;
+use Booking\AppBundle\Entity\Client;
 use Booking\AppBundle\Entity\Product as ProductType;
 use Booking\AppBundle\Entity\Metadata\Service\Airport;
 use Booking\AppBundle\Entity\Metadata\Service\Limousine;
@@ -206,6 +207,20 @@ class Product
     public function setBook(Book $book)
     {
         $this->book = $book;
+    }
+
+    public function getPrice(Client $client = null) {
+        $base = $this->product_type->getPrice()->getTtc($client);
+        if ($this->product_type->getService()->isLimousine())
+            return $base + $this->limousine->getCar()->getPrice()->getCount();
+        return $base;
+    }
+
+    public function getPriceCount() {
+        $base = $this->product_type->getPrice()->getCount();
+        if ($this->product_type->getService()->isLimousine())
+            return $base . " + " . $this->limousine->getCar()->getPrice()->getCount();
+        return $base;
     }
 }
 

@@ -18,7 +18,8 @@
         <div class="">
             <div class="page-title">
                 <div class="title_right">
-                    <a href="#" class="btn btn-lg btn-success">Lister</a>
+                    <a href="{{ path('booking_app_book_index') }}" class="btn btn-lg btn-success">Lister</a>
+                    <a href="{{ path('booking_app_book_new') }}" class="btn btn-lg btn-success">New</a>
                 </div>
             </div>
 
@@ -91,6 +92,49 @@
                                     <td>Duration</td>
                                     <td>{{ book.duration|date("%d day(s)") }}</td>
                                 </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-sm-6 col-xs-6">
+                    <div class="x_panel">
+                        <div class="x_title">
+                            <h2>Book Facturation</h2>
+                            <ul class="nav navbar-right panel_toolbox">
+                                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                </li>
+                                <li><a class="close-link"><i class="fa fa-close"></i></a>
+                                </li>
+                            </ul>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="x_content">
+                            <table class="table col-lg-12 col-sm-12 col-xs-12">
+                                <thead>
+                                <tr>
+                                    <th>Product Name</th>
+                                    <th>Taxe</th>
+                                    <th>Price unit.</th>
+                                    <th>Amount (EUR)</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+
+                                {% for product in book.products %}
+                                <tr>
+                                    <td>{{ product.productType.name }}</td>
+                                    <td>{{ product.productType.price.tva(book.client) }}</td>
+                                    <td>{{ product.priceCount }}</td>
+                                    <td>{{ product.price }}</td>
+                                </tr>
+                                {% endfor %}
+                                <tr class="table-recap">
+                                    <td>Total</td>
+                                    <td colspan="2">&nbsp;</td>
+                                    <td>EUR {{ book.price }}</td>
+                                </tr>
+                                </tbody>
                             </table>
                         </div>
                     </div>

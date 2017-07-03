@@ -2,6 +2,7 @@
 
 namespace Booking\AppBundle\Entity\Core;
 
+use Booking\AppBundle\Entity\Client;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -47,11 +48,14 @@ class Price
     }
 
     /**
+     * @param Client|null $client
      * @return int
      */
-    public function getTva()
+    public function getTva(Client $client = null)
     {
-        return $this->tva;
+        if ($client == null || $client->haveTva())
+            return $this->tva;
+        return 0;
     }
 
     /**
@@ -61,4 +65,12 @@ class Price
     {
         $this->tva = $tva;
     }
+
+    public function getTtc(Client $client = null)
+    {
+        $tva = $this->getTva($client) / 100;
+        $ttc = $this->count / (1 + $tva) * $tva + $this->count;
+        return round($ttc, 1);
+    }
+
 }

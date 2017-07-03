@@ -151,6 +151,10 @@ class Client
         return $this->type;
     }
 
+    public function haveTva() {
+        return $this->billing == "HT";
+    }
+
     /**
      * @Viewable(title="Billing", index=4)
      * @return string

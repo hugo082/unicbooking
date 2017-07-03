@@ -111,14 +111,14 @@ class ApiChecker
         $flight = $result->FlightInfoResult->flights;
         if (empty($flight->origin))
             throw new ApiException("Flight Not Found", "Impossible to find flight with code : " . $flightEntity->getCodes()->getCode(), 404);
-        if (!$oAirport = $this->getAirportWithIcao($flight->origin))
+        if (!$origin = $this->getAirportWithIcao($flight->origin))
             throw new ApiException("Airport Not Found", "Impossible to find airport with code : " . $flight->origin, 404);
-        if (!$dAirport = $this->getAirportWithIcao($flight->destination))
+        if (!$destination = $this->getAirportWithIcao($flight->destination))
             throw new ApiException("Airport Not Found", "Impossible to find airport with code : " . $flight->destination, 404);
-        //$flightEntity->setDepair($oAirport);
-        //$flightEntity->setArrair($dAirport);
-        //$flightEntity->setArrtime($flight->estimatedarrivaltime);
-        //$flightEntity->setDeptime($flight->filed_departuretime);
+        $flightEntity->setOrigin($origin);
+        $flightEntity->setDestination($destination);
+        $flightEntity->setArrivalTime($flight->estimatedarrivaltime);
+        $flightEntity->setDepartureTime($flight->filed_departuretime);
         return $flightEntity;
     }
 
@@ -129,7 +129,7 @@ class ApiChecker
      */
     private function getAirportWithIcao($code) {
         /** @var AirportRepository $airRepo */
-        $airRepo = $this->em->getRepository("AppBundle:Airport");
+        $airRepo = $this->em->getRepository("BookingAppBundle:Airport");
         $airport = $airRepo->getWithCodeIcao($code);
         if ($airport instanceof Airport)
             return $airport;
@@ -160,7 +160,7 @@ class ApiChecker
      */
     private function getFlightWithID($id) {
         /** @var FlightRepository $flightRepo */
-        $flightRepo = $this->em->getRepository("AppBundle:Flight");
+        $flightRepo = $this->em->getRepository("BookingAppBundle:Flight");
         $flight = $flightRepo->find($id);
         if ($flight instanceof Flight)
             return $flight;

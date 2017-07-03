@@ -10,3 +10,13 @@ table.table-condensed tr .btn {
     padding: 2px 10px;
     font-size: 10px;
 }
+
+table.table-condensed tr td.table-empty {
+    text-align: center;
+    font-size: 13px;
+}
+
+table.table tr.table-recap {
+    font-weight: 600;
+    font-size: 13px;
+}
