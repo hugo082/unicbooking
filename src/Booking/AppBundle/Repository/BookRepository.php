@@ -14,12 +14,12 @@ class BookRepository extends \Doctrine\ORM\EntityRepository
         $qb = $this->createQueryBuilder('b');
 
         $qb->select('b')
-            ->andwhere('b.creationdate <= :limit_top')
+            ->andwhere('b.creation_date <= :limit_top')
             //->andwhere('b.archived = false')
             ->setParameter('limit_top', new \DateTime())
-            ->andwhere('b.creationdate >= :limit_bottom')
+            ->andwhere('b.creation_date >= :limit_bottom')
             ->setParameter('limit_bottom', new \DateTime("-1 month"))
-            ->orderBy('b.creationdate', 'DESC');
+            ->orderBy('b.creation_date', 'DESC');
 
         return $qb
             ->getQuery()

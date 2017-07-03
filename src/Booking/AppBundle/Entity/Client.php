@@ -64,6 +64,11 @@ class Client
         $this->contacts = new ArrayCollection();
     }
 
+    public function __toString()
+    {
+        return $this->getName();
+    }
+
     /**
      * Get id
      * @Viewable(title="id", index=0)

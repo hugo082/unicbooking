@@ -50,15 +50,15 @@
                             <table class="table col-lg-12 col-sm-12 col-xs-12">
                                 <tr>
                                     <td>Name</td>
-                                    <td>Hugo Fouquet</td>
+                                    <td>{{ book.agent.fullName }}</td>
                                 </tr>
                                 <tr>
                                     <td>Email</td>
-                                    <td>hugo@email.com</td>
+                                    <td>{{ book.agent.email }}</td>
                                 </tr>
                                 <tr>
                                     <td>Client</td>
-                                    <td>Client Name</td>
+                                    <td>{{ book.client }}</td>
                                 </tr>
                             </table>
                         </div>
@@ -85,7 +85,7 @@
                                 </tr>
                                 <tr>
                                     <td>Dates</td>
-                                    <td>{{ book.firstDate|date('d-M-Y') }} -> {{ book.lastDate|date('d-M-Y') }}</td>
+                                    <td>{{ book.dates }}</td>
                                 </tr>
                                 <tr>
                                     <td>Duration</td>
@@ -102,7 +102,7 @@
                     <div class="col-md-6 col-sm-6 col-xs-6">
                         <div class="x_panel">
                             <div class="x_title">
-                                <h2>Product {{ product.productType.service.type }}</h2>
+                                <h2>Product #{{ loop.index }} ({{ product.productType.service.type }})</h2>
                                 <ul class="nav navbar-right panel_toolbox">
                                     <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                                     </li>

@@ -3,7 +3,12 @@
 namespace Booking\AppBundle\Form;
 
 use Booking\AppBundle\Entity\Book;
+use Booking\AppBundle\Entity\Client;
+use Booking\AppBundle\Entity\Core\Agent;
+use Booking\AppBundle\Form\Core\AgentType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -17,6 +22,15 @@ class BookType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+            ->add('agent', AgentType::class, [
+                'label' => 'Agent'
+            ])
+            ->add('client', EntityType::class, array(
+                'class'   => Client::class,
+                'placeholder' => '- Client -',
+                'choice_label' => 'name',
+                'label' => false
+            ))
             ->add('products', CollectionType::class, array(
                 'entry_type'   => ProductMetType::class,
                 'allow_add'    => true,

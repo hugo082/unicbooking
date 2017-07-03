@@ -2,6 +2,7 @@
 
 namespace Booking\AppBundle\Entity;
 
+use Booking\AppBundle\Entity\Core\Agent;
 use Doctrine\Common\Collections\ArrayCollection;
 use Booking\AppBundle\Entity\Metadata\Product as ProductMet;
 use Doctrine\ORM\Mapping as ORM;
@@ -25,14 +26,32 @@ class Book
     private $id;
 
     /**
+     * Booking Agent
+     * @var Agent
+     * @ORM\Embedded(class="Booking\AppBundle\Entity\Core\Agent", columnPrefix="age_")
+     */
+    private $agent;
+
+    /**
+     * @var Client
+     * @ORM\OneToOne(targetEntity="Booking\AppBundle\Entity\Client", cascade={"persist"})
+     */
+    private $client;
+
+    /**
      * @var \DateTime
-     *
      * @ORM\Column(name="creation_date", type="date")
      */
     protected $creation_date;
 
     /**
-     * @var ArrayCollection
+     * @var bool
+     * @ORM\Column(name="archived", type="boolean")
+     */
+    protected $archived;
+
+    /**
+     * @var ProductMet[]
      * @ORM\OneToMany(targetEntity="Booking\AppBundle\Entity\Metadata\Product", mappedBy="book", cascade={"persist"})
      */
     protected $products;
@@ -72,6 +91,54 @@ class Book
     }
 
     /**
+     * @return Agent
+     */
+    public function getAgent(): ?Agent
+    {
+        return $this->agent;
+    }
+
+    /**
+     * @param Agent $agent
+     */
+    public function setAgent(Agent $agent)
+    {
+        $this->agent = $agent;
+    }
+
+    /**
+     * @return Client
+     */
+    public function getClient(): ?Client
+    {
+        return $this->client;
+    }
+
+    /**
+     * @param Client $client
+     */
+    public function setClient(Client $client)
+    {
+        $this->client = $client;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isArchived(): ?bool
+    {
+        return $this->archived;
+    }
+
+    /**
+     * @param bool $archived
+     */
+    public function setArchived(bool $archived)
+    {
+        $this->archived = $archived;
+    }
+
+    /**
      * @return ArrayCollection
      */
     public function getProducts()
@@ -101,34 +168,54 @@ class Book
         return $this->creation_date;
     }
 
+    public function getDates(): string {
+        $this->computeIntervalDates();
+        if ($this->last_date == null)
+            return $this->first_date->format("d-M-Y");
+        return $this->first_date->format("d-M-Y") . " - " . $this->last_date->format("d-M-Y");
+    }
+
+    public function getServices(): string {
+        $str = "";
+        $index = 0;
+        foreach ($this->products as $key => $product) {
+            $index = $key;
+            if ($index <= 3)
+                $str .= $product->getProductType()->getService()->getName() . " ";
+        }
+        if ($index > 3)
+            return $str . " +" . ($index - 3) . "";
+        return $str;
+    }
+
     public function getFirstDate(): ?\DateTime {
-        if ($this->first_date == null)
-            $this->computeIntervalDates();
+        $this->computeIntervalDates();
         return $this->first_date;
     }
 
     public function getLastDate(): ?\DateTime {
-        if ($this->last_date == null)
-            $this->computeIntervalDates();
+        $this->computeIntervalDates();
         return $this->last_date;
     }
 
     public function getDuration(): ?\DateInterval {
-        if ($this->last_date == null || $this->first_date == null)
-            $this->computeIntervalDates();
+        $this->computeIntervalDates();
         if ($this->last_date == null || $this->first_date == null)
             return null;
         return $this->first_date->diff($this->last_date);
     }
 
-    private function computeIntervalDates() {
+    private function computeIntervalDates(bool $force = false) {
+        if (!$force && $this->first_date != null)
+            return false;
         /** @var ProductMet $product */
         foreach ($this->getProducts() as $product) {
             if ($this->first_date == null || $product->getDate() < $this->first_date)
                 $this->first_date = $product->getDate();
-            if ($this->last_date == null || $product->getDate() > $this->last_date)
+            if ($this->first_date != $product->getDate() && ($this->last_date == null || $product->getDate() > $this->last_date))
                 $this->last_date = $product->getDate();
         }
+        return true;
     }
 }
 

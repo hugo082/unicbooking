@@ -18,7 +18,7 @@
         <div class="">
             <div class="page-title">
                 <div class="title_right">
-                    <a href="#" class="btn btn-lg btn-success">Lister</a>
+                    <a href="{{ path('booking_app_book_index') }}" class="btn btn-lg btn-success">Lister</a>
                 </div>
             </div>
 
@@ -33,22 +33,23 @@
                 <div class="col-md-12 col-sm-12 col-xs-12">
                     <div class="x_panel">
                         <div class="x_title">
-                            <h2>Agent</h2>
+                            <h2>{{ form_label(form.agent) }}</h2>
                             <div class="clearfix"></div>
                         </div>
                         <div class="x_content">
-                            form agent field
+                            {{ form_widget(form.agent) }}
+                            {{ form_widget(form.client) }}
                         </div>
                     </div>
                 </div>
                 <div class="col-md-12 col-sm-12 col-xs-12">
                     <div class="x_panel">
                         <div class="x_title">
-                            <h2>Products</h2>
+                            <h2>{{ form_label(form.products) }}</h2>
                             <div class="clearfix"></div>
                         </div>
                         <div class="x_content">
-                            {{ form_row(form.products) }}
+                            {{ form_widget(form.products) }}
                         </div>
                     </div>
                 </div>

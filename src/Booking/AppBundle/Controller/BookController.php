@@ -21,8 +21,6 @@ class BookController extends Controller
      */
     public function indexAction(Request $request)
     {
-        echo "DASHBOARD";
-
         $user = $this->getUser();
         if ($this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
             $books = $this->getDoctrine()->getRepository('BookingAppBundle:Book')->getLast();

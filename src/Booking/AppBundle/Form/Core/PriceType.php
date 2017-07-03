@@ -46,6 +46,6 @@ class PriceType extends AbstractType
      */
     public function getBlockPrefix()
     {
-        return 'booking_appbundle_services_basic';
+        return 'booking_appbundle_price';
     }
 }

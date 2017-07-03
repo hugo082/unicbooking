@@ -6,7 +6,7 @@
         <div class="">
             <div class="page-title">
                 <div class="title_right">
-                    <a href="#" class="btn btn-lg btn-success">new</a>
+                    <a href="{{ path('booking_app_book_new') }}" class="btn btn-lg btn-success">New</a>
 
                 </div>
             </div>
@@ -21,11 +21,46 @@
                             <div class="clearfix"></div>
                         </div>
                         <div class="x_content">
-                            {% for book in books %}
-                                {{ book.id }}
-                            {% else %}
-                                No book yet.
-                            {% endfor %}
+                            <table  id="datatable" class="table table-striped table-bordered table-condensed">
+                                <thead>
+                                <tr>
+                                    <th>Bkg No.</th>
+                                    <th>Dates</th>
+                                    <th>Services</th>
+                                    <th>State</th>
+                                    <th>Archive</th>
+                                    <th>Show</th>
+                                    <th>Edit</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for book in books %}
+                                    <tr>
+                                        <td>{{ book.id }}</td>
+                                        <td>{{ book.dates }}</td>
+                                        <td>{{ book.services }}</td>
+                                        <td><span class="label label-default">Waiting</span></td>
+                                        <td>
+                                            <a href="#" class="btn btn-danger" data-toggle="confirmation" data-title="Sure ?" data-popout="true">
+                                                <span class="glyphicon glyphicon-folder-open"></span>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a href="{{ path('booking_app_book_show', {'id': book.id}) }}" class="btn btn-default">
+                                                <span class="glyphicon glyphicon-search"></span>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a href="{{ path('booking_app_book_edit', {'id': book.id}) }}" class="btn btn-default">
+                                                <span class="glyphicon glyphicon-pencil"></span>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                {% else %}
+                                    <tr><td colspan="100%">No book yet.</td></tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
