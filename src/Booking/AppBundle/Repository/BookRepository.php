@@ -2,6 +2,8 @@
 
 namespace Booking\AppBundle\Repository;
 
+use Booking\UserBundle\Entity\User;
+
 /**
  * BookRepository
  *
@@ -14,6 +16,25 @@ class BookRepository extends \Doctrine\ORM\EntityRepository
         $qb = $this->createQueryBuilder('b');
 
         $qb->select('b')
+            ->andwhere('b.creation_date <= :limit_top')
+            ->andwhere('b.archived = false')
+            ->setParameter('limit_top', new \DateTime())
+            ->andwhere('b.creation_date >= :limit_bottom')
+            ->setParameter('limit_bottom', new \DateTime("-1 month"))
+            ->orderBy('b.creation_date', 'DESC');
+
+        return $qb
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function getAssignedBook(User $user){
+        $qb = $this->createQueryBuilder('b');
+
+        $qb->select('b')
+            ->andwhere('b.greeter = :user')
+            ->orWhere('b.driver = :user')
+            ->setParameter('user', $user)
             ->andwhere('b.creation_date <= :limit_top')
             ->andwhere('b.archived = false')
             ->setParameter('limit_top', new \DateTime())

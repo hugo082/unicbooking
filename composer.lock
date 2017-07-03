@@ -67,17 +67,17 @@
         },
         {
             "name": "db/managerbundle",
-            "version": "2.0.2",
+            "version": "2.0.3",
             "target-dir": "DB/ManagerBundle",
             "source": {
                 "type": "git",
                 "url": "https://github.com/hugo082/DBManagerBundle.git",
-                "reference": "aec9fadf12b2e7c1899365775f6bc51d97c902d0"
+                "reference": "033cfa134ccf3ffeae3a6d313b2e4234ac1c7f81"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hugo082/DBManagerBundle/zipball/aec9fadf12b2e7c1899365775f6bc51d97c902d0",
-                "reference": "aec9fadf12b2e7c1899365775f6bc51d97c902d0",
+                "url": "https://api.github.com/repos/hugo082/DBManagerBundle/zipball/033cfa134ccf3ffeae3a6d313b2e4234ac1c7f81",
+                "reference": "033cfa134ccf3ffeae3a6d313b2e4234ac1c7f81",
                 "shasum": ""
             },
             "require": {
@@ -108,7 +108,7 @@
                 "Database manager",
                 "Web interface manager"
             ],
-            "time": "2017-06-16T09:35:15+00:00"
+            "time": "2017-07-03T14:44:45+00:00"
         },
         {
             "name": "doctrine/annotations",
@@ -881,17 +881,17 @@
         },
         {
             "name": "fqt/db-core-managerbundle",
-            "version": "1.1.3",
+            "version": "1.1.4",
             "target-dir": "FQT/DBCoreManagerBundle",
             "source": {
                 "type": "git",
                 "url": "https://github.com/hugo082/FQTDBCoreManagerBundle.git",
-                "reference": "5c3fb0fc3c31511b79b57c10542b3df3f8852fb2"
+                "reference": "d78f82db92a47346250bdbafaf98524607d98a32"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hugo082/FQTDBCoreManagerBundle/zipball/5c3fb0fc3c31511b79b57c10542b3df3f8852fb2",
-                "reference": "5c3fb0fc3c31511b79b57c10542b3df3f8852fb2",
+                "url": "https://api.github.com/repos/hugo082/FQTDBCoreManagerBundle/zipball/d78f82db92a47346250bdbafaf98524607d98a32",
+                "reference": "d78f82db92a47346250bdbafaf98524607d98a32",
                 "shasum": ""
             },
             "require": {
@@ -921,7 +921,7 @@
                 "Core manager",
                 "Database manager"
             ],
-            "time": "2017-06-16T09:34:01+00:00"
+            "time": "2017-07-03T14:46:35+00:00"
         },
         {
             "name": "friendsofsymfony/user-bundle",
@@ -929,12 +929,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfSymfony/FOSUserBundle.git",
-                "reference": "4f92bfbb8742ac8cc195d0b34bf8ecd83b62404a"
+                "reference": "a1b3867bfe6de79532f08f11d40f2b6be54dfcd5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSUserBundle/zipball/4f92bfbb8742ac8cc195d0b34bf8ecd83b62404a",
-                "reference": "4f92bfbb8742ac8cc195d0b34bf8ecd83b62404a",
+                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSUserBundle/zipball/a1b3867bfe6de79532f08f11d40f2b6be54dfcd5",
+                "reference": "a1b3867bfe6de79532f08f11d40f2b6be54dfcd5",
                 "shasum": ""
             },
             "require": {
@@ -998,7 +998,7 @@
             "keywords": [
                 "User management"
             ],
-            "time": "2017-05-31 11:50:14"
+            "time": "2017-06-22 09:54:32"
         },
         {
             "name": "incenteev/composer-parameter-handler",
@@ -1103,16 +1103,16 @@
         },
         {
             "name": "monolog/monolog",
-            "version": "1.22.1",
+            "version": "1.23.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Seldaek/monolog.git",
-                "reference": "1e044bc4b34e91743943479f1be7a1d5eb93add0"
+                "reference": "fd8c787753b3a2ad11bc60c063cff1358a32a3b4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/1e044bc4b34e91743943479f1be7a1d5eb93add0",
-                "reference": "1e044bc4b34e91743943479f1be7a1d5eb93add0",
+                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/fd8c787753b3a2ad11bc60c063cff1358a32a3b4",
+                "reference": "fd8c787753b3a2ad11bc60c063cff1358a32a3b4",
                 "shasum": ""
             },
             "require": {
@@ -1133,7 +1133,7 @@
                 "phpunit/phpunit-mock-objects": "2.3.0",
                 "ruflin/elastica": ">=0.90 <3.0",
                 "sentry/sentry": "^0.13",
-                "swiftmailer/swiftmailer": "~5.3"
+                "swiftmailer/swiftmailer": "^5.3|^6.0"
             },
             "suggest": {
                 "aws/aws-sdk-php": "Allow sending log messages to AWS services like DynamoDB",
@@ -1177,7 +1177,7 @@
                 "logging",
                 "psr-3"
             ],
-            "time": "2017-03-13T07:08:03+00:00"
+            "time": "2017-06-19T01:22:40+00:00"
         },
         {
             "name": "paragonie/random_compat",

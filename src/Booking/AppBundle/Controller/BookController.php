@@ -7,8 +7,10 @@ use Booking\ApiBundle\Exception\ApiException;
 use Booking\AppBundle\BookingAppBundle;
 use Booking\AppBundle\Entity\Book;
 use Booking\AppBundle\Entity\Metadata\Product;
+use Booking\AppBundle\Form\BookEmployeeType;
 use Booking\AppBundle\Form\BookType;
 use Booking\AppBundle\Form\Metadata\ProductType;
+use Booking\AppBundle\Repository\BookRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -22,11 +24,12 @@ class BookController extends Controller
     public function indexAction(Request $request)
     {
         $user = $this->getUser();
-        if ($this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
-            $books = $this->getDoctrine()->getRepository('BookingAppBundle:Book')->getLast();
-        } else {
-            $books = $this->getDoctrine()->getRepository('BookingAppBundle:Book')->getOneMonthLast($user);
-        }
+        /** @var BookRepository $repo */
+        $repo = $this->getDoctrine()->getRepository('BookingAppBundle:Book');
+        if ($this->get('security.authorization_checker')->isGranted('ROLE_ADMIN'))
+            $books = $repo->getLast();
+        else
+            $books = $repo->getAssignedBook($user);
 
         return $this->render('dashboard/book/list.html.twig', [
             'books' => $books
@@ -34,7 +37,7 @@ class BookController extends Controller
     }
 
     /**
-     * @Route("/book/new")
+     * @Route("/book/manage/new")
      */
     public function newAction(Request $request)
     {
@@ -61,7 +64,7 @@ class BookController extends Controller
     }
 
     /**
-     * @Route("/book/edit/{id}")
+     * @Route("/book/manage/edit/{id}")
      */
     public function editAction(Request $request, int $id)
     {
@@ -97,13 +100,23 @@ class BookController extends Controller
     {
         /** @var Book $book */
         $book = $this->getDoctrine()->getRepository("BookingAppBundle:Book")->find($id);
+
+        $form = $this->createForm(BookEmployeeType::class, $book);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($book);
+            $em->flush();
+        }
+
         return $this->render('dashboard/book/show.html.twig', array(
-            "book" => $book
+            "book" => $book,
+            "form" => $form->createView()
         ));
     }
 
     /**
-     * @Route("/book/archive/{id}")
+     * @Route("/book/manage/archive/{id}")
      */
     public function archiveAction(Request $request, int $id)
     {
@@ -117,7 +130,7 @@ class BookController extends Controller
     }
 
     /**
-     * @Route("/book/list")
+     * @Route("/book/manage/list")
      */
     public function listAction(Request $request)
     {

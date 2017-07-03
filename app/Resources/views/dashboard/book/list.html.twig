@@ -6,8 +6,9 @@
         <div class="">
             <div class="page-title">
                 <div class="title_right">
-                    <a href="{{ path('booking_app_book_new') }}" class="btn btn-lg btn-success">New</a>
-
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <a href="{{ path('booking_app_book_new') }}" class="btn btn-lg btn-success">New</a>
+                    {% endif %}
                 </div>
             </div>
 
@@ -28,9 +29,11 @@
                                     <th>Dates</th>
                                     <th>Services</th>
                                     <th>State</th>
-                                    <th>Archive</th>
                                     <th>Show</th>
-                                    <th>Edit</th>
+                                    {% if is_granted('ROLE_ADMIN') %}
+                                        <th>Archive</th>
+                                        <th>Edit</th>
+                                    {% endif %}
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -41,20 +44,22 @@
                                         <td>{{ include('dashboard/book/service/icon_view.html.twig', {products: book.products}) }}</td>
                                         <td><span class="label label-default">Waiting</span></td>
                                         <td>
-                                            <a href="{{ path('booking_app_book_archive', {'id': book.id}) }}" class="btn btn-danger" data-toggle="confirmation" data-title="Sure ?" data-popout="true">
-                                                <span class="glyphicon glyphicon-folder-open"></span>
-                                            </a>
-                                        </td>
-                                        <td>
                                             <a href="{{ path('booking_app_book_show', {'id': book.id}) }}" class="btn btn-default">
                                                 <span class="glyphicon glyphicon-search"></span>
                                             </a>
                                         </td>
-                                        <td>
-                                            <a href="{{ path('booking_app_book_edit', {'id': book.id}) }}" class="btn btn-default">
-                                                <span class="glyphicon glyphicon-pencil"></span>
-                                            </a>
-                                        </td>
+                                        {% if is_granted('ROLE_ADMIN') %}
+                                            <td>
+                                                <a href="{{ path('booking_app_book_archive', {'id': book.id}) }}" class="btn btn-danger" data-toggle="confirmation" data-title="Sure ?" data-popout="true">
+                                                    <span class="glyphicon glyphicon-folder-open"></span>
+                                                </a>
+                                            </td>
+                                            <td>
+                                                <a href="{{ path('booking_app_book_edit', {'id': book.id}) }}" class="btn btn-default">
+                                                    <span class="glyphicon glyphicon-pencil"></span>
+                                                </a>
+                                            </td>
+                                        {% endif %}
                                     </tr>
                                 {% else %}
                                     <tr>

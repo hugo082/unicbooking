@@ -6,6 +6,7 @@ use Booking\AppBundle\Entity\Book;
 use Doctrine\ORM\Mapping as ORM;
 use FOS\UserBundle\Model\User as BaseUser;
 use Doctrine\Common\Collections\ArrayCollection;
+use FQT\DBCoreManagerBundle\Annotations\Viewable;
 
 /**
  * User
@@ -65,5 +66,23 @@ class User extends BaseUser
     public function getBooks()
     {
         return $this->books;
+    }
+
+    /**
+     * @Viewable(title="Email", index=1)
+     * @return string
+     */
+    public function getEmail()
+    {
+        return parent::getEmail();
+    }
+
+    /**
+     * @Viewable(title="Username", index=0)
+     * @return string
+     */
+    public function getUsername()
+    {
+        return parent::getUsername();
     }
 }

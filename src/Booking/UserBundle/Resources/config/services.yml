@@ -1,4 +1,11 @@
 services:
-#    booking_user.example:
-#        class: Booking\UserBundle\Example
-#        arguments: ["@service_id", "plain_value", "%parameter%"]
+
+    booking.user.manager.user:
+        class: Booking\UserBundle\Manager\UserManager
+        arguments: ["@service_container"]
+
+    booking.user.subscriber:
+        class: Booking\UserBundle\Events\UserSubscriber
+        arguments: [ "@service_container" ]
+        tags:
+            - { name: kernel.event_subscriber, connection: default }

@@ -76,7 +76,7 @@ swiftmailer:
 fos_user:
     db_driver: orm # 'mongodb' or 'couchdb'
     firewall_name: main
-    user_class: AppBundle\Entity\User
+    user_class: Booking\UserBundle\Entity\User
     registration:
         form:
             type: AppBundle\Form\RegistrationType
@@ -86,28 +86,44 @@ fos_user:
 
 fqtdb_core_manager:
     methods:
-        service: 'configure.service'
+        service: 'booking.user.manager.user'
+        content:
+            create:
+                method: 'createUser'
+                environment: 'global'
+                fullName: 'Create'
     entities:
         airport:
+            access: ROLE_ADMIN
             title: Airport
             fullName: Booking\AppBundle:Airport
             methods: [ list, add, edit ]
         product:
+            access: ROLE_ADMIN
             title: Product
             fullName: Booking\AppBundle:Product
             methods: [ list, add, edit, remove ]
         client:
+            access: ROLE_ADMIN
             title: Client
             fullName: Booking\AppBundle:Client
             methods: [ list, add, edit, remove ]
         car:
+            access: ROLE_ADMIN
             title: Car
             fullName: Booking\AppBundle:Car
             methods: [ list, add, edit, remove ]
         service:
+            access: ROLE_ADMIN
             title: Service
             fullName: Booking\AppBundle:Service
             methods: [ list, add, edit, remove ]
+        user:
+            access: ROLE_ADMIN
+            title: User
+            fullName: Booking\UserBundle:User
+            methods: [ list, create, remove ]
+            formType: RegistrationType
 
 db_manager:
     templates:
@@ -117,7 +133,8 @@ db_manager:
         - { action: list, custom_view: dashboard/table/list.html.twig, container: [ ] }
         - { action: edit, custom_view: dashboard/table/form.html.twig, container: [ ] }
         - { action: add, custom_view: dashboard/table/form.html.twig, container: [ ] }
+        - { action: create, custom_view: dashboard/table/form.html.twig, container: [ ] }
     links:
         - { action: edit, container: [ list ] }
         - { action: add, container: [ list ] }
-        - { action: list, container: [ add ] }
+        - { action: list, container: [ add, create ] }

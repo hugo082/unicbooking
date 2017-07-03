@@ -3,6 +3,7 @@
 namespace Booking\AppBundle\Entity;
 
 use Booking\AppBundle\Entity\Core\Agent;
+use Booking\UserBundle\Entity\User;
 use Doctrine\Common\Collections\ArrayCollection;
 use Booking\AppBundle\Entity\Metadata\Product as ProductMet;
 use Doctrine\ORM\Mapping as ORM;
@@ -37,6 +38,18 @@ class Book
      * @ORM\ManyToOne(targetEntity="Booking\AppBundle\Entity\Client", cascade={"persist"})
      */
     private $client;
+
+    /**
+     * @var User
+     * @ORM\ManyToOne(targetEntity="Booking\UserBundle\Entity\User", cascade={"persist"})
+     */
+    private $driver;
+
+    /**
+     * @var User
+     * @ORM\ManyToOne(targetEntity="Booking\UserBundle\Entity\User", cascade={"persist"})
+     */
+    private $greeter;
 
     /**
      * @var \DateTime
@@ -170,6 +183,38 @@ class Book
     public function getCreationDate(): \DateTime
     {
         return $this->creation_date;
+    }
+
+    /**
+     * @return User
+     */
+    public function getDriver(): ?User
+    {
+        return $this->driver;
+    }
+
+    /**
+     * @param User $driver
+     */
+    public function setDriver(User $driver)
+    {
+        $this->driver = $driver;
+    }
+
+    /**
+     * @return User
+     */
+    public function getGreeter(): ?User
+    {
+        return $this->greeter;
+    }
+
+    /**
+     * @param User $greeter
+     */
+    public function setGreeter(User $greeter)
+    {
+        $this->greeter = $greeter;
     }
 
     public function getDates(): string {

@@ -1,8 +1,9 @@
+{#
 {% set cmp = (app.user ? app.user.compagny : NULL) %}
 {% set logopath = asset('uploads/logos/' ~ (cmp ? app.user.compagny.logo : 'default.png')) %}
 {% set docpath = (cmp ? asset('uploads/docs/' ~ app.user.compagny.doc) : null) %}
 {% set cmpcolor = (cmp ? app.user.compagny.color : '#ff0000') %}
-
+#}
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,35 +13,37 @@
   <link rel="icon" type="image/x-icon" href="{{ absolute_url(asset('favicon.ico')) }}" />
 
   <link rel="stylesheet" href="{{ absolute_url(asset('bundles/booking/css/bootstrap.min.css')) }}">
-  {% block stylesheets %}
-  <link rel="stylesheet" href="{{ absolute_url(asset('bundles/booking/css/shared.css')) }}">
-  <style media="screen">
-  .cmpcolor {
-      color: {{cmpcolor}} !important
-  }
-  .back-cmpcolor {
-      background-color: {{cmpcolor}} !important;
-      color: white;
-      padding: 5px;
-  }
-  .border-bot-cmpcolor {
-      border-bottom-color: {{cmpcolor}} !important
-  }
-  .label-danger,
-  .btn-danger { background-color: {{cmpcolor}}; border: none; }
-  </style>
-  {% endblock %}
+    {% block stylesheets %}
+      <link rel="stylesheet" href="{{ absolute_url(asset('bundles/booking/css/shared.css')) }}">
+        {#
+          <style media="screen">
+        .cmpcolor {
+            color: {{cmpcolor}} !important
+        }
+        .back-cmpcolor {
+            background-color: {{cmpcolor}} !important;
+            color: white;
+            padding: 5px;
+        }
+        .border-bot-cmpcolor {
+            border-bottom-color: {{cmpcolor}} !important
+        }
+        .label-danger,
+        .btn-danger { background-color: {{cmpcolor}}; border: none; }
+        </style>
+        #}
+    {% endblock %}
 
-{#
-  <script src="{{ absolute_url(asset('bundles/booking/js/jquery.min.js')) }}"></script>
-  <script src="{{ absolute_url(asset('bundles/booking/js/moment.js')) }}"></script>
-  <script src="{{ absolute_url(asset('bundles/booking/js/bootstrap.min.js')) }}"></script>
-#}
-  {% block headscripts %}{% endblock %}
+    {#
+      <script src="{{ absolute_url(asset('bundles/booking/js/jquery.min.js')) }}"></script>
+      <script src="{{ absolute_url(asset('bundles/booking/js/moment.js')) }}"></script>
+      <script src="{{ absolute_url(asset('bundles/booking/js/bootstrap.min.js')) }}"></script>
+    #}
+    {% block headscripts %}{% endblock %}
 </head>
 <body class="nav-md">
-  {% block body %}{% endblock %}
+{% block body %}{% endblock %}
 
-  {% block javascripts %}{% endblock %}
+{% block javascripts %}{% endblock %}
 </body>
 </html>
