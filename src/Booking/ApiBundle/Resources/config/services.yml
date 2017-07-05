@@ -1,4 +1,53 @@
 services:
+
     booking.api.checker:
         class: Booking\ApiBundle\Checker\ApiChecker
         arguments: ["@doctrine.orm.entity_manager"]
+
+    booking.api.serializer.book:
+        class: Booking\ApiBundle\Serializer\BookSerializer
+        arguments: ["@service_container"]
+
+    booking.api.serializer.product.metadata:
+        class: Booking\ApiBundle\Serializer\ProductMetadataSerializer
+        arguments: ["@service_container"]
+
+    booking.api.serializer.product.type:
+        class: Booking\ApiBundle\Serializer\ProductTypeSerializer
+        arguments: ["@service_container"]
+
+    booking.api.serializer.product.service:
+        class: Booking\ApiBundle\Serializer\ProductServiceSerializer
+        arguments: ["@service_container"]
+
+    booking.api.serializer.execution:
+        class: Booking\ApiBundle\Serializer\ExecutionSerializer
+        arguments: ["@service_container"]
+
+    booking.api.serializer.execution.step:
+        class: Booking\ApiBundle\Serializer\StepSerializer
+        arguments: ["@service_container"]
+
+    booking.api.serializer.core.international_codes:
+        class: Booking\ApiBundle\Serializer\Core\InternationalCodesSerializer
+        arguments: ["@service_container"]
+
+    booking.api.serializer.core.car:
+        class: Booking\ApiBundle\Serializer\Core\CarSerializer
+        arguments: ["@service_container"]
+
+    booking.api.serializer.flight:
+        class: Booking\ApiBundle\Serializer\FlightSerializer
+        arguments: ["@service_container"]
+
+    booking.api.serializer.service.airport:
+        class: Booking\ApiBundle\Serializer\Service\AirportSerializer
+        arguments: ["@service_container"]
+
+    booking.api.serializer.service.limousine:
+        class: Booking\ApiBundle\Serializer\Service\LimousineSerializer
+        arguments: ["@service_container"]
+
+    booking.api.serializer.service.train:
+        class: Booking\ApiBundle\Serializer\Service\TrainSerializer
+        arguments: ["@service_container"]

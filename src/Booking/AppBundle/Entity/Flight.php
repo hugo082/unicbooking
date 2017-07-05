@@ -122,9 +122,9 @@ class Flight
     }
 
     /**
-     * @return string
+     * @return \DateTime
      */
-    public function getArrivalTime(): ?string
+    public function getArrivalTime(): ?\DateTime
     {
         return $this->arrival_time;
     }
@@ -138,9 +138,9 @@ class Flight
     }
 
     /**
-     * @return string
+     * @return \DateTime
      */
-    public function getDepartureTime(): ?string
+    public function getDepartureTime(): ?\DateTime
     {
         return $this->departure_time;
     }

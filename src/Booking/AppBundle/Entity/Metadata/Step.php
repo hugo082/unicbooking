@@ -77,12 +77,9 @@ class Step
         return $this->finish_time;
     }
 
-    /**
-     * @param \DateTime $finish_time
-     */
-    public function setFinishTime(\DateTime $finish_time)
+    public function finish()
     {
-        $this->finish_time = $finish_time;
+        $this->finish_time = new \DateTime();
     }
 
     /**

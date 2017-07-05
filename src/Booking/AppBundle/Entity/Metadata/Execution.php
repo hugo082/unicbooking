@@ -41,7 +41,7 @@ class Execution
     private $current_step;
 
     /**
-     * @var ArrayCollection
+     * @var Step[]
      * @ORM\OneToMany(targetEntity="Booking\AppBundle\Entity\Metadata\Step", mappedBy="execution", cascade={"persist", "remove"})
      */
     private $steps;
@@ -49,6 +49,12 @@ class Execution
     public function __construct()
     {
         $this->steps = new ArrayCollection();
+    }
+
+    public function updateCurrentStep(int $step) {
+        for($i = $this->getCurrentStep(true); $i < $step; $i++)
+            $this->steps[$i]->finish();
+        $this->current_step = $step;
     }
 
     public function getState(bool $value = false): string
@@ -123,8 +129,10 @@ class Execution
     /**
      * @return int
      */
-    public function getCurrentStep(): ?int
+    public function getCurrentStep(bool $force_int = false): ?int
     {
+        if ($force_int)
+            return $this->current_step ? $this->current_step : 0;
         return $this->current_step;
     }
 
