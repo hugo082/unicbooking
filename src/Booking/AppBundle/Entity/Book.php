@@ -3,6 +3,7 @@
 namespace Booking\AppBundle\Entity;
 
 use Booking\AppBundle\Entity\Core\Agent;
+use Booking\AppBundle\Entity\Metadata\Execution;
 use Booking\UserBundle\Entity\User;
 use Doctrine\Common\Collections\ArrayCollection;
 use Booking\AppBundle\Entity\Metadata\Product as ProductMet;
@@ -215,6 +216,14 @@ class Book
     public function setGreeter(User $greeter)
     {
         $this->greeter = $greeter;
+    }
+
+    public function getState(bool $value = false): string
+    {
+        $state = Execution::EMPTY_STATE[(int)$value];
+        foreach ($this->products as $product)
+            $state = $product->getExecution()->computeState($state, $value);
+        return $state;
     }
 
     public function getDates(): string {

@@ -51,6 +51,14 @@ class Product
     private $airport;
 
     /**
+     * Execution
+     * @var Execution
+     * @ORM\OneToOne(targetEntity="Booking\AppBundle\Entity\Metadata\Execution", cascade={"persist"})
+     * @ORM\JoinColumn(name="exec_id", referencedColumnName="id")
+     */
+    private $execution;
+
+    /**
      * @var Book
      * @ORM\ManyToOne(targetEntity="Booking\AppBundle\Entity\Book", inversedBy="products")
      * @ORM\JoinColumn(name="book", referencedColumnName="id")
@@ -75,6 +83,11 @@ class Product
      * @ORM\Column(name="note", type="text", nullable=true)
      */
     protected $note;
+
+    public function __construct()
+    {
+        $this->execution = new Execution();
+    }
 
     public function isValid(): Bool {
         if (!$this->product_type)
@@ -207,6 +220,32 @@ class Product
     public function setBook(Book $book)
     {
         $this->book = $book;
+    }
+
+    /**
+     * @return Execution
+     */
+    public function getExecution(): ?Execution
+    {
+        return $this->execution;
+    }
+
+    /**
+     * @param Execution $execution
+     */
+    public function setExecution(Execution $execution)
+    {
+        $this->execution = $execution;
+    }
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function computeExecutionSteps() {
+        if ($this->product_type->getService()->isAirport()) {
+            $this->execution->setAirportDepartureSteps();
+        } else
+            $this->execution->setEmptySteps();
     }
 
     public function getPrice(Client $client = null) {

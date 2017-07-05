@@ -42,7 +42,7 @@
                                         <td>{{ book.id }}</td>
                                         <td>{{ book.dates }}</td>
                                         <td>{{ include('dashboard/book/service/icon_view.html.twig', {products: book.products}) }}</td>
-                                        <td><span class="label label-default">Waiting</span></td>
+                                        <td><span class="label label-{{ book.state }}">{{ book.state(true) }}</span></td>
                                         <td class="table-action">
                                             <a href="{{ path('booking_app_book_show', {'id': book.id}) }}" class="btn btn-default">
                                                 <span class="glyphicon glyphicon-search"></span>
