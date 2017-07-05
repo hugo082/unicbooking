@@ -25,7 +25,11 @@
             <div class="clearfix"></div>
 
 
-            {% form_theme form 'bootstrap_3_layout.html.twig' 'form/form_collection_add.html.twig' 'form/form_div_layout.html.twig' %}
+            {% form_theme form
+            'bootstrap_3_layout.html.twig'
+            'form/form_div_layout.html.twig'
+            'form/form_custom_dashboard_book.html.twig'
+            'form/form_collection_add.html.twig' %}
 
             {{ form_start(form, { 'attr': {'class':'form-horizontal form-label-left'}}) }}
 
@@ -42,27 +46,12 @@
                         </div>
                     </div>
                 </div>
+                {{ form_widget(form.products) }}
                 <div class="col-md-12 col-sm-12 col-xs-12">
                     <div class="x_panel">
-                        <div class="x_title">
-                            <h2>{{ form_label(form.products) }}</h2>
-                            <div class="clearfix"></div>
-                        </div>
                         <div class="x_content">
-                            {{ form_widget(form.products) }}
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-12 col-sm-12 col-xs-12">
-                    <div class="x_panel">
-                        <div class="x_title">
-                            <h2>Action</h2>
-                            <div class="clearfix"></div>
-                        </div>
-                        <div class="x_content">
-                            <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-                                <button type="submit" class="btn btn-success">Submit</button>
-                            </div>
+                            <button id="form_collection_add_product" class="btn btn-success">Add product</button>
+                            <button type="submit" class="btn btn-success">Submit</button>
                         </div>
                     </div>
                 </div>

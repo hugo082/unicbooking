@@ -1,23 +1,23 @@
 
-{% block collection_widget %}
+{% block _booking_appbundle_book_products_widget %}
     {% spaceless %}
         {% if prototype is defined %}
-            {% set attr = attr|merge({'data-prototype': block('collection_item_widget') }) %}
+            {% set attr = attr|merge({'data-prototype': block('_booking_appbundle_book_products_entry_row') }) %}
         {% endif %}
+
         <div {{ block('widget_container_attributes') }}>
             {% for widget in form.children %}
                 {{ form_row(widget) }}
             {% endfor %}
         </div>
-        <br>
-        <a id="form_collection_add" class="btn btn-success" data-target="{{ id }}">Add</a>
 
     {% endspaceless %}
 
     <script>
         $( document ).ready(function() {
-            $(document).on('click', '#form_collection_add[data-target]', function(event) {
-                var collectionHolder = $('#' + $(this).attr('data-target'));
+            $("#form_collection_add_product").data("target", "{{ id }}");
+            $(document).on('click', '#form_collection_add_product', function(event) {
+                var collectionHolder = $('#' + $(this).data('target'));
 
                 if (!collectionHolder.attr('data-counter')) {
                     collectionHolder.attr('data-counter', collectionHolder.children().length);
@@ -40,22 +40,35 @@
             });
         });
     </script>
-{% endblock collection_widget %}
+{% endblock %}
 
-{% block collection_item_widget %}
+{% block _booking_appbundle_book_products_entry_row %}
     {% spaceless %}
-        <div id="{{ prototype.vars.id }}" class="col-md-12 col-sm-12 col-lg-12 col-xs-12" data-content="{{ prototype.vars.id }}"
-             style="margin: 10px 0; padding: 0">
-            {% for row in prototype %}
-                {{ form_widget(row) }}
-            {% endfor %}
-            <a id="form_collection_remove" class="btn btn-danger" data-related="{{ prototype.vars.id }}">Remove</a>
+        {% if prototype is defined %}
+            {% set form = prototype %}
+        {% endif %}
+        <div id="{{ form.vars.id }}" data-content="{{ form.vars.id }}" class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2>{{ form_label(form, 'Product #' ~ (form.vars.name)) }}</h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                        <li>
+                            <button id="form_collection_remove" data-related="{{ form.vars.id }}" class="btn btn-danger">Remove</button>
+                        </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                    {% for row in form %}
+                        {{ form_widget(row) }}
+                    {% endfor %}
+                </div>
+            </div>
         </div>
     {% endspaceless %}
-{% endblock collection_item_widget %}
+{% endblock %}
 
 
-{#
 {% block _booking_appbundle_client_contacts_entry_row %}
     {% spaceless %}
         <div id="{{ form.vars.id }}" class="col-md-12 col-sm-12 col-lg-12 col-xs-12" data-content="{{ form.vars.id }}"
@@ -154,4 +167,3 @@
         </script>
     {% endspaceless %}
 {% endblock _booking_appbundle_book_products_entry_airport_widget %}
-#}
