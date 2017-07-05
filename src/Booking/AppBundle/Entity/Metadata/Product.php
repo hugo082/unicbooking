@@ -15,6 +15,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="booking_product_metadata")
  * @ORM\Entity()
+ * @ORM\HasLifecycleCallbacks()
  */
 class Product
 {

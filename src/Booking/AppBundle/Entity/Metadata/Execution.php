@@ -112,4 +112,52 @@ class Execution
         $this->steps[] = Step::with("Empty", $this);
     }
 
+    /**
+     * @return int
+     */
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    /**
+     * @return int
+     */
+    public function getCurrentStep(): ?int
+    {
+        return $this->current_step;
+    }
+
+    /**
+     * @param int $current_step
+     */
+    public function setCurrentStep(int $current_step)
+    {
+        $this->current_step = $current_step;
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getSteps()
+    {
+        return $this->steps;
+    }
+
+    /**
+     * @param Step $step
+     */
+    public function pushStep(Step $step)
+    {
+        $this->steps[] = $step;
+    }
+
+    /**
+     * @param ArrayCollection $steps
+     */
+    public function setSteps(ArrayCollection $steps)
+    {
+        $this->steps = $steps;
+    }
+
 }

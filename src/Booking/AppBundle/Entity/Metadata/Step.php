@@ -29,13 +29,13 @@ class Step
 
     /**
      * @var \DateTime
-     * @ORM\Column(name="finish_time", type="datetime")
+     * @ORM\Column(name="finish_time", type="datetime", nullable=true)
      */
     private $finish_time;
 
     /**
      * @var string
-     * @ORM\Column(name="note", type="text")
+     * @ORM\Column(name="note", type="text", nullable=true)
      */
     private $note;
 
@@ -121,6 +121,7 @@ class Step
         $step = new Step();
         $step->setTitle($title);
         $step->setExecution($execution);
+        $execution->pushStep($step);
         return $step;
     }
 }
