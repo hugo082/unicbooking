@@ -20,3 +20,11 @@ table.table tr.table-recap {
     font-weight: 600;
     font-size: 13px;
 }
+
+table.table-condensed .table-action {
+    text-align: center;
+    width: 35px !important;
+}
+table.table-condensed th.table-action {
+    text-align: left;
+}
