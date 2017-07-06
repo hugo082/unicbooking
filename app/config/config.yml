@@ -9,6 +9,11 @@ parameters:
     locale: en
     upload_directory: '%kernel.root_dir%/../web/uploads'
 
+    jwt_private_key_path: '%kernel.root_dir%/../var/jwt/private.pem' # ssh private key path
+    jwt_public_key_path:  '%kernel.root_dir%/../var/jwt/public.pem'  # ssh public key path
+    jwt_key_pass_phrase:  'unicbooking'                              # ssh key pass phrase
+    jwt_token_ttl:        60
+
 framework:
     #esi:             ~
     translator:      { fallbacks: ["fr", "%locale%"] }
@@ -140,6 +145,13 @@ db_manager:
         - { action: list, container: [ add, create ] }
 
 fos_rest:
+    exception:
+        enabled: true
+        messages:
+            'Symfony\Component\HttpKernel\Exception\HttpException' : true
+            'Symfony\Component\Security\Core\Exception\BadCredentialsException': true
+        codes:
+            'Symfony\Component\Security\Core\Exception\BadCredentialsException': 401
     routing_loader:
         include_format: false
     view:
@@ -148,3 +160,9 @@ fos_rest:
         rules:
             - { path: '^/api', priorities: ['json'], fallback_format: 'json' }
             - { path: '^/', priorities: [ 'html', '*/*'], fallback_format: ~, prefer_extension: true }
+
+lexik_jwt_authentication:
+    private_key_path: '%jwt_private_key_path%'
+    public_key_path:  '%jwt_public_key_path%'
+    pass_phrase:      '%jwt_key_pass_phrase%'
+    token_ttl:        '%jwt_token_ttl%'

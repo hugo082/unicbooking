@@ -51,3 +51,7 @@ services:
     booking.api.serializer.service.train:
         class: Booking\ApiBundle\Serializer\Service\TrainSerializer
         arguments: ["@service_container"]
+
+    booking.api.serializer.user:
+        class: Booking\ApiBundle\Serializer\UserSerializer
+        arguments: ["@service_container"]
