@@ -9,6 +9,8 @@ class AirportSerializer extends Serializer
 {
     public function serialize($data): ?array
     {
+        if ($data == null)
+            return null;
         if (($res = parent::serialize($data)) !== null)
             return $res;
 
