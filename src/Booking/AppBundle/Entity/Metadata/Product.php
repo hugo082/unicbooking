@@ -4,6 +4,7 @@ namespace Booking\AppBundle\Entity\Metadata;
 
 use Booking\AppBundle\Entity\Book;
 use Booking\AppBundle\Entity\Client;
+use Booking\AppBundle\Entity\Metadata\Service\iService;
 use Booking\AppBundle\Entity\Product as ProductType;
 use Booking\AppBundle\Entity\Metadata\Service\Airport;
 use Booking\AppBundle\Entity\Metadata\Service\Limousine;
@@ -94,13 +95,12 @@ class Product
         if (!$this->product_type)
             return false;
         $serviceTypeLower = $this->product_type->getService()->getTypeLower();
-        if ($serviceTypeLower == "airport")
-            return $this->airport->isValid();
-        if ($serviceTypeLower == "limousine")
-            return $this->limousine->isValid();
-        if ($serviceTypeLower == "train")
-            return $this->train->isValid();
-        return false;
+        if ($serviceTypeLower != "airport")
+            $this->airport = null;
+        if ($serviceTypeLower != "limousine")
+            return $this->limousine = null;
+        $object = $this->{$serviceTypeLower};
+        return $object instanceof iService ? $object->isValid() : false;
     }
 
     /**

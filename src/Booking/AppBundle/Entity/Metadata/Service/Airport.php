@@ -12,7 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="booking_airport_service_metadata")
  * @ORM\Entity()
  */
-class Airport
+class Airport implements iService
 {
     /**
      * @var int

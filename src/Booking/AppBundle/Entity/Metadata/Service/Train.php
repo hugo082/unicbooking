@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Embeddable
  */
-class Train
+class Train implements iService
 {
     /**
      * @var string

@@ -11,7 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="booking_limousine_service_metadata")
  * @ORM\Entity()
  */
-class Limousine
+class Limousine implements iService
 {
     /**
      * @var int
