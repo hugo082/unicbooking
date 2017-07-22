@@ -233,25 +233,33 @@
 {% endblock %}
 
 
-{% block _booking_appbundle_book_products_entry_airport_widget %}
-    {% spaceless %}
-        {{ form_widget(form) }}
-        <script>
-            $( document ).ready(function () {
-                if (typeof window.apiChecker !== 'undefined') {
-                    window.apiChecker.addField("#{{ form.children.flight.children.number.vars.id }}", "#{{ form.children.flight.children.id.vars.id }}");
-                    window.apiChecker.addField("#{{ form.children.flight_transit.children.number.vars.id }}", "#{{ form.children.flight_transit.children.id.vars.id }}");
-                }
-            });
-        </script>
-    {% endspaceless %}
-{% endblock _booking_appbundle_book_products_entry_airport_widget %}
+
+
+{% block _booking_appbundle_book_products_entry_airport_flight_number_widget %}
+    {{ block('flight_widget') }}
+{% endblock %}
+{% block _booking_appbundle_book_products_entry_airport_flight_transit_number_widget %}
+    {{ block('flight_widget') }}
+{% endblock %}
+{% block flight_widget %}
+    {{ form_widget(form, {'attr': {
+        'class': 'col-md-10 col-sm-10 col-lg-10 col-xs-8',
+        'style': 'width: 70%; margin-right:10px'
+    }}) }}
+    <a id="{{ id }}_action_load" class="btn btn-success" data-target="{{ id }}">Load</a>
+    <script>
+        $( document ).ready(function () {
+            if (typeof window.apiChecker !== 'undefined')
+                window.apiChecker.addField("#{{ id }}", "#{{ form.parent.children.id.vars.id }}", "#{{ id }}_action_load");
+        });
+    </script>
+{% endblock %}
 
 {% block _booking_appbundle_book_products_entry_baggages_widget %}
     {% spaceless %}
         <label for="{{ id }}">{{ label }}</label>
         <div id="{{ id }}" data-content="{{ id }}">
-                {{ form_widget(form) }}
+            {{ form_widget(form) }}
         </div>
     {% endspaceless %}
 {% endblock %}

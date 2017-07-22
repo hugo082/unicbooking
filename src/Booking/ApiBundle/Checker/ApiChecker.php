@@ -6,6 +6,8 @@ use Booking\ApiBundle\Exception\ApiException;
 use Booking\AppBundle\Entity\Airport;
 use Booking\AppBundle\Entity\Book;
 use Booking\AppBundle\Entity\Flight;
+use Booking\AppBundle\Entity\InternationalCodes\AirlinesCodes;
+use Booking\AppBundle\Entity\InternationalCodes\InternationalCodes;
 use Booking\AppBundle\Entity\Metadata\Product;
 use Booking\AppBundle\Repository\AirportRepository;
 use Booking\AppBundle\Repository\FlightRepository;
@@ -66,8 +68,8 @@ class ApiChecker
     public function loadFlightWithRequest(Request $request): Flight
     {
         $flight_code = $request->get("flight_code");
-        if ($flight_code == null)
-            throw new ApiException("Bad Request", "Missing flight_code argument", 400);
+        if ($flight_code == null || !InternationalCodes::isValid($flight_code))
+            throw new ApiException("Bad Request", "Missing or invalid flight_code argument", 400);
         $flight = new Flight();
         $flight->getCodes()->setCode($flight_code, true);
         $flight = $this->loadFlightWithApi($flight);

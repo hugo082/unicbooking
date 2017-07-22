@@ -144,4 +144,8 @@ abstract class InternationalCodes
         $this->iata = $array_codes["iata"];
         $this->icao = $array_codes["icao"];
     }
+
+    public static function isValid(string $code): bool {
+        return count($code) > 1;
+    }
 }
