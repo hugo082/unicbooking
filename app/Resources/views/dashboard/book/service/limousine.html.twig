@@ -1,8 +1,4 @@
-<table class="table col-lg-12 col-sm-12 col-xs-12">
-    <tr>
-        <td>Date</td>
-        <td>{{ product.date|date('d-M-Y') }}</td>
-    </tr>
+
     <tr class="section">
         <td colspan="2">Details</td>
     </tr>
@@ -14,11 +10,3 @@
         <td>Destination</td>
         <td>{{ product.limousine.pickUp }} -> {{ product.limousine.dropOff }}</td>
     </tr>
-    <tr class="section">
-        <td colspan="2">More Informations</td>
-    </tr>
-    <tr>
-        <td>Note</td>
-        <td>{{ product.note }}</td>
-    </tr>
-</table>

@@ -16,9 +16,12 @@ $( function() {
             $.ajax({
                 type: 'GET',
                 url: "http://" + window.location.host + "/api/flight",
+                headers: {
+                    'Authorization': 'Bearer ' + window["token"]
+                },
                 data: { 'flight_code': code },
                 success : function(result) {
-                    if (result.status.code != 200) {
+                    if (result.status.code !== 200) {
                         checker.internalError_(result.status);
                         return;
                     }

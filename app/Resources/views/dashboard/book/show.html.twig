@@ -143,7 +143,7 @@
                                     <thead>
                                     <tr>
                                         <th>Product Name</th>
-                                        <th>Taxe</th>
+                                        <th>Taxe (%)</th>
                                         <th>Price unit.</th>
                                         <th>Amount (EUR)</th>
                                     </tr>
@@ -186,13 +186,34 @@
                                 <div class="clearfix"></div>
                             </div>
                             <div class="x_content">
-                                {% if product.productType.service.isAirport %}
-                                    {{ include('dashboard/book/service/airport.html.twig', {product: product}) }}
-                                {% elseif product.productType.service.isTrain %}
-                                    {{ include('dashboard/book/service/train.html.twig', {product: product}) }}
-                                {% elseif product.productType.service.isLimousine %}
-                                    {{ include('dashboard/book/service/limousine.html.twig', {product: product}) }}
-                                {% endif %}
+                                <table class="table col-lg-12 col-sm-12 col-xs-12">
+                                    <tr>
+                                        <td>Date</td>
+                                        <td>{{ product.date|date('d-M-Y') }}</td>
+                                    </tr>
+                                    {% if product.productType.service.isAirport %}
+                                        {{ include('dashboard/book/service/airport.html.twig', {product: product}) }}
+                                    {% elseif product.productType.service.isTrain %}
+                                        {{ include('dashboard/book/service/train.html.twig', {product: product}) }}
+                                    {% elseif product.productType.service.isLimousine %}
+                                        {{ include('dashboard/book/service/limousine.html.twig', {product: product}) }}
+                                    {% endif %}
+                                    <tr class="section">
+                                        <td colspan="2">More Informations</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Baggages</td>
+                                        <td>{{ product.baggages }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Customers</td>
+                                        <td>{{ product.customersRecap }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Note</td>
+                                        <td>{{ product.note }}</td>
+                                    </tr>
+                                </table>
                             </div>
                         </div>
                     </div>

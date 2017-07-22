@@ -4,12 +4,14 @@ namespace Booking\AppBundle\Entity\Metadata;
 
 use Booking\AppBundle\Entity\Book;
 use Booking\AppBundle\Entity\Client;
+use Booking\AppBundle\Entity\Customer;
 use Booking\AppBundle\Entity\Metadata\Service\iService;
 use Booking\AppBundle\Entity\Product as ProductType;
 use Booking\AppBundle\Entity\Metadata\Service\Airport;
 use Booking\AppBundle\Entity\Metadata\Service\Limousine;
 use Booking\AppBundle\Entity\Metadata\Service\Train;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Product Metadata
@@ -61,6 +63,19 @@ class Product
     private $execution;
 
     /**
+     * @var Customer[]
+     * @ORM\OneToMany(targetEntity="Booking\AppBundle\Entity\Customer", mappedBy="product", cascade={"persist"})
+     */
+    protected $customers;
+
+    /**
+     * @var integer
+     * @ORM\Column(name="baggages", type="integer")
+     * @Assert\Range(min = 0)
+     */
+    protected $baggages;
+
+    /**
      * @var Book
      * @ORM\ManyToOne(targetEntity="Booking\AppBundle\Entity\Book", inversedBy="products")
      * @ORM\JoinColumn(name="book", referencedColumnName="id")
@@ -98,7 +113,7 @@ class Product
         if ($serviceTypeLower != "airport")
             $this->airport = null;
         if ($serviceTypeLower != "limousine")
-            return $this->limousine = null;
+            $this->limousine = null;
         $object = $this->{$serviceTypeLower};
         return $object instanceof iService ? $object->isValid() : false;
     }
@@ -240,6 +255,46 @@ class Product
     }
 
     /**
+     * @return Customer[]
+     */
+    public function getCustomers()
+    {
+        return $this->customers;
+    }
+
+    /**
+     * @param Customer[] $customers
+     */
+    public function setCustomers($customers)
+    {
+        echo "Set Cust";
+        $this->customers = $customers;
+    }
+
+    public function getCustomersRecap(): string {
+        if (empty($this->customers))
+            return "Unknow";
+        else
+            return $this->customers[0] . " +(" . (count($this->customers) - 1) . ")";
+    }
+
+    /**
+     * @return int
+     */
+    public function getBaggages(): ?int
+    {
+        return $this->baggages;
+    }
+
+    /**
+     * @param int $baggages
+     */
+    public function setBaggages(int $baggages)
+    {
+        $this->baggages = $baggages;
+    }
+
+    /**
      * @ORM\PrePersist
      */
     public function computeExecutionSteps() {
@@ -247,6 +302,11 @@ class Product
             $this->execution->setAirportDepartureSteps();
         } else
             $this->execution->setEmptySteps();
+    }
+
+    public function linkSubEntities() {
+        foreach ($this->getCustomers() as $customer)
+            $customer->setProduct($this);
     }
 
     public function getPrice(Client $client = null) {

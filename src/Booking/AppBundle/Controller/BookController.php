@@ -49,6 +49,7 @@ class BookController extends Controller
             /** @var ApiChecker $apiChecker */
             $apiChecker = $this->get('booking.api.checker');
             $apiChecker->processBook($book);
+            $book->linkSubEntities();
 
             $em = $this->getDoctrine()->getManager();
             $em->persist($book);
@@ -58,8 +59,10 @@ class BookController extends Controller
             ]);
         }
 
+        $jwtManager = $this->get('lexik_jwt_authentication.jwt_manager');
         return $this->render('dashboard/book/new.html.twig', array(
-            "form" => $form->createView()
+            "form" => $form->createView(),
+            'token' => $jwtManager->create($this->getUser())
         ));
     }
 
@@ -73,12 +76,11 @@ class BookController extends Controller
         $form = $this->createForm(BookType::class, $book);
         $form->handleRequest($request);
 
-        echo "USE MY HistoricalBundle";
-
         if ($form->isSubmitted() && $form->isValid() && $book->isValid()) {
             /** @var ApiChecker $apiChecker */
             $apiChecker = $this->get('booking.api.checker');
             $apiChecker->processBook($book);
+            $book->linkSubEntities();
 
             $em = $this->getDoctrine()->getManager();
             $em->persist($book);

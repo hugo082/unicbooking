@@ -1,0 +1,248 @@
+<?php
+
+namespace Booking\AppBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use Booking\AppBundle\Entity\Metadata\Product as ProductMet;
+
+/**
+ * Customer
+ *
+ * @ORM\Table(name="booking_customer")
+ * @ORM\Entity()
+ */
+class Customer
+{
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="title", type="string", length=255)
+     */
+    private $title;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="firstname", type="string", length=255)
+     */
+    private $firstname;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="lastname", type="string", length=255)
+     */
+    private $lastname;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="sexe", type="string", length=255)
+     */
+    private $sexe;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="phone", type="string", length=255, nullable=true)
+     */
+    private $phone;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="cabin", type="string", length=255)
+     */
+    private $cabin;
+
+    /**
+     * @var ProductMet
+     * @ORM\ManyToOne(targetEntity="Booking\AppBundle\Entity\Metadata\Product", inversedBy="customers", cascade={"remove"})
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $product;
+
+    function __toString()
+    {
+        return $this->lastname . " " . $this->firstname[0];
+    }
+
+    /**
+     * Get id
+     *
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set title
+     *
+     * @param string $title
+     *
+     * @return Customer
+     */
+    public function setTitle($title)
+    {
+        $this->title = $title;
+
+        return $this;
+    }
+
+    /**
+     * Get title
+     *
+     * @return string
+     */
+    public function getTitle()
+    {
+        return $this->title;
+    }
+
+    /**
+     * Set firstname
+     *
+     * @param string $firstname
+     *
+     * @return Customer
+     */
+    public function setFirstname($firstname)
+    {
+        $this->firstname = $firstname;
+
+        return $this;
+    }
+
+    /**
+     * Get firstname
+     *
+     * @return string
+     */
+    public function getFirstname()
+    {
+        return $this->firstname;
+    }
+
+    /**
+     * Set lastname
+     *
+     * @param string $lastname
+     *
+     * @return Customer
+     */
+    public function setLastname($lastname)
+    {
+        $this->lastname = $lastname;
+
+        return $this;
+    }
+
+    /**
+     * Get lastname
+     *
+     * @return string
+     */
+    public function getLastname()
+    {
+        return $this->lastname;
+    }
+
+    /**
+     * Set sexe
+     *
+     * @param string $sexe
+     *
+     * @return Customer
+     */
+    public function setSexe($sexe)
+    {
+        $this->sexe = $sexe;
+
+        return $this;
+    }
+
+    /**
+     * Get sexe
+     *
+     * @return string
+     */
+    public function getSexe()
+    {
+        return $this->sexe;
+    }
+
+    /**
+     * Set phone
+     *
+     * @param string $phone
+     *
+     * @return Customer
+     */
+    public function setPhone($phone)
+    {
+        $this->phone = $phone;
+
+        return $this;
+    }
+
+    /**
+     * Get phone
+     *
+     * @return string
+     */
+    public function getPhone()
+    {
+        return $this->phone;
+    }
+
+    /**
+     * @return ProductMet
+     */
+    public function getProduct(): ?ProductMet
+    {
+        return $this->product;
+    }
+
+    /**
+     * @param ProductMet $product
+     */
+    public function setProduct(ProductMet $product)
+    {
+        $this->product = $product;
+    }
+
+    /**
+     * Set cabin
+     *
+     * @param string $cabin
+     *
+     * @return Customer
+     */
+    public function setCabin($cabin)
+    {
+        $this->cabin = $cabin;
+
+        return $this;
+    }
+
+    /**
+     * Get cabin
+     *
+     * @return string
+     */
+    public function getCabin()
+    {
+        return $this->cabin;
+    }
+}

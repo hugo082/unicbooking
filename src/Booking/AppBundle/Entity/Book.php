@@ -66,7 +66,7 @@ class Book
 
     /**
      * @var ProductMet[]
-     * @ORM\OneToMany(targetEntity="Booking\AppBundle\Entity\Metadata\Product", mappedBy="book", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="Booking\AppBundle\Entity\Metadata\Product", mappedBy="book", cascade={"persist", "refresh"})
      */
     protected $products;
 
@@ -172,10 +172,12 @@ class Book
         $this->products = $products;
     }
 
-    public function linkProducts() {
+    public function linkSubEntities() {
         /** @var ProductMet $prod */
-        foreach ($this->getProducts() as $prod)
+        foreach ($this->getProducts() as $prod) {
             $prod->setBook($this);
+            $prod->linkSubEntities();
+        }
     }
 
     /**

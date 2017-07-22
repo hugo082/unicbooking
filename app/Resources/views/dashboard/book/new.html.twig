@@ -29,7 +29,8 @@
             'bootstrap_3_layout.html.twig'
             'form/form_div_layout.html.twig'
             'form/form_custom_dashboard_book.html.twig'
-            'form/form_collection_add.html.twig' %}
+            'form/form_collection_add.html.twig'
+            %}
 
             {{ form_start(form, { 'attr': {'class':'form-horizontal form-label-left'}}) }}
 
@@ -88,5 +89,10 @@
 
 {% block javascripts %}
     {{parent()}}
-    <script src="{{ asset('js/core/flight_api_loader.js') }}"></script>
+    {% if token is defined %}
+        <script>
+            window["token"] = "{{ token }}"
+        </script>
+        <script src="{{ asset('js/core/flight_api_loader.js') }}"></script>
+    {% endif %}
 {% endblock %}

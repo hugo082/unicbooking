@@ -46,7 +46,7 @@ class ApiChecker
 
     public function processBook(Book $book) {
         $this->book = $book;
-        $this->book->linkProducts();
+        $this->book->linkSubEntities();
         $this->computeFlights();
         // TODO: Check Support Airport
     }
