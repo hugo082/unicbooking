@@ -272,10 +272,11 @@ class Product
     }
 
     public function getCustomersRecap(): string {
-        if (empty($this->customers))
+        $count = count($this->customers);
+        if ($count == 0)
             return "Unknow";
         else
-            return $this->customers[0] . " +(" . (count($this->customers) - 1) . ")";
+            return $this->customers[0] . " +(" . ($count - 1) . ")";
     }
 
     /**

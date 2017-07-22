@@ -4,15 +4,21 @@ namespace Booking\ApiBundle\Controller;
 
 use Booking\ApiBundle\Checker\ApiChecker;
 use Booking\ApiBundle\Exception\ApiException;
+use Booking\ApiBundle\Serializer\FlightSerializer;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
+
+use FOS\RestBundle\Controller\Annotations as Rest;
+use Symfony\Component\HttpFoundation\Response;
+
 class DefaultController extends Controller
 {
+
     /**
-     * @Route("/flight")
+     * @Rest\View()
+     * @Rest\Get("/flight")
      */
     public function flightAction(Request $request)
     {
@@ -26,7 +32,6 @@ class DefaultController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->persist($flight);
             $em->flush();
-            $flight = $flight->encode();
             $statusResponse = array(
                 'code' => 200
             );
@@ -34,13 +39,14 @@ class DefaultController extends Controller
             $statusResponse = $e->encode();
         }
 
+        /** @var FlightSerializer $serializer */
+        $serializer = $this->get("booking.api.serializer.flight");
         $response->setData(array(
             "status" => $statusResponse,
-            "flight" => $flight
+            "flight" => $serializer->serialize($flight)
         ));
 
-        $response->setEncodingOptions($response->getEncodingOptions() | JSON_PRETTY_PRINT);
         return $response;
-
     }
+    
 }

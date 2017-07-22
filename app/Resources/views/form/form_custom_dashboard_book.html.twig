@@ -224,6 +224,9 @@
                     loadForm($(this).find(":selected").attr("s-type"));
                 });
                 loadForm($("#{{ id }}").find(":selected").attr("s-type"));
+                if (typeof window.productsManager !== 'undefined') {
+                    window.productsManager.pushProductTypeSelector("select#{{ id }}");
+                }
             });
         </script>
     {% endspaceless %}

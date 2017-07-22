@@ -38,7 +38,14 @@ class ProductType extends AbstractType
                 'class' => 'BookingAppBundle:Product',
                 'choice_label' => 'name',
                 'choice_attr' => function (Product $p) {
-                    return ["s-type" => $p->getService()->getTypeLower()];
+                    $ids = "";
+                    foreach ($p->getClients() as $client)
+                        $ids .= $client->getId()."-";
+                    $ids = substr($ids, 0, -1);
+                    return [
+                        "s-type" => $p->getService()->getTypeLower(),
+                        "c-ids" => $ids
+                    ];
                 }
             ])
             ->add('airport', AirportType::class, [

@@ -24,6 +24,10 @@ services:
         class: Booking\ApiBundle\Serializer\ExecutionSerializer
         arguments: ["@service_container"]
 
+    booking.api.serializer.customer:
+        class: Booking\ApiBundle\Serializer\CustomerSerializer
+        arguments: ["@service_container"]
+
     booking.api.serializer.execution.step:
         class: Booking\ApiBundle\Serializer\StepSerializer
         arguments: ["@service_container"]
@@ -38,6 +42,10 @@ services:
 
     booking.api.serializer.flight:
         class: Booking\ApiBundle\Serializer\FlightSerializer
+        arguments: ["@service_container"]
+
+    booking.api.serializer.airport:
+        class: Booking\ApiBundle\Serializer\AirportSerializer
         arguments: ["@service_container"]
 
     booking.api.serializer.service.airport:

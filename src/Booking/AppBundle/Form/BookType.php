@@ -29,7 +29,10 @@ class BookType extends AbstractType
                 'class'   => Client::class,
                 'placeholder' => '- Client -',
                 'choice_label' => 'name',
-                'label' => false
+                'label' => false,
+                'choice_attr' => function (Client $client) {
+                    return ["c-id" => $client->getId()];
+                }
             ))
             ->add('products', CollectionType::class, array(
                 'entry_type'   => ProductMetType::class,

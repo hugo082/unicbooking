@@ -31,8 +31,8 @@ $( function() {
             });
         };
         this.displayModal_ = function (flight) {
-            var departuretime = new Date(1000 * flight.origin_time),
-                arrivaltime = new Date(1000 * flight.destination_time);
+            var departuretime = new Date(1000 * flight.departure_time),
+                arrivaltime = new Date(1000 * flight.arrival_time);
             $(this.flightModal_).modal('show');
             $(this.flightModal_origin_).text("Origin : " + flight.origin.name);
             $(this.flightModal_departure_time_).text("Departure time : " + departuretime.toLocaleTimeString());
@@ -45,6 +45,7 @@ $( function() {
         };
         this.cancel_ = function () {
             $(this.inputId_).val("");
+            $(this.hiddenInputId_).val("");
         };
         this.listen_ = function () {
             var checker = this;

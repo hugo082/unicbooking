@@ -23,7 +23,6 @@ class ProductType extends AbstractType
             ))
             ->add('service', EntityType::class, array(
                 'class' => 'BookingAppBundle:Service',
-                'choice_label' => 'name',
             ))
             ->add('clients', EntityType::class, array(
                 'required' => false,

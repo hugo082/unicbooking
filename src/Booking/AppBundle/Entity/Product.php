@@ -109,7 +109,7 @@ class Product
     }
 
     /**
-     * @return ArrayCollection
+     * @return Client[]
      */
     public function getClients()
     {
