@@ -2,6 +2,7 @@
 
 namespace Booking\AppBundle\Entity\Metadata\Service;
 
+use Booking\ApiBundle\Exception\UnsupportedAirportException;
 use Booking\AppBundle\Entity\Flight;
 use Booking\AppBundle\Repository\FlightRepository;
 use Doctrine\ORM\Mapping as ORM;
@@ -124,6 +125,23 @@ class Airport implements iService
         if ($this->flight_transit == null)
             return $this->flight->getTime();
         return $this->flight->getTime() . " - " . $this->flight_transit->getTime();
+    }
+
+    public function checkAirportsSupport() {
+        if ($this->flight != null) {
+            $dest = $this->flight->getDestination();
+            if ($this->flight_transit != null) {
+                if (!$dest->isSupported())
+                    throw new UnsupportedAirportException(UnsupportedAirportException::TYPE_AIRPORT, $dest);
+                if ($this->flight_transit->getOrigin()->getCodes()->getIcao() != $dest->getCodes()->getIcao())
+                    throw new UnsupportedAirportException(UnsupportedAirportException::TYPE_CONNECTION);
+            } else {
+                if (!$dest->isSupported() && !$this->flight->getOrigin()->isSupported()) {
+                    $airport = $dest->isSupported() ? $this->flight->getOrigin() : $dest;
+                    throw new UnsupportedAirportException(UnsupportedAirportException::TYPE_AIRPORT, $airport);
+                }
+            }
+        }
     }
 }
 

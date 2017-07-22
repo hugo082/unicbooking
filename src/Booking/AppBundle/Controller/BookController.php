@@ -48,15 +48,19 @@ class BookController extends Controller
         if ($form->isSubmitted() && $form->isValid() && $book->isValid()) {
             /** @var ApiChecker $apiChecker */
             $apiChecker = $this->get('booking.api.checker');
-            $apiChecker->processBook($book);
-            $book->linkSubEntities();
+            try {
+                $apiChecker->processBook($book);
+                $book->linkSubEntities();
 
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($book);
-            $em->flush();
-            return $this->redirectToRoute("booking_app_book_show", [
-                "id" => $book->getId()
-            ]);
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($book);
+                $em->flush();
+                return $this->redirectToRoute("booking_app_book_show", [
+                    "id" => $book->getId()
+                ]);
+            } catch (ApiException $e) {
+                $this->addFlash("error", $e->getMessage());
+            }
         }
 
         $jwtManager = $this->get('lexik_jwt_authentication.jwt_manager');

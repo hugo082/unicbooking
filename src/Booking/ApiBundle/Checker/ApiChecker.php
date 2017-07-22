@@ -48,7 +48,6 @@ class ApiChecker
         $this->book = $book;
         $this->book->linkSubEntities();
         $this->computeFlights();
-        // TODO: Check Support Airport
     }
 
     public function computeFlights() {
@@ -59,6 +58,7 @@ class ApiChecker
                 $repo = $this->em->getRepository("BookingAppBundle:Flight");
                 $product->getAirport()->computeFlightWithCurrentFlight($repo);
                 $product->getAirport()->computeFlightTransitWithCurrentFlight($repo);
+                $product->getAirport()->checkAirportsSupport();
             }
         }
     }

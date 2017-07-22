@@ -13,53 +13,50 @@
 {% endblock %}
 
 {% block content %}
-    <!-- page content -->
-    <div class="right_col" role="main">
-        <div class="">
-            <div class="page-title">
-                <div class="title_right">
-                    <a href="{{ path('booking_app_book_index') }}" class="btn btn-lg btn-success">Lister</a>
-                </div>
+    <div class="">
+        <div class="page-title">
+            <div class="title_right">
+                <a href="{{ path('booking_app_book_index') }}" class="btn btn-lg btn-success">Lister</a>
             </div>
-
-            <div class="clearfix"></div>
-
-
-            {% form_theme form
-            'bootstrap_3_layout.html.twig'
-            'form/form_div_layout.html.twig'
-            'form/form_custom_dashboard_book.html.twig'
-            'form/form_collection_add.html.twig'
-            %}
-
-            {{ form_start(form, { 'attr': {'class':'form-horizontal form-label-left'}}) }}
-
-            <div class="row">
-                <div class="col-md-12 col-sm-12 col-xs-12">
-                    <div class="x_panel">
-                        <div class="x_title">
-                            <h2>{{ form_label(form.agent) }}</h2>
-                            <div class="clearfix"></div>
-                        </div>
-                        <div class="x_content">
-                            {{ form_widget(form.agent) }}
-                            {{ form_widget(form.client) }}
-                        </div>
-                    </div>
-                </div>
-                {{ form_widget(form.products) }}
-                <div class="col-md-12 col-sm-12 col-xs-12">
-                    <div class="x_panel">
-                        <div class="x_content">
-                            <button id="form_collection_add_product" class="btn btn-success">Add product</button>
-                            <button type="submit" class="btn btn-success">Submit</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            {{ form_rest(form) }}
-            {{ form_end(form) }}
         </div>
+
+        <div class="clearfix"></div>
+
+
+        {% form_theme form
+        'bootstrap_3_layout.html.twig'
+        'form/form_div_layout.html.twig'
+        'form/form_custom_dashboard_book.html.twig'
+        'form/form_collection_add.html.twig'
+        %}
+
+        {{ form_start(form, { 'attr': {'class':'form-horizontal form-label-left'}}) }}
+
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h2>{{ form_label(form.agent) }}</h2>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+                        {{ form_widget(form.agent) }}
+                        {{ form_widget(form.client) }}
+                    </div>
+                </div>
+            </div>
+            {{ form_widget(form.products) }}
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                    <div class="x_content">
+                        <button id="form_collection_add_product" class="btn btn-success">Add product</button>
+                        <button type="submit" class="btn btn-success">Submit</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {{ form_rest(form) }}
+        {{ form_end(form) }}
     </div>
     <div id="flightModalInformation" class="modal fade" role="dialog">
         <div class="modal-dialog" style="min-height: 90%">

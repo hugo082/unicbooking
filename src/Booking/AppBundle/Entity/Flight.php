@@ -32,14 +32,14 @@ class Flight
     /**
      * Origin Airport
      * @var Airport
-     * @ORM\ManyToOne(targetEntity="Booking\AppBundle\Entity\Airport")
+     * @ORM\ManyToOne(targetEntity="Booking\AppBundle\Entity\Airport", cascade={"persist", "refresh"})
      */
     private $origin;
 
     /**
      * Destination Airport
      * @var Airport
-     * @ORM\ManyToOne(targetEntity="Booking\AppBundle\Entity\Airport")
+     * @ORM\ManyToOne(targetEntity="Booking\AppBundle\Entity\Airport", cascade={"persist", "refresh"})
      */
     private $destination;
 
