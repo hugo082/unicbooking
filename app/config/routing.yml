@@ -1,7 +1,3 @@
-booking_api:
-    resource: "@BookingApiBundle/Controller/"
-    type:     rest
-    prefix:   /api
 
 booking_app:
     resource: "@BookingAppBundle/Controller/"
@@ -27,3 +23,8 @@ fos_user:
 
 api_login_check:
     path: /api/login_check
+
+booking_api:
+    resource: "@BookingApiBundle/Controller/"
+    type:     rest
+    prefix:   /api

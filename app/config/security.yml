@@ -12,6 +12,7 @@ security:
         ROLE_SUPER_ADMIN: ROLE_ADMIN
 
     firewalls:
+
         login:
             pattern:  ^/api/login
             stateless: true

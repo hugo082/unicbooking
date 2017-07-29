@@ -15,7 +15,7 @@ class UserController extends Controller
 {
     /**
      * @Rest\View()
-     * @Rest\Get("/user/current")
+     * @Rest\Get("/user/detail")
      */
     public function getCurrentUserAction(Request $request)
     {

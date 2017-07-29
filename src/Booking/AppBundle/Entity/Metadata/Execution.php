@@ -52,9 +52,10 @@ class Execution
     }
 
     public function updateCurrentStep(int $step) {
-        for($i = $this->getCurrentStep(true); $i < $step; $i++)
+        $len = min(count($this->steps), $step);
+        for($i = $this->getCurrentStep(true); $i < $len; $i++)
             $this->steps[$i]->finish();
-        $this->current_step = $step;
+        $this->current_step = $len;
     }
 
     public function getState(bool $value = false): string
