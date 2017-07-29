@@ -3,6 +3,9 @@
 {% form_theme data.form 'bootstrap_3_layout.html.twig' 'form/form_collection_add.html.twig' %}
 
 <style>
+    .form-group {
+        padding-left: 15px;
+    }
     .form-group .control-label {
         padding-top: 0;
     }
@@ -15,10 +18,8 @@
                         {% if row.vars.block_prefixes.1 == 'hidden' %}
                             {{ form_row(row) }}
                         {% else %}
-                            {{ form_label(row, null, {'label_attr':{'class':'control-label col-md-3 col-sm-3 col-xs-12'}}) }}
-                            <div class="col-sm-9">
-                                {{ form_widget(row) }}
-                            </div>
+                            {{ form_label(row, null, {}) }}
+                            {{ form_widget(row) }}
                         {% endif %}
                     </div>
                 {% endfor %}
