@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use Symfony\Component\HttpFoundation\Response;
 
-class DefaultController extends Controller
+class FlightController extends Controller
 {
 
     /**

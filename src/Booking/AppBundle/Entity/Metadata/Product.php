@@ -17,7 +17,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * Product Metadata
  *
  * @ORM\Table(name="booking_product_metadata")
- * @ORM\Entity()
+ * @ORM\Entity(repositoryClass="Booking\AppBundle\Repository\Metadata\ProductRepository")
  * @ORM\HasLifecycleCallbacks()
  */
 class Product

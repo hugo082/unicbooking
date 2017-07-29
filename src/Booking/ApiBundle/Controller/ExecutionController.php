@@ -10,11 +10,11 @@ use Symfony\Component\HttpFoundation\Request;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use Symfony\Component\HttpFoundation\Response;
 
-class BookExecutionController extends Controller
+class ExecutionController extends Controller
 {
     /**
      * @Rest\View()
-     * @Rest\Get("/book/execution/{id}")
+     * @Rest\Get("/execution/{id}")
      */
     public function getExecutionAction(Request $request)
     {
@@ -29,7 +29,7 @@ class BookExecutionController extends Controller
 
     /**
      * @Rest\View()
-     * @Rest\Put("/book/execution/{id}")
+     * @Rest\Put("/execution/{id}")
      */
     public function updateExecutionAction(Request $request)
     {
