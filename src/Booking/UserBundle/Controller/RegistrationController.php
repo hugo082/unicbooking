@@ -1,8 +1,8 @@
 <?php
-// src/AppBundle/Controller/RegistrationController.php
 
-namespace AppBundle\Controller;
+namespace Booking\UserBundle\Controller;
 
+use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use FOS\UserBundle\Controller\RegistrationController as BaseController;
 use Symfony\Component\HttpFoundation\Request;
@@ -23,7 +23,6 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 class RegistrationController extends BaseController
 {
 
-
     public function registerAction(Request $request)
     {
         /** @var $formFactory FactoryInterface */
@@ -34,7 +33,7 @@ class RegistrationController extends BaseController
         $dispatcher = $this->get('event_dispatcher');
 
         $user = $userManager->createUser();
-        $user->setEnabled(false);
+        $user->setEnabled(true);
 
         $event = new GetResponseUserEvent($user, $request);
         $dispatcher->dispatch(FOSUserEvents::REGISTRATION_INITIALIZE, $event);
@@ -55,12 +54,17 @@ class RegistrationController extends BaseController
 
                 $userManager->updateUser($user);
 
+                $this->container->get('logger')->info(
+                    sprintf("New user registration: %s", $user)
+                );
+
                 if (null === $response = $event->getResponse()) {
-                    $url = $this->generateUrl('homepage');
+                    $url = $this->generateUrl('booking_app_book_index');
                     $response = new RedirectResponse($url);
                 }
 
-                $dispatcher->dispatch(FOSUserEvents::REGISTRATION_COMPLETED, new FilterUserResponseEvent($user, $request, $response));
+                // Disable Login
+                //$dispatcher->dispatch(FOSUserEvents::REGISTRATION_COMPLETED, new FilterUserResponseEvent($user, $request, $response));
 
                 return $response;
             }

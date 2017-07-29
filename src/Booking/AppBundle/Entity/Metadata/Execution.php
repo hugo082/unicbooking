@@ -115,6 +115,15 @@ class Execution
         $this->steps[] = Step::with("Car drop", $this);
     }
 
+    public function setLimousineSteps() {
+        $this->steps[] = Step::with("Drop off", $this);
+        $this->steps[] = Step::with("Pick up", $this);
+    }
+
+    public function setTrainSteps() {
+        $this->steps[] = Step::with("Train arrival", $this);
+    }
+
     public function setEmptySteps() {
         $this->steps[] = Step::with("Empty", $this);
     }

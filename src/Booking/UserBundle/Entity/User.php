@@ -85,4 +85,13 @@ class User extends BaseUser
     {
         return parent::getUsername();
     }
+
+    /**
+     * @Viewable(title="Enabled", index=2)
+     * @return string
+     */
+    public function isActive()
+    {
+        return parent::isEnabled() ? "YES" : "NO";
+    }
 }

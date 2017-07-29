@@ -1,0 +1,43 @@
+{% extends 'dashboard/layout.html.twig' %}
+    {% trans_default_domain 'FOSUserBundle' %}
+
+{% block title %}{{parent()}} • New{% endblock %}
+
+
+{% block headscripts %}
+    {{parent()}}
+{% endblock %}
+
+{% block content %}
+
+    <style>
+        .row > * {
+            margin: auto;
+            max-width: 70%;
+        }
+    </style>
+    <div class="">
+        <div class="row">
+            <div>
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h2>Profile</h2>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+
+                        <div class="fos_user_user_show">
+                            <p>{{ 'profile.show.username'|trans }}: {{ user.username }}</p>
+                            <p>{{ 'profile.show.email'|trans }}: {{ user.email }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    {{parent()}}
+{% endblock %}

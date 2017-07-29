@@ -20,6 +20,7 @@ class RegistrationType extends AbstractType
                     'Admin' => 'ROLE_ADMIN'
                 ],
                 'multiple' => true,
+                'expanded' => true,
                 'label' => 'Roles'
             ])
         ;

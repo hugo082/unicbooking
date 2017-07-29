@@ -4,8 +4,14 @@ namespace Booking\UserBundle\Manager;
 
 use Booking\UserBundle\Entity\User;
 use Booking\UserBundle\Form\RegistrationType;
+use FOS\UserBundle\Event\FormEvent;
+use FOS\UserBundle\Event\GetResponseUserEvent;
+use FOS\UserBundle\Form\Factory\FactoryInterface;
+use FOS\UserBundle\FOSUserEvents;
+use FOS\UserBundle\Model\UserManagerInterface;
 use FQT\DBCoreManagerBundle\Core\Data;
 use Symfony\Component\DependencyInjection\Container;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\HttpException;
@@ -28,32 +34,86 @@ class UserManager {
     }
 
     public function createUser(?User $user, Request $request) {
-        $user = new User();
-        $form = $this->factory->create(RegistrationType::class, $user);
+        /** @var $formFactory FactoryInterface */
+        $formFactory = $this->container->get('fos_user.registration.form.factory');
+        /** @var $userManager UserManagerInterface */
+        $userManager = $this->container->get('fos_user.user_manager');
+        /** @var $dispatcher EventDispatcherInterface */
+        $dispatcher = $this->container->get('event_dispatcher');
+
+        $user = $userManager->createUser();
+        $user->setEnabled(true);
+
+        $event = new GetResponseUserEvent($user, $request);
+        $dispatcher->dispatch(FOSUserEvents::REGISTRATION_INITIALIZE, $event);
+
+        if (null !== $event->getResponse()) {
+            return $event->getResponse();
+        }
+
+        $form = $formFactory->createForm();
+        $form->setData($user);
+
         $form->handleRequest($request);
-        if($form->isSubmitted() && $form->isValid()) {
-            $userManager = $this->container->get('fos_user.user_manager');
-            $exists = $userManager->findUserBy(array('email' => $user->getEmail()));
-            if ($exists instanceof User) {
-                throw new HttpException(409, 'Email already taken');
+
+        if ($form->isSubmitted()) {
+            if ($form->isValid()) {
+                $event = new FormEvent($form, $request);
+                $dispatcher->dispatch(FOSUserEvents::REGISTRATION_SUCCESS, $event);
+
+                $userManager->updateUser($user);
+
+                $this->container->get('logger')->info(
+                    sprintf("New user registration: %s", $user)
+                );
+                return new Data([
+                        "success" => true,
+                        "redirect" => true,
+                        "flash" => [
+                            [
+                                "type" => "success",
+                                "message" => "User " . $user->getUsername() . " have been created."
+                            ]
+                        ]
+                    ]
+                );
             }
-            $user->setEnabled(true);
-            $userManager->updateUser($user);
+            $event = new FormEvent($form, $request);
+            $dispatcher->dispatch(FOSUserEvents::REGISTRATION_FAILURE, $event);
             return new Data([
-                    "success" => true,
-                    "redirect" => true,
+                    "success" => false,
+                    "form" => $form->createView(),
                     "flash" => [
                         [
-                            "type" => "success",
-                            "message" => "User created"
+                            "type" => "error",
+                            "message" => "Impossible to create this user."
                         ]
                     ]
                 ]
             );
         }
+
         return new Data([
                 "success" => null,
                 "form" => $form->createView()
+            ]
+        );
+    }
+
+    public function disableUser(?User $user, Request $request) {
+        /** @var $userManager UserManagerInterface */
+        $userManager = $this->container->get('fos_user.user_manager');
+        $user->setEnabled(!$user->isEnabled());
+        $userManager->updateUser($user);
+        return new Data([
+                "success" => true,
+                "redirect" => true,
+                "flash" => [
+                    [
+                        "type" => "success",
+                        "message" => "User " . $user->getUsername() . " have been " . ($user->isEnabled() ? "enabled." : "disabled.")
+                    ]
+                ]
             ]
         );
     }

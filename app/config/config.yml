@@ -84,7 +84,7 @@ fos_user:
     user_class: Booking\UserBundle\Entity\User
     registration:
         form:
-            type: AppBundle\Form\RegistrationType
+            type: Booking\UserBundle\Form\RegistrationType
     from_email:
         address: you@example.com
         sender_name: You
@@ -97,6 +97,10 @@ fqtdb_core_manager:
                 method: 'createUser'
                 environment: 'global'
                 fullName: 'Create'
+            disable:
+                method: 'disableUser'
+                environment: 'object'
+                fullName: 'Disable/Enable'
     entities:
         airport:
             access: ROLE_ADMIN
@@ -127,7 +131,7 @@ fqtdb_core_manager:
             access: ROLE_ADMIN
             title: User
             fullName: Booking\UserBundle:User
-            methods: [ list, create, remove ]
+            methods: [ list, create, disable ]
             formType: RegistrationType
 
 db_manager:

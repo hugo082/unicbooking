@@ -267,7 +267,6 @@ class Product
      */
     public function setCustomers($customers)
     {
-        echo "Set Cust";
         $this->customers = $customers;
     }
 
@@ -301,6 +300,10 @@ class Product
     public function computeExecutionSteps() {
         if ($this->product_type->getService()->isAirport()) {
             $this->execution->setAirportDepartureSteps();
+        } else if ($this->product_type->getService()->isLimousine()) {
+            $this->execution->setLimousineSteps();
+        } else if ($this->product_type->getService()->isTrain()) {
+            $this->execution->setTrainSteps();
         } else
             $this->execution->setEmptySteps();
     }

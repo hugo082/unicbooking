@@ -5,7 +5,7 @@
             <div class="nav toggle">
                 <a id="menu_toggle"><i class="fa fa-bars"></i></a>
             </div>
-
+            {% if app.user %}
             <ul class="nav navbar-nav navbar-right">
                 <li class="">
                     <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown">
@@ -46,6 +46,7 @@
                 </li>
                 #}
             </ul>
+            {% endif %}
         </nav>
     </div>
 </div>
