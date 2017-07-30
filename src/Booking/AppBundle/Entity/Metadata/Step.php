@@ -28,6 +28,12 @@ class Step
     private $title;
 
     /**
+     * @var string
+     * @ORM\Column(name="icon", type="string")
+     */
+    private $icon;
+
+    /**
      * @var \DateTime
      * @ORM\Column(name="finish_time", type="datetime", nullable=true)
      */
@@ -67,6 +73,22 @@ class Step
     public function setTitle(string $title)
     {
         $this->title = $title;
+    }
+
+    /**
+     * @return string
+     */
+    public function getIcon(): ?string
+    {
+        return $this->icon;
+    }
+
+    /**
+     * @param string $icon
+     */
+    public function setIcon(string $icon)
+    {
+        $this->icon = $icon;
     }
 
     /**
@@ -114,10 +136,11 @@ class Step
         $this->execution = $execution;
     }
 
-    public static function with(string $title, Execution $execution) {
+    public static function with(string $title, string $icon, Execution $execution) {
         $step = new Step();
         $step->setTitle($title);
         $step->setExecution($execution);
+        $step->setIcon($icon);
         $execution->pushStep($step);
         return $step;
     }
