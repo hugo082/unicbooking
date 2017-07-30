@@ -19,13 +19,11 @@
     "repositories" : [
         {
             "type" : "vcs",
-            "url" : "https://github.com/hugo082/FQTDBCoreManagerBundle.git",
-            "no-api": true
+            "url" : "git@github.com:hugo082/FQTDBCoreManagerBundle.git"
         },
         {
             "type" : "vcs",
-            "url" : "https://github.com/hugo082/DBManagerBundle.git",
-            "no-api": true
+            "url" : "git@github.com:hugo082/DBManagerBundle.git"
         }
     ],
     "require": {
@@ -41,7 +39,9 @@
         "sensio/framework-extra-bundle": "^3.0.2",
         "incenteev/composer-parameter-handler": "^2.0",
         "friendsofsymfony/user-bundle": "dev-master",
-        "db/managerbundle": "2.*"
+        "db/managerbundle": "2.*",
+        "lexik/jwt-authentication-bundle": "^2.4",
+        "friendsofsymfony/rest-bundle": "^2.2"
     },
     "require-dev": {
         "sensio/generator-bundle": "^3.0",
