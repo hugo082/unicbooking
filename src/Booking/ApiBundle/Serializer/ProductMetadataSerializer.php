@@ -24,7 +24,8 @@ class ProductMetadataSerializer extends Serializer
             "execution" => $this->subSerialize($data->getExecution(), "booking.api.serializer.execution"),
             "customers" => $this->subSerialize($data->getCustomers(), "booking.api.serializer.customer"),
             "baggage" => $data->getBaggages(),
-            "note" => $data->getNote()
+            "note" => $data->getNote(),
+            "date" => $data->getDate()->getTimestamp()
         ];
     }
 }
