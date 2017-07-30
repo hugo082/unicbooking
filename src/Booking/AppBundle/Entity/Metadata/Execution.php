@@ -53,7 +53,8 @@ class Execution
 
     public function updateCurrentStep(int $step) {
         $len = min(count($this->steps), $step);
-        for($i = $this->getCurrentStep(true); $i < $len; $i++)
+        $start = max($this->getCurrentStep(true), 0);
+        for($i = $start; $i < $len; $i++)
             $this->steps[$i]->finish();
         $this->current_step = $len;
     }
@@ -142,7 +143,7 @@ class Execution
     public function getCurrentStep(bool $force_int = false): ?int
     {
         if ($force_int)
-            return $this->current_step ? $this->current_step : 0;
+            return $this->current_step ? $this->current_step : -1;
         return $this->current_step;
     }
 
