@@ -79,7 +79,7 @@ class Execution
 
     public function isStarted(): bool
     {
-        return $this->current_step != null && $this->current_step >= 0;
+        return $this->current_step !== null;
     }
 
     public function isInProgress(): bool
