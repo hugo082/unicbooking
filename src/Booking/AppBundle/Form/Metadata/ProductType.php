@@ -69,8 +69,35 @@ class ProductType extends AbstractType
                 'attr' => [
                     'placeholder' => 'Baggages',
                 ],
-                'empty_data' => 0,
+                'empty_data' => "0",
                 'required' => true
+            ])
+            ->add('baggages', ChoiceType::class, [
+                'label' => 'Baggages',
+                'required' => true,
+                'choices'  => [
+                    '0 bag' => 0,
+                    '1 bag' => 1,
+                    '2 bags' => 2,
+                    '3 bags' => 3,
+                    '4 bags' => 4,
+                    '5 bags' => 5,
+                    '6 bags' => 6,
+                    '7 bags' => 7,
+                    '8 bags' => 8,
+                    '9 bags' => 9,
+                    '10 bags' => 10,
+                    '11 bags' => 11,
+                    '12 bags' => 12,
+                    '13 bags' => 13,
+                    '14 bags' => 14,
+                    '15 bags' => 15,
+                    '16 bags' => 16,
+                    '17 bags' => 17,
+                    '18 bags' => 18,
+                    '19 bags' => 19,
+                    '20 bags' => 20,
+                ]
             ])
             ->add('customers', CollectionType::class, array(
                 'entry_type'   => CustomerType::class,
