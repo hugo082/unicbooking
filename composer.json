@@ -66,7 +66,7 @@
         "compile": [
             "rm web/app_dev.php",
             "bin/console assets:install",
-            "bin/console booking:user:create admin michaelmadar@gmail.com $hKV3w --super-admin"
+            "bin/console booking:user:create admin michaelmadar@gmail.com hK$V3w --super-admin"
         ]
     },
     "extra": {
