@@ -59,6 +59,7 @@
                     <div class="clearfix"></div>
                 </div>
                 <div class="x_content">
+                    {{ form_errors(form) }}
                     <div class="form-group">
                         <div class="col-md-3">{{ form_widget(form.date) }}</div>
                         <div class="col-md-3">{{ form_widget(form.product_type) }}</div>
@@ -84,6 +85,7 @@
         {% if prototype is defined %}
             {% set attr = attr|merge({'data-prototype': block('_bab_book_products_e_customers_e_widget') }) %}
         {% endif %}
+        {{ form_errors(form) }}
         <label for="{{ id }}">{{ label }}</label>
         <div {{ block('widget_container_attributes') }}>
             {% for widget in form.children %}
@@ -91,12 +93,12 @@
                     {% for row in widget %}
                         {{ form_widget(row) }}
                     {% endfor %}
-                    <a id="form_collection_remove" class="btn btn-danger" data-related="{{ widget.vars.id }}">Remove</a>
+                    <a id="{{ id }}_cust_remove" class="btn btn-danger" data-related="{{ widget.vars.id }}">Remove</a>
                 </div>
             {% endfor %}
         </div>
         <br>
-        <a id="form_collection_add" class="btn btn-success" data-target="{{ id }}">Add</a>
+        <a id="{{ id }}_cust_add" class="btn btn-success" data-target="{{ id }}">Add</a>
         <style>
             .customers-container > * {
                 width: 10% !important;
@@ -107,7 +109,7 @@
 
     <script>
         $( document ).ready(function() {
-            $(document).on('click', '#form_collection_add[data-target]', function(event) {
+            $(document).on('click', '#{{ id }}_cust_add[data-target]', function(event) {
                 var collectionHolder = $('#' + $(this).attr('data-target'));
 
                 if (!collectionHolder.attr('data-counter')) {
@@ -123,7 +125,7 @@
                 event && event.preventDefault();
             });
 
-            $(document).on('click', '#form_collection_remove[data-related]', function(event) {
+            $(document).on('click', '#{{ id }}_cust_remove[data-related]', function(event) {
                 var name = $(this).attr('data-related');
                 $('*[data-content="'+name+'"]').remove();
 

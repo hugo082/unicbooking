@@ -201,7 +201,7 @@ class Product
     /**
      * @param \DateTime $date
      */
-    public function setDate(\DateTime $date)
+    public function setDate(?\DateTime $date)
     {
         $this->date = $date;
     }

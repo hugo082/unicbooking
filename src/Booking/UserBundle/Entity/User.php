@@ -25,7 +25,7 @@ class User extends BaseUser
 
     /**
      * @var ArrayCollection
-     * @ORM\OneToMany(targetEntity="Booking\AppBundle\Entity\Book", mappedBy="user", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="Booking\AppBundle\Entity\Book", mappedBy="holder", cascade={"persist"})
      */
     protected $books;
 

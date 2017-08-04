@@ -43,14 +43,22 @@ class Book
     /**
      * @var User
      * @ORM\ManyToOne(targetEntity="Booking\UserBundle\Entity\User", cascade={"persist"})
+     * @ORM\JoinColumn(name="driver_id", referencedColumnName="id", nullable=true)
      */
     private $driver;
 
     /**
      * @var User
      * @ORM\ManyToOne(targetEntity="Booking\UserBundle\Entity\User", cascade={"persist"})
+     * @ORM\JoinColumn(name="greeter_id", referencedColumnName="id", nullable=true)
      */
     private $greeter;
+
+    /**
+     * @var User
+     * @ORM\ManyToOne(targetEntity="Booking\UserBundle\Entity\User", inversedBy="books", cascade={"persist"})
+     */
+    private $holder;
 
     /**
      * @var \DateTime
@@ -218,6 +226,22 @@ class Book
     public function setGreeter(User $greeter)
     {
         $this->greeter = $greeter;
+    }
+
+    /**
+     * @return User
+     */
+    public function getHolder(): ?User
+    {
+        return $this->holder;
+    }
+
+    /**
+     * @param User $holder
+     */
+    public function setHolder(User $holder)
+    {
+        $this->holder = $holder;
     }
 
     public function getState(bool $value = false): string

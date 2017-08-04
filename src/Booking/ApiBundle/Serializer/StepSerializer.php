@@ -19,6 +19,7 @@ class StepSerializer extends Serializer
             "id" => $data->getId(),
             "title" => $data->getTitle(),
             "finish_time" => $data->getFinishTime() ? $data->getFinishTime()->getTimestamp() : null,
+            "icon_name" => $data->getIcon(),
             "note" => $data->getNote()
         ];
     }

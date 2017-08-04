@@ -146,6 +146,6 @@ abstract class InternationalCodes
     }
 
     public static function isValid(string $code): bool {
-        return count($code) > 1;
+        return strlen($code) > 1;
     }
 }

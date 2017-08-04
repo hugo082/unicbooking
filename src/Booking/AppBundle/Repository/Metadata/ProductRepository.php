@@ -11,14 +11,16 @@ namespace Booking\AppBundle\Repository\Metadata;
 class ProductRepository extends \Doctrine\ORM\EntityRepository
 {
     public function getLast(){
-        $qb = $this->createQueryBuilder('b');
+        $qb = $this->createQueryBuilder('p');
 
-        $qb->select('b')
-            ->andwhere('b.date >= :limit_top')
+        $qb->select('p')
+            ->join('p.book', 'b')
+            ->where('b.archived = false')
+            ->andwhere('p.date >= :limit_top')
             ->setParameter('limit_top', new \DateTime())
-            ->andwhere('b.date <= :limit_bottom')
+            ->andwhere('p.date <= :limit_bottom')
             ->setParameter('limit_bottom', new \DateTime("+1 month"))
-            ->orderBy('b.date', 'ASC');
+            ->orderBy('p.date', 'ASC');
 
         return $qb
             ->getQuery()

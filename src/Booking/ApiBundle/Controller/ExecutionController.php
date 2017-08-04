@@ -37,8 +37,15 @@ class ExecutionController extends Controller
         if (!$execution instanceof Execution)
             return new JsonResponse(['message' => 'Execution not found'], Response::HTTP_NOT_FOUND);
 
-        if (($step = $request->get("current_step", null)) === null || $step <= $execution->getCurrentStep())
-            return new JsonResponse(['message' => 'Bad request, current_step not match.'], Response::HTTP_BAD_REQUEST);
+        if (($step = $request->get("current_step")) === null || $step <= $execution->getCurrentStep(true))
+            return new JsonResponse([
+                'message' => 'Bad request, current_step not match.',
+                'sended' => [
+                    'request' => $request->request->all(),
+                    'query' => $request->query->all()
+                ],
+                "founded" => $request->get("current_step")
+            ], Response::HTTP_BAD_REQUEST);
         $execution->updateCurrentStep($step);
 
         $em = $this->getDoctrine()->getManager();
