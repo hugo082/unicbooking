@@ -65,6 +65,7 @@
         ],
         "compile": [
             "rm web/app_dev.php",
+            "bin/console doctrine:schema:update --force",
             "bin/console assets:install",
             "bin/console booking:user:create admin michaelmadar@gmail.com hK$V3w --super-admin"
         ]
