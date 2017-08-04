@@ -41,7 +41,8 @@
         "friendsofsymfony/user-bundle": "dev-master",
         "db/managerbundle": "2.*",
         "lexik/jwt-authentication-bundle": "^2.4",
-        "friendsofsymfony/rest-bundle": "^2.2"
+        "friendsofsymfony/rest-bundle": "^2.2",
+        "symfony/assetic-bundle": "~2.0"
     },
     "require-dev": {
         "sensio/generator-bundle": "^3.0",
@@ -64,7 +65,7 @@
         ],
         "compile": [
             "rm web/app_dev.php",
-            "bin/console assetic:dump"
+            "bin/console assets:install"
         ]
     },
     "extra": {
