@@ -108,7 +108,7 @@
     {% endspaceless %}
 
     <script>
-        $( document ).ready(function() {
+        $(document).ready(function() {
             $(document).on('click', '#{{ id }}_cust_add[data-target]', function(event) {
                 var collectionHolder = $('#' + $(this).attr('data-target'));
 
@@ -209,7 +209,7 @@
         <label for="{{ id }}">{{ label }}</label>
         {{ form_widget(form) }}
         <script>
-            $( document ).ready(function () {
+            $(document).ready(function () {
 
                 var parentId = "{{ form.parent.vars.id }}";
                 function loadForm(value) {
@@ -228,6 +228,8 @@
                 loadForm($("#{{ id }}").find(":selected").attr("s-type"));
                 if (typeof window.productsManager !== 'undefined') {
                     window.productsManager.pushProductTypeSelector("select#{{ id }}");
+                } else {
+                    console.log("undefined pm");
                 }
             });
         </script>
@@ -250,7 +252,7 @@
     }}) }}
     <a id="{{ id }}_action_load" class="btn btn-success" data-target="{{ id }}">Load</a>
     <script>
-        $( document ).ready(function () {
+        $(document).ready(function () {
             if (typeof window.apiChecker !== 'undefined')
                 window.apiChecker.addField("#{{ id }}", "#{{ form.parent.children.id.vars.id }}", "#{{ id }}_action_load");
         });
