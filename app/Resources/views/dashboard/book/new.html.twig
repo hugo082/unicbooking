@@ -2,14 +2,14 @@
 
 {% block stylesheets %}
     {{parent()}}
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-    <link rel="stylesheet" href="{{ asset('bundles/booking/css/timepicker.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/vendor/jquery-ui/themes/base/jquery-ui.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/vendor/jquery-timepicker-jt/jquery.timepicker.css') }}">
 {% endblock %}
 
 {% block headscripts %}
     {{parent()}}
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-    <script src="{{ asset('bundles/booking/js/timepicker.min.js') }}"></script>
+    <script src="{{ asset('assets/vendor/jquery-ui/jquery-ui.min.js') }}"></script>
+    <script src="{{ asset('assets/vendor/jquery-timepicker-jt/jquery.timepicker.min.js') }}"></script>
 {% endblock %}
 
 {% block content %}

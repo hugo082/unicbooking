@@ -28,6 +28,7 @@
     ],
     "require": {
         "php": "~7.1.0",
+        "ext-soap": "*",
         "symfony/symfony": "3.2.*",
         "doctrine/orm": "^2.5",
         "doctrine/doctrine-bundle": "^1.6",

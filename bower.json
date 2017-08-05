@@ -1,36 +1,39 @@
 {
-  "name": "UnicBooking",
-  "homepage": "https://github.com/hugo082/unicbooking",
-  "authors": [
-    "hugo_082 <hugo.fouquet@epita.fr>"
-  ],
-  "description": "",
-  "main": "bower.json",
-  "keywords": [
-    "Symfony"
-  ],
-  "license": "MIT",
-  "ignore": [
-    "**/.*",
-    "node_modules",
-    "bower_components",
-    "test",
-    "tests"
-  ],
-  "dependencies": {
-    "bootstrap": "^3.3.7",
-    "font-awesome": "fontawesome#^4.6.1",
-    "iCheck": "icheck#^1.0.2",
-    "datatables.net": "^1.10.11",
-    "datatables.net-bs": "^1.10.11",
-    "datatables.net-buttons": "^1.1.2",
-    "datatables.net-buttons-bs": "^1.1.2",
-    "datatables.net-fixedheader": "^3.1.1",
-    "datatables.net-fixedheader-bs": "^3.1.1",
-    "datatables.net-keytable": "^2.1.1",
-    "datatables.net-responsive": "^2.0.2",
-    "datatables.net-responsive-bs": "^2.0.2",
-    "datatables.net-scroller": "^1.4.1",
-    "datatables.net-scroller-bs": "^1.4.1"
-  }
+    "name": "unictravel",
+    "homepage": "https://github.com/hugo082/unicbooking",
+    "authors": [
+        "hugo_082 <hugo.fouquet@epita.fr>"
+    ],
+    "description": "",
+    "main": "bower.json",
+    "keywords": [
+        "Symfony"
+    ],
+    "license": "MIT",
+    "ignore": [
+        "**/.*",
+        "node_modules",
+        "bower_components",
+        "test",
+        "tests"
+    ],
+    "dependencies": {
+        "moment": "~>2.18.0",
+        "jquery-timepicker-jt": "~>1.11.10",
+        "jquery-ui": "~>1.12.1",
+        "bootstrap": "^3.3.7",
+        "font-awesome": "fontawesome#^4.6.1",
+        "iCheck": "icheck#^1.0.2",
+        "datatables.net": "^1.10.11",
+        "datatables.net-bs": "^1.10.11",
+        "datatables.net-buttons": "^1.1.2",
+        "datatables.net-buttons-bs": "^1.1.2",
+        "datatables.net-fixedheader": "^3.1.1",
+        "datatables.net-fixedheader-bs": "^3.1.1",
+        "datatables.net-keytable": "^2.1.1",
+        "datatables.net-responsive": "^2.0.2",
+        "datatables.net-responsive-bs": "^2.0.2",
+        "datatables.net-scroller": "^1.4.1",
+        "datatables.net-scroller-bs": "^1.4.1"
+    }
 }
