@@ -36,7 +36,6 @@ class ProductType extends AbstractType
             ->add('product_type', EntityType::class, [
                 'label' => 'Product Type',
                 'class' => 'BookingAppBundle:Product',
-                'choice_label' => 'name',
                 'choice_attr' => function (Product $p) {
                     $ids = "";
                     foreach ($p->getClients() as $client)

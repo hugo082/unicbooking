@@ -21,7 +21,8 @@ class LimousineType extends AbstractType
             ->add('car', EntityType::class, [
                 'class' => 'BookingAppBundle:Car',
                 'choice_label' => 'name',
-                'required' => false
+                'required' => false,
+                'placeholder' => '- Car -'
             ])
             ->add('pick_up', TextType::class, [
                 'label' => 'Pick Up',
