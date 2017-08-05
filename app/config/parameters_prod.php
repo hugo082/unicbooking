@@ -13,7 +13,7 @@ $container->setParameter('locale', 'en');
 
 $container->setParameter('mailer_transport',"smtp");
 $container->setParameter('mailer_host', "smtp.sendgrid.net");
-$container->setParameter('mailer_username', getenv('SENDGRID_USERNAME'));
+$container->setParameter('mailer_user', getenv('SENDGRID_USERNAME'));
 $container->setParameter('mailer_password', getenv('SENDGRID_PASSWORD'));
 $container->setParameter('mailer_port', 465);
 $container->setParameter('mailer_encryption', "ssl");
