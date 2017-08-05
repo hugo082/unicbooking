@@ -16,7 +16,8 @@ if(isset($_SERVER['AWS_MAILER_HOST']) ){
     $container->setParameter('mailer_host', "smtp.sendgrid.net");
     $container->setParameter('mailer_username', getenv('SENDGRID_USERNAME'));
     $container->setParameter('mailer_password', getenv('SENDGRID_PASSWORD'));
-    $container->setParameter('mailer_port', 2525);
+    $container->setParameter('mailer_port', 465);
+    $container->setParameter('mailer_encryption', "ssl");
 } else {
     $container->setParameter('mailer_transport', null);
     $container->setParameter('mailer_host', null);
