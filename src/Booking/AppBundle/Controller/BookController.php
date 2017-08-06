@@ -64,6 +64,8 @@ class BookController extends Controller
         }
 
         $jwtManager = $this->get('lexik_jwt_authentication.jwt_manager');
+        var_dump($this-getUser());
+        var_dump($jwtManager);
         return $this->render('dashboard/book/new.html.twig', array(
             "form" => $form->createView(),
             'token' => $jwtManager->create($this->getUser())
