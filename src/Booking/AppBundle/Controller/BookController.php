@@ -64,7 +64,6 @@ class BookController extends Controller
         }
 
         $jwtManager = $this->get('lexik_jwt_authentication.jwt_manager');
-        var_dump($jwtManager->create($this->getUser()), $this->getUser() == null, $jwtManager == null);
         return $this->render('dashboard/book/new.html.twig', array(
             "form" => $form->createView(),
             'token' => $jwtManager->create($this->getUser())
@@ -95,8 +94,10 @@ class BookController extends Controller
             ]);
         }
 
+        $jwtManager = $this->get('lexik_jwt_authentication.jwt_manager');
         return $this->render('dashboard/book/new.html.twig', array(
-            "form" => $form->createView()
+            "form" => $form->createView(),
+            'token' => $jwtManager->create($this->getUser())
         ));
     }
 
