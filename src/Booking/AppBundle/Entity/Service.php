@@ -24,7 +24,7 @@ class Service
 
     /**
      * @var string
-     * @ORM\Column(name="type", type="string", length=255, unique=true)
+     * @ORM\Column(name="type", type="string", length=255)
      */
     protected $type;
 
