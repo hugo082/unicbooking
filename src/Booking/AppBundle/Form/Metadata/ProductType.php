@@ -47,6 +47,11 @@ class ProductType extends AbstractType
                     ];
                 }
             ])
+            ->add('location', EntityType::class, [
+                'label' => 'Location',
+                'placeholder' => '- Location -',
+                'class' => 'BookingAppBundle:Location'
+            ])
             ->add('airport', AirportType::class, [
                 'label' => false
             ])
@@ -62,14 +67,6 @@ class ProductType extends AbstractType
                     'placeholder' => 'Note',
                 ],
                 'required' => false
-            ])
-            ->add('baggages', IntegerType::class, [
-                'label' => 'Baggages',
-                'attr' => [
-                    'placeholder' => 'Baggages',
-                ],
-                'empty_data' => "0",
-                'required' => true
             ])
             ->add('baggages', ChoiceType::class, [
                 'label' => 'Baggages',

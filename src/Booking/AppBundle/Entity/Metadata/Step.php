@@ -99,9 +99,10 @@ class Step
         return $this->finish_time;
     }
 
-    public function finish()
+    public function finish(string $note)
     {
         $this->finish_time = new \DateTime();
+        $this->note = $note;
     }
 
     /**

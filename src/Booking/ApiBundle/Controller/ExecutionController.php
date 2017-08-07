@@ -46,7 +46,8 @@ class ExecutionController extends Controller
                 ],
                 "founded" => $request->get("current_step")
             ], Response::HTTP_BAD_REQUEST);
-        $execution->updateCurrentStep($step);
+        $note = $request->get("note");
+        $execution->updateCurrentStep($step, $note);
 
         $em = $this->getDoctrine()->getManager();
         $em->persist($execution);

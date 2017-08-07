@@ -5,6 +5,7 @@ namespace Booking\AppBundle\Entity\Metadata;
 use Booking\AppBundle\Entity\Book;
 use Booking\AppBundle\Entity\Client;
 use Booking\AppBundle\Entity\Customer;
+use Booking\AppBundle\Entity\Location;
 use Booking\AppBundle\Entity\Metadata\Service\iService;
 use Booking\AppBundle\Entity\Product as ProductType;
 use Booking\AppBundle\Entity\Metadata\Service\Airport;
@@ -61,6 +62,14 @@ class Product
      * @ORM\JoinColumn(name="exec_id", referencedColumnName="id")
      */
     private $execution;
+
+    /**
+     * Location
+     * @var Location
+     * @ORM\OneToOne(targetEntity="Booking\AppBundle\Entity\Location", cascade={"persist"})
+     * @ORM\JoinColumn(name="loca_id", referencedColumnName="id", nullable=true)
+     */
+    private $location;
 
     /**
      * @var Customer[]
@@ -252,6 +261,22 @@ class Product
     public function setExecution(Execution $execution)
     {
         $this->execution = $execution;
+    }
+
+    /**
+     * @return Location
+     */
+    public function getLocation(): ?Location
+    {
+        return $this->location;
+    }
+
+    /**
+     * @param Location $location
+     */
+    public function setLocation(Location $location)
+    {
+        $this->location = $location;
     }
 
     /**
