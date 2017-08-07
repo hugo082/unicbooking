@@ -1,0 +1,48 @@
+{% extends 'dashboard/layout.html.twig' %}
+
+{% block stylesheets %}
+    {{parent()}}
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="{{ asset('bundles/booking/css/timepicker.min.css') }}">
+{% endblock %}
+
+{% block headscripts %}
+    {{parent()}}
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="{{ asset('bundles/booking/js/timepicker.min.js') }}"></script>
+{% endblock %}
+
+{% block content %}
+    <div class="">
+        <div class="page-title">
+            <div class="title_right">
+                {% if book is defined %}
+                <a href="{{ path('booking_app_book_index') }}" class="btn btn-lg btn-success">List</a>
+                {% if is_granted('ROLE_ADMIN') %}
+                    <a href="{{ path('booking_app_book_new') }}" class="btn btn-lg btn-success">New</a>
+                    <a href="{{ path('booking_app_book_edit', {id:book.id}) }}" class="btn btn-lg btn-success">Edit</a>
+                {% endif %}
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="clearfix"></div>
+
+
+        <style>
+            table .section {
+                text-align: center;
+                font-size: 13px;
+                background-color: #f9f9f9;
+            }
+        </style>
+
+        {% block show_content %}{% endblock %}
+    </div>
+{% endblock %}
+
+
+{% block javascripts %}
+    {{parent()}}
+    <script src="{{ asset('js/core/flight_api_loader.js') }}"></script>
+{% endblock %}

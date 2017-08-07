@@ -11,6 +11,7 @@ use Booking\AppBundle\Form\BookEmployeeType;
 use Booking\AppBundle\Form\BookType;
 use Booking\AppBundle\Form\Metadata\ProductType;
 use Booking\AppBundle\Repository\BookRepository;
+use Booking\AppBundle\Repository\Metadata\ProductRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -23,16 +24,21 @@ class BookController extends Controller
      */
     public function indexAction(Request $request)
     {
-        $user = $this->getUser();
-        /** @var BookRepository $repo */
-        $repo = $this->getDoctrine()->getRepository('BookingAppBundle:Book');
-        if ($this->get('security.authorization_checker')->isGranted('ROLE_ADMIN'))
+        $books = null; $products = null;
+        if ($this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
+            /** @var BookRepository $repo */
+            $repo = $this->getDoctrine()->getRepository('BookingAppBundle:Book');
             $books = $repo->getLast();
-        else
-            $books = $repo->getAssignedBook($user);
+        }
+
+        /** @var ProductRepository $repo */
+        $repo = $this->getDoctrine()->getRepository('BookingAppBundle:Metadata\Product');
+        $products = $repo->getOfUser($this->getUser());
+
 
         return $this->render('dashboard/book/list.html.twig', [
-            'books' => $books
+            'books' => $books,
+            'products' => $products
         ]);
     }
 
@@ -117,7 +123,7 @@ class BookController extends Controller
             $em->flush();
         }
 
-        return $this->render('dashboard/book/show.html.twig', array(
+        return $this->render('dashboard/book/show/book.html.twig', array(
             "book" => $book,
             "form" => $form->createView()
         ));

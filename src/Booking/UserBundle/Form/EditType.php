@@ -21,7 +21,8 @@ class EditType extends AbstractType
             ->add('location', EntityType::class, [
                 'label' => 'Location',
                 'placeholder' => '- Location -',
-                'class' => 'BookingAppBundle:Location'
+                'class' => 'BookingAppBundle:Location',
+                'required' => false
             ])
             ->add('roles', ChoiceType::class, [
                 'choices' => [

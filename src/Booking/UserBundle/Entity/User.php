@@ -64,7 +64,7 @@ class User extends BaseUser
     /**
      * @param Location $location
      */
-    public function setLocation(Location $location)
+    public function setLocation(?Location $location)
     {
         $this->location = $location;
     }

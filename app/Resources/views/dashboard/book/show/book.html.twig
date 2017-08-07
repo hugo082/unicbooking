@@ -1,0 +1,143 @@
+{% extends 'dashboard/book/show/layout.html.twig' %}
+
+{% block show_content %}
+    {% if is_granted('ROLE_ADMIN') %}
+        <div class="row">
+            <div class="col-md-6 col-sm-6 col-xs-6">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h2>Employee Information</h2>
+                        <ul class="nav navbar-right panel_toolbox">
+                            <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                            </li>
+                            <li><a class="close-link"><i class="fa fa-close"></i></a>
+                            </li>
+                        </ul>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+                        {% form_theme form 'bootstrap_3_layout.html.twig' %}
+                        {{ form_start(form) }}
+                        {{ form_row(form.driver) }}
+                        {{ form_row(form.greeter) }}
+                        <button type="submit" class="btn btn-success">Save</button>
+                        {{ form_rest(form) }}
+                        {{ form_end(form) }}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-sm-6 col-xs-6">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h2>Agent Information</h2>
+                        <ul class="nav navbar-right panel_toolbox">
+                            <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                            </li>
+                            <li><a class="close-link"><i class="fa fa-close"></i></a>
+                            </li>
+                        </ul>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+                        <table class="table col-lg-12 col-sm-12 col-xs-12">
+                            <tr>
+                                <td>Name</td>
+                                <td>{{ book.agent.fullName }}</td>
+                            </tr>
+                            <tr>
+                                <td>Email</td>
+                                <td>{{ book.agent.email }}</td>
+                            </tr>
+                            <tr>
+                                <td>Client</td>
+                                <td>{{ book.client }}</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 col-sm-6 col-xs-6">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h2>Book Information</h2>
+                        <ul class="nav navbar-right panel_toolbox">
+                            <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                            </li>
+                            <li><a class="close-link"><i class="fa fa-close"></i></a>
+                            </li>
+                        </ul>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+                        <table class="table col-lg-12 col-sm-12 col-xs-12">
+                            <tr>
+                                <td>Creation</td>
+                                <td>{{ book.creationDate|date('d-M-Y') }}</td>
+                            </tr>
+                            <tr>
+                                <td>Dates</td>
+                                <td>{{ book.dates }}</td>
+                            </tr>
+                            <tr>
+                                <td>Duration</td>
+                                <td>{{ book.duration|date("%d day(s)") }}</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-sm-6 col-xs-6">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h2>Book Facturation</h2>
+                        <ul class="nav navbar-right panel_toolbox">
+                            <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                            </li>
+                            <li><a class="close-link"><i class="fa fa-close"></i></a>
+                            </li>
+                        </ul>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+                        <table class="table col-lg-12 col-sm-12 col-xs-12">
+                            <thead>
+                            <tr>
+                                <th>Product Name</th>
+                                <th>Taxe (%)</th>
+                                <th>Price unit.</th>
+                                <th>Amount (EUR)</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+
+                            {% for product in book.products %}
+                                <tr>
+                                    <td>{{ product.productType.name }}</td>
+                                    <td>{{ product.productType.price.tva(book.client) }}</td>
+                                    <td>{{ product.priceCount }}</td>
+                                    <td>{{ product.price }}</td>
+                                </tr>
+                            {% endfor %}
+                            <tr class="table-recap">
+                                <td>Total</td>
+                                <td colspan="2">&nbsp;</td>
+                                <td>EUR {{ book.price }}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
+    <div class="row">
+        {% for product in book.products %}
+            {{ include('dashboard/book/show/product_content.html.twig') }}
+        {% endfor %}
+    </div>
+{% endblock %}

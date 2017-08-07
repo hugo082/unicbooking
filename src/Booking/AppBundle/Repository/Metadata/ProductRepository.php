@@ -2,6 +2,8 @@
 
 namespace Booking\AppBundle\Repository\Metadata;
 
+use Booking\UserBundle\Entity\User;
+
 /**
  * ProductRepository
  *
@@ -16,6 +18,30 @@ class ProductRepository extends \Doctrine\ORM\EntityRepository
         $qb->select('p')
             ->join('p.book', 'b')
             ->where('b.archived = false')
+            ->andwhere('p.date >= :limit_top')
+            ->setParameter('limit_top', new \DateTime())
+            ->andwhere('p.date <= :limit_bottom')
+            ->setParameter('limit_bottom', new \DateTime("+1 month"))
+            ->orderBy('p.date', 'ASC');
+
+        return $qb
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function getOfUser(User $user){
+        $qb = $this->createQueryBuilder('p');
+
+        $qb->select('p');
+
+        if ($user->getLocation() !== null) {
+            $qb->where('p.location = :location')
+                ->setParameter('location', $user->getLocation());
+        }
+        $qb->join('p.book', 'b')
+            ->andwhere('b.archived = false')
+            ->join('p.location', 'l')
+            ->andwhere('l.apiEnabled = true')
             ->andwhere('p.date >= :limit_top')
             ->setParameter('limit_top', new \DateTime())
             ->andwhere('p.date <= :limit_bottom')
