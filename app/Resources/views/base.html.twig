@@ -12,33 +12,10 @@
 
   <link rel="icon" type="image/x-icon" href="{{ absolute_url(asset('favicon.ico')) }}" />
 
-  <link rel="stylesheet" href="{{ absolute_url(asset('bundles/booking/css/bootstrap.min.css')) }}">
+  <link rel="stylesheet" href="{{ absolute_url(asset('assets/vendor/bootstrap/dist/css/bootstrap.min.css')) }}">
     {% block stylesheets %}
       <link rel="stylesheet" href="{{ absolute_url(asset('bundles/booking/css/shared.css')) }}">
-        {#
-          <style media="screen">
-        .cmpcolor {
-            color: {{cmpcolor}} !important
-        }
-        .back-cmpcolor {
-            background-color: {{cmpcolor}} !important;
-            color: white;
-            padding: 5px;
-        }
-        .border-bot-cmpcolor {
-            border-bottom-color: {{cmpcolor}} !important
-        }
-        .label-danger,
-        .btn-danger { background-color: {{cmpcolor}}; border: none; }
-        </style>
-        #}
     {% endblock %}
-
-    {#
-      <script src="{{ absolute_url(asset('bundles/booking/js/jquery.min.js')) }}"></script>
-      <script src="{{ absolute_url(asset('bundles/booking/js/moment.js')) }}"></script>
-      <script src="{{ absolute_url(asset('bundles/booking/js/bootstrap.min.js')) }}"></script>
-    #}
     {% block headscripts %}{% endblock %}
 </head>
 <body class="nav-md">

@@ -94,8 +94,10 @@ class BookController extends Controller
             ]);
         }
 
+        $jwtManager = $this->get('lexik_jwt_authentication.jwt_manager');
         return $this->render('dashboard/book/new.html.twig', array(
-            "form" => $form->createView()
+            "form" => $form->createView(),
+            'token' => $jwtManager->create($this->getUser())
         ));
     }
 

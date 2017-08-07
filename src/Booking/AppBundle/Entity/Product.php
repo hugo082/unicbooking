@@ -57,6 +57,11 @@ class Product
         $this->clients = new ArrayCollection();
     }
 
+    public function __toString()
+    {
+        return $this->service . " - " . $this->name;
+    }
+
     /**
      * Get id
      * @Viewable(title="id", index=0)
