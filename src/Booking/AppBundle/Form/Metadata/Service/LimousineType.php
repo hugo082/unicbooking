@@ -3,6 +3,7 @@
 namespace Booking\AppBundle\Form\Metadata\Service;
 
 use Booking\AppBundle\Entity\Metadata\Service\Limousine as LimousineMet;
+use Symfony\Component\Form\Extension\Core\Type\TimeType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -31,6 +32,12 @@ class LimousineType extends AbstractType
             ->add('drop_off', TextType::class, [
                 'label' => 'Drop Off',
                 'required' => false
+            ])
+            ->add('time', TimeType::class, [
+                'label' => "Time",
+                'required' => false,
+                'widget' => 'single_text',
+                'input' => 'string'
             ])
         ;
     }

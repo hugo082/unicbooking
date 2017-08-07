@@ -66,7 +66,7 @@ class Product
     /**
      * Location
      * @var Location
-     * @ORM\OneToOne(targetEntity="Booking\AppBundle\Entity\Location", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="Booking\AppBundle\Entity\Location", cascade={"persist"})
      * @ORM\JoinColumn(name="loca_id", referencedColumnName="id")
      */
     private $location;

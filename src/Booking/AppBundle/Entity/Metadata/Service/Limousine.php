@@ -32,6 +32,12 @@ class Limousine implements iService
 
     /**
      * @var string
+     * @ORM\Column(name="time", type="string")
+     */
+    protected $time;
+
+    /**
+     * @var string
      * @ORM\Column(name="pick_up", type="string", length=255, nullable=true)
      */
     private $pick_up;
@@ -100,6 +106,22 @@ class Limousine implements iService
     public function setCar(Car $car)
     {
         $this->car = $car;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTime(): ?string
+    {
+        return $this->time;
+    }
+
+    /**
+     * @param string $time
+     */
+    public function setTime(string $time)
+    {
+        $this->time = $time;
     }
 }
 

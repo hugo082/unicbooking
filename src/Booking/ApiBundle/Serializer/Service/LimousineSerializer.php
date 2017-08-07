@@ -23,6 +23,7 @@ class LimousineSerializer extends Serializer
             "car" => $this->subSerialize($data->getCar(), "booking.api.serializer.core.car"),
             "drop_off" => $data->getDropOff(),
             "pick_up" => $data->getPickUp(),
+            "time" => $data->getTime()
         ];
     }
 }
