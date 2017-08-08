@@ -351,5 +351,31 @@ class Product
             return $base . " + " . $this->limousine->getCar()->getPrice()->getCount();
         return $base;
     }
+
+    public function getTime() {
+        $service = $this->product_type->getService();
+        if ($service->isAirport()) {
+            return $this->airport->getTime();
+        } elseif ($service->isLimousine()) {
+            return $this->limousine->getTime();
+        } else {
+            return $this->train->getTime();
+        }
+    }
+
+    public function getDateTime(): string {
+        return $this->date->format("d M Y") . " " . $this->getTime();
+    }
+
+    public function getInformation(): string {
+        $service = $this->product_type->getService();
+        if ($service->isAirport()) {
+            return $this->airport->getInformation();
+        } elseif ($service->isLimousine()) {
+            return $this->limousine->getInformation();
+        } else {
+            return $this->train->getInformation();
+        }
+    }
 }
 

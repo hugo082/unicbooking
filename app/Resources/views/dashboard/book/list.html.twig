@@ -27,6 +27,7 @@
                                 <th>Bkg No.</th>
                                 <th>Dates</th>
                                 <th>Services</th>
+                                <th>Client</th>
                                 <th>State</th>
                                 <th class="table-action">Show</th>
                                 {% if is_granted('ROLE_ADMIN') %}
@@ -41,6 +42,7 @@
                                     <td>{{ book.id }}</td>
                                     <td>{{ book.dates }}</td>
                                     <td>{{ include('dashboard/book/service/icon_view.html.twig', {products: book.products}) }}</td>
+                                    <td>{{ book.client.name }}</td>
                                     <td><span class="label label-{{ book.state }}">{{ book.state(true) }}</span></td>
                                     <td class="table-action">
                                         <a href="{{ path('booking_app_book_show', {'id': book.id}) }}" class="btn btn-default">
@@ -84,9 +86,13 @@
                             <thead>
                             <tr>
                                 <th>Prod No.</th>
-                                <th>Service</th>
                                 <th>Date</th>
+                                <th>Service</th>
+                                <th>Client</th>
                                 <th>Customers</th>
+                                <th>Infos</th>
+                                <th>Location</th>
+                                <th>Time</th>
                                 <th>State</th>
                                 <th class="table-action">Show</th>
                             </tr>
@@ -95,9 +101,13 @@
                             {% for product in products %}
                                 <tr>
                                     <td>{{ product.id }}</td>
-                                    <td><i class="fa fa-{{ product.productType.service.iconCode }}"></i></td>
-                                    <td>{{ product.date|date('d M y') }}</td>
+                                    <td>{{ product.dateTime }}</td>
+                                    <td>{{ product.productType.service.name }}</td>
+                                    <td>{{ product.book.client.name }}</td>
                                     <td>{{ product.customersRecap }}</td>
+                                    <td>{{ product.information }}</td>
+                                    <td>{{ product.location.name }}</td>
+                                    <td>{{ product.time }}</td>
                                     <td><span class="label label-{{ product.execution.state }}">{{ product.execution.state(true) }}</span></td>
                                     <td class="table-action">
                                        <a href="{{ path('booking_app_product_show', {'id': product.id}) }}" class="btn btn-default">
@@ -128,7 +138,7 @@
                 "order": [[ 1, "asc" ]]
             } );
             $('#product_table').DataTable( {
-                "order": [[ 2, "asc" ]]
+                "order": [[ 1, "asc" ]]
             } );
         } );
     </script>

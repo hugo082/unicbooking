@@ -123,5 +123,9 @@ class Limousine implements iService
     {
         $this->time = $time;
     }
+
+    public function getInformation(): string {
+        return $this->pick_up;
+    }
 }
 

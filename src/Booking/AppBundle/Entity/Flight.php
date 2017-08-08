@@ -169,6 +169,14 @@ class Flight
         return $this->departure_time->format('H:i') . " → " . $this->arrival_time->format('H:i');
     }
 
+    public function getComputedTime(): string {
+        return $this->departure_time->format('H:i');
+    }
+
+    public function getInformation(): string {
+        return $this->origin->getCodes()->getCode() . " " . $this->codes->getCode();
+    }
+
     /**
      * Convert mixed value to \DateTime
      * @param $value

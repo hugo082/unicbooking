@@ -17,11 +17,13 @@
         <div class="page-title">
             <div class="title_right">
                 {% if book is defined %}
-                <a href="{{ path('booking_app_book_index') }}" class="btn btn-lg btn-success">List</a>
-                {% if is_granted('ROLE_ADMIN') %}
-                    <a href="{{ path('booking_app_book_new') }}" class="btn btn-lg btn-success">New</a>
-                    <a href="{{ path('booking_app_book_edit', {id:book.id}) }}" class="btn btn-lg btn-success">Edit</a>
-                {% endif %}
+                    <a href="{{ path('booking_app_book_index') }}" class="btn btn-lg btn-success">List</a>
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <a href="{{ path('booking_app_book_new') }}" class="btn btn-lg btn-success">New</a>
+                        <a href="{{ path('booking_app_book_edit', {id:book.id}) }}" class="btn btn-lg btn-success">Edit</a>
+                    {% endif %}
+                {% elseif product is defined %}
+                    <a href="{{ path('booking_app_book_show', {'id': product.book.id}) }}" class="btn btn-lg btn-success">Show Book</a>
                 {% endif %}
             </div>
         </div>
