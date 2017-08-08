@@ -386,17 +386,11 @@ class Product
     }
 
     public function getPrice(Client $client = null) {
-        $base = $this->product_type->getPrice()->getTtc($client);
-        if ($this->product_type->getService()->isLimousine())
-            return $base + $this->limousine->getCar()->getPrice()->getCount();
-        return $base;
+        return $this->product_type->getPrice()->getTtc($client);
     }
 
     public function getPriceCount() {
-        $base = $this->product_type->getPrice()->getCount();
-        if ($this->product_type->getService()->isLimousine())
-            return $base . " + " . $this->limousine->getCar()->getPrice()->getCount();
-        return $base;
+        return $this->product_type->getPrice()->getCount();
     }
 
     public function getTime() {

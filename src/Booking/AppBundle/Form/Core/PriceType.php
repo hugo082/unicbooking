@@ -16,14 +16,15 @@ class PriceType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('count', IntegerType::class,array(
-                    'attr' => array(
+            ->add('count', IntegerType::class, [
+                    'label' => "Count (HT)",
+                    'attr' => [
                         'placeholder' => 'Count',
-                    ))
+                    ]]
             );
 
         if ($options["tva"])
-            $builder->add('tva', IntegerType::class,array(
+            $builder->add('tva', IntegerType::class, array(
                     'attr' => array(
                         'placeholder' => 'TVA',
                     ))

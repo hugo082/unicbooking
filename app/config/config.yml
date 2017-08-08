@@ -122,11 +122,6 @@ fqtdb_core_manager:
             title: Client
             fullName: Booking\AppBundle:Client
             methods: [ list, add, edit, remove ]
-        car:
-            access: ROLE_ADMIN
-            title: Car
-            fullName: Booking\AppBundle:Car
-            methods: [ list, add, edit, remove ]
         location:
             access: ROLE_ADMIN
             title: Location

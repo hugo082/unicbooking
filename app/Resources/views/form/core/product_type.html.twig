@@ -1,0 +1,29 @@
+{% spaceless %}
+    <label class="control-label"for="{{ id }}">{{ label }}</label>
+    {{ form_widget(form) }}
+    <script>
+        $(document).ready(function () {
+
+            var parentId = "{{ form.parent.vars.id }}";
+            function loadForm(value) {
+                $("#{{ id }} option").each(function () {
+                    var currentId = "#" + parentId + "_"+ $(this).attr("s-type");
+                    if (value === $(this).attr("s-type"))
+                        $(currentId).removeClass("disabled hidden");
+                    else
+                        $(currentId).addClass("disabled hidden");
+                });
+            }
+
+            $("#{{ id }}").change(function () {
+                loadForm($(this).find(":selected").attr("s-type"));
+            });
+            loadForm($("#{{ id }}").find(":selected").attr("s-type"));
+            if (typeof window.productsManager !== 'undefined') {
+                window.productsManager.pushProductTypeSelector("select#{{ id }}");
+            } else {
+                console.log("undefined pm");
+            }
+        });
+    </script>
+{% endspaceless %}

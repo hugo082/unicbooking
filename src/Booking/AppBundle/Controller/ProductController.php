@@ -59,4 +59,34 @@ class ProductController extends Controller
             "form" => $form->createView()
         ));
     }
+
+    /**
+     * @Route("/product/edit/{id}")
+     */
+    public function editAction(Request $request, int $id)
+    {
+        /** @var Product $product */
+        $product = $this->getDoctrine()->getRepository('BookingAppBundle:Metadata\Product')->find($id);
+        $form = $this->createForm(ProductType::class, $product);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid() && $product->isValid()) {
+            /** @var ApiChecker $apiChecker */
+            $apiChecker = $this->get('booking.api.checker');
+            $apiChecker->processProduct($product);
+
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($product);
+            $em->flush();
+            return $this->redirectToRoute("booking_app_product_show", [
+                "id" => $product->getId()
+            ]);
+        }
+
+        $jwtManager = $this->get('lexik_jwt_authentication.jwt_manager');
+        return $this->render('dashboard/book/product_form.html.twig', array(
+            "form" => $form->createView(),
+            'token' => $jwtManager->create($this->getUser())
+        ));
+    }
 }

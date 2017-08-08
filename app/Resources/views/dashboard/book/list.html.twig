@@ -55,6 +55,14 @@
                                             <span class="glyphicon glyphicon-search"></span>
                                         </a>
                                     </td>
+                                    {% if is_granted('ROLE_ADMIN') %}
+                                        <td class="table-action">
+                                            <a href="{{ path('booking_app_product_edit', {'id': product.id}) }}" class="btn btn-default">
+                                                <span class="glyphicon glyphicon-pencil"></span>
+                                            </a>
+                                        </td>
+                                    {% endif %}
+                                </tr>
                                 </tr>
                             {% else %}
                                 <tr>

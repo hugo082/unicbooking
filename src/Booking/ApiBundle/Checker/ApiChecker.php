@@ -28,11 +28,6 @@ class ApiChecker
      */
     private $client;
 
-    /**
-     * @var null|Book
-     */
-    private $book = null;
-
     public function __construct(EntityManager $em)
     {
         if (version_compare(PHP_VERSION, '7.0.0', '<'))
@@ -47,21 +42,23 @@ class ApiChecker
     }
 
     public function processBook(Book $book) {
-        $this->book = $book;
-        $this->book->linkSubEntities();
-        $this->computeFlights();
+        foreach ($book->getProducts() as $product) {
+            $this->processProduct($product);
+        }
     }
 
-    public function computeFlights() {
-        /** @var Product $product */
-        foreach ($this->book->getProducts() as $product) {
-            if ($product->getProductType()->getService()->isAirport()) {
-                /** @var FlightRepository $repo */
-                $repo = $this->em->getRepository("BookingAppBundle:Flight");
-                $product->getAirport()->computeFlightWithCurrentFlight($repo);
-                $product->getAirport()->computeFlightTransitWithCurrentFlight($repo);
-                $product->getAirport()->checkAirportsSupport();
-            }
+    public function processProduct(Product $product) {
+        $product->linkSubEntities();
+        $this->computeFlights($product);
+    }
+
+    public function computeFlights(Product $product) {
+        if ($product->getProductType()->getService()->isAirport()) {
+            /** @var FlightRepository $repo */
+            $repo = $this->em->getRepository("BookingAppBundle:Flight");
+            $product->getAirport()->computeFlightWithCurrentFlight($repo);
+            $product->getAirport()->computeFlightTransitWithCurrentFlight($repo);
+            $product->getAirport()->checkAirportsSupport();
         }
     }
 
@@ -76,29 +73,6 @@ class ApiChecker
         if (!$flight instanceof Flight)
             throw new ApiException("Error", "Unknow", 500);
         return $flight;
-    }
-
-    private function computeFlightWithFlightCodes(Flight $flight, $isTransitFlight = false) {
-        if (!$this->book->isTransit())
-            $flight->setType($this->book->getService());
-        else
-            $flight->setType($isTransitFlight ? "DEP" : "ARR");
-        if (!$this->checkFlightSupport($flight, $isTransitFlight))
-            throw new ApiException("Not Supported", "We don't yet support airport with code : " . $flight->getMainAirport()->getCodes()->getCode(), 503);
-    }
-
-    public function checkFlightSupport(Flight $flight, $isTransitFlight = false) {
-        if ($this->book->isDeparture() && $flight->getDepair()->getSelectable())
-            return true;
-        if ($this->book->isArrival() && $flight->getArrair()->getSelectable())
-            return true;
-        if ($this->book->isTransit()) {
-            if (!$isTransitFlight && $flight->getArrair()->getSelectable())
-                return true;
-            if ($isTransitFlight && $flight->getDepair()->getSelectable())
-                return true;
-        }
-        return false;
     }
 
     /**
@@ -136,24 +110,6 @@ class ApiChecker
         if ($airport instanceof Airport)
             return $airport;
         return $this->loadAirportWithAPI($code);
-    }
-
-    /**/
-    private function setFlightToBook() {
-        if ($this->book->getFlight()->getId() == null)
-            throw new ApiException("danger", "Bad request", 400);
-        $flight = $this->getFlightWithID($this->book->getFlight()->getId());
-        $this->book->setFlight($flight);
-    }
-
-    /**/
-    private function setFlightTransitToBook() {
-        if ($this->book->getflighttransit() == null)
-            return;
-        if ($this->book->getflighttransit()->getId() == null)
-            throw new ApiException("danger", "Bad request", 400);
-        $flight = $this->getFlightWithID($this->book->getflighttransit()->getId());
-        $this->book->setflighttransit($flight);
     }
 
     /**

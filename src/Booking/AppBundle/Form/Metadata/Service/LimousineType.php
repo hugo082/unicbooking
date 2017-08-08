@@ -19,12 +19,6 @@ class LimousineType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('car', EntityType::class, [
-                'class' => 'BookingAppBundle:Car',
-                'choice_label' => 'name',
-                'required' => false,
-                'placeholder' => '- Car -'
-            ])
             ->add('pick_up', TextType::class, [
                 'label' => 'Pick Up',
                 'required' => false
