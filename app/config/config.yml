@@ -114,7 +114,7 @@ fqtdb_core_manager:
             methods: [ list, add, edit ]
         product:
             access: ROLE_ADMIN
-            title: Product
+            title: Article
             fullName: Booking\AppBundle:Product
             methods: [ list, add, edit, remove ]
         client:
@@ -134,7 +134,7 @@ fqtdb_core_manager:
             methods: [ list, add, edit, remove ]
         service:
             access: ROLE_ADMIN
-            title: Service
+            title: Classification Service
             fullName: Booking\AppBundle:Service
             methods: [ list, add, edit, remove ]
         user:
