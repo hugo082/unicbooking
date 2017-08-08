@@ -7,7 +7,7 @@ use Booking\ApiBundle\Exception\ApiException;
 use Booking\AppBundle\BookingAppBundle;
 use Booking\AppBundle\Entity\Book;
 use Booking\AppBundle\Entity\Metadata\Product;
-use Booking\AppBundle\Form\BookEmployeeType;
+use Booking\AppBundle\Form\ProductEmployeeType;
 use Booking\AppBundle\Form\BookType;
 use Booking\AppBundle\Form\Metadata\ProductType;
 use Booking\AppBundle\Repository\BookRepository;
@@ -44,8 +44,19 @@ class ProductController extends Controller
         $product = $this->getDoctrine()->getRepository('BookingAppBundle:Metadata\Product')->find($id);
         if (!$product instanceof Product)
             throw new HttpException(404, "Product not found");
+
+
+        $form = $this->createForm(ProductEmployeeType::class, $product);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($product);
+            $em->flush();
+        }
+
         return $this->render('dashboard/book/show/product.html.twig', array(
-            "product" => $product
+            "product" => $product,
+            "form" => $form->createView()
         ));
     }
 }

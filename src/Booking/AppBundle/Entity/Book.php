@@ -42,20 +42,6 @@ class Book
 
     /**
      * @var User
-     * @ORM\ManyToOne(targetEntity="Booking\UserBundle\Entity\User", cascade={"persist"})
-     * @ORM\JoinColumn(name="driver_id", referencedColumnName="id", nullable=true)
-     */
-    private $driver;
-
-    /**
-     * @var User
-     * @ORM\ManyToOne(targetEntity="Booking\UserBundle\Entity\User", cascade={"persist"})
-     * @ORM\JoinColumn(name="greeter_id", referencedColumnName="id", nullable=true)
-     */
-    private $greeter;
-
-    /**
-     * @var User
      * @ORM\ManyToOne(targetEntity="Booking\UserBundle\Entity\User", inversedBy="books", cascade={"persist"})
      */
     private $holder;
@@ -194,38 +180,6 @@ class Book
     public function getCreationDate(): \DateTime
     {
         return $this->creation_date;
-    }
-
-    /**
-     * @return User
-     */
-    public function getDriver(): ?User
-    {
-        return $this->driver;
-    }
-
-    /**
-     * @param User $driver
-     */
-    public function setDriver(User $driver)
-    {
-        $this->driver = $driver;
-    }
-
-    /**
-     * @return User
-     */
-    public function getGreeter(): ?User
-    {
-        return $this->greeter;
-    }
-
-    /**
-     * @param User $greeter
-     */
-    public function setGreeter(User $greeter)
-    {
-        $this->greeter = $greeter;
     }
 
     /**

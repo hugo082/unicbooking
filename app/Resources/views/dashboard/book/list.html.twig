@@ -99,7 +99,7 @@
                             </thead>
                             <tbody>
                             {% for product in products %}
-                                <tr>
+                                <tr {% if not product.isConfig %}class="highlighted"{% endif %}>
                                     <td>{{ product.id }}</td>
                                     <td>{{ product.dateTime }}</td>
                                     <td>{{ product.productType.service.name }}</td>
@@ -142,4 +142,13 @@
             } );
         } );
     </script>
+{% endblock %}
+
+{% block stylesheets %}
+    {{parent()}}
+    <style>
+        table tr.highlighted {
+            background-color: rgba(176, 38, 34, 0.24) !important;
+        }
+    </style>
 {% endblock %}

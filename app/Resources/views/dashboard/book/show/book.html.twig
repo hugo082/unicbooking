@@ -6,29 +6,6 @@
             <div class="col-md-6 col-sm-6 col-xs-6">
                 <div class="x_panel">
                     <div class="x_title">
-                        <h2>Employee Information</h2>
-                        <ul class="nav navbar-right panel_toolbox">
-                            <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                            </li>
-                            <li><a class="close-link"><i class="fa fa-close"></i></a>
-                            </li>
-                        </ul>
-                        <div class="clearfix"></div>
-                    </div>
-                    <div class="x_content">
-                        {% form_theme form 'bootstrap_3_layout.html.twig' %}
-                        {{ form_start(form) }}
-                        {{ form_row(form.driver) }}
-                        {{ form_row(form.greeter) }}
-                        <button type="submit" class="btn btn-success">Save</button>
-                        {{ form_rest(form) }}
-                        {{ form_end(form) }}
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6 col-sm-6 col-xs-6">
-                <div class="x_panel">
-                    <div class="x_title">
                         <h2>Agent Information</h2>
                         <ul class="nav navbar-right panel_toolbox">
                             <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
@@ -56,9 +33,6 @@
                     </div>
                 </div>
             </div>
-        </div>
-
-        <div class="row">
             <div class="col-md-6 col-sm-6 col-xs-6">
                 <div class="x_panel">
                     <div class="x_title">
@@ -89,8 +63,18 @@
                     </div>
                 </div>
             </div>
+        </div>
+    {% endif %}
 
-            <div class="col-md-6 col-sm-6 col-xs-6">
+    <div class="row">
+        {% for product in book.products %}
+            {{ include('dashboard/book/show/product_content.html.twig', { details: false }) }}
+        {% endfor %}
+    </div>
+
+    {% if is_granted('ROLE_ADMIN') %}
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                     <div class="x_title">
                         <h2>Book Facturation</h2>
@@ -134,10 +118,4 @@
             </div>
         </div>
     {% endif %}
-
-    <div class="row">
-        {% for product in book.products %}
-            {{ include('dashboard/book/show/product_content.html.twig') }}
-        {% endfor %}
-    </div>
 {% endblock %}

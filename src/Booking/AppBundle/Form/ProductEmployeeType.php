@@ -2,7 +2,7 @@
 
 namespace Booking\AppBundle\Form;
 
-use Booking\AppBundle\Entity\Book;
+use Booking\AppBundle\Entity\Metadata\Product;
 use Booking\UserBundle\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -12,7 +12,7 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
 use Doctrine\ORM\EntityRepository;
 
-class BookEmployeeType extends AbstractType
+class ProductEmployeeType extends AbstractType
 {
     /**
      * {@inheritdoc}
@@ -54,7 +54,7 @@ class BookEmployeeType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => Book::class
+            'data_class' => Product::class
         ));
     }
 

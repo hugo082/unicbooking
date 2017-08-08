@@ -7,7 +7,7 @@ use Booking\ApiBundle\Exception\ApiException;
 use Booking\AppBundle\BookingAppBundle;
 use Booking\AppBundle\Entity\Book;
 use Booking\AppBundle\Entity\Metadata\Product;
-use Booking\AppBundle\Form\BookEmployeeType;
+use Booking\AppBundle\Form\ProductEmployeeType;
 use Booking\AppBundle\Form\BookType;
 use Booking\AppBundle\Form\Metadata\ProductType;
 use Booking\AppBundle\Repository\BookRepository;
@@ -115,17 +115,8 @@ class BookController extends Controller
         /** @var Book $book */
         $book = $this->getDoctrine()->getRepository("BookingAppBundle:Book")->find($id);
 
-        $form = $this->createForm(BookEmployeeType::class, $book);
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($book);
-            $em->flush();
-        }
-
         return $this->render('dashboard/book/show/book.html.twig', array(
-            "book" => $book,
-            "form" => $form->createView()
+            "book" => $book
         ));
     }
 
