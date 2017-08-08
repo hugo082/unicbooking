@@ -410,10 +410,6 @@ class Product
         }
     }
 
-    public function getDateTime(): string {
-        return $this->date->format("d M Y") . " " . $this->getTime();
-    }
-
     public function getInformation(): string {
         $service = $this->product_type->getService();
         if ($service->isAirport()) {

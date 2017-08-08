@@ -43,7 +43,7 @@ class Location
 
     /**
      * Get id
-     * @Viewable(title="Id", index=0)
+     *
      * @return int
      */
     public function getId()
