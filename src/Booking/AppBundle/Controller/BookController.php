@@ -83,6 +83,14 @@ class BookController extends Controller
     {
         /** @var Book $book */
         $book = $this->getDoctrine()->getRepository('BookingAppBundle:Book')->find($id);
+
+        $originalProducts = [];
+        /** @var Product $product */
+        foreach ($book->getProducts() as $product) {
+            $originalProducts[] = [ "product" => $product, "originalCustomers" => $product->getCustomersCopy() ];
+
+        }
+
         $form = $this->createForm(BookType::class, $book);
         $form->handleRequest($request);
 
@@ -93,6 +101,7 @@ class BookController extends Controller
             $book->linkSubEntities();
 
             $em = $this->getDoctrine()->getManager();
+            $book->removeNotFoundOriginalProducts($em, $originalProducts);
             $em->persist($book);
             $em->flush();
             return $this->redirectToRoute("booking_app_book_show", [

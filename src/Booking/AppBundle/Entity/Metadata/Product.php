@@ -13,6 +13,7 @@ use Booking\AppBundle\Entity\Metadata\Service\Limousine;
 use Booking\AppBundle\Entity\Metadata\Service\Train;
 use Booking\AppBundle\Entity\Subcontractor;
 use Booking\UserBundle\Entity\User;
+use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -96,7 +97,7 @@ class Product
 
     /**
      * @var Customer[]
-     * @ORM\OneToMany(targetEntity="Booking\AppBundle\Entity\Customer", mappedBy="product", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="Booking\AppBundle\Entity\Customer", mappedBy="product", cascade={"persist", "remove"})
      */
     protected $customers;
 
@@ -364,6 +365,33 @@ class Product
     public function setCustomers($customers)
     {
         $this->customers = $customers;
+    }
+
+    public function getCustomersCopy() {
+        $original = [];
+        foreach ($this->getCustomers() as $customer) {
+            $original[] = $customer;
+        }
+        return $original;
+    }
+
+    public function removeNotFoundOriginalCustomers(EntityManager $em, array $originalCustomers) {
+        foreach ($this->getCustomers() as $customer) {
+            /**
+             * @var int $key
+             * @var Customer $customerToDel
+             */
+            foreach ($originalCustomers as $key => $customerToDel) {
+                if ($customerToDel->getId() == $customer->getId()) {
+                    unset($originalCustomers[$key]);
+                    break;
+                }
+            }
+        }
+        foreach ($originalCustomers as $c) {
+            $this->customers->removeElement($c);
+            $em->remove($c);
+        }
     }
 
     public function getCustomersRecap(): string {

@@ -67,6 +67,9 @@ class ProductController extends Controller
     {
         /** @var Product $product */
         $product = $this->getDoctrine()->getRepository('BookingAppBundle:Metadata\Product')->find($id);
+
+        $originalCustomers = $product->getCustomersCopy();
+
         $form = $this->createForm(ProductType::class, $product);
         $form->handleRequest($request);
 
@@ -76,6 +79,7 @@ class ProductController extends Controller
             $apiChecker->processProduct($product);
 
             $em = $this->getDoctrine()->getManager();
+            $product->removeNotFoundOriginalCustomers($em, $originalCustomers);
             $em->persist($product);
             $em->flush();
             return $this->redirectToRoute("booking_app_product_show", [

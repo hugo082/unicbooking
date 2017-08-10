@@ -217,7 +217,7 @@ class Customer
     /**
      * @param ProductMet $product
      */
-    public function setProduct(ProductMet $product)
+    public function setProduct(?ProductMet $product)
     {
         $this->product = $product;
     }

@@ -7,6 +7,7 @@ use Booking\AppBundle\Entity\Metadata\Execution;
 use Booking\UserBundle\Entity\User;
 use Doctrine\Common\Collections\ArrayCollection;
 use Booking\AppBundle\Entity\Metadata\Product as ProductMet;
+use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\PersistentCollection;
 
@@ -186,6 +187,29 @@ class Book
     public function setProducts(ArrayCollection $products)
     {
         $this->products = $products;
+    }
+
+    public function removeNotFoundOriginalProducts(EntityManager $em, array $original) {
+        foreach ($this->getProducts() as $entity) {
+            /**
+             * @var int $key
+             * @var \Booking\AppBundle\Entity\Metadata\Product $customerToDel
+             */
+            foreach ($original as $key => $data) {
+                /** @var \Booking\AppBundle\Entity\Metadata\Product $eToDel */
+                $eToDel = $data["product"];
+                if ($eToDel->getId() == $entity->getId()) {
+                    $eToDel->removeNotFoundOriginalCustomers($em, $data["originalCustomers"]);
+                    unset($original[$key]);
+                    break;
+                }
+            }
+        }
+        foreach ($original as $data) {
+            $eToDel = $data["product"];
+            $this->products->removeElement($eToDel);
+            $em->remove($eToDel);
+        }
     }
 
     public function linkSubEntities() {
