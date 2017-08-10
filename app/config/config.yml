@@ -122,6 +122,11 @@ fqtdb_core_manager:
             title: Client
             fullName: Booking\AppBundle:Client
             methods: [ list, add, edit, remove ]
+        subcontractor:
+            access: ROLE_ADMIN
+            title: Subcontractor
+            fullName: Booking\AppBundle:Subcontractor
+            methods: [ list, add, edit, remove ]
         location:
             access: ROLE_ADMIN
             title: Location

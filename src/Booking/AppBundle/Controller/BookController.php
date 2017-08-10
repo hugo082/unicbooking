@@ -7,7 +7,7 @@ use Booking\ApiBundle\Exception\ApiException;
 use Booking\AppBundle\BookingAppBundle;
 use Booking\AppBundle\Entity\Book;
 use Booking\AppBundle\Entity\Metadata\Product;
-use Booking\AppBundle\Form\ProductEmployeeType;
+use Booking\AppBundle\Form\ProductSubMetadataType;
 use Booking\AppBundle\Form\BookType;
 use Booking\AppBundle\Form\Metadata\ProductType;
 use Booking\AppBundle\Repository\BookRepository;

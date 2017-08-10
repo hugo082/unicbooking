@@ -7,7 +7,7 @@ use Booking\ApiBundle\Exception\ApiException;
 use Booking\AppBundle\BookingAppBundle;
 use Booking\AppBundle\Entity\Book;
 use Booking\AppBundle\Entity\Metadata\Product;
-use Booking\AppBundle\Form\ProductEmployeeType;
+use Booking\AppBundle\Form\Metadata\ProductSubMetadataType;
 use Booking\AppBundle\Form\BookType;
 use Booking\AppBundle\Form\Metadata\ProductType;
 use Booking\AppBundle\Repository\BookRepository;
@@ -46,7 +46,7 @@ class ProductController extends Controller
             throw new HttpException(404, "Product not found");
 
 
-        $form = $this->createForm(ProductEmployeeType::class, $product);
+        $form = $this->createForm(ProductSubMetadataType::class, $product);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();

@@ -11,6 +11,7 @@ use Booking\AppBundle\Entity\Product as ProductType;
 use Booking\AppBundle\Entity\Metadata\Service\Airport;
 use Booking\AppBundle\Entity\Metadata\Service\Limousine;
 use Booking\AppBundle\Entity\Metadata\Service\Train;
+use Booking\AppBundle\Entity\Subcontractor;
 use Booking\UserBundle\Entity\User;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -69,6 +70,13 @@ class Product
      * @ORM\JoinColumn(name="greeter_id", referencedColumnName="id", nullable=true)
      */
     private $greeter;
+
+    /**
+     * @var Subcontractor
+     * @ORM\ManyToOne(targetEntity="Booking\AppBundle\Entity\Subcontractor", cascade={"persist"})
+     * @ORM\JoinColumn(name="sub_contractor_id", referencedColumnName="id", nullable=true)
+     */
+    private $subcontractor;
 
     /**
      * Execution
@@ -228,6 +236,22 @@ class Product
     public function setGreeter(?User $greeter)
     {
         $this->greeter = $greeter;
+    }
+
+    /**
+     * @return Subcontractor
+     */
+    public function getSubcontractor(): ?Subcontractor
+    {
+        return $this->subcontractor;
+    }
+
+    /**
+     * @param Subcontractor $subcontractor
+     */
+    public function setSubcontractor(?Subcontractor $subcontractor)
+    {
+        $this->subcontractor = $subcontractor;
     }
 
     /**
