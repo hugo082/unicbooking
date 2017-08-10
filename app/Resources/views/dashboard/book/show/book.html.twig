@@ -116,7 +116,7 @@
                                     <td>{{ taxe.title }}</td>
                                     <td>{{ taxe.price.tva }}</td>
                                     <td>{{ taxe.price.count }}</td>
-                                    <td>{{ taxe.price.ttc }}</td>
+                                    <td>{{ taxe.price.appliedTo(book.priceBeforeTaxes) }}</td>
                                 </tr>
                             {% endfor %}
                             <tr class="table-recap">

@@ -73,4 +73,8 @@ class Price
         return round($ttc, 1);
     }
 
+    public function appliedTo(int $price) {
+        return $price * ($this->tva / 100) + $this->count;
+    }
+
 }

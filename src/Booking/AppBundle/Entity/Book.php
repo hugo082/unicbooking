@@ -88,6 +88,7 @@ class Book
     private $last_date;
 
     private $price;
+    private $priceBeforeTaxes;
 
     public function __construct()
     {
@@ -327,6 +328,12 @@ class Book
         return $this->first_date->diff($this->last_date);
     }
 
+    public function getPriceBeforeTaxes(bool $force = false) {
+        if ($force || $this->priceBeforeTaxes == null)
+            $this->computePrice();
+        return round($this->priceBeforeTaxes, 1);
+    }
+
     public function getPrice(bool $force = false) {
         if ($force || $this->price == null)
             $this->computePrice();
@@ -335,8 +342,13 @@ class Book
 
     private function computePrice() {
         $this->price = 0;
+        $this->priceBeforeTaxes = 0;
         foreach ($this->products as $product)
-            $this->price += $product->getPrice($this->client);
+            $this->priceBeforeTaxes += $product->getPrice($this->client);
+        $this->price = $this->priceBeforeTaxes;
+        foreach ($this->taxes as $tax) {
+            $this->price += $tax->getPrice()->appliedTo($this->priceBeforeTaxes);
+        }
     }
 
     private function computeIntervalDates(bool $force = false) {
