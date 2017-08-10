@@ -7,6 +7,7 @@ use Booking\ApiBundle\Exception\ApiException;
 use Booking\AppBundle\BookingAppBundle;
 use Booking\AppBundle\Entity\Book;
 use Booking\AppBundle\Entity\Metadata\Product;
+use Booking\AppBundle\Form\BookTaxesType;
 use Booking\AppBundle\Form\ProductSubMetadataType;
 use Booking\AppBundle\Form\BookType;
 use Booking\AppBundle\Form\Metadata\ProductType;
@@ -153,5 +154,30 @@ class BookController extends Controller
         return $this->render('dashboard/book/archive.html.twig', [
             'books' => $books
         ]);
+    }
+
+    /**
+     * @Route("/book/manage/taxes/{id}")
+     */
+    public function manageTaxesAction(Request $request, int $id)
+    {
+        /** @var Book $book */
+        $book = $this->getDoctrine()->getRepository("BookingAppBundle:Book")->find($id);
+        $original = $book->getTaxesCopy();
+        $form = $this->createForm(BookTaxesType::class, $book);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $book->linkSubEntities();
+            $em = $this->getDoctrine()->getManager();
+            $book->removeNotFoundOriginalTaxes($em, $original);
+            $em->persist($book);
+            $em->flush();
+            return $this->redirectToRoute("booking_app_book_show", [
+                "id" => $book->getId()
+            ]);
+        }
+        return $this->render('dashboard/book/taxes_form.html.twig', array(
+            "form" => $form->createView()
+        ));
     }
 }

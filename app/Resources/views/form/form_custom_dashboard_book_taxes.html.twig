@@ -1,0 +1,78 @@
+
+{% block _booking_appbundle_book_taxes_widget %}
+    {% spaceless %}
+        {% if prototype is defined %}
+            {% set attr = attr|merge({'data-prototype': block('_booking_appbundle_book_taxes_entry_row') }) %}
+        {% endif %}
+
+        <div {{ block('widget_container_attributes') }}>
+            {% for widget in form.children %}
+                <div id="{{ widget.vars.id }}" class="taxes-container col-md-12 col-sm-12 col-lg-12 col-xs-12" data-content="{{ widget.vars.id }}">
+                    {% for row in widget %}
+                        {{ form_widget(row) }}
+                    {% endfor %}
+                    <a id="{{ id }}_cust_remove" class="btn btn-danger btn-rm" data-related="{{ widget.vars.id }}">Remove</a>
+                </div>
+            {% endfor %}
+        </div>
+        <br>
+        <a id="{{ id }}_cust_add" class="btn btn-success" data-target="{{ id }}">Add</a>
+
+    {% endspaceless %}
+    <style>
+        .taxes-container > * {
+            width: 10% !important;
+            margin: 10px;
+            display: inline-block;
+        }
+        .taxes-container > div {
+            width: 40% !important;
+        }
+        .taxes-container > div > div.form-group {
+            width: 45%;
+            display: inline-block;
+            margin: 0 10px 0 10px;
+        }
+        .taxes-container .btn-rm {
+            margin: 0 0 5px 0 !important;
+        }
+    </style>
+
+    <script>
+        $(document).ready(function() {
+            $(document).on('click', '#{{ id }}_cust_add[data-target]', function(event) {
+                var collectionHolder = $('#' + $(this).attr('data-target'));
+
+                if (!collectionHolder.attr('data-counter')) {
+                    collectionHolder.attr('data-counter', collectionHolder.children().length);
+                }
+
+                var prototype = collectionHolder.attr('data-prototype');
+                var form = prototype.replace(/__name__/g, collectionHolder.attr('data-counter'));
+
+                collectionHolder.attr('data-counter', Number(collectionHolder.attr('data-counter')) + 1);
+                collectionHolder.append(form);
+
+                event && event.preventDefault();
+            });
+
+            $(document).on('click', '#{{ id }}_cust_remove[data-related]', function(event) {
+                var name = $(this).attr('data-related');
+                $('*[data-content="'+name+'"]').remove();
+                console.error("hllo");
+                event && event.preventDefault();
+            });
+        });
+    </script>
+{% endblock %}
+
+{% block _booking_appbundle_book_taxes_entry_row %}
+    {% spaceless %}
+        <div id="{{ prototype.vars.id }}" class="taxes-container col-md-12 col-sm-12 col-lg-12 col-xs-12" data-content="{{ prototype.vars.id }}">
+            {% for row in prototype %}
+                {{ form_widget(row) }}
+            {% endfor %}
+            <a id="{{ id }}_cust_remove" class="btn btn-danger btn-rm" data-related="{{ prototype.vars.id }}">Remove</a>
+        </div>
+    {% endspaceless %}
+{% endblock %}

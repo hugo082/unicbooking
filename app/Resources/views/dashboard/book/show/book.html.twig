@@ -79,9 +79,14 @@
                     <div class="x_title">
                         <h2>Book Facturation</h2>
                         <ul class="nav navbar-right panel_toolbox">
-                            <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                            <li>
+                                <a href="{{ path('booking_app_book_managetaxes', {'id': book.id}) }}" class="btn btn-success" style="color:white">Taxes</a>
                             </li>
-                            <li><a class="close-link"><i class="fa fa-close"></i></a>
+                            <li>
+                                <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                            </li>
+                            <li>
+                                <a class="close-link"><i class="fa fa-close"></i></a>
                             </li>
                         </ul>
                         <div class="clearfix"></div>
@@ -104,6 +109,14 @@
                                     <td>{{ product.productType.price.tva(book.client) }}</td>
                                     <td>{{ product.priceCount }}</td>
                                     <td>{{ product.price }}</td>
+                                </tr>
+                            {% endfor %}
+                            {% for taxe in book.taxes %}
+                                <tr>
+                                    <td>{{ taxe.title }}</td>
+                                    <td>{{ taxe.price.tva }}</td>
+                                    <td>{{ taxe.price.count }}</td>
+                                    <td>{{ taxe.price.ttc }}</td>
                                 </tr>
                             {% endfor %}
                             <tr class="table-recap">

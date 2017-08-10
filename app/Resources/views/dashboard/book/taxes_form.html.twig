@@ -1,0 +1,95 @@
+{% extends 'dashboard/layout.html.twig' %}
+
+{% block stylesheets %}
+    {{parent()}}
+    <link rel="stylesheet" href="{{ asset('assets/vendor/jquery-ui/themes/base/jquery-ui.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/vendor/jquery-timepicker-jt/jquery.timepicker.css') }}">
+{% endblock %}
+
+{% block headscripts %}
+    {{parent()}}
+    <script src="{{ asset('assets/vendor/jquery-ui/jquery-ui.min.js') }}"></script>
+    <script src="{{ asset('assets/vendor/jquery-timepicker-jt/jquery.timepicker.min.js') }}"></script>
+{% endblock %}
+
+{% block content %}
+    <div class="">
+        <div class="page-title">
+            <div class="title_right">
+                <a href="{{ path('booking_app_book_index') }}" class="btn btn-lg btn-success">Lister</a>
+            </div>
+        </div>
+
+        <div class="clearfix"></div>
+
+
+        {% form_theme form
+        'bootstrap_3_layout.html.twig'
+        'form/form_div_layout.html.twig'
+        'form/form_custom_dashboard_book_taxes.html.twig'
+        'form/form_collection_add.html.twig'
+        %}
+
+        {{ form_start(form, { 'attr': {'class':'form-horizontal form-label-left'}}) }}
+        {{ form_errors(form) }}
+
+        <div class="row">
+
+            <div id="{{ form.vars.id }}" class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h2>Product</h2>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+                        {{ form_row(form.taxes) }}
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                    <div class="x_content">
+                        <button type="submit" class="btn btn-success">Submit</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {{ form_rest(form) }}
+        {{ form_end(form) }}
+    </div>
+    <div id="flightModalInformation" class="modal fade" role="dialog">
+        <div class="modal-dialog" style="min-height: 90%">
+            <!-- Modal content-->
+            <div class="modal-content" style="height: 100%">
+                <div class="modal-header">
+                    <h4 class="modal-title">Flight Information</h4>
+                </div>
+                <div class="modal-body">
+                    <ul>
+                        <li id="flightModalInformation_origin"></li>
+                        <li id="flightModalInformation_departure_time"></li>
+                        <li id="flightModalInformation_destination"></li>
+                        <li id="flightModalInformation_arrival_time"></li>
+                    </ul>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="flightModalInformation_cancel" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+{% endblock %}
+
+
+{% block javascripts %}
+    {{parent()}}
+    {% if token is defined %}
+        <script>
+            window["token"] = "{{ token }}"
+        </script>
+        <script src="{{ asset('js/book.min.js') }}"></script>
+    {% endif %}
+{% endblock %}

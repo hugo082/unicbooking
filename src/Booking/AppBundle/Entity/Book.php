@@ -3,6 +3,7 @@
 namespace Booking\AppBundle\Entity;
 
 use Booking\AppBundle\Entity\Core\Agent;
+use Booking\AppBundle\Entity\Core\Tax;
 use Booking\AppBundle\Entity\Metadata\Execution;
 use Booking\UserBundle\Entity\User;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -70,6 +71,12 @@ class Book
      * @ORM\OneToMany(targetEntity="Booking\AppBundle\Entity\Metadata\Product", mappedBy="book", cascade={"persist", "refresh"})
      */
     protected $products;
+
+    /**
+     * @var Tax[]
+     * @ORM\OneToMany(targetEntity="Booking\AppBundle\Entity\Core\Tax", mappedBy="book", cascade={"persist", "refresh"})
+     */
+    protected $taxes;
 
     /**
      * @var \DateTime
@@ -193,7 +200,7 @@ class Book
         foreach ($this->getProducts() as $entity) {
             /**
              * @var int $key
-             * @var \Booking\AppBundle\Entity\Metadata\Product $customerToDel
+             * @var array $data
              */
             foreach ($original as $key => $data) {
                 /** @var \Booking\AppBundle\Entity\Metadata\Product $eToDel */
@@ -212,11 +219,55 @@ class Book
         }
     }
 
+    /**
+     * @return Tax[]
+     */
+    public function getTaxes()
+    {
+        return $this->taxes;
+    }
+
+    public function getTaxesCopy(): array{
+        $original = [];
+        foreach ($this->getTaxes() as $tax)
+            $original[] = $tax;
+        return $original;
+    }
+
+    /**
+     * @param Tax[] $taxes
+     */
+    public function setTaxes($taxes)
+    {
+        $this->taxes = $taxes;
+    }
+
+    public function removeNotFoundOriginalTaxes(EntityManager $em, array $original) {
+        foreach ($this->getTaxes() as $entity) {
+            /**
+             * @var int $key
+             * @var Tax $eToDel
+             */
+            foreach ($original as $key => $eToDel) {
+                if ($eToDel->getId() == $entity->getId()) {
+                    unset($original[$key]);
+                    break;
+                }
+            }
+        }
+        foreach ($original as $eToDel) {
+            $this->taxes->removeElement($eToDel);
+            $em->remove($eToDel);
+        }
+    }
+
     public function linkSubEntities() {
-        /** @var ProductMet $prod */
         foreach ($this->getProducts() as $prod) {
             $prod->setBook($this);
             $prod->linkSubEntities();
+        }
+        foreach ($this->getTaxes() as $tax) {
+            $tax->setBook($this);
         }
     }
 
