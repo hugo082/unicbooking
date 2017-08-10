@@ -418,5 +418,17 @@ class Product
     public function isConfig(): bool {
         return $this->driver != null || $this->greeter != null;
     }
+
+    public function getGreeterStr(): string {
+        if ($this->greeter)
+            return $this->greeter->getUsername();
+        return "Unknown";
+    }
+
+    public function getDriverStr(): string {
+        if ($this->driver)
+            return $this->driver->getUsername();
+        return "Unknown";
+    }
 }
 
