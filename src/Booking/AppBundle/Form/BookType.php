@@ -34,6 +34,17 @@ class BookType extends AbstractType
                     return ["c-id" => $client->getId()];
                 }
             ))
+            ->add('devices', ChoiceType::class, array(
+                'choices'  => array(
+                    'EUR' => 'EUR',
+                    'USD' => 'USD',
+                    'GBP' => 'GBP'
+                ),
+                'label' => false,
+                'attr' => array(
+                    'class' => 'col-md-1 col-sm-1 col-lg-1 col-xs-1'
+                )
+            ))
             ->add('products', CollectionType::class, array(
                 'entry_type'   => ProductMetType::class,
                 'allow_add'    => true,

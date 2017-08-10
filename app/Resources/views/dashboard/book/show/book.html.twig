@@ -93,7 +93,7 @@
                                 <th>Product Name</th>
                                 <th>Taxe (%)</th>
                                 <th>Price unit.</th>
-                                <th>Amount (EUR)</th>
+                                <th>Amount ({{ book.devices }})</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -109,7 +109,7 @@
                             <tr class="table-recap">
                                 <td>Total</td>
                                 <td colspan="2">&nbsp;</td>
-                                <td>EUR {{ book.price }}</td>
+                                <td>{{ book.devices }} {{ book.price }}</td>
                             </tr>
                             </tbody>
                         </table>

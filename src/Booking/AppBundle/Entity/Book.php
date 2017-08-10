@@ -28,6 +28,12 @@ class Book
     private $id;
 
     /**
+     * @var string
+     * @ORM\Column(name="devices", type="string")
+     */
+    protected $devices;
+
+    /**
      * Booking Agent
      * @var Agent
      * @ORM\Embedded(class="Booking\AppBundle\Entity\Core\Agent", columnPrefix="age_")
@@ -100,6 +106,22 @@ class Book
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDevices(): ?string
+    {
+        return $this->devices;
+    }
+
+    /**
+     * @param string $devices
+     */
+    public function setDevices(string $devices)
+    {
+        $this->devices = $devices;
     }
 
     /**

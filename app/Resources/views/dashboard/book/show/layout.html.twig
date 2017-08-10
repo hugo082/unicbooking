@@ -24,6 +24,7 @@
                     {% endif %}
                 {% elseif product is defined %}
                     <a href="{{ path('booking_app_book_show', {'id': product.book.id}) }}" class="btn btn-lg btn-success">Show Book</a>
+                    <a href="{{ path('booking_app_product_edit', {'id': product.id}) }}" class="btn btn-lg btn-success">Edit</a>
                 {% endif %}
             </div>
         </div>
