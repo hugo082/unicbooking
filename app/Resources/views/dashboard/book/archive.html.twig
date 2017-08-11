@@ -19,14 +19,16 @@
                         <div class="clearfix"></div>
                     </div>
                     <div class="x_content">
-                        <table  id="datatable" class="table table-striped table-bordered table-condensed">
+                        <table id="datatable" class="table table-striped table-bordered table-condensed">
                             <thead>
                             <tr>
                                 <th>Bkg No.</th>
                                 <th>Dates</th>
                                 <th>Services</th>
+                                <th>Client</th>
                                 <th>Travel Agent</th>
-                                <th>Show</th>
+                                <th>Bill number</th>
+                                <th class="table-action"></th>
                             </tr>
                             </thead>
                             <tbody>
@@ -34,9 +36,17 @@
                                 <tr>
                                     <td>{{ book.id }}</td>
                                     <td>{{ book.dates }}</td>
-                                    <td>{{ include('dashboard/book/service/icon_view.html.twig', {products: book.products}) }}</td>
-                                    <td>{{ book.agent }}</td>
                                     <td>
+                                        {% for product in book.products %}
+                                            {{ product.productType.service.name }}
+                                        {% else %}
+                                            EMPTY
+                                        {% endfor %}
+                                    </td>
+                                    <td>{{ book.client.name }}</td>
+                                    <td>{{ book.agent }}</td>
+                                    <td>{{ book.billNumber }}</td>
+                                    <td class="table-action">
                                         <a href="{{ path('booking_app_book_show', {'id': book.id}) }}" class="btn btn-default">
                                             <span class="glyphicon glyphicon-search"></span>
                                         </a>
