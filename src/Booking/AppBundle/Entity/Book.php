@@ -36,6 +36,12 @@ class Book
     protected $devices;
 
     /**
+     * @var string
+     * @ORM\Column(name="bill_number", type="string")
+     */
+    protected $billNumber;
+
+    /**
      * Booking Agent
      * @var Agent
      * @ORM\Embedded(class="Booking\AppBundle\Entity\Core\Agent", columnPrefix="age_")
@@ -131,6 +137,22 @@ class Book
     public function setDevices(string $devices)
     {
         $this->devices = $devices;
+    }
+
+    /**
+     * @return string
+     */
+    public function getBillNumber(): ?string
+    {
+        return $this->billNumber;
+    }
+
+    /**
+     * @param string $billNumber
+     */
+    public function setBillNumber(string $billNumber)
+    {
+        $this->billNumber = $billNumber;
     }
 
     /**

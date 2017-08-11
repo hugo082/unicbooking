@@ -58,6 +58,7 @@ class BookController extends Controller
             try {
                 $apiChecker->processBook($book);
                 $book->linkSubEntities();
+                $book->setHolder($this->getUser());
 
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($book);
@@ -131,13 +132,14 @@ class BookController extends Controller
     }
 
     /**
-     * @Route("/book/manage/archive/{id}")
+     * @Route("/book/manage/archive/{id}/{billNumber}")
      */
-    public function archiveAction(Request $request, int $id)
+    public function archiveAction(Request $request, int $id, string $billNumber)
     {
         /** @var Book $book */
         $book = $this->getDoctrine()->getRepository("BookingAppBundle:Book")->find($id);
         $book->setArchived(true);
+        $book->setBillNumber($billNumber);
         $em = $this->getDoctrine()->getManager();
         $em->persist($book);
         $em->flush();

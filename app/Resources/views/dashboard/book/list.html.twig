@@ -125,7 +125,7 @@
                                         </td>
                                         {% if is_granted('ROLE_ADMIN') %}
                                             <td class="table-action">
-                                                <a href="{{ path('booking_app_book_archive', {'id': book.id}) }}" class="btn btn-danger" data-toggle="confirmation" data-title="Sure ?" data-popout="true">
+                                                <a href="{{ path('booking_app_book_archive', {'id': book.id, 'billNumber':"__bill_number__"}) }}" class="btn btn-danger" data-toggle="bill_number" data-title="Sure ?" data-popout="true">
                                                     <span class="glyphicon glyphicon-folder-open"></span>
                                                 </a>
                                             </td>
@@ -164,6 +164,20 @@
                 ]
             } );
         } );
+
+        $(document).on("click", "a[data-toggle=bill_number]", function (event) {
+            var billNumber = prompt("Enter your book bill number");
+            if (billNumber !== null) {
+                if (billNumber !== "") {
+                    var link = $(this).attr("href").replace(/__bill_number__/g, billNumber);
+                    $(this).attr("href", link);
+                    return;
+                }
+                alert("Bill number can't be empty");
+            }
+            event && event.preventDefault();
+        })
+
     </script>
 {% endblock %}
 
