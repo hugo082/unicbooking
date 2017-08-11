@@ -13,6 +13,9 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Flight
 {
+    public const TYPE_DEP = ["Departure", "DEP"];
+    public const TYPE_ARR = ["Arrival", "ARR"];
+
     /**
      * @var int
      *
@@ -55,20 +58,16 @@ class Flight
      */
     protected $arrival_time;
 
+    /**
+     * @var string
+     * @ORM\Column(name="type", type="string")
+     */
+    protected $type;
+
     public function __construct()
     {
+        $this->type = self::TYPE_DEP[1];
         $this->codes = new AirlinesCodes();
-    }
-
-    public function encode() {
-        return array(
-            "id" => $this->id,
-            "codes" => $this->codes->encode(),
-            //"origin_time" => $this->deptime->getTimestamp(),
-            //"origin" => $this->depair->encode(),
-            //"destination_time" => $this->arrtime->getTimestamp(),
-            //"destination" => $this->arrair->encode()
-        );
     }
 
     /**
@@ -161,20 +160,50 @@ class Flight
         $this->destination = $destination;
     }
 
+    /**
+     * @return string
+     */
     public function getPath(): string {
         return $this->origin->getCodes()->getCode() . " → " . $this->destination->getCodes()->getCode();
     }
 
+    /**
+     * @return string
+     */
     public function getTime(): string {
         return $this->departure_time->format('H:i') . " → " . $this->arrival_time->format('H:i');
     }
 
+    /**
+     * @return string
+     */
     public function getComputedTime(): string {
         return $this->departure_time->format('H:i');
     }
 
+    /**
+     * @return string
+     */
     public function getInformation(): string {
         return $this->origin->getCodes()->getCode() . " " . $this->codes->getCode();
+    }
+
+    /**
+     * @return string
+     */
+    public function getType(): ?string
+    {
+        return $this->type;
+    }
+
+    /**
+     * @param string $type
+     */
+    public function setType(?string $type)
+    {
+        if ($type != self::TYPE_DEP[1] && $type != self::TYPE_ARR[1])
+            return;
+        $this->type = $type;
     }
 
     /**

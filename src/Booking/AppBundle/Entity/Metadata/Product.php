@@ -501,5 +501,11 @@ class Product
             return $this->driver->getUsername();
         return "Unknown";
     }
+
+    public function getSubcontractorStr(): string {
+        if ($this->subcontractor)
+            return $this->subcontractor->getName();
+        return "Unknown";
+    }
 }
 

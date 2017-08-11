@@ -72,6 +72,7 @@ class ApiChecker
         $flight = $this->loadFlightWithApi($flight);
         if (!$flight instanceof Flight)
             throw new ApiException("Error", "Unknow", 500);
+        $flight->setType($request->get("flight_type"));
         return $flight;
     }
 

@@ -5,8 +5,6 @@ namespace Booking\AppBundle\Form\Metadata\Service;
 use Booking\AppBundle\Entity\Metadata\Service\Airport as AirportMet;
 use Booking\AppBundle\Form\Core\FlightType as CoreFlightType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -24,7 +22,8 @@ class AirportType extends AbstractType
             ])
             ->add('flight_transit', CoreFlightType::class, [
                 'label' => 'Flight Transit',
-                'required' => false
+                'required' => false,
+                CoreFlightType::OPTION_FLIGHT_TYPE => false
             ])
             /*
             ->add('greeter', CheckboxType::class, [

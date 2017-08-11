@@ -1,7 +1,8 @@
 $( function() {
-    function ApiChecker(input, hidden, loadButton) {
+    function ApiChecker(input, inputType, hidden, loadButton) {
         this.loading = false;
         this.inputId_ = input;
+        this.inputTypeId_ = inputType;
         this.hiddenInputId_ = hidden;
         this.loadButtonId_ = loadButton;
         this.flightModal_ = "#flightModalInformation";
@@ -22,6 +23,7 @@ $( function() {
         };
         this.loadFlight_ = function () {
             var code = $(this.inputId_).val();
+            var type = $(this.inputTypeId_).val();
             if (this.loading || typeof code === "undefined" || code === "")
                 return;
             var checker = this;
@@ -33,7 +35,7 @@ $( function() {
                 headers: {
                     'Authorization': 'Bearer ' + window["token"]
                 },
-                data: { 'flight_code': code },
+                data: { 'flight_code': code, 'flight_type': type },
                 success : function(result) {
                     checker.loading = false;
                     checker.isDisable(false);
