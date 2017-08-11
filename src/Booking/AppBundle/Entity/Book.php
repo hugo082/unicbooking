@@ -38,7 +38,7 @@ class Book
 
     /**
      * @var string
-     * @ORM\Column(name="bill_number", type="string")
+     * @ORM\Column(name="bill_number", type="string", nullable=true)
      */
     protected $billNumber;
 
@@ -292,8 +292,9 @@ class Book
             $prod->setBook($this);
             $prod->linkSubEntities();
         }
-        foreach ($this->getTaxes() as $tax) {
-            $tax->setBook($this);
+        if (!empty($this->getTaxes())) {
+            foreach ($this->getTaxes() as $tax)
+                $tax->setBook($this);
         }
     }
 
