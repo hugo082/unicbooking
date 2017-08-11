@@ -77,4 +77,10 @@ class Price
         return $price * ($this->tva / 100) + $this->count;
     }
 
+    public function getAmount(bool $ttc = true, Client $client = null) {
+        if ($ttc)
+            return $this->getTtc($client);
+        return $this->count;
+    }
+
 }

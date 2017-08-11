@@ -5,6 +5,7 @@ namespace Booking\AppBundle\Entity;
 use Booking\AppBundle\Entity\Core\Agent;
 use Booking\AppBundle\Entity\Core\Tax;
 use Booking\AppBundle\Entity\Metadata\Execution;
+use Booking\AppBundle\Manager\BookPriceManager;
 use Booking\UserBundle\Entity\User;
 use Doctrine\Common\Collections\ArrayCollection;
 use Booking\AppBundle\Entity\Metadata\Product as ProductMet;
@@ -93,12 +94,14 @@ class Book
      */
     private $last_date;
 
-    private $price;
-    private $priceBeforeTaxes;
+    /**
+     * @var null|BookPriceManager
+     */
+    private $priceManager;
 
     public function __construct()
     {
-        $this->price = null;
+        $this->priceManager = null;
         $this->creation_date = new \DateTime();
         $this->products = new ArrayCollection();
         $this->archived = false;
@@ -326,6 +329,16 @@ class Book
         return $state;
     }
 
+    /**
+     * @return BookPriceManager
+     */
+    public function getPriceManager(): BookPriceManager
+    {
+        if ($this->priceManager === null)
+            $this->priceManager = new BookPriceManager($this);
+        return $this->priceManager;
+    }
+
     public function getDates(): string {
         $this->computeIntervalDates();
         if ($this->last_date == null)
@@ -348,29 +361,6 @@ class Book
         if ($this->last_date == null || $this->first_date == null)
             return new \DateInterval("P0D");
         return $this->first_date->diff($this->last_date);
-    }
-
-    public function getPriceBeforeTaxes(bool $force = false) {
-        if ($force || $this->priceBeforeTaxes == null)
-            $this->computePrice();
-        return round($this->priceBeforeTaxes, 1);
-    }
-
-    public function getPrice(bool $force = false) {
-        if ($force || $this->price == null)
-            $this->computePrice();
-        return round($this->price, 1);
-    }
-
-    private function computePrice() {
-        $this->price = 0;
-        $this->priceBeforeTaxes = 0;
-        foreach ($this->products as $product)
-            $this->priceBeforeTaxes += $product->getPrice($this->client);
-        $this->price = $this->priceBeforeTaxes;
-        foreach ($this->taxes as $tax) {
-            $this->price += $tax->getPrice()->appliedTo($this->priceBeforeTaxes);
-        }
     }
 
     private function computeIntervalDates(bool $force = false) {

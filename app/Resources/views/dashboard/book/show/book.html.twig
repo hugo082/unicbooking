@@ -109,8 +109,8 @@
                             <tr>
                                 <th>Product Name</th>
                                 <th>Taxe (%)</th>
-                                <th>Price unit.</th>
-                                <th>Amount ({{ book.devices }})</th>
+                                <th>Price unit. (HT)</th>
+                                <th>Amount (TTC)</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -119,22 +119,37 @@
                                 <tr>
                                     <td>{{ product.productType.name }}</td>
                                     <td>{{ product.productType.price.tva(book.client) }}</td>
-                                    <td>{{ product.priceCount }}</td>
-                                    <td>{{ product.price }}</td>
+                                    <td>{{ book.devices }} {{ product.priceCount }}</td>
+                                    <td>{{ book.devices }} {{ product.price }}</td>
                                 </tr>
                             {% endfor %}
+                            <tr class="table-recap">
+                                <td>Sous Total</td>
+                                <td>&nbsp;</td>
+                                <td>{{ book.devices }} {{ book.priceManager.ht }}</td>
+                                <td>{{ book.devices }} {{ book.priceManager.ttc }}</td>
+                            </tr>
+                            <tr class="section">
+                                <td colspan="4">Extras</td>
+                            </tr>
+                            <tr>
+                                <th>Title</th>
+                                <th>Percentage</th>
+                                <th>Count</th>
+                                <th>Amount</th>
+                            </tr>
                             {% for taxe in book.taxes %}
                                 <tr>
                                     <td>{{ taxe.title }}</td>
                                     <td>{{ taxe.price.tva }}</td>
-                                    <td>{{ taxe.price.count }}</td>
-                                    <td>{{ taxe.price.appliedTo(book.priceBeforeTaxes) }}</td>
+                                    <td>{{ book.devices }} {{ taxe.price.count }}</td>
+                                    <td>{{ book.devices }} {{ taxe.price.appliedTo(book.priceManager.ttc) }}</td>
                                 </tr>
                             {% endfor %}
                             <tr class="table-recap">
                                 <td>Total</td>
                                 <td colspan="2">&nbsp;</td>
-                                <td>{{ book.devices }} {{ book.price }}</td>
+                                <td>{{ book.devices }} {{ book.priceManager.total }}</td>
                             </tr>
                             </tbody>
                         </table>
