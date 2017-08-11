@@ -166,7 +166,9 @@ class BookController extends Controller
         /** @var Book $book */
         $book = $this->getDoctrine()->getRepository("BookingAppBundle:Book")->find($id);
         $original = $book->getTaxesCopy();
-        $form = $this->createForm(BookTaxesType::class, $book);
+        $form = $this->createForm(BookType::class, $book, [
+            BookType::OPTION_TYPE => BookType::TYPE_TAXES
+        ]);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $book->linkSubEntities();
@@ -179,7 +181,8 @@ class BookController extends Controller
             ]);
         }
         return $this->render('dashboard/book/taxes_form.html.twig', array(
-            "form" => $form->createView()
+            "form" => $form->createView(),
+            "book" => $book
         ));
     }
 }

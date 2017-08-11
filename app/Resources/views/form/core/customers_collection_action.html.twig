@@ -1,6 +1,6 @@
 
 <br>
-<a id="{{ id }}_cust_add" class="btn btn-success" data-target="{{ id }}">Add</a>
+<a id="collection_action_add" class="btn btn-success" data-target="{{ id }}">Add</a>
 <style>
     .customers-container > * {
         width: 10% !important;
@@ -28,8 +28,8 @@
 
         $(document).on('click', '#{{ id }}_cust_remove[data-related]', function(event) {
             var name = $(this).attr('data-related');
-            $('*[data-content="'+name+'"]').remove();
-            console.error("hllo");
+            $('#' + name).remove();
+
             event && event.preventDefault();
         });
     });

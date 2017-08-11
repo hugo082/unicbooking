@@ -109,6 +109,12 @@ class Product
     protected $baggages;
 
     /**
+     * @var integer
+     * @ORM\Column(name="custom_price", type="integer", nullable=true)
+     */
+    private $customPrice;
+
+    /**
      * @var Book
      * @ORM\ManyToOne(targetEntity="Booking\AppBundle\Entity\Book", inversedBy="products")
      * @ORM\JoinColumn(name="book", referencedColumnName="id")
@@ -136,6 +142,7 @@ class Product
 
     public function __construct()
     {
+        $this->customPrice = null;
         $this->execution = new Execution();
     }
 
@@ -419,6 +426,22 @@ class Product
     }
 
     /**
+     * @return int
+     */
+    public function getCustomPrice(): ?int
+    {
+        return $this->customPrice;
+    }
+
+    /**
+     * @param int $customPrice
+     */
+    public function setCustomPrice(?int $customPrice)
+    {
+        $this->customPrice = $customPrice;
+    }
+
+    /**
      * @ORM\PrePersist
      */
     public function computeExecutionSteps() {
@@ -437,12 +460,8 @@ class Product
             $customer->setProduct($this);
     }
 
-    public function getPrice(Client $client = null) {
-        return $this->product_type->getPrice()->getTtc($client);
-    }
-
-    public function getPriceCount() {
-        return $this->product_type->getPrice()->getCount();
+    public function getPriceAmount($ttc = true, Client $client = null) {
+        return $this->product_type->getPrice()->getAmount($ttc, $client, $this->customPrice);
     }
 
     public function getTime() {

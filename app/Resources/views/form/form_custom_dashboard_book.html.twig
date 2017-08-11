@@ -96,7 +96,7 @@
             {% for row in prototype %}
                 {{ form_widget(row) }}
             {% endfor %}
-            <a id="{{ id }}_cust_remove" class="btn btn-danger" data-related="{{ prototype.vars.id }}">Remove</a>
+            <a id="collection_action_remove" class="btn btn-danger" data-related="{{ prototype.vars.id }}">Remove</a>
         </div>
     {% endspaceless %}
 {% endblock %}

@@ -66,21 +66,29 @@ class Price
         $this->tva = $tva;
     }
 
-    public function getTtc(Client $client = null)
+    public function getTtc(Client $client = null, int $override = null)
     {
-        $tva = $this->getTva($client) / 100;
-        $ttc = $this->count / (1 + $tva) * $tva + $this->count;
-        return round($ttc, 1);
+        if ($override !== null)
+            return $this->computeTtc($override, $client);
+        return $this->computeTtc($this->count, $client);
     }
 
     public function appliedTo(int $price) {
         return $price * ($this->tva / 100) + $this->count;
     }
 
-    public function getAmount(bool $ttc = true, Client $client = null) {
+    public function getAmount(bool $ttc = true, Client $client = null, int $override = null) {
         if ($ttc)
-            return $this->getTtc($client);
+            return $this->getTtc($client, $override);
+        if ($override !== null)
+            return $override;
         return $this->count;
+    }
+
+    private function computeTtc(int $count, Client $client = null) {
+        $tva = $this->getTva($client) / 100;
+        $ttc = $count / (1 + $tva) * $tva + $count;
+        return round($ttc, 1);
     }
 
 }

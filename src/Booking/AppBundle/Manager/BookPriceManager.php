@@ -70,8 +70,8 @@ class BookPriceManager {
     public function computeBase() {
         $this->initPrices();
         foreach ($this->book->getProducts() as $product) {
-            $this->ttc += $product->getProductType()->getPrice()->getAmount(true, $this->book->getClient());
-            $this->ht += $product->getProductType()->getPrice()->getAmount(false, $this->book->getClient());
+            $this->ttc += $product->getPriceAmount(true, $this->book->getClient());
+            $this->ht += $product->getPriceAmount(false, $this->book->getClient());
         }
         $this->computed = self::CP_BASE;
     }

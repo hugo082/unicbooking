@@ -4,6 +4,7 @@ namespace Booking\AppBundle\Form\Metadata;
 
 use Booking\AppBundle\Entity\Metadata\Product as ProductMet;
 use Booking\AppBundle\Entity\Product;
+use Booking\AppBundle\Form\Core\PriceType;
 use Booking\AppBundle\Form\CustomerType;
 use Booking\AppBundle\Form\Metadata\Service\AirportType;
 use Booking\AppBundle\Form\Metadata\Service\LimousineType;
@@ -21,18 +22,58 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ProductType extends AbstractType
 {
+    const OPTION_TYPE = "data_form_type";
+    const TYPE_NEW = "new";
+    const TYPE_SUB_MET = "sub_met";
+    const TYPE_PRICE = "price";
+
     /**
      * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder
-            ->add('date', DateType::class, [
-                'label' => 'Date',
-                'html5' => false,
-                'attr' => ['class' => 'js-datepicker'],
-                'widget' => 'single_text'
-            ])
+        $type = $options[self::OPTION_TYPE];
+        if ($type == self::TYPE_NEW) {
+            $this->buildNewForm($builder, $options);
+        } elseif ($type == self::TYPE_PRICE) {
+            $this->buildPriceForm($builder, $options);
+        }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setDefaults(array(
+            'data_class' => ProductMet::class,
+            self::OPTION_TYPE => self::TYPE_NEW
+        ));
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getBlockPrefix()
+    {
+        return 'booking_appbundle_metadata_product';
+    }
+
+    private function buildPriceForm(FormBuilderInterface $builder, array $options) {
+        $builder->add('customPrice', IntegerType::class, [
+            'label' => false,
+            'required' => false,
+            'attr' => [ "placeholder" => "Custom price" ]
+        ]);
+    }
+
+    private function buildNewForm(FormBuilderInterface $builder, array $options) {
+        $builder->add('date', DateType::class, [
+            'label' => 'Date',
+            'html5' => false,
+            'attr' => ['class' => 'js-datepicker'],
+            'widget' => 'single_text'
+        ])
             ->add('product_type', EntityType::class, [
                 'label' => 'Product Type',
                 'class' => 'BookingAppBundle:Product',
@@ -100,27 +141,7 @@ class ProductType extends AbstractType
                 'allow_add'    => true,
                 'allow_delete' => true,
                 'label' => 'Customers'
-            ))
-        ;
+            ));
     }
-    
-    /**
-     * {@inheritdoc}
-     */
-    public function configureOptions(OptionsResolver $resolver)
-    {
-        $resolver->setDefaults(array(
-            'data_class' => ProductMet::class
-        ));
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getBlockPrefix()
-    {
-        return 'booking_appbundle_metadata_product';
-    }
-
 
 }

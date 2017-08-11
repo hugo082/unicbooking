@@ -1,4 +1,23 @@
 
+{% block _booking_appbundle_book_products_widget %}
+    {% spaceless %}
+        {% if prototype is defined %}
+            {% set attr = attr|merge({'data-prototype': block('_booking_appbundle_book_taxes_entry_row') }) %}
+        {% endif %}
+
+        <div {{ block('widget_container_attributes') }}>
+            {% for widget in form.children %}
+                <div id="{{ widget.vars.id }}" class="prices-container col-md-12 col-sm-12 col-lg-12 col-xs-12" data-content="{{ widget.vars.id }}">
+                    <label for="{{ widget.children.customPrice.vars.id }}">{{ widget.vars.data.productType.name }}</label>
+                    {% for row in widget %}
+                        {{ form_widget(row) }}
+                    {% endfor %}
+                </div>
+            {% endfor %}
+        </div>
+    {% endspaceless %}
+{% endblock %}
+
 {% block _booking_appbundle_book_taxes_widget %}
     {% spaceless %}
         {% if prototype is defined %}
@@ -20,15 +39,19 @@
 
     {% endspaceless %}
     <style>
+        .prices-container > * {
+            margin-top: 2px;
+            margin-bottom: 10px;
+            display: inline-block;
+        }
         .taxes-container > * {
             width: 10% !important;
-            margin: 10px;
             display: inline-block;
         }
         .taxes-container > div {
             width: 40% !important;
         }
-        .taxes-container > div > div.form-group {
+        .taxes-container > div > div.form-group{
             width: 45%;
             display: inline-block;
             margin: 0 10px 0 10px;
