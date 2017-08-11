@@ -171,9 +171,11 @@
 
 
 {% block _booking_appbundle_book_products_entry_airport_flight_number_widget %}
+    {% set type = form.parent.children.type.vars.id %}
     {{ block('flight_widget') }}
 {% endblock %}
 {% block _booking_appbundle_book_products_entry_airport_flight_transit_number_widget %}
+    {% set type = "" %}
     {{ block('flight_widget') }}
 {% endblock %}
 {% block flight_widget %}
@@ -185,7 +187,7 @@
     <script>
         $(document).ready(function () {
             if (typeof window.apiChecker !== 'undefined')
-                window.apiChecker.addField("#{{ id }}", "#{{ form.parent.children.id.vars.id }}", "#{{ id }}_action_load");
+                window.apiChecker.addField("#{{ id }}", "#{{ type }}","#{{ form.parent.children.id.vars.id }}", "#{{ id }}_action_load");
         });
     </script>
 {% endblock %}
