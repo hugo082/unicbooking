@@ -45,7 +45,7 @@ class Tax
 
     /**
      * @var Book
-     * @ORM\ManyToOne(targetEntity="Booking\AppBundle\Entity\Book", inversedBy="taxs")
+     * @ORM\ManyToOne(targetEntity="Booking\AppBundle\Entity\Book", inversedBy="taxes")
      * @ORM\JoinColumn(name="book", referencedColumnName="id")
      */
     private $book;
