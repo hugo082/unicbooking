@@ -31,15 +31,16 @@
                     <ul class="nav side-menu">
                         <li><a href="{{ path('db.manager.process', {actionID: 'list', name: 'user'}) }}"><i class="fa fa-user"></i> Users</a></li>
                         <li><a href="{{ path('db.manager.process', {actionID: 'list', name: 'client'}) }}"><i class="fa fa-users"></i> Clients</a></li>
+                        <li><a href="{{ path('db.manager.process', {actionID: 'list', name: 'subcontractor'}) }}"><i class="fa fa-users"></i> Subcontactors</a></li>
                         <li>
                             <a><i class="fa fa-book"></i> Catalog <span class="fa fa-chevron-down"></span></a>
                             <ul class="nav child_menu">
-                                <li><a href="{{ path('db.manager.process', {actionID: 'list', name: 'product'}) }}">Products</a></li>
-                                <li><a href="{{ path('db.manager.process', {actionID: 'list', name: 'service'}) }}">Services</a></li>
+                                <li><a href="{{ path('db.manager.process', {actionID: 'list', name: 'product'}) }}">Articles</a></li>
+                                <li><a href="{{ path('db.manager.process', {actionID: 'list', name: 'service'}) }}">Classification Services</a></li>
                             </ul>
                         </li>
                         <li><a href="{{ path('db.manager.process', {actionID: 'list', name: 'airport'}) }}"><i class="fa fa-plane"></i> Airports</a></li>
-                        <li><a href="{{ path('db.manager.process', {actionID: 'list', name: 'car'}) }}"><i class="fa fa-automobile"></i> Cars</a></li>
+                        <li><a href="{{ path('db.manager.process', {actionID: 'list', name: 'location'}) }}"><i class="fa fa-location-arrow"></i> Locations</a></li>
                     </ul>
                 </div>
             {% endif %}

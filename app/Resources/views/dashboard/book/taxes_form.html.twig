@@ -17,6 +17,7 @@
         <div class="page-title">
             <div class="title_right">
                 <a href="{{ path('booking_app_book_index') }}" class="btn btn-lg btn-success">Lister</a>
+                <a href="{{ path('booking_app_book_show', {'id': book.id}) }}" class="btn btn-lg btn-success">Show</a>
             </div>
         </div>
 
@@ -26,7 +27,7 @@
         {% form_theme form
         'bootstrap_3_layout.html.twig'
         'form/form_div_layout.html.twig'
-        'form/form_custom_dashboard_book.html.twig'
+        'form/form_custom_dashboard_book_taxes.html.twig'
         'form/form_collection_add.html.twig'
         %}
 
@@ -34,25 +35,23 @@
         {{ form_errors(form) }}
 
         <div class="row">
-            <div class="col-md-12 col-sm-12 col-xs-12">
+
+            <div id="{{ form.vars.id }}" class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                     <div class="x_title">
-                        <h2>{{ form_label(form.agent) }}</h2>
+                        <h2>Book facturation</h2>
                         <div class="clearfix"></div>
                     </div>
                     <div class="x_content">
-                        {{ form_widget(form.agent) }}
-                        {{ form_widget(form.client) }}
-                        <br>
-                        {{ form_widget(form.devices) }}
+                        {{ form_row(form.products) }}
+                        {{ form_row(form.taxes) }}
                     </div>
                 </div>
             </div>
-            {{ form_widget(form.products) }}
+
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                     <div class="x_content">
-                        <button id="form_collection_add_product" class="btn btn-success">Add product</button>
                         <button type="submit" class="btn btn-success">Submit</button>
                     </div>
                 </div>
@@ -60,29 +59,6 @@
         </div>
         {{ form_rest(form) }}
         {{ form_end(form) }}
-    </div>
-    <div id="flightModalInformation" class="modal fade" role="dialog">
-        <div class="modal-dialog" style="min-height: 90%">
-            <!-- Modal content-->
-            <div class="modal-content" style="height: 100%">
-                <div class="modal-header">
-                    <h4 class="modal-title">Flight Information</h4>
-                </div>
-                <div class="modal-body">
-                    <ul>
-                        <li id="flightModalInformation_origin"></li>
-                        <li id="flightModalInformation_departure_time"></li>
-                        <li id="flightModalInformation_destination"></li>
-                        <li id="flightModalInformation_arrival_time"></li>
-                    </ul>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" id="flightModalInformation_cancel" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
-                </div>
-            </div>
-
-        </div>
     </div>
 {% endblock %}
 

@@ -3,7 +3,8 @@
 namespace Booking\UserBundle\Manager;
 
 use Booking\UserBundle\Entity\User;
-use Booking\UserBundle\Form\RegistrationType;
+use Booking\UserBundle\Form\EditType;
+use Doctrine\ORM\EntityManager as ORMManager;
 use FOS\UserBundle\Event\FormEvent;
 use FOS\UserBundle\Event\GetResponseUserEvent;
 use FOS\UserBundle\Form\Factory\FactoryInterface;
@@ -14,10 +15,13 @@ use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class UserManager {
 
+    /**
+     * @var ORMManager
+     */
+    private $em;
     /**
      * @var FormFactoryInterface
      */
@@ -31,6 +35,8 @@ class UserManager {
     {
         $this->container = $container;
         $this->factory = $container->get('form.factory');
+        $this->em = $container->get('doctrine.orm.entity_manager');
+        $this->container = $container;
     }
 
     public function createUser(?User $user, Request $request) {
@@ -93,6 +99,32 @@ class UserManager {
             );
         }
 
+        return new Data([
+                "success" => null,
+                "form" => $form->createView()
+            ]
+        );
+    }
+
+    public function editUser(?User $user, Request $request) {
+        $form = $this->factory->create(EditType::class, $user);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->em->persist($user);
+            $this->em->flush();
+            return new Data([
+                    "success" => true,
+                    "redirect" => true,
+                    "form" => $form->createView(),
+                    "flash" => [
+                        [
+                            "type" => "success",
+                            "message" => "User " . $user->getUsername() . " have been edited."
+                        ]
+                    ]
+                ]
+            );
+        }
         return new Data([
                 "success" => null,
                 "form" => $form->createView()

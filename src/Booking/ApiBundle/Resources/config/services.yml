@@ -36,10 +36,6 @@ services:
         class: Booking\ApiBundle\Serializer\Core\InternationalCodesSerializer
         arguments: ["@service_container"]
 
-    booking.api.serializer.core.car:
-        class: Booking\ApiBundle\Serializer\Core\CarSerializer
-        arguments: ["@service_container"]
-
     booking.api.serializer.flight:
         class: Booking\ApiBundle\Serializer\FlightSerializer
         arguments: ["@service_container"]

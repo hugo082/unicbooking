@@ -23,12 +23,10 @@ class Limousine implements iService
     private $id;
 
     /**
-     * Default Flight
-     * @var Car
-     * @ORM\ManyToOne(targetEntity="Booking\AppBundle\Entity\Car", cascade={"persist"})
-     * @ORM\JoinColumn(name="car", referencedColumnName="id", nullable=true)
+     * @var string
+     * @ORM\Column(name="time", type="string")
      */
-    private $car;
+    protected $time;
 
     /**
      * @var string
@@ -43,7 +41,7 @@ class Limousine implements iService
     private $drop_off;
 
     public function isValid(): Bool {
-        return $this->car && $this->drop_off && $this->pick_up;
+        return $this->drop_off && $this->pick_up;
     }
 
     /**
@@ -87,19 +85,23 @@ class Limousine implements iService
     }
 
     /**
-     * @return Car
+     * @return string
      */
-    public function getCar(): ?Car
+    public function getTime(): ?string
     {
-        return $this->car;
+        return $this->time;
     }
 
     /**
-     * @param Car $car
+     * @param string $time
      */
-    public function setCar(Car $car)
+    public function setTime(string $time)
     {
-        $this->car = $car;
+        $this->time = $time;
+    }
+
+    public function getInformation(): string {
+        return $this->pick_up;
     }
 }
 

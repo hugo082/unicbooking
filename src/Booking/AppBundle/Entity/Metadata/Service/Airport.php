@@ -123,8 +123,8 @@ class Airport implements iService
 
     public function getTime(): string {
         if ($this->flight_transit == null)
-            return $this->flight->getTime();
-        return $this->flight->getTime() . " - " . $this->flight_transit->getTime();
+            return $this->flight->getComputedTime();
+        return $this->flight->getComputedTime() . " - " . $this->flight_transit->getComputedTime();
     }
 
     public function checkAirportsSupport() {
@@ -142,6 +142,12 @@ class Airport implements iService
                 }
             }
         }
+    }
+
+    public function getInformation(): string {
+        if ($this->flight_transit == null)
+            return $this->flight->getInformation();
+        return $this->flight->getInformation() . " - " . $this->flight_transit->getCodes()->getCode();
     }
 }
 

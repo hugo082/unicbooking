@@ -1,18 +1,24 @@
 <?php
+/**
+ * Created by PhpStorm.
+ * User: hugofouquet
+ * Date: 10/08/2017
+ * Time: 16:19
+ */
 
 namespace Booking\AppBundle\Entity;
 
-use Booking\AppBundle\Entity\Core\Price;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use FQT\DBCoreManagerBundle\Annotations\Viewable;
 
 /**
- * Car
+ * Client
  *
- * @ORM\Table(name="booking_car")
- * @ORM\Entity(repositoryClass="Booking\AppBundle\Repository\CarRepository")
+ * @ORM\Table(name="booking_sub_contractor")
+ * @ORM\Entity()
  */
-class Car
+class Subcontractor
 {
     /**
      * @var int
@@ -29,16 +35,14 @@ class Car
      */
     private $name;
 
-    /**
-     * @var Price
-     * @ORM\Embedded(class="Booking\AppBundle\Entity\Core\Price", columnPrefix="price_")
-     */
-    private $price;
-
+    public function __toString()
+    {
+        return $this->getName();
+    }
 
     /**
      * Get id
-     * @Viewable(title="id", index=0)
+     *
      * @return int
      */
     public function getId()
@@ -48,41 +52,25 @@ class Car
 
     /**
      * Set name
+     *
      * @param string $name
-     * @return Car
+     *
+     * @return Subcontractor
      */
     public function setName($name)
     {
         $this->name = $name;
-
         return $this;
     }
 
     /**
      * Get name
-     * @Viewable(title="Name", index=1)
+     * @Viewable(title="Name", index=2)
      * @return string
      */
     public function getName()
     {
         return $this->name;
-    }
-
-    /**
-     * @Viewable(title="Price", index=2)
-     * @return Price
-     */
-    public function getPrice()
-    {
-        return $this->price;
-    }
-
-    /**
-     * @param Price $price
-     */
-    public function setPrice(Price $price)
-    {
-        $this->price = $price;
     }
 }
 

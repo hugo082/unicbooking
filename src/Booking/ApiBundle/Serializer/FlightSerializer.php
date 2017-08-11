@@ -23,7 +23,7 @@ class FlightSerializer extends Serializer
             "destination" => $this->subSerialize($data->getDestination(), "booking.api.serializer.airport"),
             "arrival_time" => $this->date($data->getArrivalTime()),
             "departure_time" => $this->date($data->getDepartureTime()),
-            "products" => $this->subSerialize($data->getCodes(), "booking.api.serializer.core.international_codes")
+            "codes" => $this->subSerialize($data->getCodes(), "booking.api.serializer.core.international_codes")
         ];
     }
 }

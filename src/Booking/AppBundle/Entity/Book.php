@@ -3,10 +3,13 @@
 namespace Booking\AppBundle\Entity;
 
 use Booking\AppBundle\Entity\Core\Agent;
+use Booking\AppBundle\Entity\Core\Tax;
 use Booking\AppBundle\Entity\Metadata\Execution;
+use Booking\AppBundle\Manager\BookPriceManager;
 use Booking\UserBundle\Entity\User;
 use Doctrine\Common\Collections\ArrayCollection;
 use Booking\AppBundle\Entity\Metadata\Product as ProductMet;
+use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\PersistentCollection;
 
@@ -28,6 +31,18 @@ class Book
     private $id;
 
     /**
+     * @var string
+     * @ORM\Column(name="devices", type="string")
+     */
+    protected $devices;
+
+    /**
+     * @var string
+     * @ORM\Column(name="bill_number", type="string")
+     */
+    protected $billNumber;
+
+    /**
      * Booking Agent
      * @var Agent
      * @ORM\Embedded(class="Booking\AppBundle\Entity\Core\Agent", columnPrefix="age_")
@@ -39,20 +54,6 @@ class Book
      * @ORM\ManyToOne(targetEntity="Booking\AppBundle\Entity\Client", cascade={"persist"})
      */
     private $client;
-
-    /**
-     * @var User
-     * @ORM\ManyToOne(targetEntity="Booking\UserBundle\Entity\User", cascade={"persist"})
-     * @ORM\JoinColumn(name="driver_id", referencedColumnName="id", nullable=true)
-     */
-    private $driver;
-
-    /**
-     * @var User
-     * @ORM\ManyToOne(targetEntity="Booking\UserBundle\Entity\User", cascade={"persist"})
-     * @ORM\JoinColumn(name="greeter_id", referencedColumnName="id", nullable=true)
-     */
-    private $greeter;
 
     /**
      * @var User
@@ -79,6 +80,12 @@ class Book
     protected $products;
 
     /**
+     * @var Tax[]
+     * @ORM\OneToMany(targetEntity="Booking\AppBundle\Entity\Core\Tax", mappedBy="book", cascade={"persist", "refresh"})
+     */
+    protected $taxes;
+
+    /**
      * @var \DateTime
      */
     private $first_date;
@@ -87,11 +94,14 @@ class Book
      */
     private $last_date;
 
-    private $price;
+    /**
+     * @var null|BookPriceManager
+     */
+    private $priceManager;
 
     public function __construct()
     {
-        $this->price = null;
+        $this->priceManager = null;
         $this->creation_date = new \DateTime();
         $this->products = new ArrayCollection();
         $this->archived = false;
@@ -114,6 +124,38 @@ class Book
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDevices(): ?string
+    {
+        return $this->devices;
+    }
+
+    /**
+     * @param string $devices
+     */
+    public function setDevices(string $devices)
+    {
+        $this->devices = $devices;
+    }
+
+    /**
+     * @return string
+     */
+    public function getBillNumber(): ?string
+    {
+        return $this->billNumber;
+    }
+
+    /**
+     * @param string $billNumber
+     */
+    public function setBillNumber(string $billNumber)
+    {
+        $this->billNumber = $billNumber;
     }
 
     /**
@@ -180,11 +222,78 @@ class Book
         $this->products = $products;
     }
 
+    public function removeNotFoundOriginalProducts(EntityManager $em, array $original) {
+        foreach ($this->getProducts() as $entity) {
+            /**
+             * @var int $key
+             * @var array $data
+             */
+            foreach ($original as $key => $data) {
+                /** @var \Booking\AppBundle\Entity\Metadata\Product $eToDel */
+                $eToDel = $data["product"];
+                if ($eToDel->getId() == $entity->getId()) {
+                    $eToDel->removeNotFoundOriginalCustomers($em, $data["originalCustomers"]);
+                    unset($original[$key]);
+                    break;
+                }
+            }
+        }
+        foreach ($original as $data) {
+            $eToDel = $data["product"];
+            $this->products->removeElement($eToDel);
+            $em->remove($eToDel);
+        }
+    }
+
+    /**
+     * @return Tax[]
+     */
+    public function getTaxes()
+    {
+        return $this->taxes;
+    }
+
+    public function getTaxesCopy(): array{
+        $original = [];
+        foreach ($this->getTaxes() as $tax)
+            $original[] = $tax;
+        return $original;
+    }
+
+    /**
+     * @param Tax[] $taxes
+     */
+    public function setTaxes($taxes)
+    {
+        $this->taxes = $taxes;
+    }
+
+    public function removeNotFoundOriginalTaxes(EntityManager $em, array $original) {
+        foreach ($this->getTaxes() as $entity) {
+            /**
+             * @var int $key
+             * @var Tax $eToDel
+             */
+            foreach ($original as $key => $eToDel) {
+                if ($eToDel->getId() == $entity->getId()) {
+                    unset($original[$key]);
+                    break;
+                }
+            }
+        }
+        foreach ($original as $eToDel) {
+            $this->taxes->removeElement($eToDel);
+            $em->remove($eToDel);
+        }
+    }
+
     public function linkSubEntities() {
-        /** @var ProductMet $prod */
         foreach ($this->getProducts() as $prod) {
             $prod->setBook($this);
             $prod->linkSubEntities();
+        }
+        foreach ($this->getTaxes() as $tax) {
+            $tax->setBook($this);
         }
     }
 
@@ -194,38 +303,6 @@ class Book
     public function getCreationDate(): \DateTime
     {
         return $this->creation_date;
-    }
-
-    /**
-     * @return User
-     */
-    public function getDriver(): ?User
-    {
-        return $this->driver;
-    }
-
-    /**
-     * @param User $driver
-     */
-    public function setDriver(User $driver)
-    {
-        $this->driver = $driver;
-    }
-
-    /**
-     * @return User
-     */
-    public function getGreeter(): ?User
-    {
-        return $this->greeter;
-    }
-
-    /**
-     * @param User $greeter
-     */
-    public function setGreeter(User $greeter)
-    {
-        $this->greeter = $greeter;
     }
 
     /**
@@ -252,6 +329,16 @@ class Book
         return $state;
     }
 
+    /**
+     * @return BookPriceManager
+     */
+    public function getPriceManager(): BookPriceManager
+    {
+        if ($this->priceManager === null)
+            $this->priceManager = new BookPriceManager($this);
+        return $this->priceManager;
+    }
+
     public function getDates(): string {
         $this->computeIntervalDates();
         if ($this->last_date == null)
@@ -274,18 +361,6 @@ class Book
         if ($this->last_date == null || $this->first_date == null)
             return new \DateInterval("P0D");
         return $this->first_date->diff($this->last_date);
-    }
-
-    public function getPrice(bool $force = false) {
-        if ($force || $this->price == null)
-            $this->computePrice();
-        return round($this->price, 1);
-    }
-
-    private function computePrice() {
-        $this->price = 0;
-        foreach ($this->products as $product)
-            $this->price += $product->getPrice($this->client);
     }
 
     private function computeIntervalDates(bool $force = false) {

@@ -94,14 +94,18 @@ fqtdb_core_manager:
     methods:
         service: 'booking.user.manager.user'
         content:
-            create:
+            createUser:
                 method: 'createUser'
                 environment: 'global'
                 fullName: 'Create'
-            disable:
+            disableUser:
                 method: 'disableUser'
                 environment: 'object'
                 fullName: 'Disable/Enable'
+            editUser:
+                method: 'editUser'
+                environment: 'object'
+                fullName: 'Edit'
     entities:
         airport:
             access: ROLE_ADMIN
@@ -110,7 +114,7 @@ fqtdb_core_manager:
             methods: [ list, add, edit ]
         product:
             access: ROLE_ADMIN
-            title: Product
+            title: Article
             fullName: Booking\AppBundle:Product
             methods: [ list, add, edit, remove ]
         client:
@@ -118,21 +122,26 @@ fqtdb_core_manager:
             title: Client
             fullName: Booking\AppBundle:Client
             methods: [ list, add, edit, remove ]
-        car:
+        subcontractor:
             access: ROLE_ADMIN
-            title: Car
-            fullName: Booking\AppBundle:Car
+            title: Subcontractor
+            fullName: Booking\AppBundle:Subcontractor
+            methods: [ list, add, edit, remove ]
+        location:
+            access: ROLE_ADMIN
+            title: Location
+            fullName: Booking\AppBundle:Location
             methods: [ list, add, edit, remove ]
         service:
             access: ROLE_ADMIN
-            title: Service
+            title: Classification Service
             fullName: Booking\AppBundle:Service
             methods: [ list, add, edit, remove ]
         user:
             access: ROLE_ADMIN
             title: User
             fullName: Booking\UserBundle:User
-            methods: [ list, create, disable ]
+            methods: [ list, createUser, editUser, disableUser ]
             formType: RegistrationType
 
 db_manager:
@@ -143,11 +152,14 @@ db_manager:
         - { action: list, custom_view: dashboard/table/list.html.twig, container: [ ] }
         - { action: edit, custom_view: dashboard/table/form.html.twig, container: [ ] }
         - { action: add, custom_view: dashboard/table/form.html.twig, container: [ ] }
-        - { action: create, custom_view: dashboard/table/form.html.twig, container: [ ] }
+        - { action: createUser, custom_view: dashboard/table/form.html.twig, container: [ ] }
+        - { action: editUser, custom_view: dashboard/table/form.html.twig, container: [ ] }
     links:
+        - { action: createUser, container: [ list ] }
+        - { action: editUser, container: [ list ] }
         - { action: edit, container: [ list ] }
         - { action: add, container: [ list ] }
-        - { action: list, container: [ add, create ] }
+        - { action: list, container: [ add, createUser ] }
 
 fos_rest:
     routing_loader:

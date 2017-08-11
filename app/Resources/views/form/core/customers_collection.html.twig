@@ -1,0 +1,9 @@
+
+{% for widget in form.children %}
+    <div id="{{ widget.vars.id }}" class="customers-container col-md-12 col-sm-12 col-lg-12 col-xs-12" data-content="{{ widget.vars.id }}">
+        {% for row in widget %}
+            {{ form_widget(row) }}
+        {% endfor %}
+        <a id="collection_action_remove" class="btn btn-danger" data-related="{{ widget.vars.id }}">Remove _ V</a>
+    </div>
+{% endfor %}

@@ -1,8 +1,9 @@
 <?php
 
-namespace Booking\AppBundle\Form;
+namespace Booking\AppBundle\Form\Metadata;
 
-use Booking\AppBundle\Entity\Book;
+use Booking\AppBundle\Entity\Metadata\Product;
+use Booking\AppBundle\Entity\Subcontractor;
 use Booking\UserBundle\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -12,7 +13,7 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
 use Doctrine\ORM\EntityRepository;
 
-class BookEmployeeType extends AbstractType
+class ProductSubMetadataType extends AbstractType
 {
     /**
      * {@inheritdoc}
@@ -45,6 +46,14 @@ class BookEmployeeType extends AbstractType
                 'required' => false,
                 'label' => false,
                 'placeholder' => '- Greeter -'
+            ))
+            ->add('subcontractor', EntityType::class, array(
+                'class' => Subcontractor::class,
+                'empty_data' => null,
+                'choice_label' => function (Subcontractor $e) {return $e->getName();},
+                'required' => false,
+                'label' => false,
+                'placeholder' => '- Subcontractor -'
             ));
     }
 
@@ -54,7 +63,7 @@ class BookEmployeeType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => Book::class
+            'data_class' => Product::class
         ));
     }
 

@@ -51,11 +51,11 @@ class Execution
         $this->steps = new ArrayCollection();
     }
 
-    public function updateCurrentStep(int $step) {
+    public function updateCurrentStep(int $step, string $note) {
         $len = min(count($this->steps), $step);
         $start = max($this->getCurrentStep(true), 0);
         for($i = $start; $i < $len; $i++)
-            $this->steps[$i]->finish();
+            $this->steps[$i]->finish($note);
         $this->current_step = $len;
     }
 

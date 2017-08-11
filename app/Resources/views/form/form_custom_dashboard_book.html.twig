@@ -59,21 +59,7 @@
                     <div class="clearfix"></div>
                 </div>
                 <div class="x_content">
-                    {{ form_errors(form) }}
-                    <div class="form-group">
-                        <div class="col-md-3">{{ form_widget(form.date) }}</div>
-                        <div class="col-md-3">{{ form_widget(form.product_type) }}</div>
-                        <div class="col-md-3">{{ form_widget(form.baggages) }}</div>
-                        <div class="col-md-3">{{ form_widget(form.note) }}</div>
-                    </div>
-                    <div class="form-group">
-                        <div>{{ form_widget(form.airport) }}</div>
-                        <div>{{ form_widget(form.limousine) }}</div>
-                        <div>{{ form_widget(form.train) }}</div>
-                    </div>
-                    <div class="form-group">
-                        <div>{{ form_widget(form.customers) }}</div>
-                    </div>
+                    {{ include('form/core/product_met.html.twig', {form: form}) }}
                 </div>
             </div>
         </div>
@@ -81,59 +67,28 @@
 {% endblock %}
 
 {% block _booking_appbundle_book_products_entry_customers_widget %}
-    {% spaceless %}
-        {% if prototype is defined %}
-            {% set attr = attr|merge({'data-prototype': block('_bab_book_products_e_customers_e_widget') }) %}
-        {% endif %}
-        {{ form_errors(form) }}
-        <label for="{{ id }}">{{ label }}</label>
-        <div {{ block('widget_container_attributes') }}>
-            {% for widget in form.children %}
-                <div id="{{ widget.vars.id }}" class="customers-container col-md-12 col-sm-12 col-lg-12 col-xs-12" data-content="{{ widget.vars.id }}">
-                    {% for row in widget %}
-                        {{ form_widget(row) }}
-                    {% endfor %}
-                    <a id="{{ id }}_cust_remove" class="btn btn-danger" data-related="{{ widget.vars.id }}">Remove</a>
-                </div>
-            {% endfor %}
-        </div>
-        <br>
-        <a id="{{ id }}_cust_add" class="btn btn-success" data-target="{{ id }}">Add</a>
-        <style>
-            .customers-container > * {
-                width: 10% !important;
-                margin: 10px;
-            }
-        </style>
-    {% endspaceless %}
-
-    <script>
-        $(document).ready(function() {
-            $(document).on('click', '#{{ id }}_cust_add[data-target]', function(event) {
-                var collectionHolder = $('#' + $(this).attr('data-target'));
-
-                if (!collectionHolder.attr('data-counter')) {
-                    collectionHolder.attr('data-counter', collectionHolder.children().length);
-                }
-
-                var prototype = collectionHolder.attr('data-prototype');
-                var form = prototype.replace(/__name__/g, collectionHolder.attr('data-counter'));
-
-                collectionHolder.attr('data-counter', Number(collectionHolder.attr('data-counter')) + 1);
-                collectionHolder.append(form);
-
-                event && event.preventDefault();
-            });
-
-            $(document).on('click', '#{{ id }}_cust_remove[data-related]', function(event) {
-                var name = $(this).attr('data-related');
-                $('*[data-content="'+name+'"]').remove();
-
-                event && event.preventDefault();
-            });
-        });
-    </script>
+    {% if prototype is defined %}
+        {% set attr = attr|merge({'data-prototype': block('_bab_book_products_e_customers_e_widget') }) %}
+    {% endif %}
+    {{ form_errors(form) }}
+    <label class="control-label" for="{{ id }}">{{ label }}</label>
+    <div {{ block('widget_container_attributes') }}>
+        {{ include('form/core/customers_collection.html.twig') }}
+    </div>
+    {{ include('form/core/customers_collection_action.html.twig') }}
 {% endblock %}
+{% block _booking_appbundle_metadata_product_customers_widget %}
+    {% if prototype is defined %}
+        {% set attr = attr|merge({'data-prototype': block('_bab_book_products_e_customers_e_widget') }) %}
+    {% endif %}
+    {{ form_errors(form) }}
+    <label class="control-label" for="{{ id }}">{{ label }}</label>
+    <div {{ block('widget_container_attributes') }}>
+        {{ include('form/core/customers_collection.html.twig') }}
+    </div>
+    {{ include('form/core/customers_collection_action.html.twig') }}
+{% endblock %}
+
 
 {% block _bab_book_products_e_customers_e_widget %}
     {% spaceless %}
@@ -141,7 +96,7 @@
             {% for row in prototype %}
                 {{ form_widget(row) }}
             {% endfor %}
-            <a id="form_collection_remove" class="btn btn-danger" data-related="{{ prototype.vars.id }}">Remove</a>
+            <a id="collection_action_remove" class="btn btn-danger" data-related="{{ prototype.vars.id }}">Remove</a>
         </div>
     {% endspaceless %}
 {% endblock %}
@@ -178,7 +133,7 @@
     {% spaceless %}
         {% for widget in form.children %}
             {% set class = (widget.vars.label_attr.class is defined) ? widget.vars.label_attr.class : "" %}
-            <label for="{{ widget.vars.id }}" class="{{ class }}">
+            <label class="control-label"for="{{ widget.vars.id }}" class="{{ class }}">
                 <input type="checkbox" {{ block('widget_attributes') }}
                         {% if widget.vars.value is defined %} value="{{ widget.vars.value }}"{% endif %}
                         {% if widget.vars.checked %} checked="checked"{% endif %} />
@@ -192,7 +147,7 @@
 {% block checkbox_label %}
     {% spaceless %}
         {% set class = (label_attr.class is defined) ? label_attr.class : "" %}
-        <label for="{{ id }}" class="{{ class }}">{{ label|trans({}, translation_domain) }}</label>
+        <label class="control-label"for="{{ id }}" class="{{ class }}">{{ label|trans({}, translation_domain) }}</label>
     {% endspaceless %}
 {% endblock checkbox_label %}
 
@@ -204,36 +159,12 @@
     {% endspaceless %}
 {% endblock %}
 
+
 {% block _booking_appbundle_book_products_entry_product_type_widget %}
-    {% spaceless %}
-        <label for="{{ id }}">{{ label }}</label>
-        {{ form_widget(form) }}
-        <script>
-            $(document).ready(function () {
-
-                var parentId = "{{ form.parent.vars.id }}";
-                function loadForm(value) {
-                    $("#{{ id }} option").each(function () {
-                        var currentId = "#" + parentId + "_"+ $(this).attr("s-type");
-                        if (value === $(this).attr("s-type"))
-                            $(currentId).removeClass("disabled hidden");
-                        else
-                            $(currentId).addClass("disabled hidden");
-                    });
-                }
-
-                $("#{{ id }}").change(function () {
-                    loadForm($(this).find(":selected").attr("s-type"));
-                });
-                loadForm($("#{{ id }}").find(":selected").attr("s-type"));
-                if (typeof window.productsManager !== 'undefined') {
-                    window.productsManager.pushProductTypeSelector("select#{{ id }}");
-                } else {
-                    console.log("undefined pm");
-                }
-            });
-        </script>
-    {% endspaceless %}
+    {{ include('form/core/product_type.html.twig') }}
+{% endblock %}
+{% block _booking_appbundle_metadata_product_product_type_widget %}
+    {{ include('form/core/product_type.html.twig') }}
 {% endblock %}
 
 
@@ -257,13 +188,4 @@
                 window.apiChecker.addField("#{{ id }}", "#{{ form.parent.children.id.vars.id }}", "#{{ id }}_action_load");
         });
     </script>
-{% endblock %}
-
-{% block _booking_appbundle_book_products_entry_baggages_widget %}
-    {% spaceless %}
-        <label for="{{ id }}">{{ label }}</label>
-        <div id="{{ id }}" data-content="{{ id }}">
-            {{ form_widget(form) }}
-        </div>
-    {% endspaceless %}
 {% endblock %}

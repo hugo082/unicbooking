@@ -21,7 +21,7 @@ class ProductController extends Controller
     {
         /** @var ProductRepository $repo */
         $repo = $this->getDoctrine()->getRepository('BookingAppBundle:Metadata\Product');
-        $products = $repo->getLast();
+        $products = $repo->getOfUser($this->getUser());
 
         /** @var ProductMetadataSerializer $serializer */
         $serializer = $this->get("booking.api.serializer.product.metadata");
@@ -36,8 +36,10 @@ class ProductController extends Controller
     {
         $product = $this->getDoctrine()->getRepository('BookingAppBundle:Metadata\Product')->find($request->get('id'));
         if (!$product instanceof Product)
-            return new JsonResponse(['message' => 'Book not found'], Response::HTTP_NOT_FOUND);
-
+            return new JsonResponse(['message' => 'Product not found'], Response::HTTP_NOT_FOUND);
+        $userLoc = $this->getUser()->getLocation();
+        if ($userLoc !== null && $product->getLocation() != $userLoc )
+            return new JsonResponse(['message' => 'Product location not supported by this user'], Response::HTTP_UNAUTHORIZED);
         /** @var ProductMetadataSerializer $serializer */
         $serializer = $this->get("booking.api.serializer.product.metadata");
         return $serializer->serialize($product);

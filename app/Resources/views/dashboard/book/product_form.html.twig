@@ -34,25 +34,22 @@
         {{ form_errors(form) }}
 
         <div class="row">
-            <div class="col-md-12 col-sm-12 col-xs-12">
+
+            <div id="{{ form.vars.id }}" class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                     <div class="x_title">
-                        <h2>{{ form_label(form.agent) }}</h2>
+                        <h2>Product</h2>
                         <div class="clearfix"></div>
                     </div>
                     <div class="x_content">
-                        {{ form_widget(form.agent) }}
-                        {{ form_widget(form.client) }}
-                        <br>
-                        {{ form_widget(form.devices) }}
+                        {{ include('form/core/product_met.html.twig') }}
                     </div>
                 </div>
             </div>
-            {{ form_widget(form.products) }}
+
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                     <div class="x_content">
-                        <button id="form_collection_add_product" class="btn btn-success">Add product</button>
                         <button type="submit" class="btn btn-success">Submit</button>
                     </div>
                 </div>

@@ -3,6 +3,7 @@
 namespace Booking\UserBundle\Entity;
 
 use Booking\AppBundle\Entity\Book;
+use Booking\AppBundle\Entity\Location;
 use Doctrine\ORM\Mapping as ORM;
 use FOS\UserBundle\Model\User as BaseUser;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -24,6 +25,14 @@ class User extends BaseUser
     protected $id;
 
     /**
+     * Location
+     * @var Location
+     * @ORM\ManyToOne(targetEntity="Booking\AppBundle\Entity\Location", cascade={"persist"})
+     * @ORM\JoinColumn(name="loca_id", referencedColumnName="id", nullable=true)
+     */
+    private $location;
+
+    /**
      * @var ArrayCollection
      * @ORM\OneToMany(targetEntity="Booking\AppBundle\Entity\Book", mappedBy="holder", cascade={"persist"})
      */
@@ -33,6 +42,31 @@ class User extends BaseUser
     {
         parent::__construct();
         $this->books = new ArrayCollection();
+    }
+
+    /**
+     * @return Location
+     */
+    public function getLocation(): ?Location
+    {
+        return $this->location;
+    }
+
+    /**
+     * @Viewable(title="Location", index=3)
+     * @return String
+     */
+    public function getLocationString(): String
+    {
+        return $this->location ?? "All";
+    }
+
+    /**
+     * @param Location $location
+     */
+    public function setLocation(?Location $location)
+    {
+        $this->location = $location;
     }
 
     /**

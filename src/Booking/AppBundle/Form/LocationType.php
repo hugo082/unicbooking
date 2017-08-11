@@ -2,24 +2,18 @@
 
 namespace Booking\AppBundle\Form;
 
-use Booking\AppBundle\Form\Core\PriceType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class CarType extends AbstractType
+class LocationType extends AbstractType
 {
     /**
      * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder
-            ->add('name')
-            ->add('price', PriceType::class, array(
-                "tva" => false
-            ))
-        ;
+        $builder->add('name')->add('apiEnabled');
     }
     
     /**
@@ -28,7 +22,7 @@ class CarType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'Booking\AppBundle\Entity\Car'
+            'data_class' => 'Booking\AppBundle\Entity\Location'
         ));
     }
 
@@ -37,7 +31,7 @@ class CarType extends AbstractType
      */
     public function getBlockPrefix()
     {
-        return 'booking_appbundle_car';
+        return 'booking_appbundle_location';
     }
 
 

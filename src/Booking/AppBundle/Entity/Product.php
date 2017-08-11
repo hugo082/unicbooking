@@ -64,7 +64,7 @@ class Product
 
     /**
      * Get id
-     * @Viewable(title="id", index=0)
+     *
      * @return int
      */
     public function getId()
