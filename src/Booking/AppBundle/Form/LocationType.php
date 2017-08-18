@@ -13,7 +13,7 @@ class LocationType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('name')->add('apiEnabled');
+        $builder->add('name')->add('apiEnabled')->add('highlighted');
     }
     
     /**

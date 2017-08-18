@@ -41,7 +41,7 @@
                                         <td class="multi-ligne"><span class="label label-{{ product.execution.state }}">{{ product.execution.state(true) }}</span></td>
                                         <td class="multi-ligne">
                                             <a href="{{ path('booking_app_book_show', {'id': product.book.id}) }}" class="ligne">{{ product.book.id }}</a> <br>
-                                            {{ product.location.name }}
+                                            <span class="{{ product.location.highlightedStyle }}">{{ product.location.name }}</span>
                                         </td>
                                         <td class="multi-ligne">
                                             {{ product.date|date("d M Y") }} <br>
@@ -199,6 +199,11 @@
         table tr td.multi-ligne,
         table tr th.multi-ligne{
             text-align: center;
+        }
+        span.location-highlighted {
+            padding: 5px;
+            color: white;
+            background-color: #096ac8;
         }
     </style>
 {% endblock %}
