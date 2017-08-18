@@ -11,6 +11,7 @@ namespace Booking\UserBundle\Form;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 
 class EditType extends AbstractType
@@ -18,6 +19,13 @@ class EditType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+            ->add('phonenumber', TextType::class, [
+                'required' => false,
+                'label' => 'Phone number',
+                'attr' => array(
+                    'placeholder' => 'Phone number',
+                )
+            ])
             ->add('location', EntityType::class, [
                 'label' => 'Location',
                 'placeholder' => '- Location -',

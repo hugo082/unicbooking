@@ -53,7 +53,7 @@ class ProductSubMetadataType extends AbstractType
                 'choice_label' => function (Subcontractor $e) {return $e->getName();},
                 'required' => false,
                 'label' => false,
-                'placeholder' => '- Subcontractor -'
+                'placeholder' => '- Vendor -'
             ));
     }
 

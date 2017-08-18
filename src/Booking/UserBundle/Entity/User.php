@@ -33,6 +33,12 @@ class User extends BaseUser
     private $location;
 
     /**
+     * @var string
+     * @ORM\Column(name="phone_number", type="string", length=255, nullable=true)
+     */
+    private $phoneNumber;
+
+    /**
      * @var ArrayCollection
      * @ORM\OneToMany(targetEntity="Booking\AppBundle\Entity\Book", mappedBy="holder", cascade={"persist"})
      */
@@ -53,7 +59,7 @@ class User extends BaseUser
     }
 
     /**
-     * @Viewable(title="Location", index=3)
+     * @Viewable(title="Location", index=4)
      * @return String
      */
     public function getLocationString(): String
@@ -121,11 +127,28 @@ class User extends BaseUser
     }
 
     /**
-     * @Viewable(title="Enabled", index=2)
+     * @Viewable(title="Enabled", index=3)
      * @return string
      */
     public function isActive()
     {
         return parent::isEnabled() ? "YES" : "NO";
+    }
+
+    /**
+     * @Viewable(title="Phone Number", index=2)
+     * @return String
+     */
+    public function getPhoneNumber(): ?string
+    {
+        return $this->phoneNumber;
+    }
+
+    /**
+     * @param string $phoneNumber
+     */
+    public function setPhoneNumber(?string $phoneNumber)
+    {
+        $this->phoneNumber = $phoneNumber;
     }
 }

@@ -18,10 +18,9 @@ $(document).ready(function() {
 
         event && event.preventDefault();
     });
-});
-
-$(document).on('click', '#collection_action_remove[data-related]', function(event) {
-    var name = $(this).attr('data-related');
-    $('*[data-content="'+name+'"]').remove();
-    event && event.preventDefault();
+    $(document).on('click', '#collection_action_remove[data-related]', function(event) {
+        var name = $(this).attr('data-related');
+        $('*[data-content="'+name+'"]').remove();
+        event && event.preventDefault();
+    });
 });
