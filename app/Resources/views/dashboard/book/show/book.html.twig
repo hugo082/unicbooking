@@ -145,6 +145,10 @@
                                     <td>{{ book.devices }} {{ taxe.price.count }}</td>
                                     <td>{{ book.devices }} {{ taxe.price.appliedTo(book.priceManager.ttc) }}</td>
                                 </tr>
+                            {% else %}
+                                <tr>
+                                    <td colspan="4">No taxes yet</td>
+                                </tr>
                             {% endfor %}
                             <tr class="table-recap">
                                 <td>Total</td>

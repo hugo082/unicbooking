@@ -124,7 +124,7 @@ fqtdb_core_manager:
             methods: [ list, add, edit, remove ]
         subcontractor:
             access: ROLE_ADMIN
-            title: Subcontractor
+            title: Vendor
             fullName: Booking\AppBundle:Subcontractor
             methods: [ list, add, edit, remove ]
         location:
