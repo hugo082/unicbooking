@@ -521,4 +521,3 @@ class Product
             $this->greeter = $sub->getGreeter();
     }
 }
-

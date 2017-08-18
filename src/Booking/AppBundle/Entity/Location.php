@@ -36,6 +36,13 @@ class Location
      */
     private $apiEnabled;
 
+    /**
+     * @var bool
+     *
+     * @ORM\Column(name="highlighted", type="boolean")
+     */
+    private $highlighted;
+
     public function __toString()
     {
         return $this->name;
@@ -102,10 +109,43 @@ class Location
     /**
      * Get apiEnabled displayable value
      * @Viewable(title="Api Enabled", index=2)
-     * @return bool
+     * @return string
      */
     public function getApiEnabledString() {
         return $this->apiEnabled ? "YES" : "NO";
+    }
+
+    /**
+     * @return bool
+     */
+    public function isHighlighted(): bool
+    {
+        return $this->highlighted ?? false;
+    }
+
+    /**
+     * @param bool $highlighted
+     */
+    public function setHighlighted(bool $highlighted)
+    {
+        $this->highlighted = $highlighted;
+    }
+
+    /**
+     * Get Highlighted displayable value
+     * @Viewable(title="Highlighted", index=3)
+     * @return string
+     */
+    public function getHighlightedString() {
+        return $this->highlighted ? "YES" : "NO";
+    }
+
+    /**
+     * Get Highlighted displayable style
+     * @return string
+     */
+    public function getHighlightedStyle() {
+        return $this->highlighted ? "location-highlighted" : "";
     }
 }
 
