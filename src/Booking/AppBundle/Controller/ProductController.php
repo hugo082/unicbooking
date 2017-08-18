@@ -45,13 +45,18 @@ class ProductController extends Controller
         if (!$product instanceof Product)
             throw new HttpException(404, "Product not found");
 
-
+        $subcontractor = $product->getSubcontractor();
         $form = $this->createForm(ProductSubMetadataType::class, $product);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
+            if ($subcontractor != $product->getSubcontractor())
+                $product->computeDefaultEmployees();
             $em->persist($product);
             $em->flush();
+            return $this->redirectToRoute("booking_app_product_show", [
+                "id" => $product->getId()
+            ]);
         }
 
         return $this->render('dashboard/book/show/product.html.twig', array(

@@ -507,5 +507,18 @@ class Product
             return $this->subcontractor->getName();
         return "Unknown";
     }
+
+    /**
+     * Set default sub contractor employees if not null
+     */
+    public function computeDefaultEmployees()
+    {
+        if (($sub = $this->subcontractor) === null)
+            return;
+        if ($sub->getDriver() !== null)
+            $this->driver = $sub->getDriver();
+        if ($sub->getGreeter() !== null)
+            $this->greeter = $sub->getGreeter();
+    }
 }
 
