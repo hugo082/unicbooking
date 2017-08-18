@@ -92,7 +92,10 @@
 
 {% block _bab_book_products_e_customers_e_widget %}
     {% spaceless %}
-        <div id="{{ prototype.vars.id }}" class="customers-container col-md-12 col-sm-12 col-lg-12 col-xs-12" data-content="{{ prototype.vars.id }}">
+        {% if prototype is defined %}
+            {% set form = prototype %}
+        {% endif %}
+        <div id="{{ form.vars.id }}" class="customers-container col-md-12 col-sm-12 col-lg-12 col-xs-12" data-content="{{ form.vars.id }}">
             {% for row in prototype %}
                 {{ form_widget(row) }}
             {% endfor %}

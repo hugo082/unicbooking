@@ -1,6 +1,6 @@
 
 <br>
-<a id="collection_action_add" class="btn btn-success" data-target="{{ id }}">Add</a>
+<a id="customers_action_add" class="btn btn-success" data-target="{{ id }}">Add</a>
 <style>
     .customers-container > * {
         width: 10% !important;
@@ -10,7 +10,7 @@
 
 <script>
     $(document).ready(function() {
-        $(document).on('click', '#{{ id }}_cust_add[data-target]', function(event) {
+        $(document).on('click', '#customers_action_add[data-target]', function(event) {
             var collectionHolder = $('#' + $(this).attr('data-target'));
 
             if (!collectionHolder.attr('data-counter')) {
@@ -18,18 +18,11 @@
             }
 
             var prototype = collectionHolder.attr('data-prototype');
-            var form = prototype.replace(/__name__/g, collectionHolder.attr('data-counter'));
+            var form = prototype.replace(/__name_cust__/g, collectionHolder.attr('data-counter'));
 
             collectionHolder.attr('data-counter', Number(collectionHolder.attr('data-counter')) + 1);
             collectionHolder.append(form);
-
-            event && event.preventDefault();
-        });
-
-        $(document).on('click', '#{{ id }}_cust_remove[data-related]', function(event) {
-            var name = $(this).attr('data-related');
-            $('#' + name).remove();
-
+            
             event && event.preventDefault();
         });
     });

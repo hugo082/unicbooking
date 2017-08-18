@@ -22,7 +22,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ProductType extends AbstractType
 {
-    const OPTION_TYPE = "data_form_type";
+    const OPTION_TYPE = "data_form_option_type";
     const TYPE_NEW = "new";
     const TYPE_SUB_MET = "sub_met";
     const TYPE_PRICE = "price";
@@ -140,6 +140,7 @@ class ProductType extends AbstractType
                 'entry_type'   => CustomerType::class,
                 'allow_add'    => true,
                 'allow_delete' => true,
+                'prototype_name' => '__name_cust__',
                 'label' => 'Customers'
             ));
     }

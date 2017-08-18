@@ -288,6 +288,7 @@ class Book
     }
 
     public function linkSubEntities() {
+        /** @var ProductMet $prod */
         foreach ($this->getProducts() as $prod) {
             $prod->setBook($this);
             $prod->linkSubEntities();
