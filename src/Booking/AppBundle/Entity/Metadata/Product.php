@@ -492,13 +492,13 @@ class Product
 
     public function getGreeterStr(): string {
         if ($this->greeter)
-            return $this->greeter->getUsername();
+            return $this->greeter->getUsername() . " " . $this->greeter->getPhoneNumber();
         return "Unknown";
     }
 
     public function getDriverStr(): string {
         if ($this->driver)
-            return $this->driver->getUsername();
+            return $this->driver->getUsername() . " " . $this->driver->getPhoneNumber();
         return "Unknown";
     }
 
