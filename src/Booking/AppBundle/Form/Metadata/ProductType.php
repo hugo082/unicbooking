@@ -27,6 +27,7 @@ class ProductType extends AbstractType
     const TYPE_NEW = "new";
     const TYPE_SUB_MET = "sub_met";
     const TYPE_PRICE = "price";
+    const TYPE_API = "api";
 
     const OPTION_LINK_BOOK = "data_form_option_link";
 
@@ -36,9 +37,9 @@ class ProductType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $type = $options[self::OPTION_TYPE];
-        if ($type == self::TYPE_NEW)
+        if ($type == self::TYPE_NEW || $type == self::TYPE_API)
             $this->buildNewForm($builder, $options);
-        elseif ($type == self::TYPE_PRICE)
+        elseif ($type == self::TYPE_PRICE || $type == self::TYPE_API)
             $this->buildPriceForm($builder, $options);
 
         $link = $options[self::OPTION_LINK_BOOK];
@@ -124,7 +125,8 @@ class ProductType extends AbstractType
                 'label' => false
             ])
             ->add('limousine', LimousineType::class, [
-                'label' => false
+                'label' => false,
+                LimousineType::OPTION_TYPE => LimousineType::fromProductTypeForm($options[self::OPTION_TYPE])
             ])
             ->add('train', TrainType::class, [
                 'label' => false
