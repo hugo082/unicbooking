@@ -26,7 +26,10 @@ class ProductMetadataSerializer extends Serializer
             "baggage" => $data->getBaggages(),
             "note" => $data->getNote(),
             "location" => $data->getLocation()->getName(),
-            "date" => $data->getDate()->getTimestamp()
+            "date" => $data->getDate()->getTimestamp(),
+            "is_child" => $data->isChild(),
+            "index" => $data->getIndex(),
+            "linked" => $this->subSerialize($data->getLinkedProduct(), "booking.api.serializer.product.metadata")
         ];
     }
 }

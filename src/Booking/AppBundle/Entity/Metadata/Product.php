@@ -483,7 +483,7 @@ class Product
     /**
      * @return bool
      */
-    public function isIsChild(): ?bool
+    public function isChild(): ?bool
     {
         return $this->isChild;
     }
