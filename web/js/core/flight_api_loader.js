@@ -21,9 +21,16 @@ $( function() {
         this.reload = function () {
             this.loadFlight_();
         };
+        this.flight_type_ = function() {
+            var object = this.inputTypeId_ !== "#" ? $(this.inputTypeId_) : undefined;
+            if (typeof object !== "undefined") {
+                return object.val();
+            }
+            return "DEP";
+        };
         this.loadFlight_ = function () {
             var code = $(this.inputId_).val();
-            var type = $(this.inputTypeId_).val();
+            var type = this.flight_type_();
             if (this.loading || typeof code === "undefined" || code === "")
                 return;
             var checker = this;
