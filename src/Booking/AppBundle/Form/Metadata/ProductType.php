@@ -9,6 +9,7 @@ use Booking\AppBundle\Form\CustomerType;
 use Booking\AppBundle\Form\Metadata\Service\AirportType;
 use Booking\AppBundle\Form\Metadata\Service\LimousineType;
 use Booking\AppBundle\Form\Metadata\Service\TrainType;
+use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -26,6 +27,9 @@ class ProductType extends AbstractType
     const TYPE_NEW = "new";
     const TYPE_SUB_MET = "sub_met";
     const TYPE_PRICE = "price";
+    const TYPE_API = "api";
+
+    const OPTION_LINK_BOOK = "data_form_option_link";
 
     /**
      * {@inheritdoc}
@@ -33,11 +37,14 @@ class ProductType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $type = $options[self::OPTION_TYPE];
-        if ($type == self::TYPE_NEW) {
+        if ($type == self::TYPE_NEW || $type == self::TYPE_API)
             $this->buildNewForm($builder, $options);
-        } elseif ($type == self::TYPE_PRICE) {
+        elseif ($type == self::TYPE_PRICE || $type == self::TYPE_API)
             $this->buildPriceForm($builder, $options);
-        }
+
+        $link = $options[self::OPTION_LINK_BOOK];
+        if ($link !== null && $link instanceof ProductMet)
+            $this->buildLinkForm($builder, $options, $link);
     }
 
     /**
@@ -47,7 +54,8 @@ class ProductType extends AbstractType
     {
         $resolver->setDefaults(array(
             'data_class' => ProductMet::class,
-            self::OPTION_TYPE => self::TYPE_NEW
+            self::OPTION_TYPE => self::TYPE_NEW,
+            self::OPTION_LINK_BOOK => null
         ));
     }
 
@@ -64,6 +72,26 @@ class ProductType extends AbstractType
             'label' => false,
             'required' => false,
             'attr' => [ "placeholder" => "Custom price" ]
+        ]);
+    }
+
+    private function buildLinkForm(FormBuilderInterface $builder, array $options, ProductMet $product) {
+        $builder->add('linkedProduct', EntityType::class, [
+            'label' => 'Link',
+            'placeholder' => '- Link -',
+            'class' => ProductMet::class,
+            'query_builder' => function (EntityRepository $er) use (&$product) {
+                return $er->createQueryBuilder('p')
+                    ->join('p.book', 'b')
+                    ->where('p.isChild = false')
+                    ->andwhere('p.id != :prod_id')
+                    ->andWhere('b.id = :book_id')
+                    ->setParameter('prod_id', $product->getId())
+                    ->setParameter('book_id', $product->getBook()->getId());
+            },
+            'choice_label' => function (ProductMet $p) {
+                return "#" . $p->getIndex() . " - " . $p->getProductType()->getName();
+            }
         ]);
     }
 
@@ -97,7 +125,8 @@ class ProductType extends AbstractType
                 'label' => false
             ])
             ->add('limousine', LimousineType::class, [
-                'label' => false
+                'label' => false,
+                LimousineType::OPTION_TYPE => LimousineType::fromProductTypeForm($options[self::OPTION_TYPE])
             ])
             ->add('train', TrainType::class, [
                 'label' => false

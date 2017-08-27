@@ -58,7 +58,7 @@ class ProductController extends Controller
             return new JsonResponse(['message' => 'Product not found'], Response::HTTP_NOT_FOUND);
 
         $form = $this->createForm(ProductType::class, $product, [
-            ProductType::OPTION_TYPE => ProductType::TYPE_NEW
+            ProductType::OPTION_TYPE => ProductType::TYPE_API
         ]);
         $data = json_decode($request->getContent(), true);
         $form->submit($data, false);

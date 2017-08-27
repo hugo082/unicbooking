@@ -140,8 +140,23 @@ class Product
      */
     protected $note;
 
+    /**
+     * @var Product
+     * @ORM\OneToOne(targetEntity="Product")
+     * @ORM\JoinColumn(name="link_id", referencedColumnName="id", nullable=true)
+     */
+    protected $linkedProduct;
+
+    /**
+     * @var boolean
+     * @ORM\Column(name="is_child", type="boolean")
+     */
+    protected $isChild;
+
     public function __construct()
     {
+        $this->isChild = false;
+        $this->linkedProduct = null;
         $this->customPrice = null;
         $this->execution = new Execution();
     }
@@ -439,6 +454,67 @@ class Product
     public function setCustomPrice(?int $customPrice)
     {
         $this->customPrice = $customPrice;
+    }
+
+    /**
+     * @return Product
+     */
+    public function getLinkedProduct(): ?Product
+    {
+        return $this->linkedProduct;
+    }
+
+    /**
+     * @param Product $linkedProduct
+     */
+    public function setLinkedProduct(?Product $linkedProduct)
+    {
+        $this->linkedProduct = $linkedProduct;
+        if ($linkedProduct !== null)
+            $linkedProduct->isChild = true;
+    }
+
+    public function getLinkedClass(): string {
+        if ($this->linkedProduct !== null)
+            return "linked-line";
+        return "";
+    }
+
+    /**
+     * @return bool
+     */
+    public function isChild(): ?bool
+    {
+        return $this->isChild;
+    }
+
+    /**
+     * @param bool $isChild
+     */
+    public function setIsChild(bool $isChild)
+    {
+        $this->isChild = $isChild;
+    }
+
+    /**
+     * Index of this product in book products
+     */
+    public function getIndex() {
+        $book = $this->getBook();
+        /** @var Product $product */
+        foreach ($book->getProducts() as $key => $product) {
+            if ($product->getId() == $this->getId())
+                return $key + 1;
+        }
+        return -1;
+    }
+
+    /**
+     * Description with index
+     * @return string
+     */
+    public function getDescription(): string {
+        return "#" . $this->getIndex() . " - " . $this->getProductType()->getName();
     }
 
     /**

@@ -22,8 +22,9 @@ class ProductRepository extends \Doctrine\ORM\EntityRepository
                 ->setParameter('location', $user->getLocation());
         }
         $qb->join('p.book', 'b')
-            ->andwhere('b.archived = false')
             ->join('p.location', 'l')
+            ->andwhere('b.archived = false')
+            ->where('p.isChild = false')
             ->andwhere('l.apiEnabled = true')
             ->andwhere('p.date >= :limit_top')
             ->setParameter('limit_top', new \DateTime('today midnight'))

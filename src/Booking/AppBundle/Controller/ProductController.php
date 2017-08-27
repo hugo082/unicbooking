@@ -75,7 +75,9 @@ class ProductController extends Controller
 
         $originalCustomers = $product->getCustomersCopy();
 
-        $form = $this->createForm(ProductType::class, $product);
+        $form = $this->createForm(ProductType::class, $product, [
+            ProductType::OPTION_LINK_BOOK => $product
+        ]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid() && $product->isValid()) {

@@ -46,6 +46,12 @@ class Limousine implements iService
      */
     private $additional_stops;
 
+    /**
+     * @var string
+     * @ORM\Column(name="start_mileage", type="string", length=255, nullable=true)
+     */
+    private $startMileage;
+
     public function isValid(): Bool {
         return $this->drop_off && $this->pick_up;
     }
@@ -124,6 +130,22 @@ class Limousine implements iService
     public function setAdditionalStops(array $additional_stops)
     {
         $this->additional_stops = $additional_stops;
+    }
+
+    /**
+     * @return string
+     */
+    public function getStartMileage(): ?string
+    {
+        return $this->startMileage;
+    }
+
+    /**
+     * @param string $startMileage
+     */
+    public function setStartMileage(string $startMileage)
+    {
+        $this->startMileage = $startMileage;
     }
 
     public function addAdditionalStop(string $name) {

@@ -37,44 +37,7 @@
                                 </thead>
                                 <tbody>
                                 {% for product in products %}
-                                    <tr {% if not product.isConfig %}class="highlighted"{% endif %}>
-                                        <td class="multi-ligne"><span class="label label-{{ product.execution.state }}">{{ product.execution.state(true) }}</span></td>
-                                        <td class="multi-ligne">
-                                            <a href="{{ path('booking_app_book_show', {'id': product.book.id}) }}" class="ligne">{{ product.book.id }}</a> <br>
-                                            <span class="{{ product.location.highlightedStyle }}">{{ product.location.name }}</span>
-                                        </td>
-                                        <td class="multi-ligne">
-                                            {{ product.date|date("d M Y") }} <br>
-                                            {{ product.time }}
-                                        </td>
-                                        <td class="multi-ligne">{{ product.productType.service.name }}</td>
-                                        <td class="multi-ligne">
-                                            <a href="{{ path('db.manager.process', {actionID: 'list', name: 'client'}) }}" class="ligne">{{ product.book.client.name }}</a> <br>
-                                            {{ product.customersRecap }}
-                                        </td>
-                                        <td class="multi-ligne">
-                                            {{ product.information }} <br>
-                                            {{ product.note }}
-                                        </td>
-                                        <td class="multi-ligne">
-                                            {{ product.subcontractorStr }} <br>
-                                            {{ product.driverStr }} <br>
-                                            {{ product.greeterStr }}
-                                        </td>
-                                        <td class="table-action">
-                                            <a href="{{ path('booking_app_product_show', {'id': product.id}) }}" class="btn btn-default">
-                                                <span class="glyphicon glyphicon-search"></span>
-                                            </a>
-                                        </td>
-                                        {% if is_granted('ROLE_ADMIN') %}
-                                            <td class="table-action">
-                                                <a href="{{ path('booking_app_product_edit', {'id': product.id}) }}" class="btn btn-default">
-                                                    <span class="glyphicon glyphicon-pencil"></span>
-                                                </a>
-                                            </td>
-                                        {% endif %}
-                                    </tr>
-                                    </tr>
+                                    {{ include('dashboard/book/list/product_content.html.twig') }}
                                 {% else %}
                                     <tr>
                                         <td class="table-empty" colspan="100%">No book yet.</td>
@@ -190,9 +153,6 @@
 {% block stylesheets %}
     {{parent()}}
     <style>
-        table tr.highlighted {
-            background-color: rgba(176, 38, 34, 0.24) !important;
-        }
         table tr a.ligne {
             border-bottom: solid 1px;
         }
@@ -204,6 +164,69 @@
             padding: 5px;
             color: white;
             background-color: #096ac8;
+        }
+    </style>
+
+
+    <style>
+        table tr td {
+            padding: 0 !important;
+        }
+        table tr.multi-product > td > div {
+            margin: 0;
+            padding: 5px;
+        }
+        table tr.multi-product div.default-value {
+            border-bottom: solid 1px black;
+        }
+        table tr.highlighted-default td.hightlightted-indicator div.default-value {
+            background-color: rgba(176, 38, 34, 0.24) !important;
+        }
+        table tr.highlighted-linked td.hightlightted-indicator div.linked-value  {
+            background-color: rgba(176, 38, 34, 0.24) !important;
+        }
+        .linked-line {
+            padding-left: 0;
+            padding-right: 0;
+        }
+        .linked-line .linked-value {
+            border-top: solid 1px black;
+            margin-top: 5px;
+        }
+
+        .default-value {
+            margin-bottom: 5px;
+        }
+
+        tr > td.hightlightted-indicator{
+            position: relative;
+        }
+        tr > td.hightlightted-indicator > div {
+            position: absolute;
+            width: 100%;
+        }
+        tr > td.hightlightted-indicator > div span {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translateY(-50%) translateX(-50%);
+        }
+        tr.single-product > td.hightlightted-indicator > div.default-value {
+            height: 100%;
+            top: 0; left: 0;
+        }
+        tr.multi-product > td.hightlightted-indicator > div.default-value {
+            height: 50%;
+            top: 0; left: 0;
+        }
+        tr.multi-product > td.hightlightted-indicator > div.linked-value {
+            height: 50%;
+            top: 50%; left: 0;
+        }
+
+        .employee-indicator {
+            font-size: 7px;
+
         }
     </style>
 {% endblock %}
