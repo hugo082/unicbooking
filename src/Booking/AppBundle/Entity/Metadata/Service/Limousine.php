@@ -119,7 +119,7 @@ class Limousine implements iService
     /**
      * @return array
      */
-    public function getAdditionalStops(): array
+    public function getAdditionalStops(): ?array
     {
         return $this->additional_stops;
     }

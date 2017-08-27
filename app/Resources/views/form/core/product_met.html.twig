@@ -1,6 +1,6 @@
 {{ form_errors(form) }}
 <div class="form-group">
-    {% if form.linkedProduct %}
+    {% if form.linkedProduct is defined %}
         <div class="col-md-3" style="display: block; margin-bottom: 5px">{{ form_row(form.linkedProduct) }}</div>
     {% endif %}
     <div class="col-md-12" style="display: block; padding-left: 0">
