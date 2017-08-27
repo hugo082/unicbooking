@@ -22,7 +22,8 @@ class LimousineSerializer extends Serializer
             "id" => $data->getId(),
             "drop_off" => $data->getDropOff(),
             "pick_up" => $data->getPickUp(),
-            "time" => $data->getTime()
+            "time" => $data->getTime(),
+            "additional_stops" => $data->getAdditionalStops()
         ];
     }
 }

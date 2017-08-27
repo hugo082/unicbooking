@@ -171,9 +171,21 @@ class Execution
     /**
      * @param Step $step
      */
-    public function pushStep(Step $step)
+    public function pushStep(Step $step, $at = null)
     {
-        $this->steps[] = $step;
+        $step->setExecution($this);
+        if ($at === null)
+            $this->steps[] = $step;
+        else {
+            $c = $this->steps->count();
+            $buf = $step;
+            for ($i = $at; $i < $c; $i++) {
+                $temp = $this->steps->get($i);
+                $this->steps->set($i, $buf);
+                $buf = $temp;
+            }
+            $this->steps->set($c, $buf);
+        }
     }
 
     /**

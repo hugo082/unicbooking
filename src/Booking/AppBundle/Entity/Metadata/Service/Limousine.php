@@ -40,6 +40,12 @@ class Limousine implements iService
      */
     private $drop_off;
 
+    /**
+     * @var array
+     * @ORM\Column(name="additional_stops", type="array", nullable=true)
+     */
+    private $additional_stops;
+
     public function isValid(): Bool {
         return $this->drop_off && $this->pick_up;
     }
@@ -102,6 +108,28 @@ class Limousine implements iService
 
     public function getInformation(): string {
         return $this->pick_up;
+    }
+
+    /**
+     * @return array
+     */
+    public function getAdditionalStops(): array
+    {
+        return $this->additional_stops;
+    }
+
+    /**
+     * @param array $additional_stops
+     */
+    public function setAdditionalStops(array $additional_stops)
+    {
+        $this->additional_stops = $additional_stops;
+    }
+
+    public function addAdditionalStop(string $name) {
+        if ($this->additional_stops === null)
+            $this->additional_stops = [];
+        $this->additional_stops[] = $name;
     }
 }
 

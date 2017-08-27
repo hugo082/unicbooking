@@ -4,6 +4,8 @@ namespace Booking\ApiBundle\Controller;
 
 use Booking\ApiBundle\Serializer\ProductMetadataSerializer;
 use Booking\AppBundle\Entity\Metadata\Product;
+use Booking\AppBundle\Entity\Metadata\Step;
+use Booking\AppBundle\Form\Metadata\ProductType;
 use Booking\AppBundle\Repository\Metadata\ProductRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -40,6 +42,65 @@ class ProductController extends Controller
         $userLoc = $this->getUser()->getLocation();
         if ($userLoc !== null && $product->getLocation() != $userLoc )
             return new JsonResponse(['message' => 'Product location not supported by this user'], Response::HTTP_UNAUTHORIZED);
+        /** @var ProductMetadataSerializer $serializer */
+        $serializer = $this->get("booking.api.serializer.product.metadata");
+        return $serializer->serialize($product);
+    }
+
+    /**
+     * @Rest\View()
+     * @Rest\Patch("/product/{id}")
+     */
+    public function updateProductAction(Request $request)
+    {
+        $product = $this->getDoctrine()->getRepository('BookingAppBundle:Metadata\Product')->find($request->get('id'));
+        if (!$product instanceof Product)
+            return new JsonResponse(['message' => 'Product not found'], Response::HTTP_NOT_FOUND);
+
+        $form = $this->createForm(ProductType::class, $product, [
+            ProductType::OPTION_TYPE => ProductType::TYPE_NEW
+        ]);
+        $data = json_decode($request->getContent(), true);
+        $form->submit($data, false);
+
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($product);
+        $em->flush();
+
+        /** @var ProductMetadataSerializer $serializer */
+        $serializer = $this->get("booking.api.serializer.product.metadata");
+        return $serializer->serialize($product);
+    }
+
+    /**
+     * @Rest\View()
+     * @Rest\Post("/product/limousine/add/stop/{id}")
+     */
+    public function addLimousineStopAction(Request $request)
+    {
+        $product = $this->getDoctrine()->getRepository('BookingAppBundle:Metadata\Product')->find($request->get('id'));
+        if (!$product instanceof Product || !$product->getProductType()->getService()->isLimousine())
+            return new JsonResponse(['message' => 'Product not found or not limousine type'], Response::HTTP_NOT_FOUND);
+
+
+        if (($stop = $request->get("stop")) === null || !is_string($stop))
+            return new JsonResponse([
+                'message' => 'Bad request, stop not match.',
+                'sended' => [
+                    'request' => $request->request->all(),
+                    'query' => $request->query->all()
+                ],
+                "founded" => $request->get("stop")
+            ], Response::HTTP_BAD_REQUEST);
+
+        $product->getLimousine()->addAdditionalStop($stop);
+        $execution = $product->getExecution();
+        $execution->pushStep(Step::with($stop,"icn_passenger"), $execution->getSteps()->count() - 1);
+
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($product);
+        $em->flush();
+
         /** @var ProductMetadataSerializer $serializer */
         $serializer = $this->get("booking.api.serializer.product.metadata");
         return $serializer->serialize($product);

@@ -159,13 +159,15 @@ class Step
         $this->tag = $tag;
     }
 
-    public static function with(string $title, string $icon, Execution $execution, string $tag = null) {
+    public static function with(string $title, string $icon, Execution $execution = null, string $tag = null) {
         $step = new Step();
         $step->setTitle($title);
-        $step->setExecution($execution);
+        if ($execution !== null) {
+            $step->setExecution($execution);
+            $execution->pushStep($step);
+        }
         $step->setIcon($icon);
         $step->setTag($tag);
-        $execution->pushStep($step);
         return $step;
     }
 }
