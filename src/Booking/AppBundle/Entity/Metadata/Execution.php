@@ -102,7 +102,7 @@ class Execution
 
     public function setAirportDepartureSteps() {
         $this->steps[] = Step::with("Arrival passenger", "icn_passenger",$this);
-        $this->steps[] = Step::with("Luggage porter", "icn_baggage",$this);
+        $this->steps[] = Step::with("Luggage porter", "icn_baggage",$this, "bag_count");
         $this->steps[] = Step::with("Check in", "icn_passport",$this);
         $this->steps[] = Step::with("Lounge VIP", "icn_baggage",$this);
         $this->steps[] = Step::with("Flight departure", "icn_flight_departure",$this);
@@ -112,21 +112,26 @@ class Execution
         $this->steps[] = Step::with("Flight arrival", "icn_flight_arrival",$this);
         $this->steps[] = Step::with("Welcome passenger", "icn_passenger",$this);
         $this->steps[] = Step::with("Passport control", "icn_passport",$this);
-        $this->steps[] = Step::with("Baggage", "icn_baggage",$this);
+        $this->steps[] = Step::with("Baggage", "icn_baggage",$this, "bag_count");
         $this->steps[] = Step::with("Car drop", "icn_car",$this);
     }
 
     public function setLimousineSteps() {
         $this->steps[] = Step::with("Drop off", "icn_passenger",$this);
         $this->steps[] = Step::with("Pick up", "icn_passenger",$this);
+        $this->steps[] = Step::with("Add stop", "icn_plus",$this, "add_stop");
     }
 
     public function setTrainSteps() {
         $this->steps[] = Step::with("Train arrival", "icn_train",$this);
     }
 
-    public function setEmptySteps() {
+    public function setEmptyStep() {
         $this->steps[] = Step::with("Empty", "icn_flight_departure",$this);
+    }
+
+    public function setEndStep() {
+        $this->steps[] = Step::with("Finish", "icn_finish",$this, "finish");
     }
 
     /**

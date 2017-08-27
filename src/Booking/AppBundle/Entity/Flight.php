@@ -206,6 +206,10 @@ class Flight
         $this->type = $type;
     }
 
+    public function isDeparture(): bool {
+        return $this->type === self::TYPE_DEP[1];
+    }
+
     /**
      * Convert mixed value to \DateTime
      * @param $value

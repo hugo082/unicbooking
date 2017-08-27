@@ -446,13 +446,19 @@ class Product
      */
     public function computeExecutionSteps() {
         if ($this->product_type->getService()->isAirport()) {
-            $this->execution->setAirportDepartureSteps();
+            if ($this->airport->getFlight()->isDeparture())
+                $this->execution->setAirportDepartureSteps();
+            elseif ($this->airport->getFlightTransit() !== null)
+                $this->execution->setAirportConnectionSteps();
+            else
+                $this->execution->setAirportArrivalSteps();
         } else if ($this->product_type->getService()->isLimousine()) {
             $this->execution->setLimousineSteps();
         } else if ($this->product_type->getService()->isTrain()) {
             $this->execution->setTrainSteps();
         } else
-            $this->execution->setEmptySteps();
+            $this->execution->setEmptyStep();
+        $this->execution->setEndStep();
     }
 
     public function linkSubEntities() {

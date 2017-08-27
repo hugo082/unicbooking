@@ -34,6 +34,12 @@ class Step
     private $icon;
 
     /**
+     * @var string
+     * @ORM\Column(name="tag", type="string", nullable=true)
+     */
+    private $tag;
+
+    /**
      * @var \DateTime
      * @ORM\Column(name="finish_time", type="datetime", nullable=true)
      */
@@ -137,11 +143,28 @@ class Step
         $this->execution = $execution;
     }
 
-    public static function with(string $title, string $icon, Execution $execution) {
+    /**
+     * @return string
+     */
+    public function getTag(): ?string
+    {
+        return $this->tag;
+    }
+
+    /**
+     * @param string $tag
+     */
+    public function setTag(?string $tag)
+    {
+        $this->tag = $tag;
+    }
+
+    public static function with(string $title, string $icon, Execution $execution, string $tag = null) {
         $step = new Step();
         $step->setTitle($title);
         $step->setExecution($execution);
         $step->setIcon($icon);
+        $step->setTag($tag);
         $execution->pushStep($step);
         return $step;
     }
