@@ -34,6 +34,12 @@ class Step
     private $icon;
 
     /**
+     * @var integer
+     * @ORM\Column(name="sort_index", type="integer")
+     */
+    private $index;
+
+    /**
      * @var string
      * @ORM\Column(name="tag", type="string", nullable=true)
      */
@@ -138,7 +144,7 @@ class Step
     /**
      * @param Execution $execution
      */
-    public function setExecution(Execution $execution)
+    public function setExecution(?Execution $execution)
     {
         $this->execution = $execution;
     }
@@ -159,9 +165,26 @@ class Step
         $this->tag = $tag;
     }
 
-    public static function with(string $title, string $icon, Execution $execution = null, string $tag = null) {
+    /**
+     * @return int
+     */
+    public function getIndex(): ?int
+    {
+        return $this->index;
+    }
+
+    /**
+     * @param int $index
+     */
+    public function setIndex(int $index)
+    {
+        $this->index = $index;
+    }
+
+    public static function with(string $title, int $index, string $icon, Execution $execution = null, string $tag = null) {
         $step = new Step();
         $step->setTitle($title);
+        $step->setIndex($index);
         if ($execution !== null) {
             $step->setExecution($execution);
             $execution->pushStep($step);

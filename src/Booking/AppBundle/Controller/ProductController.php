@@ -75,6 +75,7 @@ class ProductController extends Controller
 
         $originalCustomers = $product->getCustomersCopy();
 
+        $hold = clone $product;
         $form = $this->createForm(ProductType::class, $product, [
             ProductType::OPTION_LINK_BOOK => $product
         ]);
@@ -87,6 +88,7 @@ class ProductController extends Controller
 
             $em = $this->getDoctrine()->getManager();
             $product->removeNotFoundOriginalCustomers($em, $originalCustomers);
+            $product->computeLinkedChange($hold);
             $em->persist($product);
             $em->flush();
             return $this->redirectToRoute("booking_app_product_show", [

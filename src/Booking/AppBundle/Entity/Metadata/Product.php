@@ -15,6 +15,7 @@ use Booking\AppBundle\Entity\Subcontractor;
 use Booking\UserBundle\Entity\User;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Mapping as ORM;
+use function PHPSTORM_META\elementType;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -474,6 +475,16 @@ class Product
             $linkedProduct->isChild = true;
     }
 
+    /**
+     * @return int|null
+     */
+    public function getSecureLinkedProductID()
+    {
+        if ($this->linkedProduct)
+            return $this->linkedProduct->id;
+        return null;
+    }
+
     public function getLinkedClass(): string {
         if ($this->linkedProduct !== null)
             return "linked-line";
@@ -534,6 +545,8 @@ class Product
             $this->execution->setTrainSteps();
         } else
             $this->execution->setEmptyStep();
+        if ($this->getLinkedProduct() !== null)
+            $this->execution->setLinkStep($this->getLinkedProduct());
         $this->execution->setEndStep();
     }
 
@@ -601,5 +614,25 @@ class Product
             $this->driver = $sub->getDriver();
         if ($sub->getGreeter() !== null)
             $this->greeter = $sub->getGreeter();
+    }
+
+    /**
+     * Update isChild property for all linked product.
+     * @param Product $hold
+     */
+    public function computeLinkedChange(Product $hold) {
+        $holdLinkID = $hold->getSecureLinkedProductID();
+        if ($this->getSecureLinkedProductID() != $holdLinkID) {
+            if ($holdLinkID !== null)
+                $hold->getLinkedProduct()->setIsChild(false);
+            if ($this->linkedProduct !== null) {
+                $this->linkedProduct->setIsChild(true);
+                $this->execution->pushLinkStep($this->linkedProduct);
+            } else {
+                $this->execution->removeLinkStep();
+            }
+        } else {
+            echo "LIKE HOLD : " . $holdLinkID . " - " . $this->getSecureLinkedProductID();
+        }
     }
 }
