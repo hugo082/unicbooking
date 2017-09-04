@@ -28,6 +28,8 @@ class ProductMetadataSerializer extends Serializer
             "baggage" => $data->getBaggages(),
             "note" => $data->getNote(),
             "location" => $data->getLocation()->getName(),
+            "driver" => $this->subSerialize($data->getDriver(), "booking.api.serializer.user"),
+            "greeter" => $this->subSerialize($data->getGreeter(), "booking.api.serializer.user"),
             "date" => $data->getDate()->getTimestamp(),
             "is_child" => $data->isChild(),
             "index" => $data->getIndex(),
