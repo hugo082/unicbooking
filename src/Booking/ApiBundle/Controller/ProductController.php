@@ -3,6 +3,7 @@
 namespace Booking\ApiBundle\Controller;
 
 use Booking\ApiBundle\Serializer\ProductMetadataSerializer;
+use Booking\AppBundle\Entity\Metadata\Execution;
 use Booking\AppBundle\Entity\Metadata\Product;
 use Booking\AppBundle\Entity\Metadata\Step;
 use Booking\AppBundle\Form\Metadata\ProductType;
@@ -51,9 +52,9 @@ class ProductController extends Controller
      * @Rest\View()
      * @Rest\Patch("/product/{id}")
      */
-    public function updateProductAction(Request $request)
+    public function updateProductAction(Request $request, int $id)
     {
-        $product = $this->getDoctrine()->getRepository('BookingAppBundle:Metadata\Product')->find($request->get('id'));
+        $product = $this->getDoctrine()->getRepository('BookingAppBundle:Metadata\Product')->find($id);
         if (!$product instanceof Product)
             return new JsonResponse(['message' => 'Product not found'], Response::HTTP_NOT_FOUND);
 
@@ -94,7 +95,7 @@ class ProductController extends Controller
         $product->getLimousine()->addAdditionalStop($stop);
         $execution = $product->getExecution();
         $index = $execution->getSteps()->count() - 1;
-        $execution->pushStep(Step::with($stop, $index, "icn_passenger"), $execution->getSteps()->count() - 1);
+        $execution->pushStep(Step::with($stop, $index, "icn_passenger", null, Execution::LIM_STOP_TAG));
 
         $em = $this->getDoctrine()->getManager();
         $em->persist($product);

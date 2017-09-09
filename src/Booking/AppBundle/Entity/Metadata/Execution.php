@@ -16,7 +16,7 @@ class Execution
     /** Execution not started */
     public const WAITING_STATE = ["default", "Waiting"];
     /** Execution in progress */
-    public const PROGRESS_STATE = ["warning", "In progress" ];
+    public const PROGRESS_STATE = ["warning", "In progress"];
     /** Book have product finished but not all */
     public const PENDING_STATE = ["primary", "Pending"];
     /** Execution finished */
@@ -25,7 +25,15 @@ class Execution
     public const EMPTY_STATE = ["danger", "Empty"];
 
     /** Tag to link execution step */
-    private const LINK_STEP_TAG = "link_info";
+    public const LINK_STEP_TAG = "link_info";
+    /** Tag to link execution step */
+    public const LIM_STOP_TAG = "lim_stop";
+    /** Tag to link execution step */
+    public const BAG_COUNT_TAG = "bag_count";
+    /** Tag to link execution step */
+    public const ADD_STOP_TAG = "add_stop";
+    /** Tag to link execution step */
+    public const FINISH_TAG = "finish";
 
     /**
      * @var int
@@ -106,7 +114,7 @@ class Execution
 
     public function setAirportDepartureSteps() {
         $this->steps[] = Step::with("Arrival passenger", 1,"icn_passenger",$this);
-        $this->steps[] = Step::with("Luggage porter", 2,"icn_baggage",$this, "bag_count");
+        $this->steps[] = Step::with("Luggage porter", 2,"icn_baggage",$this, self::BAG_COUNT_TAG);
         $this->steps[] = Step::with("Check in", 3,"icn_passport",$this);
         $this->steps[] = Step::with("Lounge VIP", 4,"icn_baggage",$this);
         $this->steps[] = Step::with("Flight departure", 5,"icn_flight_departure",$this);
@@ -116,14 +124,14 @@ class Execution
         $this->steps[] = Step::with("Flight arrival", 1,"icn_flight_arrival",$this);
         $this->steps[] = Step::with("Welcome passenger", 2,"icn_passenger",$this);
         $this->steps[] = Step::with("Passport control", 3,"icn_passport",$this);
-        $this->steps[] = Step::with("Baggage", 4,"icn_baggage",$this, "bag_count");
+        $this->steps[] = Step::with("Baggage", 4,"icn_baggage",$this, self::BAG_COUNT_TAG);
         $this->steps[] = Step::with("Car drop", 5,"icn_car",$this);
     }
 
     public function setLimousineSteps() {
-        $this->steps[] = Step::with("Drop off", 1,"icn_passenger",$this);
-        $this->steps[] = Step::with("Pick up", 2,"icn_passenger",$this);
-        $this->steps[] = Step::with("Add stop", 98,"icn_plus",$this, "add_stop");
+        $this->steps[] = Step::with("Drop off", 1,"icn_passenger",$this, self::LIM_STOP_TAG);
+        $this->steps[] = Step::with("Pick up", 2,"icn_passenger",$this, self::LIM_STOP_TAG);
+        $this->steps[] = Step::with("Add stop", 98,"icn_plus",$this, self::ADD_STOP_TAG);
     }
 
     public function setTrainSteps() {
