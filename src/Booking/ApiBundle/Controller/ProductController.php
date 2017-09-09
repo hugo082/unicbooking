@@ -67,18 +67,16 @@ class ProductController extends Controller
         $em->persist($product);
         $em->flush();
 
-        /** @var ProductMetadataSerializer $serializer */
-        $serializer = $this->get("booking.api.serializer.product.metadata");
-        return $serializer->serialize($product);
+        return $this->redirectToRoute('get_product', array('id' => $id));
     }
 
     /**
      * @Rest\View()
      * @Rest\Post("/product/limousine/add/stop/{id}")
      */
-    public function addLimousineStopAction(Request $request)
+    public function addLimousineStopAction(Request $request, int $id)
     {
-        $product = $this->getDoctrine()->getRepository('BookingAppBundle:Metadata\Product')->find($request->get('id'));
+        $product = $this->getDoctrine()->getRepository('BookingAppBundle:Metadata\Product')->find($id);
         if (!$product instanceof Product || !$product->getProductType()->getService()->isLimousine())
             return new JsonResponse(['message' => 'Product not found or not limousine type'], Response::HTTP_NOT_FOUND);
 
@@ -95,14 +93,13 @@ class ProductController extends Controller
 
         $product->getLimousine()->addAdditionalStop($stop);
         $execution = $product->getExecution();
-        $execution->pushStep(Step::with($stop,"icn_passenger"), $execution->getSteps()->count() - 1);
+        $index = $execution->getSteps()->count() - 1;
+        $execution->pushStep(Step::with($stop, $index, "icn_passenger"), $execution->getSteps()->count() - 1);
 
         $em = $this->getDoctrine()->getManager();
         $em->persist($product);
         $em->flush();
 
-        /** @var ProductMetadataSerializer $serializer */
-        $serializer = $this->get("booking.api.serializer.product.metadata");
-        return $serializer->serialize($product);
+        return $this->redirectToRoute('get_product', array('id' => $id));
     }
 }
