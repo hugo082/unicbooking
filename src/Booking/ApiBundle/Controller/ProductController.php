@@ -68,7 +68,9 @@ class ProductController extends Controller
         $em->persist($product);
         $em->flush();
 
-        return $this->redirectToRoute('get_product', array('id' => $id));
+        /** @var ProductMetadataSerializer $serializer */
+        $serializer = $this->get("booking.api.serializer.product.metadata");
+        return $serializer->serialize($product);
     }
 
     /**
