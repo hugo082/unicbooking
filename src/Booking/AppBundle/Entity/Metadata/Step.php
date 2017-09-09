@@ -34,6 +34,18 @@ class Step
     private $icon;
 
     /**
+     * @var integer
+     * @ORM\Column(name="sort_index", type="integer")
+     */
+    private $index;
+
+    /**
+     * @var string
+     * @ORM\Column(name="tag", type="string", nullable=true)
+     */
+    private $tag;
+
+    /**
      * @var \DateTime
      * @ORM\Column(name="finish_time", type="datetime", nullable=true)
      */
@@ -132,17 +144,53 @@ class Step
     /**
      * @param Execution $execution
      */
-    public function setExecution(Execution $execution)
+    public function setExecution(?Execution $execution)
     {
         $this->execution = $execution;
     }
 
-    public static function with(string $title, string $icon, Execution $execution) {
+    /**
+     * @return string
+     */
+    public function getTag(): ?string
+    {
+        return $this->tag;
+    }
+
+    /**
+     * @param string $tag
+     */
+    public function setTag(?string $tag)
+    {
+        $this->tag = $tag;
+    }
+
+    /**
+     * @return int
+     */
+    public function getIndex(): ?int
+    {
+        return $this->index;
+    }
+
+    /**
+     * @param int $index
+     */
+    public function setIndex(int $index)
+    {
+        $this->index = $index;
+    }
+
+    public static function with(string $title, int $index, string $icon, Execution $execution = null, string $tag = null) {
         $step = new Step();
         $step->setTitle($title);
-        $step->setExecution($execution);
+        $step->setIndex($index);
+        if ($execution !== null) {
+            $step->setExecution($execution);
+            $execution->pushStep($step);
+        }
         $step->setIcon($icon);
-        $execution->pushStep($step);
+        $step->setTag($tag);
         return $step;
     }
 }

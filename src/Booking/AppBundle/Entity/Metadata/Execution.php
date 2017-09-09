@@ -16,13 +16,24 @@ class Execution
     /** Execution not started */
     public const WAITING_STATE = ["default", "Waiting"];
     /** Execution in progress */
-    public const PROGRESS_STATE = ["warning", "In progress" ];
+    public const PROGRESS_STATE = ["warning", "In progress"];
     /** Book have product finished but not all */
     public const PENDING_STATE = ["primary", "Pending"];
     /** Execution finished */
     public const FINISHED_STATE = ["success", "Finished"];
     /** Used if book products is empty */
     public const EMPTY_STATE = ["danger", "Empty"];
+
+    /** Tag to link execution step */
+    public const LINK_STEP_TAG = "link_info";
+    /** Tag to link execution step */
+    public const LIM_STOP_TAG = "lim_stop";
+    /** Tag to link execution step */
+    public const BAG_COUNT_TAG = "bag_count";
+    /** Tag to link execution step */
+    public const ADD_STOP_TAG = "add_stop";
+    /** Tag to link execution step */
+    public const FINISH_TAG = "finish";
 
     /**
      * @var int
@@ -43,6 +54,7 @@ class Execution
     /**
      * @var Step[]
      * @ORM\OneToMany(targetEntity="Booking\AppBundle\Entity\Metadata\Step", mappedBy="execution", cascade={"persist", "remove"})
+     * @ORM\OrderBy({"index" = "ASC"})
      */
     private $steps;
 
@@ -94,39 +106,49 @@ class Execution
     }
 
     public function setAirportConnectionSteps() {
-        $this->steps[] = Step::with("Flight arrival", "icn_flight_arrival",$this);
-        $this->steps[] = Step::with("Welcome passenger", "icn_passenger",$this);
-        $this->steps[] = Step::with("Lounge VIP", "icn_baggage",$this);
-        $this->steps[] = Step::with("Flight departure", "icn_flight_departure",$this);
+        $this->steps[] = Step::with("Flight arrival", 1, "icn_flight_arrival",$this);
+        $this->steps[] = Step::with("Welcome passenger", 2, "icn_passenger",$this);
+        $this->steps[] = Step::with("Lounge VIP", 3, "icn_baggage",$this);
+        $this->steps[] = Step::with("Flight departure", 4, "icn_flight_departure",$this);
     }
 
     public function setAirportDepartureSteps() {
-        $this->steps[] = Step::with("Arrival passenger", "icn_passenger",$this);
-        $this->steps[] = Step::with("Luggage porter", "icn_baggage",$this);
-        $this->steps[] = Step::with("Check in", "icn_passport",$this);
-        $this->steps[] = Step::with("Lounge VIP", "icn_baggage",$this);
-        $this->steps[] = Step::with("Flight departure", "icn_flight_departure",$this);
+        $this->steps[] = Step::with("Arrival passenger", 1,"icn_passenger",$this);
+        $this->steps[] = Step::with("Luggage porter", 2,"icn_baggage",$this, self::BAG_COUNT_TAG);
+        $this->steps[] = Step::with("Check in", 3,"icn_passport",$this);
+        $this->steps[] = Step::with("Lounge VIP", 4,"icn_baggage",$this);
+        $this->steps[] = Step::with("Flight departure", 5,"icn_flight_departure",$this);
     }
 
     public function setAirportArrivalSteps() {
-        $this->steps[] = Step::with("Flight arrival", "icn_flight_arrival",$this);
-        $this->steps[] = Step::with("Welcome passenger", "icn_passenger",$this);
-        $this->steps[] = Step::with("Passport control", "icn_passport",$this);
-        $this->steps[] = Step::with("Baggage", "icn_baggage",$this);
-        $this->steps[] = Step::with("Car drop", "icn_car",$this);
+        $this->steps[] = Step::with("Flight arrival", 1,"icn_flight_arrival",$this);
+        $this->steps[] = Step::with("Welcome passenger", 2,"icn_passenger",$this);
+        $this->steps[] = Step::with("Passport control", 3,"icn_passport",$this);
+        $this->steps[] = Step::with("Baggage", 4,"icn_baggage",$this, self::BAG_COUNT_TAG);
+        $this->steps[] = Step::with("Car drop", 5,"icn_car",$this);
     }
 
     public function setLimousineSteps() {
-        $this->steps[] = Step::with("Drop off", "icn_passenger",$this);
-        $this->steps[] = Step::with("Pick up", "icn_passenger",$this);
+        $this->steps[] = Step::with("Drop off", 1,"icn_passenger",$this, self::LIM_STOP_TAG);
+        $this->steps[] = Step::with("Pick up", 2,"icn_passenger",$this, self::LIM_STOP_TAG);
+        $this->steps[] = Step::with("Add stop", 98,"icn_plus",$this, self::ADD_STOP_TAG);
     }
 
     public function setTrainSteps() {
-        $this->steps[] = Step::with("Train arrival", "icn_train",$this);
+        $this->steps[] = Step::with("Train arrival", 1,"icn_train",$this);
     }
 
-    public function setEmptySteps() {
-        $this->steps[] = Step::with("Empty", "icn_flight_departure",$this);
+    public function setEmptyStep() {
+        $this->steps[] = Step::with("Empty", 1,"icn_flight_departure",$this);
+    }
+
+    public function setLinkStep(Product $product) {
+        $tag = self::LINK_STEP_TAG . "$" . $product->getId();
+        $this->steps[] = Step::with("Next step", 99,"icn_link",$this, $tag);
+    }
+
+    public function setEndStep() {
+        $this->steps[] = Step::with("Finish", 100,"icn_finish",$this, "finish");
     }
 
     /**
@@ -164,11 +186,37 @@ class Execution
     }
 
     /**
+     * Push step at index
      * @param Step $step
+     * @param null $at
      */
-    public function pushStep(Step $step)
+    public function pushStep(Step $step, $at = null)
     {
-        $this->steps[] = $step;
+        $step->setExecution($this);
+        if ($at === null)
+            $this->steps[] = $step;
+        else {
+            $c = $this->steps->count();
+            $buf = $step;
+            for ($i = $at; $i < $c; $i++) {
+                $temp = $this->steps->get($i);
+                $this->steps->set($i, $buf);
+                $buf = $temp;
+            }
+            $this->steps->set($c, $buf);
+        }
+    }
+
+    public function pushLinkStep(Product $product) {
+        $this->removeLinkStep();
+        $this->setLinkStep($product);
+    }
+
+    public function removeLinkStep() {
+        foreach ($this->steps as $key => $step) {
+            if ($this->isLinkStep($step))
+                $step->setExecution(null);
+        }
     }
 
     /**
@@ -179,4 +227,8 @@ class Execution
         $this->steps = $steps;
     }
 
+    private function isLinkStep(Step $step): Bool
+    {
+        return substr($step->getTag(), 0, strlen(self::LINK_STEP_TAG)) === self::LINK_STEP_TAG;
+    }
 }

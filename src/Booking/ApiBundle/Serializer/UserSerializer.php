@@ -10,6 +10,8 @@ class UserSerializer extends Serializer
 {
     public function serialize($data): ?array
     {
+        if ($data === null)
+            return null;
         if (($res = parent::serialize($data)) !== null)
             return $res;
 
@@ -20,6 +22,7 @@ class UserSerializer extends Serializer
             "id" => $data->getId(),
             "username" => $data->getUsername(),
             "email" => $data->getEmail(),
+            "phone" => $data->getPhoneNumber(),
             "roles" => $data->getRoles()
         ];
     }

@@ -15,6 +15,7 @@ use Booking\AppBundle\Entity\Subcontractor;
 use Booking\UserBundle\Entity\User;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Mapping as ORM;
+use function PHPSTORM_META\elementType;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -140,8 +141,23 @@ class Product
      */
     protected $note;
 
+    /**
+     * @var Product
+     * @ORM\OneToOne(targetEntity="Product")
+     * @ORM\JoinColumn(name="link_id", referencedColumnName="id", nullable=true)
+     */
+    protected $linkedProduct;
+
+    /**
+     * @var boolean
+     * @ORM\Column(name="is_child", type="boolean")
+     */
+    protected $isChild;
+
     public function __construct()
     {
+        $this->isChild = false;
+        $this->linkedProduct = null;
         $this->customPrice = null;
         $this->execution = new Execution();
     }
@@ -442,17 +458,96 @@ class Product
     }
 
     /**
+     * @return Product
+     */
+    public function getLinkedProduct(): ?Product
+    {
+        return $this->linkedProduct;
+    }
+
+    /**
+     * @param Product $linkedProduct
+     */
+    public function setLinkedProduct(?Product $linkedProduct)
+    {
+        $this->linkedProduct = $linkedProduct;
+        if ($linkedProduct !== null)
+            $linkedProduct->isChild = true;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getSecureLinkedProductID()
+    {
+        if ($this->linkedProduct)
+            return $this->linkedProduct->id;
+        return null;
+    }
+
+    public function getLinkedClass(): string {
+        if ($this->linkedProduct !== null)
+            return "linked-line";
+        return "";
+    }
+
+    /**
+     * @return bool
+     */
+    public function isChild(): ?bool
+    {
+        return $this->isChild;
+    }
+
+    /**
+     * @param bool $isChild
+     */
+    public function setIsChild(bool $isChild)
+    {
+        $this->isChild = $isChild;
+    }
+
+    /**
+     * Index of this product in book products
+     */
+    public function getIndex() {
+        $book = $this->getBook();
+        /** @var Product $product */
+        foreach ($book->getProducts() as $key => $product) {
+            if ($product->getId() == $this->getId())
+                return $key + 1;
+        }
+        return -1;
+    }
+
+    /**
+     * Description with index
+     * @return string
+     */
+    public function getDescription(): string {
+        return "#" . $this->getIndex() . " - " . $this->getProductType()->getName();
+    }
+
+    /**
      * @ORM\PrePersist
      */
     public function computeExecutionSteps() {
         if ($this->product_type->getService()->isAirport()) {
-            $this->execution->setAirportDepartureSteps();
+            if ($this->airport->getFlight()->isDeparture())
+                $this->execution->setAirportDepartureSteps();
+            elseif ($this->airport->getFlightTransit() !== null)
+                $this->execution->setAirportConnectionSteps();
+            else
+                $this->execution->setAirportArrivalSteps();
         } else if ($this->product_type->getService()->isLimousine()) {
             $this->execution->setLimousineSteps();
         } else if ($this->product_type->getService()->isTrain()) {
             $this->execution->setTrainSteps();
         } else
-            $this->execution->setEmptySteps();
+            $this->execution->setEmptyStep();
+        if ($this->getLinkedProduct() !== null)
+            $this->execution->setLinkStep($this->getLinkedProduct());
+        $this->execution->setEndStep();
     }
 
     public function linkSubEntities() {
@@ -519,5 +614,25 @@ class Product
             $this->driver = $sub->getDriver();
         if ($sub->getGreeter() !== null)
             $this->greeter = $sub->getGreeter();
+    }
+
+    /**
+     * Update isChild property for all linked product.
+     * @param Product $hold
+     */
+    public function computeLinkedChange(Product $hold) {
+        $holdLinkID = $hold->getSecureLinkedProductID();
+        if ($this->getSecureLinkedProductID() != $holdLinkID) {
+            if ($holdLinkID !== null)
+                $hold->getLinkedProduct()->setIsChild(false);
+            if ($this->linkedProduct !== null) {
+                $this->linkedProduct->setIsChild(true);
+                $this->execution->pushLinkStep($this->linkedProduct);
+            } else {
+                $this->execution->removeLinkStep();
+            }
+        } else {
+            echo "LIKE HOLD : " . $holdLinkID . " - " . $this->getSecureLinkedProductID();
+        }
     }
 }

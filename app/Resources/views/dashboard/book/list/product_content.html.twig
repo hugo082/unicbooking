@@ -1,0 +1,240 @@
+
+<tr
+        class="
+{% if not product.isConfig %}highlighted-default {% endif %}
+{% if product.linkedProduct %}
+multi-product
+{% if not product.linkedProduct.isConfig %}highlighted-linked {% endif %}
+{% else %}
+single-product
+{% endif %}"
+
+>
+    <td class="multi-ligne hightlightted-indicator">
+        <div class="default-value">
+            <span class="label label-{{ product.execution.state }}">{{ product.execution.state(true) }}</span>
+        </div>
+        {% if product.linkedProduct %}
+            <div class="linked-value">
+                <span class="label label-{{ product.linkedProduct.execution.state }}">{{ product.linkedProduct.execution.state(true) }}</span>
+            </div>
+        {% endif %}
+    </td>
+    <td class="multi-ligne">
+        <div class="default-value">
+            <a href="{{ path('booking_app_book_show', {'id': product.book.id}) }}" class="ligne">{{ product.book.id }}</a> <br>
+            <span class="{{ product.location.highlightedStyle }}">{{ product.location.name }}</span>
+        </div>
+        {% if product.linkedProduct %}
+            <div class="linked-value">
+                <a href="{{ path('booking_app_book_show', {'id': product.linkedProduct.book.id}) }}" class="ligne">{{ product.linkedProduct.book.id }}</a> <br>
+                <span class="{{ product.linkedProduct.location.highlightedStyle }}">{{ product.linkedProduct.location.name }}</span>
+            </div>
+        {% endif %}
+    </td>
+    <td class="multi-ligne">
+        <div class="default-value">
+            {{ product.date|date("d M Y") }} <br>
+            {{ product.time }}
+        </div>
+        {% if product.linkedProduct %}
+            <div class="linked-value">
+                {{ product.linkedProduct.date|date("d M Y") }} <br>
+                {{ product.linkedProduct.time }}
+            </div>
+        {% endif %}
+    </td>
+    <td class="multi-ligne">
+        <div class="default-value">
+            {{ product.productType.service.name }}
+        </div>
+        {% if product.linkedProduct %}
+            <div class="linked-value">
+                {{ product.linkedProduct.productType.service.name }}
+            </div>
+        {% endif %}
+    </td>
+    <td class="multi-ligne">
+        <div class="default-value">
+            <a href="{{ path('db.manager.process', {actionID: 'list', name: 'client'}) }}" class="ligne">{{ product.book.client.name }}</a> <br>
+            {{ product.customersRecap }}
+        </div>
+        {% if product.linkedProduct %}
+            <div class="linked-value">
+                <a href="{{ path('db.manager.process', {actionID: 'list', name: 'client'}) }}" class="ligne">{{ product.linkedProduct.book.client.name }}</a> <br>
+                {{ product.linkedProduct.customersRecap }}
+            </div>
+        {% endif %}
+    </td>
+    <td class="multi-ligne">
+        <div class="default-value">
+            {{ product.information }}&nbsp; <br>
+            {{ product.note }}&nbsp;
+        </div>
+        {% if product.linkedProduct %}
+            <div class="linked-value">
+                {{ product.linkedProduct.information }}&nbsp; <br>
+                {{ product.linkedProduct.note }}&nbsp;
+            </div>
+        {% endif %}
+    </td>
+    <td class="multi-ligne">
+        <div class="default-value">
+            {{ product.subcontractorStr }} <br>
+            {% if product.producttype.service.isLimousine %}
+                <span class="employee-indicator">DR:</span> {{ product.driverStr }}
+            {% else %}
+                <span class="employee-indicator">GR:</span> {{ product.greeterStr }}
+            {% endif %}
+        </div>
+        {% if product.linkedProduct %}
+            <div class="linked-value">
+                {{ product.linkedProduct.subcontractorStr }} <br>
+                {% if product.linkedProduct.producttype.service.isLimousine %}
+                    <span class="employee-indicator">DR:</span> {{ product.linkedProduct.driverStr }}
+                {% else %}
+                    <span class="employee-indicator">GR:</span> {{ product.linkedProduct.greeterStr }}
+                {% endif %}
+            </div>
+        {% endif %}
+    </td>
+    <td class="table-action">
+        <div class="default-value">
+            <a href="{{ path('booking_app_product_show', {'id': product.id}) }}" class="btn btn-default">
+                <span class="glyphicon glyphicon-search"></span>
+            </a>
+        </div>
+        {% if product.linkedProduct %}
+            <div class="linked-value">
+                <a href="{{ path('booking_app_product_show', {'id': product.linkedProduct.id}) }}" class="btn btn-default">
+                    <span class="glyphicon glyphicon-search"></span>
+                </a>
+            </div>
+        {% endif %}
+    </td>
+    <td class="table-action">
+        <div class="default-value">
+            <a href="{{ path('booking_app_product_edit', {'id': product.id}) }}" class="btn btn-default">
+                <span class="glyphicon glyphicon-pencil"></span>
+            </a>
+        </div>
+        {% if product.linkedProduct %}
+            <div class="linked-value">
+                <a href="{{ path('booking_app_product_edit', {'id': product.linkedProduct.id}) }}" class="btn btn-default">
+                    <span class="glyphicon glyphicon-pencil"></span>
+                </a>
+            </div>
+        {% endif %}
+    </td>
+</tr>
+
+
+{#
+<tr
+        class="{% if not product.isConfig %}highlighted-default{% endif %}{% if product.linkedProduct and not product.linkedProduct.isConfig %}highlighted-linked{% endif %}"
+>
+    <td class="multi-ligne {{ product.linkedClass }}">
+        <div class="default-value">
+            <span class="label label-{{ product.execution.state }}">{{ product.execution.state(true) }}</span>
+        </div>
+        {% if product.linkedProduct %}
+            <div class="linked-value">
+                <span class="label label-{{ product.linkedProduct.execution.state }}">{{ product.linkedProduct.execution.state(true) }}</span>
+            </div>
+        {% endif %}
+    </td>
+    <td class="multi-ligne {{ product.linkedClass }}">
+        <div class="default-value">
+            <a href="{{ path('booking_app_book_show', {'id': product.book.id}) }}" class="ligne">{{ product.book.id }}</a> <br>
+            <span class="{{ product.location.highlightedStyle }}">{{ product.location.name }}</span>
+        </div>
+        {% if product.linkedProduct %}
+            <div class="linked-value">
+                <a href="{{ path('booking_app_book_show', {'id': product.linkedProduct.book.id}) }}" class="ligne">{{ product.linkedProduct.book.id }}</a> <br>
+                <span class="{{ product.linkedProduct.location.highlightedStyle }}">{{ product.linkedProduct.location.name }}</span>
+            </div>
+        {% endif %}
+    </td>
+    <td class="multi-ligne {{ product.linkedClass }}">
+        <div class="default-value">
+            {{ product.date|date("d M Y") }} <br>
+            {{ product.time }}
+        </div>
+        {% if product.linkedProduct %}
+            <div class="linked-value">
+                {{ product.linkedProduct.date|date("d M Y") }} <br>
+                {{ product.linkedProduct.time }}
+            </div>
+        {% endif %}
+    </td>
+    <td class="multi-ligne {{ product.linkedClass }}">
+        <div class="default-value">
+            {{ product.productType.service.name }}
+        </div>
+        {% if product.linkedProduct %}
+            <div class="linked-value">
+                {{ product.linkedProduct.productType.service.name }}
+            </div>
+        {% endif %}
+    </td>
+    <td class="multi-ligne {{ product.linkedClass }}">
+        <div class="default-value">
+            <a href="{{ path('db.manager.process', {actionID: 'list', name: 'client'}) }}" class="ligne">{{ product.book.client.name }}</a> <br>
+            {{ product.customersRecap }}
+        </div>
+        {% if product.linkedProduct %}
+            <div class="linked-value">
+                <a href="{{ path('db.manager.process', {actionID: 'list', name: 'client'}) }}" class="ligne">{{ product.linkedProduct.book.client.name }}</a> <br>
+                {{ product.linkedProduct.customersRecap }}
+            </div>
+        {% endif %}
+    </td>
+    <td class="multi-ligne {{ product.linkedClass }}">
+        <div class="default-value">
+            {{ product.information }} <br>
+            {{ product.note }}
+        </div>
+        {% if product.linkedProduct %}
+            <div class="linked-value">
+                {{ product.linkedProduct.information }} <br>
+                {{ product.linkedProduct.note }}
+            </div>
+        {% endif %}
+    </td>
+    <td class="multi-ligne {{ product.linkedClass }}">
+        <div class="default-value">
+            {{ product.subcontractorStr }} <br>
+            {% if product.producttype.service.isLimousine %}
+                DR: {{ product.driverStr }}
+            {% else %}
+                GR:{{ product.greeterStr }}
+            {% endif %}
+        </div>
+        {% if product.linkedProduct %}
+            <div class="linked-value">
+                {{ product.linkedProduct.subcontractorStr }} <br>
+                {% if product.linkedProduct.producttype.service.isLimousine %}
+                    DR: {{ product.linkedProduct.driverStr }}
+                {% else %}
+                    GR:{{ product.linkedProduct.greeterStr }}
+                {% endif %}
+            </div>
+        {% endif %}
+    </td>
+    <td class="table-action">
+        <a href="{{ path('booking_app_product_show', {'id': product.id}) }}" class="btn btn-default">
+            <span class="glyphicon glyphicon-search"></span>
+        </a>
+    </td>
+    {% if is_granted('ROLE_ADMIN') %}
+        <td class="table-action">
+            <a href="{{ path('booking_app_product_edit', {'id': product.id}) }}" class="btn btn-default">
+                <span class="glyphicon glyphicon-pencil"></span>
+            </a>
+        </td>
+    {% endif %}
+</tr>
+{% if product.linkedProduct %}
+    {{ include('dashboard/book/list/product_content.html.twig', { product: product.linkedProduct }) }}
+{% endif %}
+#}
